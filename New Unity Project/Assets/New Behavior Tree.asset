@@ -1,5 +1,42 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5723976547839457534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1178b8f5538f46241a4a559e11dc3053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: BT_Selector
+  description: Execute all it's childrens in order and stops when one of them succeds
+  position: {x: -0.6043205, y: 284.02188}
+  blackboard: {fileID: 0}
+  childrens: []
+  decorators:
+  - {fileID: 7397957509984005333}
+  services: []
+--- !u!114 &-1495304866551074145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff192b6c3a02da4c9dab1825d83050c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: TestService
+  description: 
+  position: {x: 0, y: 0}
+  blackboard: {fileID: 0}
+  UpdateInterval: 0.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,11 +50,12 @@ MonoBehaviour:
   m_Name: New Behavior Tree
   m_EditorClassIdentifier: 
   blackboard: {fileID: 0}
-  rootNode: {fileID: 5140069970375880846}
+  rootNode: {fileID: 48204185836781304}
   treeState: 0
   nodes:
-  - {fileID: 5140069970375880846}
---- !u!114 &5140069970375880846
+  - {fileID: 48204185836781304}
+  - {fileID: -5723976547839457534}
+--- !u!114 &48204185836781304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -31,6 +69,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: BT_RootNode
   description: 
-  position: {x: 71.3, y: 50.600002}
+  position: {x: 0, y: 0}
   blackboard: {fileID: 0}
-  childNode: {fileID: 0}
+  childNode: {fileID: -5723976547839457534}
+--- !u!114 &7397957509984005333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: BlackboardDecorator
+  description: Check the blackboard entry and returns success or fail based on the
+    condition
+  position: {x: 0, y: 0}
+  blackboard: {fileID: 0}
+  blackboardKey: 
+  condition: 1

@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/Core%20Library/Editor/BehaviorTree/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=adb66c31a13ca4541aa6f776b5f847d8&amp;type=3#NodeViewStyle" />
+    <Style src="project://database/Assets/UnityBehaviorTreeSystem/Editor/BehaviorTree/BT%20Elements/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=adb66c31a13ca4541aa6f776b5f847d8&amp;type=3#NodeViewStyle" />
     <ui:VisualElement name="node-border" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: rgb(91, 91, 91); border-left-width: 10px; border-right-width: 10px; border-top-width: 10px; border-bottom-width: 10px; border-left-color: rgb(91, 91, 91); border-right-color: rgb(91, 91, 91); border-top-color: rgb(91, 91, 91); border-bottom-color: rgb(91, 91, 91); min-width: 300px;">
         <ui:VisualElement name="contents" style="max-width: none; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; min-width: auto; width: 280px;">
             <ui:VisualElement name="divider" class="horizontal" />
@@ -11,6 +11,7 @@
                     <ui:Label text="Node description" display-tooltip-when-elided="true" name="NodeDescription" style="-unity-font-style: normal; font-size: 14px; min-height: 30px; white-space: normal;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="vertical" />
+                <ui:VisualElement name="ServiceContainer" style="height: auto;" />
                 <ui:VisualElement name="output" style="background-color: rgb(91, 91, 91); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; width: auto; translate: 80px 0; max-width: 150px; padding-bottom: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>

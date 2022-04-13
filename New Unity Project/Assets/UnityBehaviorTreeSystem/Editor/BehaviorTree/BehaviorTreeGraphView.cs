@@ -90,11 +90,12 @@ namespace BT
 
         private void OnGraphSelected(MouseDownEvent evt)
         {
-            BT_DecoratorView decoratorView = BehaviorTreeSelectionManager.selectedObject
-                                             as BT_DecoratorView;
-            if (decoratorView != null)
+            Debug.Log(BehaviorTreeSelectionManager.selectedObject);
+            BT_NodeVisualElement btVisualElement = BehaviorTreeSelectionManager.selectedObject
+                                                   as BT_NodeVisualElement;
+            if (btVisualElement != null)
             {
-                decoratorView.OnDeselected();
+                btVisualElement.OnUnselected();
             }
         }
 
@@ -122,7 +123,7 @@ namespace BT
             }
             tree.nodes.ForEach(node => CreateNodeView(node));
 
-            // Add edge links between nodes when we open a behavior tree asset graph
+            // Add edge links between nodes when we open a behavior tree asset graph 
             foreach (BT_Node Node in tree.nodes)
             {
                 BT_NodeView ParentView = FindNodeView(Node);
@@ -155,7 +156,8 @@ namespace BT
         public override void AddToSelection(ISelectable selectable)
         {
             if (BehaviorTreeSelectionManager.hoverObject == null
-               || BehaviorTreeSelectionManager.hoverObject.GetType() != typeof(BT_DecoratorView))
+               || BehaviorTreeSelectionManager.hoverObject.GetType() != typeof(BT_DecoratorView)
+                && BehaviorTreeSelectionManager.hoverObject.GetType() != typeof(BT_ServiceView))
             {
                 base.AddToSelection(selectable);
             }

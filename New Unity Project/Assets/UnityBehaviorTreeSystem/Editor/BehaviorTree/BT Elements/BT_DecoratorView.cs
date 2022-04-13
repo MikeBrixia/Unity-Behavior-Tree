@@ -43,15 +43,16 @@ namespace BT
             parentView.decoratorsContainer.Add(this);
         }
 
-        protected override void OnSelected(MouseDownEvent eventData)
+        public override void OnSelected(MouseDownEvent eventData)
         {
             base.OnSelected(eventData);
             ShowSelectionBorder(decoratorBorder, 2f, Color.yellow);
         }
         
-        public void OnDeselected()
+        public override void OnUnselected()
         {
            ShowSelectionBorder(decoratorBorder, 2f, Color.black);
+           Debug.Log("deselected");
         }
     }
 }

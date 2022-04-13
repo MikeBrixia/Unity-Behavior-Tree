@@ -23,7 +23,12 @@ namespace BT
         /// decorator views containted inside this node view
         ///</summary>
         public List<BT_DecoratorView> decoratorViews { get; private set; }
-
+        
+        ///<summary>
+        /// service views containted inside this node view
+        ///</summary>
+        public List<BT_ServiceView> serviceViews { get; private set; }
+        
         ///<summary>
         /// Called when this node view gets selected by the user
         ///</summary>
@@ -41,8 +46,9 @@ namespace BT
 
         public string displayedNodeName { get; set; }
         public string displayedNodeDescription { get; set; }
-        public VisualElement decoratorsContainer;
-
+        public VisualElement decoratorsContainer { get; private set;}
+        public VisualElement serviceContainer { get; private set; }
+        
         private GUID guid;
 
         ///<summary>
@@ -91,10 +97,11 @@ namespace BT
             nodeDescriptionLabel.text = node.description;
 
             decoratorsContainer = mainContainer.parent.Q<VisualElement>("DecoratorsContainer");
-
+            serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
             nodeBorder = mainContainer.parent.Q<VisualElement>("selection-border");
 
             decoratorViews = new List<BT_DecoratorView>();
+            serviceViews = new List<BT_ServiceView>();
         }
 
         public void OnNodeViewNameChange(string newNodeName)

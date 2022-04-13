@@ -71,12 +71,15 @@ namespace BT
         ///</summary>
         protected abstract void InitializeUIElements();
 
-        protected virtual void OnSelected(MouseDownEvent evt)
+        public virtual void OnSelected(MouseDownEvent evt)
         {
+            Debug.Log(this);
             BehaviorTreeSelectionManager.selectedObject = this;
             parentView.Unselect(parentView.behaviorTreeGraph);
             selectedCallback?.Invoke(this);
         }
+        
+        public abstract void OnUnselected();
 
         protected virtual void OnMouseLeave(MouseLeaveEvent evt)
         {

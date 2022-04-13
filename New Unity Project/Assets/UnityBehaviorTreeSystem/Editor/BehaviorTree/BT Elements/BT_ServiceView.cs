@@ -9,7 +9,6 @@ namespace BT
 {
     public class BT_ServiceView : BT_NodeVisualElement
     {
-        public BT_Service service;
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
         private Label serviceDescriptionLabel;
@@ -29,25 +28,32 @@ namespace BT
             
             // Initialize view name label
             serviceNameLabel.bindingPath = "nodeName";
-            serviceNameLabel.Bind(new SerializedObject(service));
+            serviceNameLabel.Bind(new SerializedObject(node));
 
             // Initialize view description label
             serviceDescriptionLabel.bindingPath = "description";
-            serviceDescriptionLabel.Bind(new SerializedObject(service));
-
+            serviceDescriptionLabel.Bind(new SerializedObject(node));
+            
+            parentView.serviceContainer.Add(this);
+            parentView.serviceViews.Add(this);
         }
 
-        protected override void OnSelected(MouseDownEvent evt)
+        public override void OnSelected(MouseDownEvent evt)
         {
             base.OnSelected(evt);
             ShowSelectionBorder(serviceBorder, 2f, Color.yellow);
         }
 
+        public override void OnUnselected()
+        {
+           ShowSelectionBorder(serviceBorder, 2f, Color.black);
+        }
+        
         protected override void OnMouseEnter(MouseEnterEvent evt)
         {
             base.OnMouseEnter(evt);
         }
-
+        
         protected override void OnMouseLeave(MouseLeaveEvent evt)
         {
             base.OnMouseLeave(evt);
