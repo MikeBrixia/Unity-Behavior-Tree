@@ -85,6 +85,31 @@ namespace BT
                     Tree.DestroyNode(decoratorView.node);
                     PopulateView(Tree);
                 }
+
+                BT_ServiceView serviceView = BehaviorTreeSelectionManager.selectedObject as BT_ServiceView;
+                if(serviceView != null)
+                {
+                    BT_ActionNode actionNode = serviceView.parentView.node as BT_ActionNode;
+                    if(actionNode != null)
+                    {
+                        Undo.RecordObject(actionNode, "Undo delete service");
+                        actionNode.services.Remove(serviceView.node as BT_Service);
+                        EditorUtility.SetDirty(actionNode);
+                    }
+
+                    // Remove decorator view from composite node
+                    BT_CompositeNode compositeNode = serviceView.parentView.node as BT_CompositeNode;
+                    if (compositeNode != null)
+                    {
+                        Undo.RecordObject(compositeNode, "Undo delete decorator");
+                        compositeNode.services.Remove(serviceView.node as BT_Service);
+                        EditorUtility.SetDirty(compositeNode);
+                    }
+                    // Remove service from behavior tree
+                    Tree.DestroyNode(serviceView.node);
+                    PopulateView(Tree);
+                }
+                
             }
         }
 

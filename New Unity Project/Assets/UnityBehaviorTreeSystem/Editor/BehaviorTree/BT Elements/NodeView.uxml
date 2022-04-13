@@ -11,7 +11,7 @@
                     <ui:Label text="Node description" display-tooltip-when-elided="true" name="NodeDescription" style="-unity-font-style: normal; font-size: 14px; min-height: 30px; white-space: normal;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="vertical" />
-                <ui:VisualElement name="ServiceContainer" style="height: auto;" />
+                <ui:VisualElement name="ServiceContainer" style="height: auto; width: 255px; translate: 10px 0;" />
                 <ui:VisualElement name="output" style="background-color: rgb(91, 91, 91); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; width: auto; translate: 80px 0; max-width: 150px; padding-bottom: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
