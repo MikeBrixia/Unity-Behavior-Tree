@@ -1,0 +1,162 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEditor;
+
+namespace BT
+{
+    public enum EBehaviorTreeState { Running, Finished, Success, Waiting }
+
+    public delegate void OnBehaviorTreeUpdate();
+
+    [CreateAssetMenu(fileName = "New Behavior Tree", menuName = "AI/Behavior Tree")]
+    public sealed class BehaviorTree : ScriptableObject
+    {
+
+        ///<summary>
+        /// The blackboard used by this behavior tree
+        ///</summary>
+        public Blackboard blackboard;
+
+        ///<summary>
+        /// The root node of this behavior tree
+        ///</summary>
+        [HideInInspector] public BT_RootNode rootNode;
+
+        ///<summary>
+        /// Callback for when the behavior tree receives an update
+        ///</summary>
+        public OnBehaviorTreeUpdate onTreeUpdate;
+
+        ///<summary>
+        /// The current state of this tree
+        ///</summary>
+        public EBehaviorTreeState treeState;
+
+        ///<summary>
+        /// All the nodes contained inside this behavior 
+        ///</summary>
+        public List<BT_Node> nodes = new List<BT_Node>();
+
+        public BehaviorTree Clone()
+        {
+            BehaviorTree tree = Instantiate(this);
+            tree.rootNode = tree.rootNode.Clone() as BT_RootNode;
+            tree.blackboard = tree.blackboard.Clone();
+            // Initialize behavior tree and blackboard references on each node of the tree
+            tree.rootNode.SetBehaviorTree(tree);
+            return tree;
+        }
+
+// Editor only functionality
+#if UNITY_EDITOR
+
+        public BT_Node CreateNode(Type nodeType)
+        {
+            // Create node and generate GUID
+            BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
+            node.nodeName = nodeType.Name;
+            node.guid = GUID.Generate();
+            node.blackboard = blackboard;
+            
+            if(nodeType == typeof(BT_RootNode))
+            {
+                rootNode = node as BT_RootNode;
+            }
+
+            // Add the node as an asset to the tree.
+            AssetDatabase.AddObjectToAsset(node, this);
+ 
+            // If undoing after creation, this node will be destroyed
+            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undos");
+            
+            if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
+                && !nodeType.IsSubclassOf(typeof(BT_Service)))
+            {
+                // Record created node for undoing actions and add it to the behavior tree node list
+                Undo.RecordObject(this, "Undo add nodes");
+                nodes.Add(node);
+            }
+            
+            // Save the node asset on the disk
+            AssetDatabase.SaveAssets();
+            return node;
+        }
+
+        public void DestroyNode(BT_Node Node)
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Behavior tree node removed");
+            nodes.Remove(Node);
+
+            // When destroying composite nodes also destroys their decorators and services
+            BT_CompositeNode compositeNode = Node as BT_CompositeNode;
+            if (compositeNode != null)
+            {
+                compositeNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
+                compositeNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+            }
+
+            // When destroying action nodes also destroys their decorators and services
+            BT_ActionNode actionNode = Node as BT_ActionNode;
+            if (actionNode != null)
+            {
+                actionNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
+                actionNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+            }
+            
+            Undo.DestroyObjectImmediate(Node);
+            AssetDatabase.SaveAssets();
+        }
+
+        ///<summary>
+        /// Add the child node to the specified parent node
+        ///</summary>
+        public void AddChildToParentNode(BT_Node child, BT_Node parent)
+        {
+            BT_CompositeNode compositeNode = parent as BT_CompositeNode;
+            if (compositeNode != null)
+            {
+                Undo.RecordObject(compositeNode, "Behavior Tree Composite Node add child");
+                compositeNode.childrens.Add(child);
+                EditorUtility.SetDirty(compositeNode);
+            }
+
+            BT_RootNode rootNode = parent as BT_RootNode;
+            if (rootNode != null)
+            {
+                Undo.RecordObject(rootNode, "Behavior Tree root node set child");
+                rootNode.childNode = child;
+                EditorUtility.SetDirty(rootNode);
+            }
+        }
+
+        ///<summary>
+        ///Remove the child node from the specified parent node
+        ///</summary>
+        public void RemoveChildFromParent(BT_Node Child, BT_Node Parent)
+        {
+            if (Parent.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
+            {
+                BT_CompositeNode CompositeNode = Parent as BT_CompositeNode;
+                Undo.RecordObject(CompositeNode, "Behavior Tree Composite Node remove child");
+                CompositeNode.childrens.Remove(Child);
+                EditorUtility.SetDirty(CompositeNode);
+            }
+        }
+
+        public List<BT_Node> GetChildrenNodes(BT_Node Node)
+        {
+            List<BT_Node> ChildrenNodes = new List<BT_Node>();
+
+            if (Node.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
+            {
+                BT_CompositeNode CompositeNode = Node as BT_CompositeNode;
+                ChildrenNodes = CompositeNode.childrens;
+            }
+            return ChildrenNodes;
+        }
+    }
+#endif
+}
+
