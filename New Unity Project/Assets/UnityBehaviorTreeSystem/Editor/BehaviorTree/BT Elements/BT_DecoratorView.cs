@@ -52,7 +52,6 @@ namespace BT
         public override void OnUnselected()
         {
            ShowSelectionBorder(decoratorBorder, 2f, Color.black);
-           Debug.Log("deselected");
         }
     }
 }

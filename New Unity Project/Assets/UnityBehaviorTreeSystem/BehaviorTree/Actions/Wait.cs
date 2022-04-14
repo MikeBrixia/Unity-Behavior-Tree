@@ -6,7 +6,7 @@ using BT;
 public class Wait : BT_ActionNode
 {
     // Called when the behavior tree wants to execute this action
-    public override ENodeState Execute()
+    public override EBehaviorTreeState Execute()
     {
         return state;
     }

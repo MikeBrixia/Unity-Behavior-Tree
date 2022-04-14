@@ -24,9 +24,9 @@ namespace BT
         /// <summary>
         /// Determines if a decorator is successfull or not
         /// </summary>
-        public override ENodeState Execute()
+        public override EBehaviorTreeState Execute()
         {
-           return ENodeState.SUCCESS;
+           return EBehaviorTreeState.Success;
         }
 
     }

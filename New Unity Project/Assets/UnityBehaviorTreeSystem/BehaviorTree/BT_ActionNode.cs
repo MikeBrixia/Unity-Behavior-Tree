@@ -11,14 +11,14 @@ namespace BT
         
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
 
-        public override ENodeState Execute()
+        public override EBehaviorTreeState Execute()
         {
-            return ENodeState.SUCCESS;
+            return EBehaviorTreeState.Success;
         }
 
         public override void OnStart()
         {
-            state = ENodeState.RUNNING;
+            state = EBehaviorTreeState.Running;
             services.ForEach(service => service.OnStart());
         }
 
@@ -26,29 +26,25 @@ namespace BT
         {
             services.ForEach(service => service.OnStop());
         }
-        
-        internal ENodeState ExecuteAction()
+
+        public override EBehaviorTreeState ExecuteNode()
         {
-            // Notify that we started executing this node
-            OnStart();
-            // In case all attached decorators are successfull execute this action
-            state = DecoratorsSuccessfull()? Execute() : ENodeState.FAILED;
-            // Whether it failed or not, notify that we finished executing this action
-            OnStop();
-            return state;
+            return DecoratorsSuccessfull()? base.ExecuteNode() : EBehaviorTreeState.Failed;
         }
 
         public bool DecoratorsSuccessfull()
         {
+            bool decoratorConditions = true;
             foreach(BT_Decorator decorator in decorators)
             {
-                ENodeState DecoratorResult = decorator.Execute();
-                if(DecoratorResult == ENodeState.FAILED)
+                EBehaviorTreeState DecoratorResult = decorator.Execute();
+                if(DecoratorResult == EBehaviorTreeState.Failed)
                 {
-                    return false;
+                    decoratorConditions = false;
+                    break;
                 }
             }
-            return true;
+            return decoratorConditions;
         }
 
         public override NodeBase Clone()

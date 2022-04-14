@@ -8,9 +8,9 @@ public sealed class BT_RootNode : BT_Node
 
     [HideInInspector] public BT_Node childNode;
 
-    public override ENodeState Execute()
+    public override EBehaviorTreeState Execute()
     {
-        return childNode.Execute();
+        return childNode.ExecuteNode();
     }
 
     public override void OnStart()

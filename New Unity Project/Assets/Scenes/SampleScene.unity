@@ -497,7 +497,6 @@ GameObject:
   - component: {fileID: 1211928038}
   - component: {fileID: 1211928037}
   - component: {fileID: 1211928036}
-  - component: {fileID: 1211928035}
   m_Layer: 0
   m_Name: Capsule (1)
   m_TagString: Untagged
@@ -505,20 +504,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1211928035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211928034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a44c8126c387c40b90e3ad3e81bfdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1855347758}
-  Delay: 1
 --- !u!114 &1211928036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09ff88f897005647a0c7971e11fcccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviorTree: {fileID: 0}
+  behaviorTree: {fileID: 11400000, guid: 2e59a47ada6f9c24b9015f1aa79abdf6, type: 2}
   UpdateInterval: 0.1
 --- !u!114 &1211928037
 MonoBehaviour:
@@ -703,8 +688,6 @@ GameObject:
   - component: {fileID: 1855347760}
   - component: {fileID: 1855347759}
   - component: {fileID: 1855347763}
-  - component: {fileID: 1855347765}
-  - component: {fileID: 1855347764}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -807,31 +790,3 @@ MonoBehaviour:
   Speed: 30
   JumpHeight: 10
   Friction: 1
---- !u!114 &1855347764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855347758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a44c8126c387c40b90e3ad3e81bfdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1211928034}
-  Delay: 0
---- !u!114 &1855347765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855347758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b09ff88f897005647a0c7971e11fcccf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviorTree: {fileID: 0}
-  UpdateInterval: 0.1

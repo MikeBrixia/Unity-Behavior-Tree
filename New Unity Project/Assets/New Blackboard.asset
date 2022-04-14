@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32223041b9decf74fb0ff152af99c3ee, type: 3}
   m_Name: New Blackboard
   m_EditorClassIdentifier: 
-  blackboardProperties: []
+  blackboardProperties:
+  - name: CanSee
+    valueType: 0

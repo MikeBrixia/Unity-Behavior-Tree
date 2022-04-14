@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BT
 {
-    
+
     public class SequenceNode : BT_CompositeNode
     {
         public SequenceNode()
@@ -12,10 +12,25 @@ namespace BT
             description = "Execute all it's childrens in order and stops when one of them fails";
         }
 
-        // When a children of this node fails, stop the execution of this composite(make it fail)
-        protected override bool StopExecution(ENodeState CurrentState)
+        public override EBehaviorTreeState Execute()
         {
-            return CurrentState == ENodeState.FAILED;
+            if (DecoratorsSuccessfull())
+            {
+                BT_Node child = childrens[executedChildrenIndex];
+                switch (child.ExecuteNode())
+                {
+                    case EBehaviorTreeState.Success:
+                        executedChildrenIndex++;
+                        break;
+                    case EBehaviorTreeState.Running:
+                        return EBehaviorTreeState.Running;
+                    case EBehaviorTreeState.Failed:
+                        return EBehaviorTreeState.Failed;
+                }
+                
+                return executedChildrenIndex == childrens.Count? EBehaviorTreeState.Success : EBehaviorTreeState.Running;
+            }
+            return EBehaviorTreeState.Failed;
         }
     }
 }

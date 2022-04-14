@@ -6,22 +6,21 @@ using BT;
 public class TestService : BT_Service
 {
 
-    // Called each UpdateInterval tick
-    public override ENodeState Execute()
+    // Called each service update
+    protected override void OnUpdate()
     {
-        Debug.Log("Updating...");
-        return state;
+        Debug.Log("Service Update");
     }
-    
+
     // Called when this service becomes active and starts updating
     public override void OnStart()
     {
-        base.OnStart();
+        
     }
-    
+
     // Called when this service gets deactivated and stops updating
     public override void OnStop()
     {
-        base.OnStop();
+        
     }
 }

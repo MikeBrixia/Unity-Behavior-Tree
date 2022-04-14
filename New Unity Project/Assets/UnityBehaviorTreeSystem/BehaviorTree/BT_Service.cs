@@ -6,37 +6,45 @@ namespace BT
 {
     public abstract class BT_Service : BT_Node
     {
-        public float UpdateInterval = 0.5f;
-        private float currentTimeCounter = 0f;
 
-        public override ENodeState Execute()
-        {
-            return ENodeState.SUCCESS;
-        }
-
-        public override void OnStart()
-        {
-           tree.onTreeUpdate += ServiceUpdate;
-        }
-
-        public override void OnStop()
-        {
-           tree.onTreeUpdate -= ServiceUpdate;
-        }
+        [Range(0, float.PositiveInfinity)]
+        public float updateInterval = 0.5f;
         
-        // Handle service update frequency
-        private void ServiceUpdate()
+        private float currentTimeCounter = 0f;
+        
+        public override EBehaviorTreeState Execute()
         {
-            if(currentTimeCounter >= UpdateInterval)
+            // Handle service update intervals
+            if (currentTimeCounter >= updateInterval)
             {
                 currentTimeCounter = 0f;
-                Execute();
+                OnUpdate();
             }
             else
             {
-                currentTimeCounter += Time.deltaTime;
+                float timeIncrease = tree.canTick? Time.deltaTime : tree.updateInterval;
+                currentTimeCounter += timeIncrease;
             }
+            // service nodes doesn't need to care about Success or failure,
+            // for this reason we are always gonna return success
+            return EBehaviorTreeState.Success;
         }
+
+        public override EBehaviorTreeState ExecuteNode()
+        {
+            if (!isStarted)
+            {
+                OnStart();
+                isStarted = true;
+            }
+            state = Execute();
+            return state;
+        }
+
+        ///<summary>
+        /// Called each update at UpdateInterval time
+        ///</summary>
+        protected abstract void OnUpdate();
     }
 }
 

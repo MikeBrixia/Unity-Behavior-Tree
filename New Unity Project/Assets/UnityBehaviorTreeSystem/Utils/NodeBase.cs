@@ -6,8 +6,6 @@ using UnityEngine;
 namespace BT
 {
 
-    public enum ENodeState { RUNNING, SUCCESS, FAILED, WAITING }
-    
     public abstract class NodeBase : ScriptableObject
     {
        
@@ -28,7 +26,7 @@ namespace BT
        ///<summary>
        /// The current state of this specific node
        ///</summary>
-       protected ENodeState state = ENodeState.RUNNING;
+       protected EBehaviorTreeState state = EBehaviorTreeState.Running;
 
        public NodeBase()
        {

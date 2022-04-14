@@ -19,16 +19,16 @@ namespace BT
             description = "Check the blackboard entry and returns success or fail based on the condition";
         }
 
-        public override ENodeState Execute()
+        public override EBehaviorTreeState Execute()
         {
             bool conditionResult = blackboard.GetBlackboardValueByName<bool>(blackboardKey);
             if(condition == BlackboardDecoratorCondition.IsSetToTrue)
             {
-                return conditionResult? ENodeState.SUCCESS : ENodeState.FAILED; 
+                return conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed; 
             }
             else
             {
-                return !conditionResult? ENodeState.SUCCESS : ENodeState.FAILED;
+                return !conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed;
             }
         }
     }

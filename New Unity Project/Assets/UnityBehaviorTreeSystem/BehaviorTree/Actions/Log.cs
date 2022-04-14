@@ -9,11 +9,10 @@ public class Log : BT_ActionNode
     public string debugMessage;
 
     // Called when the behavior tree wants to execute this action
-    public override ENodeState Execute()
+    public override EBehaviorTreeState Execute()
     {
         Debug.Log(debugMessage);
-        state = ENodeState.SUCCESS;
-        return state;
+        return EBehaviorTreeState.Success;
     }
     
     // Called when the behavior tree starts executing this action

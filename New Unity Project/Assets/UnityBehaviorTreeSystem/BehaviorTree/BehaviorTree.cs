@@ -6,9 +6,8 @@ using UnityEditor;
 
 namespace BT
 {
-    public enum EBehaviorTreeState { Running, Finished, Success, Waiting }
-
-    public delegate void OnBehaviorTreeUpdate();
+    
+    public enum EBehaviorTreeState { Running, Success, Failed, Waiting }
 
     [CreateAssetMenu(fileName = "New Behavior Tree", menuName = "AI/Behavior Tree")]
     public sealed class BehaviorTree : ScriptableObject
@@ -23,21 +22,28 @@ namespace BT
         /// The root node of this behavior tree
         ///</summary>
         [HideInInspector] public BT_RootNode rootNode;
+        
+        ///<summary>
+        /// if true, the beavior tree is going to update each frame, otherwise
+        /// it will follow UpdateInterval defined by the user
+        ///</summary>
+        public bool canTick = false;
 
         ///<summary>
-        /// Callback for when the behavior tree receives an update
+        /// The rate at which the behavior tree it's going
+        /// to be updated
         ///</summary>
-        public OnBehaviorTreeUpdate onTreeUpdate;
-
+        public float updateInterval = 0.1f;
+        
         ///<summary>
         /// The current state of this tree
         ///</summary>
-        public EBehaviorTreeState treeState;
+        [HideInInspector] public EBehaviorTreeState treeState;
 
         ///<summary>
         /// All the nodes contained inside this behavior 
         ///</summary>
-        public List<BT_Node> nodes = new List<BT_Node>();
+        [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
 
         public BehaviorTree Clone()
         {

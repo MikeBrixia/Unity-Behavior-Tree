@@ -11,12 +11,28 @@ namespace BT
             description = "Execute all it's childrens in order and stops when one of them succeds";
         }
 
-        // When a children node succeds, stop the execution of every children node
-        protected override bool StopExecution(ENodeState CurrentState)
+        public override EBehaviorTreeState Execute()
         {
-            return CurrentState == ENodeState.SUCCESS;
-        }
+            if (DecoratorsSuccessfull())
+            {
+                BT_Node child = childrens[executedChildrenIndex];
+                switch (child.ExecuteNode())
+                {
+                    case EBehaviorTreeState.Success:
+                        return EBehaviorTreeState.Success;
 
+                    case EBehaviorTreeState.Failed:
+                        executedChildrenIndex++;
+                        break;
+
+                    case EBehaviorTreeState.Running:
+                        return EBehaviorTreeState.Running;
+                }
+
+                return executedChildrenIndex == childrens.Count? EBehaviorTreeState.Failed : EBehaviorTreeState.Running;
+            }
+            return EBehaviorTreeState.Failed;
+        }
     }
 }
 

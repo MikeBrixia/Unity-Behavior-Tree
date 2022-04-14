@@ -73,7 +73,6 @@ namespace BT
 
         public virtual void OnSelected(MouseDownEvent evt)
         {
-            Debug.Log(this);
             BehaviorTreeSelectionManager.selectedObject = this;
             parentView.Unselect(parentView.behaviorTreeGraph);
             selectedCallback?.Invoke(this);

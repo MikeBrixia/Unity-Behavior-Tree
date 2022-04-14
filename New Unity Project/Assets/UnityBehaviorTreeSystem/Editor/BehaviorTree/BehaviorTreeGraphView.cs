@@ -115,7 +115,6 @@ namespace BT
 
         private void OnGraphSelected(MouseDownEvent evt)
         {
-            Debug.Log(BehaviorTreeSelectionManager.selectedObject);
             BT_NodeVisualElement btVisualElement = BehaviorTreeSelectionManager.selectedObject
                                                    as BT_NodeVisualElement;
             if (btVisualElement != null)

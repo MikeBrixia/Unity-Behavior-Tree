@@ -26,21 +26,19 @@ namespace BT
             }
         }
         
-        ///<summary>
-        /// Callback for when the behavior tree receives an update
-        ///</summary>
-        public OnBehaviorTreeUpdate onBehaviorTreeUpdate
+        public EBehaviorTreeState behaviorTreeState
         {
             get
             {
-                return behaviorTree.onTreeUpdate;
+                return behaviorTree.treeState;
             }
         }
-
+        
         void Awake()
         {
             // Clone behavior tree
             behaviorTree = behaviorTree.Clone();
+            behaviorTree.treeState = EBehaviorTreeState.Waiting;
         }
 
         // Start is called before the first frame update
@@ -52,7 +50,10 @@ namespace BT
         // Update is called once per frame
         void Update()
         {
-            behaviorTree.onTreeUpdate?.Invoke();
+            if(behaviorTree.canTick)
+            {
+                ExecuteBehaviorTree();
+            }
         }
 
         public void RunBehaviorTree(BehaviorTree behaviorTree)
@@ -61,21 +62,22 @@ namespace BT
             {
                 if(behaviorTree != this.behaviorTree)
                 {
+                    this.behaviorTree = behaviorTree.Clone();
+                }
+
+                if(!this.behaviorTree.canTick)
+                {
                     // When there is a new behavior tree cancel all the updates to the previous tree
                     // and clone the new tree
                     CancelInvoke("ExecuteBehaviorTree");
-                    this.behaviorTree = behaviorTree.Clone();
+                    InvokeRepeating("ExecuteBehaviorTree", 0f, this.behaviorTree.updateInterval);
                 }
-                // Run behavior tree updates
-                this.behaviorTree.treeState = EBehaviorTreeState.Running;
-                InvokeRepeating("ExecuteBehaviorTree", 0f, UpdateInterval);
             }
         }
         
         private void ExecuteBehaviorTree()
         {
-            // Begin the execution of the behavior tree
-            behaviorTree.rootNode.Execute();
+            behaviorTree.treeState = behaviorTree.rootNode.ExecuteNode();
         }
     }
 

@@ -7,7 +7,7 @@
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/D:/Unity test/New Unity Project/Library/EditorInstance.json",
+            "path": "/D:/BehaviorTree/Unity-Behavior-Tree-System/New Unity Project/Library/EditorInstance.json",
             "request": "launch"
         },
         {
