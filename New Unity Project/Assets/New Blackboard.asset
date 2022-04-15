@@ -15,3 +15,5 @@ MonoBehaviour:
   blackboardProperties:
   - name: CanSee
     valueType: 0
+  - name: IsStunned
+    valueType: 0

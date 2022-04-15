@@ -6,8 +6,9 @@ namespace BT
 {
     public class BT_Selector : BT_CompositeNode
     {
-        public BT_Selector() : base()
+        public BT_Selector()
         {
+            nodeName = "Selector";
             description = "Execute all it's childrens in order and stops when one of them succeds";
         }
 

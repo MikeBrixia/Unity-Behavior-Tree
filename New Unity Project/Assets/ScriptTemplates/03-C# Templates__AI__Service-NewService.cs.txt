@@ -7,9 +7,9 @@ public class #SCRIPTNAME# : BT_Service
 {
 
     // Called each UpdateInterval tick
-    public override ENodeState Execute()
+    public override void OnUpdate()
     {
-        return state;
+        #NOTRIM#
     }
     
     // Called when this service becomes active and starts updating

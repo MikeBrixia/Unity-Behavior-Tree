@@ -9,6 +9,7 @@ namespace BT
     {
         public SequenceNode()
         {
+            nodeName = "Sequence";
             description = "Execute all it's childrens in order and stops when one of them fails";
         }
 

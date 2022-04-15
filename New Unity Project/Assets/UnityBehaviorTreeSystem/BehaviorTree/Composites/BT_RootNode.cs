@@ -8,6 +8,12 @@ public sealed class BT_RootNode : BT_Node
 
     [HideInInspector] public BT_Node childNode;
 
+    public BT_RootNode()
+    {
+        nodeName = "Root";
+        description = "Entry point of behavior tree";
+    }
+
     public override EBehaviorTreeState Execute()
     {
         return childNode.ExecuteNode();

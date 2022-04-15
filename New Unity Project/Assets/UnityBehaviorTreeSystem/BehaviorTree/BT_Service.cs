@@ -6,8 +6,7 @@ namespace BT
 {
     public abstract class BT_Service : BT_Node
     {
-
-        [Range(0, float.PositiveInfinity)]
+        [Min(0)]
         public float updateInterval = 0.5f;
         
         private float currentTimeCounter = 0f;
@@ -22,8 +21,8 @@ namespace BT
             }
             else
             {
-                float timeIncrease = tree.canTick? Time.deltaTime : tree.updateInterval;
-                currentTimeCounter += timeIncrease;
+               float timeIncrease = tree.canTick? Time.deltaTime : tree.updateInterval;
+               currentTimeCounter += timeIncrease;
             }
             // service nodes doesn't need to care about Success or failure,
             // for this reason we are always gonna return success

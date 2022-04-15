@@ -12,8 +12,6 @@ namespace BT
         public abstract class NodeView : Node
         {
 
-            public string displayedNodeName { get; set; }
-            
             ///<summary>
             /// The node contained inside this node view
             ///</summary>

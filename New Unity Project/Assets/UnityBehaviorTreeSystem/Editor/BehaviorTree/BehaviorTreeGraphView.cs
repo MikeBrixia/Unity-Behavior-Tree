@@ -16,7 +16,7 @@ namespace BT
         public new class UxmlFactory : UxmlFactory<BehaviorTreeGraphView, UxmlTraits> { }
 
         public BehaviorTree Tree;
-
+        
         ///<summary>
         /// the position of the mouse in the graph
         ///</summary>
@@ -26,12 +26,17 @@ namespace BT
         public Action<BT_NodeVisualElement> onNodeVisualElementSelected;
 
         private EventCallback<MouseDownEvent> mousePressedEvent;
+        
+        ///<summary>
+        /// all the data which we want to copy
+        ///</summary>
+        private List<BT_NodeView> copyCache = new List<BT_NodeView>();
 
         public BehaviorTreeGraphView()
         {
             // Insert background under everything else
             Insert(0, new GridBackground());
-
+            
             // Load style sheet
             var StyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/UnityBehaviorTreeSystem/Editor/BehaviorTree/GridBackgroundStyle.uss");
             styleSheets.Add(StyleSheet);
@@ -52,8 +57,40 @@ namespace BT
             // Keyboard callbacks
             EventCallback<KeyDownEvent> keyboardPressedEvent = OnKeyboardPressed;
             RegisterCallback<KeyDownEvent>(keyboardPressedEvent);
-
-            // Place default root node here...
+            
+            // Copy/paste callbacks
+            serializeGraphElements += OnCopy;
+            unserializeAndPaste += OnPaste;
+        }
+        
+        // Called when the user presses CTRL-V to paste a copied item
+        private void OnPaste(string operationName, string data)
+        {
+            // Paste copied node views 
+            foreach(BT_NodeView copiedNode in copyCache)
+            {
+                BT_Node newNode = Tree.CreateNode(copiedNode.node.GetType());
+                newNode = copiedNode.node;
+            }
+            // Once we finished pasting nodes, clear the copy cache
+            // and repopulate the view
+            copyCache.Clear();
+            PopulateView(Tree);
+        }
+        
+        // Called when the user presses CTRL-C to copy the selected items
+        private string OnCopy(IEnumerable<GraphElement> elements)
+        {
+            copyCache.Clear();
+            foreach(GraphElement element in elements)
+            {
+                BT_NodeView nodeToCopy = element as BT_NodeView;
+                if(nodeToCopy != null)
+                {
+                    copyCache.Add(nodeToCopy);
+                }
+            }
+            return copyCache.ToString();
         }
 
         // Handles decorator node and view destruction correctly
@@ -109,7 +146,7 @@ namespace BT
                     Tree.DestroyNode(serviceView.node);
                     PopulateView(Tree);
                 }
-                
+
             }
         }
 
@@ -139,11 +176,10 @@ namespace BT
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-
-            if (tree.rootNode is null && AssetDatabase.Contains(tree))
+            
+            if (tree.rootNode == null && AssetDatabase.Contains(tree))
             {
                 tree.rootNode = tree.CreateNode(typeof(BT_RootNode)) as BT_RootNode;
-                EditorUtility.SetDirty(tree);
             }
             tree.nodes.ForEach(node => CreateNodeView(node));
 
@@ -239,6 +275,7 @@ namespace BT
                         // The child node it's the target node for the connection
                         BT_NodeView ChildNode = edge.input.node as BT_NodeView;
                         Tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
+                        ParentNode.SortChildrenNodes();
                     }
                 }
             }
@@ -276,10 +313,10 @@ namespace BT
             && endPort.node != startPort.node).ToList();
         }
 
-        public void CreateNode(Type type, Vector2 NodePosition)
+        public void CreateNode(Type type, Vector2 nodePosition)
         {
             BT_Node Node = Tree.CreateNode(type);
-            Node.position = NodePosition;
+            Node.position = nodePosition;
             CreateNodeView(Node);
         }
 

@@ -4,15 +4,16 @@ using UnityEngine;
 
 using BT;
 
-public class Distancetestscript : MonoBehaviour
+public class TestScript : MonoBehaviour
 {
 
     public GameObject player;
     
     private BehaviorTreeComponent behaviorTreeComponent;
 
-    public bool Delay;
-    
+    public bool CanSee = false;
+    public bool IsStunned = true;
+
     void Awake()
     {
         behaviorTreeComponent = GetComponent<BehaviorTreeComponent>();
@@ -21,22 +22,13 @@ public class Distancetestscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        behaviorTreeComponent.blackboard.SetBlackbordValue<bool>("CanSee", true);
-        if(Delay)
-        {
-            StartCoroutine("delay", 3f);
-        }
+        behaviorTreeComponent.blackboard.SetBlackbordValue<bool>("CanSee", CanSee);
+        behaviorTreeComponent.blackboard.SetBlackbordValue<bool>("IsStunned", IsStunned);
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    IEnumerator delay()
-    {
-        yield return new WaitForSeconds(3f);
-        behaviorTreeComponent.blackboard.SetBlackbordValue<bool>("CanSee", false);
     }
 }

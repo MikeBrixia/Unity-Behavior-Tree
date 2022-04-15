@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using UnityEngine.EventSystems;
+using UnityEditor.UIElements;
 
 namespace BT
 {
@@ -44,8 +45,6 @@ namespace BT
         ///</summary>
         public Port input { get; private set; }
 
-        public string displayedNodeName { get; set; }
-        public string displayedNodeDescription { get; set; }
         public VisualElement decoratorsContainer { get; private set;}
         public VisualElement serviceContainer { get; private set; }
         
@@ -63,7 +62,6 @@ namespace BT
 
         public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph) : base("Assets/UnityBehaviorTreeSystem/Editor/BehaviorTree/BT Elements/NodeView.uxml")
         {
-            //this.Node = node;
             this.viewDataKey = node.guid.ToString();
             this.node = node;
             this.behaviorTreeGraph = graph;
@@ -91,10 +89,14 @@ namespace BT
         private void InitializeUIElements()
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
-            nodeNameLabel.text = node.nodeName;
+            SerializedObject serializedNode = new SerializedObject(node);
+            
+            nodeNameLabel.bindingPath = "nodeName";
+            nodeNameLabel.Bind(serializedNode);
 
             nodeDescriptionLabel = mainContainer.parent.Q<Label>("NodeDescription");
-            nodeDescriptionLabel.text = node.description;
+            nodeDescriptionLabel.bindingPath = "description";
+            nodeDescriptionLabel.Bind(serializedNode);
 
             decoratorsContainer = mainContainer.parent.Q<VisualElement>("DecoratorsContainer");
             serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
@@ -104,30 +106,11 @@ namespace BT
             serviceViews = new List<BT_ServiceView>();
         }
 
-        public void OnNodeViewNameChange(string newNodeName)
-        {
-            if (displayedNodeName != newNodeName)
-            {
-                displayedNodeName = newNodeName;
-                nodeNameLabel.text = newNodeName;
-            }
-        }
-        
-        public void OnNodeViewDescriptionChange(string newDescription)
-        {
-            if (displayedNodeDescription != newDescription)
-            {
-                displayedNodeDescription = newDescription;
-                nodeDescriptionLabel.text = newDescription;
-            }
-        }
-
         ///<summary>
         /// Draw basic node layout
         ///</summary>
         public virtual void Draw()
         {
-            displayedNodeName = node.nodeName;
             // Initialize node ports
             CreateInputPort();
             CreateOutputPort();

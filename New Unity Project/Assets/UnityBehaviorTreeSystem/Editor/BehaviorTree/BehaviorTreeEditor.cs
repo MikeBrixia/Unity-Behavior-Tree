@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Callbacks;
 using System;
+using UnityEditor.UIElements;
 
 namespace BT
 {
@@ -13,7 +14,8 @@ namespace BT
         private BehaviorTreeInspector nodeInspectorView;
         private IMGUIContainer blackboardInspectorView;
         private Label treeViewLabel;
-
+        private ToolbarButton saveButton;
+        private ToolbarButton refreshButton;
         private SerializedObject serializedBlackboard;
         private SerializedProperty blackboardProperty;
 
@@ -38,16 +40,23 @@ namespace BT
         public void CreateGUI()
         {
             // Load UXML
-            var VisualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UnityBehaviorTreeSystem/Editor/BehaviorTree/BehaviorTreeEditor.uxml");
-            VisualTree.CloneTree(rootVisualElement);
-
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UnityBehaviorTreeSystem/Editor/BehaviorTree/BehaviorTreeEditor.uxml");
+            visualTree.CloneTree(rootVisualElement);
+            
             behaviorTreeView = rootVisualElement.Q<BehaviorTreeGraphView>();
             nodeInspectorView = rootVisualElement.Q<BehaviorTreeInspector>();
+            saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
+            refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
             
+            // Initiliaze toolbar buttons click event
+            saveButton.clicked += AssetDatabase.SaveAssets;
+            refreshButton.clicked += AssetDatabase.Refresh;
+
             // Initialize blackboard inspector view in behavior tree editor
             blackboardInspectorView = rootVisualElement.Q<IMGUIContainer>("BlackboardInspector");
             blackboardInspectorView.onGUIHandler = () =>
             {
+                // Inspect blackboard asset in behavior tree editor window
                 if(serializedBlackboard != null && serializedBlackboard.targetObject == behaviorTreeView.Tree.blackboard)
                 {
                     serializedBlackboard.Update();
@@ -67,7 +76,7 @@ namespace BT
 
             OnSelectionChange();
         }
-
+        
         private void OnSelectionChange()
         {
             BehaviorTree tree = Selection.activeObject as BehaviorTree;
@@ -75,7 +84,7 @@ namespace BT
             {
                 treeViewLabel.text = " Tree View: " + tree.name;
                 behaviorTreeView.Tree = tree;
-                
+
                 // serialized properties used for inspecting blackboard asset in the 
                 // behavior tree editor view.
                 if(tree.blackboard != null)
@@ -115,6 +124,5 @@ namespace BT
                 }
             }
         }
-
     }
 }
