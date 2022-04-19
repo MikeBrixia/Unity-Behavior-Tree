@@ -22,7 +22,7 @@ public class Log : BT_ActionNode
 
     protected override void OnStart()
     {
-         
+        
     }
 
     protected override void OnStop()

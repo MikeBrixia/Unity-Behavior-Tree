@@ -24,12 +24,12 @@ namespace BT
         /// decorator views containted inside this node view
         ///</summary>
         public List<BT_DecoratorView> decoratorViews { get; private set; }
-        
+
         ///<summary>
         /// service views containted inside this node view
         ///</summary>
         public List<BT_ServiceView> serviceViews { get; private set; }
-        
+
         ///<summary>
         /// Called when this node view gets selected by the user
         ///</summary>
@@ -45,9 +45,9 @@ namespace BT
         ///</summary>
         public Port input { get; private set; }
 
-        public VisualElement decoratorsContainer { get; private set;}
+        public VisualElement decoratorsContainer { get; private set; }
         public VisualElement serviceContainer { get; private set; }
-        
+
         private GUID guid;
 
         ///<summary>
@@ -60,14 +60,14 @@ namespace BT
         private Label nodeDescriptionLabel;
         private VisualElement titleElement;
         private VisualElement nodeBorder;
-        
+
         public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph) : base("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml")
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
             this.behaviorTreeGraph = graph;
             InitializeUIElements();
-            
+
             // Set node position in the graph to where the user has clicked
             // to open the contextual menu
             Rect rect = this.contentRect;
@@ -91,14 +91,14 @@ namespace BT
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
             SerializedObject serializedNode = new SerializedObject(node);
-            
+
             nodeNameLabel.bindingPath = "nodeName";
             nodeNameLabel.Bind(serializedNode);
 
             nodeDescriptionLabel = mainContainer.parent.Q<Label>("NodeDescription");
             nodeDescriptionLabel.bindingPath = "description";
             nodeDescriptionLabel.Bind(serializedNode);
-            
+
             decoratorsContainer = mainContainer.parent.Q<VisualElement>("DecoratorsContainer");
             serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
             nodeBorder = mainContainer.parent.Q<VisualElement>("selection-border");
@@ -168,19 +168,21 @@ namespace BT
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-
-            // When the user opens the menu while having selected a node view, show him 
-            // all the decorator and service nodes
-            var decoratorTypes = TypeCache.GetTypesDerivedFrom<BT_Decorator>();
-            foreach (var type in decoratorTypes)
+            if (node.GetType() != typeof(BT_RootNode))
             {
-                evt.menu.AppendAction("Decorator/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
-            }
+                // When the user opens the menu while having selected a node view, show him 
+                // all the decorator and service nodes
+                var decoratorTypes = TypeCache.GetTypesDerivedFrom<BT_Decorator>();
+                foreach (var type in decoratorTypes)
+                {
+                    evt.menu.AppendAction("Decorator/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
+                }
 
-            var serviceTypes = TypeCache.GetTypesDerivedFrom<BT_Service>();
-            foreach(var type in serviceTypes)
-            {
-                evt.menu.AppendAction("Service/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
+                var serviceTypes = TypeCache.GetTypesDerivedFrom<BT_Service>();
+                foreach (var type in serviceTypes)
+                {
+                    evt.menu.AppendAction("Service/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
+                }
             }
         }
 
@@ -192,7 +194,7 @@ namespace BT
             nodeBorder.style.borderTopWidth = width;
             nodeBorder.style.borderBottomWidth = width;
         }
-        
+
         public void SortChildrenNodes()
         {
             BT_CompositeNode compositeNode = node as BT_CompositeNode;
