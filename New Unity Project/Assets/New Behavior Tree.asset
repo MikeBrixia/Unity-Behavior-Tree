@@ -1,6 +1,48 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5775553757179405449
+--- !u!114 &-8393381755394512888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Log
+  description: Print a message in the console
+  position: {x: -131.5366, y: 776.7495}
+  blackboard: {fileID: 0}
+  isStarted: 0
+  decorators: []
+  services: []
+  debugMessage: I CAN FUCKING SEE
+--- !u!114 &-6920479887022839844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: SequenceNode
+  description: Execute all it's childrens in order and stops when one of them fails
+  position: {x: 301.9675, y: 473.48502}
+  blackboard: {fileID: 0}
+  isStarted: 0
+  childrens:
+  - {fileID: -2558064826262548047}
+  decorators: []
+  services:
+  - {fileID: 5388422677723709398}
+--- !u!114 &-6073484827664590700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16,11 +58,79 @@ MonoBehaviour:
   description: Check the blackboard entry and returns success or fail based on the
     condition
   position: {x: 0, y: 0}
-  blackboard: {fileID: 11400000, guid: 9cdbfef69fa979b4397bda377d5a3a08, type: 2}
+  blackboard: {fileID: 0}
   isStarted: 0
   blackboardKey: CanSee
   condition: 1
---- !u!114 &-4807708912993720536
+--- !u!114 &-2558064826262548047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Log
+  description: Print a message in the console
+  position: {x: 305.91653, y: 776}
+  blackboard: {fileID: 11400000, guid: b962d765b824914488b4642db1131de2, type: 2}
+  isStarted: 0
+  decorators: []
+  services: []
+  debugMessage: I can't see
+--- !u!114 &-1008483948562350036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: SequenceNode
+  description: Execute all it's childrens in order and stops when one of them fails
+  position: {x: -311.61255, y: 475.48502}
+  blackboard: {fileID: 0}
+  isStarted: 0
+  childrens:
+  - {fileID: 7267383119504114029}
+  - {fileID: -8393381755394512888}
+  decorators:
+  - {fileID: -6073484827664590700}
+  services: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
+  m_Name: New Behavior Tree
+  m_EditorClassIdentifier: 
+  blackboard: {fileID: 11400000, guid: b962d765b824914488b4642db1131de2, type: 2}
+  rootNode: {fileID: 5587537344963769569}
+  canTick: 0
+  updateInterval: 0.1
+  treeState: 0
+  nodes:
+  - {fileID: 5587537344963769569}
+  - {fileID: 8915122618706674307}
+  - {fileID: -1008483948562350036}
+  - {fileID: -6920479887022839844}
+  - {fileID: -8393381755394512888}
+  - {fileID: 7267383119504114029}
+  - {fileID: -2558064826262548047}
+--- !u!114 &5388422677723709398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,48 +148,7 @@ MonoBehaviour:
   blackboard: {fileID: 0}
   isStarted: 0
   updateInterval: 0.1
---- !u!114 &-4023034892806551873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: SequenceNode
-  description: Execute all it's childrens in order and stops when one of them fails
-  position: {x: 319.52084, y: 499}
-  blackboard: {fileID: 0}
-  isStarted: 0
-  childrens:
-  - {fileID: 5164009030447738579}
-  decorators: []
-  services: []
---- !u!114 &-1571146055383421282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: BlackboardDecorator
-  description: Check the blackboard entry and returns success or fail based on the
-    condition
-  position: {x: 0, y: 0}
-  blackboard: {fileID: 11400000, guid: 9cdbfef69fa979b4397bda377d5a3a08, type: 2}
-  isStarted: 0
-  blackboardKey: IsStunned
-  condition: 0
---- !u!114 &-671194188420350142
+--- !u!114 &5587537344963769569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,12 +161,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: BT_RootNode
-  description: 
-  position: {x: -59.958237, y: -36.99999}
+  description: Entry point of behavior tree
+  position: {x: 2.011376, y: 4.022723}
   blackboard: {fileID: 0}
   isStarted: 0
-  childNode: {fileID: 4134666014722569941}
---- !u!114 &11400000
+  childNode: {fileID: 8915122618706674307}
+--- !u!114 &7267383119504114029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,22 +175,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
-  m_Name: New Behavior Tree
+  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
+  m_Name: 
   m_EditorClassIdentifier: 
-  blackboard: {fileID: 11400000, guid: 9cdbfef69fa979b4397bda377d5a3a08, type: 2}
-  rootNode: {fileID: -671194188420350142}
-  canTick: 1
-  updateInterval: 0.1
-  treeState: 0
-  nodes:
-  - {fileID: -671194188420350142}
-  - {fileID: 4134666014722569941}
-  - {fileID: 5653991202448404556}
-  - {fileID: -4023034892806551873}
-  - {fileID: 4548096531212786285}
-  - {fileID: 5164009030447738579}
---- !u!114 &4134666014722569941
+  nodeName: Log
+  description: Print a message in the console
+  position: {x: -545.4989, y: 774.60236}
+  blackboard: {fileID: 11400000, guid: b962d765b824914488b4642db1131de2, type: 2}
+  isStarted: 0
+  decorators: []
+  services: []
+  debugMessage: I see
+--- !u!114 &8915122618706674307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,75 +200,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: BT_Selector
   description: Execute all it's childrens in order and stops when one of them succeds
-  position: {x: -58.984108, y: 198}
+  position: {x: 0.1949973, y: 251.355}
   blackboard: {fileID: 0}
   isStarted: 0
   childrens:
-  - {fileID: 5653991202448404556}
-  - {fileID: -4023034892806551873}
-  decorators:
-  - {fileID: -1571146055383421282}
-  services: []
---- !u!114 &4548096531212786285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: Log
-  description: Print a message in the console
-  position: {x: -443.74893, y: 935.9999}
-  blackboard: {fileID: 11400000, guid: 9cdbfef69fa979b4397bda377d5a3a08, type: 2}
-  isStarted: 0
+  - {fileID: -1008483948562350036}
+  - {fileID: -6920479887022839844}
   decorators: []
   services: []
-  debugMessage: Can see
---- !u!114 &5164009030447738579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: Log
-  description: Print a message in the console
-  position: {x: 320.76096, y: 935.21124}
-  blackboard: {fileID: 11400000, guid: 9cdbfef69fa979b4397bda377d5a3a08, type: 2}
-  isStarted: 0
-  decorators: []
-  services: []
-  debugMessage: Cannot see
---- !u!114 &5653991202448404556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: SequenceNode
-  description: Execute all it's childrens in order and stops when one of them fails
-  position: {x: -440.1021, y: 501.0113}
-  blackboard: {fileID: 0}
-  isStarted: 0
-  childrens:
-  - {fileID: 4548096531212786285}
-  decorators:
-  - {fileID: -5775553757179405449}
-  services:
-  - {fileID: -4807708912993720536}
