@@ -16,10 +16,43 @@ namespace BT
             return EBehaviorTreeState.Success;
         }
 
+        public override EBehaviorTreeState ExecuteNode()
+        {
+            // If all the decorators are successfull go ahead and execute 
+            // all services and then the composite node
+            if(ExecuteDecorators())
+            {
+                // Execute all service nodes attached to this composite
+                services.ForEach(service => service.ExecuteNode());
+                state = base.ExecuteNode();
+            }
+            else
+            {
+                state = EBehaviorTreeState.Failed;
+            }
+            return state;
+        }
+        
+        private bool ExecuteDecorators()
+        {
+            bool decoratorsResult = true;
+            // Execute all decorators attached to composite node
+            foreach(BT_Decorator decorator in decorators)
+            {
+                state = decorator.ExecuteNode();
+                if(state == EBehaviorTreeState.Failed
+                   || state == EBehaviorTreeState.Running)
+                {
+                    decoratorsResult = false;
+                    break;
+                }
+            }
+            return decoratorsResult;
+        }
+
         internal override void OnStart_internal()
         {
             state = EBehaviorTreeState.Running;
-            services.ForEach(service => service.OnStart_internal());
             base.OnStart_internal();
         }
 
@@ -29,38 +62,19 @@ namespace BT
             base.OnStop_internal();
         }
 
-        public override EBehaviorTreeState ExecuteNode()
-        {
-            return DecoratorsSuccessfull()? base.ExecuteNode() : EBehaviorTreeState.Failed;
-        }
-
-        public bool DecoratorsSuccessfull()
-        {
-            bool decoratorConditions = true;
-            foreach(BT_Decorator decorator in decorators)
-            {
-                EBehaviorTreeState DecoratorResult = decorator.Execute();
-                if(DecoratorResult == EBehaviorTreeState.Failed)
-                {
-                    decoratorConditions = false;
-                    break;
-                }
-            }
-            return decoratorConditions;
-        }
-
         public override NodeBase Clone()
         {
             BT_ActionNode action = Instantiate(this);
             action.decorators = action.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
+            action.services = action.services.ConvertAll(service => service.Clone() as BT_Service);
             return action;
         }
 
-        internal override void SetBehaviorTree(BehaviorTree behaviorTree)
+        internal override void SetBlackboard(Blackboard blackboard)
         {
-            base.SetBehaviorTree(behaviorTree);
-            decorators.ForEach(decorator => decorator.SetBehaviorTree(behaviorTree));
-            services.ForEach(service => service.SetBehaviorTree(behaviorTree));
+            base.SetBlackboard(blackboard);
+            decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
+            services.ForEach(service => service.SetBlackboard(blackboard));
         }
     }
 }

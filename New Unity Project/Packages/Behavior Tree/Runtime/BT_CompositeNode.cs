@@ -16,55 +16,60 @@ namespace BT
         /// all the decorators attached to this node
         ///</summary>
         [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
-        
+
         ///<summary>
         /// all the services attached to this node
         ///</summary>
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
-        
+
         protected int executedChildrenIndex = 0;
-        
+
         internal override void OnStart_internal()
         {
             // Each time this node begins executing reset current executed children index
             executedChildrenIndex = 0;
-            // Call on start on each service node attached
-            services.ForEach(service => service.OnStart_internal());
             base.OnStart_internal();
         }
-        
+
         internal override void OnStop_internal()
         {
             // When this node has done running disable all the service nodes updates
-            foreach(BT_Service service in services)
-            {
-                service.isStarted = false;
-                service.OnStop_internal();
-            }
+            services.ForEach(service => service.OnStop_internal());
             base.OnStop_internal();
         }
 
         public override EBehaviorTreeState ExecuteNode()
         {
-            if(DecoratorsSuccessfull())
+            // If all the decorators are successfull go ahead and execute 
+            // all services and then the composite node
+            if(ExecuteDecorators())
             {
+                // Execute all service nodes attached to this composite
                 services.ForEach(service => service.ExecuteNode());
-                return base.ExecuteNode();
-            }
-            return EBehaviorTreeState.Failed;
-        }
-
-        protected bool DecoratorsSuccessfull()
-        {
-            foreach (BT_Decorator Decorator in decorators)
+                state = base.ExecuteNode();
+            } 
+            else
             {
-                EBehaviorTreeState DecoratorResult = Decorator.Execute();
-                if (DecoratorResult == EBehaviorTreeState.Failed)
+                state = EBehaviorTreeState.Failed;
+            }
+            return state;
+        }
+        
+        private bool ExecuteDecorators()
+        {
+            bool decoratorsResult = true;
+            // Execute all decorators attached to composite node
+            foreach(BT_Decorator decorator in decorators)
+            {
+                state = decorator.ExecuteNode();
+                if(state == EBehaviorTreeState.Failed
+                   || state == EBehaviorTreeState.Running)
                 {
-                    return false;
+                    decoratorsResult = false;
+                    break;
                 }
             }
-            return true;
+            return decoratorsResult;
         }
 
         public override NodeBase Clone()
@@ -72,15 +77,16 @@ namespace BT
             BT_CompositeNode composite = Instantiate(this);
             composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
             composite.childrens = composite.childrens.ConvertAll(child => child.Clone() as BT_Node);
+            composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
 
-        internal override void SetBehaviorTree(BehaviorTree behaviorTree)
+        internal override void SetBlackboard(Blackboard blackboard)
         {
-            base.SetBehaviorTree(behaviorTree);
-            decorators.ForEach(decorator => decorator.SetBehaviorTree(behaviorTree));
-            services.ForEach(service => service.SetBehaviorTree(behaviorTree));
-            childrens.ForEach(children => children.SetBehaviorTree(behaviorTree));
+            base.SetBlackboard(blackboard);
+            decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
+            services.ForEach(service => service.SetBlackboard(blackboard));
+            childrens.ForEach(children => children.SetBlackboard(blackboard));
         }
     }
 }

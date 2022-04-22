@@ -51,7 +51,7 @@ namespace BT
             tree.rootNode = tree.rootNode.Clone() as BT_RootNode;
             tree.blackboard = tree.blackboard.Clone();
             // Initialize behavior tree and blackboard references on each node of the tree
-            tree.rootNode.SetBehaviorTree(tree);
+            tree.rootNode.SetBlackboard(tree.blackboard);
             return tree;
         }
 
@@ -64,7 +64,7 @@ namespace BT
             BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
             node.nodeName = nodeType.Name;
             node.guid = GUID.Generate();
-            node.blackboard = blackboard;
+            
             
             if(nodeType == typeof(BT_RootNode))
             {
@@ -140,13 +140,13 @@ namespace BT
         ///<summary>
         ///Remove the child node from the specified parent node
         ///</summary>
-        public void RemoveChildFromParent(BT_Node Child, BT_Node Parent)
+        public void RemoveChildFromParent(BT_Node child, BT_Node parent)
         {
-            if (Parent.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
+            if (parent.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
             {
-                BT_CompositeNode CompositeNode = Parent as BT_CompositeNode;
+                BT_CompositeNode CompositeNode = parent as BT_CompositeNode;
                 Undo.RecordObject(CompositeNode, "Behavior Tree Composite Node remove child");
-                CompositeNode.childrens.Remove(Child);
+                CompositeNode.childrens.Remove(child);
                 EditorUtility.SetDirty(CompositeNode);
             }
         }

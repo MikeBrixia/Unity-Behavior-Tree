@@ -8,19 +8,18 @@ namespace BT
     public abstract class BT_Decorator : BT_Node
     {
         
-        public BT_Decorator()
-        {
-            
-        }
-
         /// <summary>
-        /// Determines if a decorator is successfull or not
+        /// Execute this decorator
         /// </summary>
         public override EBehaviorTreeState Execute()
         {
-           return EBehaviorTreeState.Success;
+            return state;
         }
 
+        public override NodeBase Clone()
+        {
+            return base.Clone();
+        }
     }
 }
 

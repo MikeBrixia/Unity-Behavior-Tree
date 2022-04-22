@@ -8,7 +8,7 @@ public sealed class BT_RootNode : BT_Node
 
     [HideInInspector] public BT_Node childNode;
 
-    public BT_RootNode()
+    public BT_RootNode() : base()
     {
         nodeName = "Root";
         description = "Entry point of behavior tree";
@@ -25,11 +25,11 @@ public sealed class BT_RootNode : BT_Node
         node.childNode = node.childNode.Clone() as BT_Node;
         return node;
     }
-
-    internal override void SetBehaviorTree(BehaviorTree behaviorTree)
+    
+    internal override void SetBlackboard(Blackboard blackboard)
     {
-        base.SetBehaviorTree(behaviorTree);
-        childNode.SetBehaviorTree(behaviorTree);
+        base.SetBlackboard(blackboard);
+        childNode.SetBlackboard(blackboard);
     }
 
     protected override void OnStart()

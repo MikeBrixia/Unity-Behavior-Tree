@@ -17,7 +17,7 @@ namespace BT
        public string nodeName;
        
        public string description;
-       
+        
        ///<summary>
        /// The position of this node in the graph
        ///</summary>

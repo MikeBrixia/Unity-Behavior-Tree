@@ -6,13 +6,10 @@ namespace BT
     public abstract class BT_Node : NodeBase
     {
 
-        [HideInInspector]
-        public Blackboard blackboard;
-        
+        public Blackboard blackboard { get; set; }
+
         [HideInInspector]
         public bool isStarted = false;
-
-        internal BehaviorTree tree;
 
         ///<summary>
         /// Called when this has started executing it's instructions.
@@ -33,12 +30,12 @@ namespace BT
         {
             OnStop();
         }
-        
+
         ///<summary>
         /// Called when this node has started it's execution
         ///</summary>
         protected abstract void OnStart();
-        
+
         ///<summary>
         /// Called when this node has succeded or failed it's execution
         ///</summary>
@@ -48,11 +45,24 @@ namespace BT
         /// Called when the behavior tree wants to execute this node
         ///</summary>
         public abstract EBehaviorTreeState Execute();
-        
+
         ///<summary>
         /// Start the execution of this node
         ///</summary>
         public virtual EBehaviorTreeState ExecuteNode()
+        {
+            // If not already started, starts the execution
+            StartExecution();
+            // Execute the node logic
+            state = Execute();
+            // Once we've finished executing our instructions, determine 
+            // if it's the case of stopping the execution
+            StopExecution();
+
+            return state;
+        }
+
+        internal void StartExecution()
         {
             // Notify that the node has started executing
             if (!isStarted)
@@ -60,26 +70,28 @@ namespace BT
                 OnStart_internal();
                 isStarted = true;
             }
-
-            // Execute the node logic
-            state = Execute();
-
+        }
+        
+        ///<summary>
+        /// Try to stop the execution of this node, returns true
+        /// if the execution was stopped, false otherwise.
+        ///</summary>
+        internal bool StopExecution()
+        {
             // If the node logic returned a success or failure notify that
             // the execution of this node has stopped
             if (state == EBehaviorTreeState.Success
-               || state == EBehaviorTreeState.Failed)
+                || state == EBehaviorTreeState.Failed)
             {
                 OnStop_internal();
                 isStarted = false;
             }
-
-            return state;
+            return !isStarted;
         }
 
-        internal virtual void SetBehaviorTree(BehaviorTree behaviorTree)
+        internal virtual void SetBlackboard(Blackboard blackboard)
         {
-            this.tree = behaviorTree;
-            this.blackboard = behaviorTree.blackboard;
+            this.blackboard = blackboard;
         }
     }
 }

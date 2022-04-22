@@ -7,7 +7,7 @@ public class TestService : BT_Service
 {
     protected override void OnStart()
     {
-        
+       
     }
 
     protected override void OnStop()
@@ -21,15 +21,12 @@ public class TestService : BT_Service
         Debug.Log("Service Update");
     }
 
-    // Called when this service becomes active and starts updating
-    internal override void OnStart_internal()
+    #if UNITY_EDITOR
+    
+    public TestService() : base()
     {
-        
+        description = "Simple node for testing a service functionality";
     }
 
-    // Called when this service gets deactivated and stops updating
-    internal override void OnStop_internal()
-    {
-        
-    }
+    #endif
 }

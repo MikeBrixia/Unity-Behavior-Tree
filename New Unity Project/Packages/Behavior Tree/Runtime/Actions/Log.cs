@@ -8,7 +8,7 @@ public class Log : BT_ActionNode
     
     public string debugMessage;
 
-    public Log()
+    public Log() : base()
     {
         description = "Print a message in the console";
     }

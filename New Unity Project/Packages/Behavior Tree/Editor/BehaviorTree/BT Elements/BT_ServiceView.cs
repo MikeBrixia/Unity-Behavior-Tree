@@ -11,6 +11,7 @@ namespace BT
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
+        private Label serviceFrequencyLabel;
         private Label serviceDescriptionLabel;
         private Label serviceUpdateLabel;
 
@@ -23,14 +24,19 @@ namespace BT
             // Get visual tree asset elements
             serviceBorder = contentContainer.Q<VisualElement>("ServiceBorder");
             serviceNameLabel = contentContainer.Q<Label>("ServiceName");
+            serviceFrequencyLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
             serviceDescriptionLabel = contentContainer.Q<Label>("ServiceDescription");
             serviceUpdateLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
             
-            // Initialize view name label
+            // Initialize frequency label
+            serviceFrequencyLabel.bindingPath = "frequencyDescription";
+            serviceFrequencyLabel.Bind(new SerializedObject(node));
+
+            // Initialize name label
             serviceNameLabel.bindingPath = "nodeName";
             serviceNameLabel.Bind(new SerializedObject(node));
-
-            // Initialize view description label
+            
+            // Initialize description label
             serviceDescriptionLabel.bindingPath = "description";
             serviceDescriptionLabel.Bind(new SerializedObject(node));
             

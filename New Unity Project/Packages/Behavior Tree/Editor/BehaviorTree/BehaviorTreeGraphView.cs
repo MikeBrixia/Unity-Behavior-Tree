@@ -16,7 +16,7 @@ namespace BT
         public new class UxmlFactory : UxmlFactory<BehaviorTreeGraphView, UxmlTraits> { }
 
         public BehaviorTree Tree;
-        
+
         ///<summary>
         /// the position of the mouse in the graph
         ///</summary>
@@ -26,7 +26,7 @@ namespace BT
         public Action<BT_NodeVisualElement> onNodeVisualElementSelected;
 
         private EventCallback<MouseDownEvent> mousePressedEvent;
-        
+
         ///<summary>
         /// all the data which we want to copy
         ///</summary>
@@ -36,7 +36,7 @@ namespace BT
         {
             // Insert background under everything else
             Insert(0, new GridBackground());
-            
+
             // Load style sheet
             var StyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/GridBackgroundStyle.uss");
             styleSheets.Add(StyleSheet);
@@ -57,17 +57,17 @@ namespace BT
             // Keyboard callbacks
             EventCallback<KeyDownEvent> keyboardPressedEvent = OnKeyboardPressed;
             RegisterCallback<KeyDownEvent>(keyboardPressedEvent);
-            
+
             // Copy/paste callbacks
             serializeGraphElements += OnCopy;
             unserializeAndPaste += OnPaste;
         }
-        
+
         // Called when the user presses CTRL-V to paste a copied item
         private void OnPaste(string operationName, string data)
         {
             // Paste copied node views 
-            foreach(BT_NodeView copiedNode in copyCache)
+            foreach (BT_NodeView copiedNode in copyCache)
             {
                 BT_Node newNode = Tree.CreateNode(copiedNode.node.GetType());
                 newNode = copiedNode.node;
@@ -77,15 +77,15 @@ namespace BT
             copyCache.Clear();
             PopulateView(Tree);
         }
-        
+
         // Called when the user presses CTRL-C to copy the selected items
         private string OnCopy(IEnumerable<GraphElement> elements)
         {
             copyCache.Clear();
-            foreach(GraphElement element in elements)
+            foreach (GraphElement element in elements)
             {
                 BT_NodeView nodeToCopy = element as BT_NodeView;
-                if(nodeToCopy != null)
+                if (nodeToCopy != null)
                 {
                     copyCache.Add(nodeToCopy);
                 }
@@ -124,17 +124,18 @@ namespace BT
                 }
 
                 BT_ServiceView serviceView = BehaviorTreeSelectionManager.selectedObject as BT_ServiceView;
-                if(serviceView != null)
+                if (serviceView != null)
                 {
+                    // Remove service view from action node
                     BT_ActionNode actionNode = serviceView.parentView.node as BT_ActionNode;
-                    if(actionNode != null)
+                    if (actionNode != null)
                     {
                         Undo.RecordObject(actionNode, "Undo delete service");
                         actionNode.services.Remove(serviceView.node as BT_Service);
                         EditorUtility.SetDirty(actionNode);
                     }
 
-                    // Remove decorator view from composite node
+                    // Remove service view from composite node
                     BT_CompositeNode compositeNode = serviceView.parentView.node as BT_CompositeNode;
                     if (compositeNode != null)
                     {
@@ -165,7 +166,7 @@ namespace BT
             AssetDatabase.SaveAssets();
             PopulateView(Tree);
         }
-        
+
         public BT_NodeView FindNodeView(BT_Node Node)
         {
             return GetNodeByGuid(Node.guid.ToString()) as BT_NodeView;
@@ -176,7 +177,7 @@ namespace BT
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-            
+
             if (tree.rootNode == null && AssetDatabase.Contains(tree))
             {
                 tree.rootNode = tree.CreateNode(typeof(BT_RootNode)) as BT_RootNode;
@@ -246,13 +247,13 @@ namespace BT
             {
                 evt.menu.AppendAction("Action/" + type.Name, (a) => CreateNode(type, mousePosition));
             }
-            
-            if(Tree.rootNode == null)
+
+            if (Tree.rootNode == null)
             {
                 evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
             }
         }
-        
+
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
             // Updates nodes by removing from the graph view the deleted nodes
@@ -274,6 +275,7 @@ namespace BT
                         BT_NodeView ParentNode = edge.output.node as BT_NodeView;
                         // The child node it's the target node for the connection
                         BT_NodeView ChildNode = edge.input.node as BT_NodeView;
+                        ChildNode.parentView = null;
                         Tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
                         ParentNode.SortChildrenNodes();
                     }
@@ -383,17 +385,17 @@ namespace BT
         ///<summary>
         /// Create a decorator view and attach it to a parent node view
         ///</summary>
-        public void CreateDecoratorViewAttached(BT_Decorator decorator, BT_NodeView parentNodeView, 
+        public void CreateDecoratorViewAttached(BT_Decorator decorator, BT_NodeView parentNodeView,
                                                 string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml")
         {
             BT_DecoratorView decoratorView = new BT_DecoratorView(parentNodeView, decorator, filepath);
             decoratorView.selectedCallback += onNodeVisualElementSelected;
         }
-        
+
         ///<summary>
         /// Create a service view and attach it to a parent node view
         ///</summary>
-        public void CreateServiceViewAttached(BT_Service service, BT_NodeView parentNodeView, 
+        public void CreateServiceViewAttached(BT_Service service, BT_NodeView parentNodeView,
                                               string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml")
         {
             BT_ServiceView serviceView = new BT_ServiceView(parentNodeView, service, filepath);

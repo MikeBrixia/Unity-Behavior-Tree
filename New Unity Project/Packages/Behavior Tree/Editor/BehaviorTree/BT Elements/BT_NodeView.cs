@@ -19,6 +19,12 @@ namespace BT
         ///to contain the actual instructions of the node
         ///</summary>
         public BT_Node node { get; private set; }
+        
+        ///<summary>
+        /// The parent view at which this node view is connected with
+        /// it's input port
+        ///</summary>
+        public BT_NodeView parentView;
 
         ///<summary>
         /// decorator views containted inside this node view
@@ -67,7 +73,7 @@ namespace BT
             this.node = node;
             this.behaviorTreeGraph = graph;
             InitializeUIElements();
-
+            
             // Set node position in the graph to where the user has clicked
             // to open the contextual menu
             Rect rect = this.contentRect;
@@ -91,7 +97,7 @@ namespace BT
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
             SerializedObject serializedNode = new SerializedObject(node);
-
+        
             nodeNameLabel.bindingPath = "nodeName";
             nodeNameLabel.Bind(serializedNode);
 
