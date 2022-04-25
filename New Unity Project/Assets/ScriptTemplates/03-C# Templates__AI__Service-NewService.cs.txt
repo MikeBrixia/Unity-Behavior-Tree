@@ -23,4 +23,15 @@ public class #SCRIPTNAME# : BT_Service
     {
         #NOTRIM#
     }
+
+    // Put here editor only logic
+    #if UNITY_EDITOR
+    
+    // for BT nodes the constructor is a editor only method, do not use it at runtime!
+    public #SCRIPTNAME#() : base()
+    {
+        description = "Node description";
+    }
+
+    #endif
 }
