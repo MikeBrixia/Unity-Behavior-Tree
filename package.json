@@ -1,7 +1,7 @@
 {
   "name": "com.ai.behavior-tree",
   "display name": "Behavior Tree",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Behavior Tree editor for designing more complex AI Systems in Unity",
   "displayName": "Behavior Tree",
   "unity": "2021.2",
