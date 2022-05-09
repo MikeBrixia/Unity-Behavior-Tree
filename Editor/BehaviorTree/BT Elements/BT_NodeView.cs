@@ -7,8 +7,9 @@ using UnityEngine.UIElements;
 using System;
 using UnityEngine.EventSystems;
 using UnityEditor.UIElements;
+using BT.Runtime;
 
-namespace BT
+namespace BT.Editor
 {
 
     public class BT_NodeView : Node

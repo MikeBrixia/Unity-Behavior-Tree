@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
-
-    public class SequenceNode : BT_CompositeNode
+    ///<summary>
+    /// This composite node it's going to execute all it's childrens from left to right
+    /// and stop when one fails, if all children nodes succeds this composite succeds, if even one
+    /// Children fails this composite it's going to fail.
+    ///</summary>
+    public sealed class SequenceNode : BT_CompositeNode
     {
         public SequenceNode() : base()
         {

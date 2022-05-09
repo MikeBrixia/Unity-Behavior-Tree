@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using BT.Editor;
 
 namespace BT
 {
@@ -23,7 +24,7 @@ namespace BT
             Clear();
             UnityEngine.Object.DestroyImmediate(InspectorEditor);
             // Initialize new editor
-            InspectorEditor = Editor.CreateEditorWithContext(new Object[] { nodeToInspect }, null, typeof(NodeInspector)) as NodeInspector;
+            InspectorEditor = UnityEditor.Editor.CreateEditorWithContext(new Object[] { nodeToInspect }, null, typeof(NodeInspector)) as NodeInspector;
             InspectorEditor.UseDefaultMargins(); 
             // Create action to pass as a parameter to the IMGUI Container
             IMGUIContainer Container = new IMGUIContainer(() => 

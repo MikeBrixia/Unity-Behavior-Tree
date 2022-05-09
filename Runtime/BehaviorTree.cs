@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
+using BT.Runtime;
 
 namespace BT
 {
-    
+    ///<summary>
+    /// Behavior Tree possible states.
+    ///</summary>
     public enum EBehaviorTreeState { Running, Success, Failed, Waiting }
-
+    
+    ///<summary>
+    /// Behavior Tree asset which contains all the data needed from the BehaviorTreeComponent
+    /// to make it run.
+    /// Behavior Tree execute from left to right and from top to bottom
+    ///</summary>
     [CreateAssetMenu(fileName = "New Behavior Tree", menuName = "AI/Behavior Tree")]
     public sealed class BehaviorTree : ScriptableObject
     {
@@ -25,26 +33,31 @@ namespace BT
         
         ///<summary>
         /// if true, the beavior tree is going to update each frame, otherwise
-        /// it will follow UpdateInterval defined by the user
+        /// it will use a user defined update interval(updateInterval).
         ///</summary>
         public bool canTick = false;
 
         ///<summary>
         /// The rate at which the behavior tree it's going
-        /// to be updated
+        /// to be updated. If canTick is set to true this value will
+        /// be ignored.
         ///</summary>
         public float updateInterval = 0.1f;
         
         ///<summary>
-        /// The current state of this tree
+        /// The current state of this Behavior Tree.
         ///</summary>
         [HideInInspector] public EBehaviorTreeState treeState;
 
         ///<summary>
-        /// All the nodes contained inside this behavior 
+        /// All the Behavior Tree nodes
         ///</summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
-
+        
+        ///<summary>
+        /// Clone this behavior tree asset
+        ///</summary>
+        ///<returns> A copy of this Behavior Tree asset</returns>
         public BehaviorTree Clone()
         {
             BehaviorTree tree = Instantiate(this);
@@ -57,7 +70,7 @@ namespace BT
 
 // Editor only functionality
 #if UNITY_EDITOR
-
+        
         public BT_Node CreateNode(Type nodeType)
         {
             // Create node and generate GUID

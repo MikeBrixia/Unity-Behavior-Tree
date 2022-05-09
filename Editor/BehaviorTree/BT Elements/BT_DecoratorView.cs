@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
 
     public class BT_DecoratorView : BT_NodeVisualElement

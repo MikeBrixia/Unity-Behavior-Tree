@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
     ///<summary>
     /// A visual element which can be attached to a BT node

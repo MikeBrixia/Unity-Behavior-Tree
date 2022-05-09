@@ -5,7 +5,7 @@ using UnityEditor.Callbacks;
 using System;
 using UnityEditor.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
     [SerializeField]
     public class BehaviorTreeEditor : EditorWindow

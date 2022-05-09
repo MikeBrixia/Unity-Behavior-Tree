@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
     public class BT_ServiceView : BT_NodeVisualElement
     {

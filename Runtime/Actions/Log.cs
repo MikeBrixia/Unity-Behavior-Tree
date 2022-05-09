@@ -1,32 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BT;
 
-public class Log : BT_ActionNode
+namespace BT.Runtime
 {
-    
-    public string debugMessage;
-
-    public Log() : base()
+    ///<summary>
+    /// Action node which logs a message to the unity console
+    ///</summary>
+    public class Log : BT_ActionNode
     {
-        description = "Print a message in the console";
-    }
+        ///<summary>
+        /// The log message
+        ///</summary>
+        public string debugMessage;
 
-    // Called when the behavior tree wants to execute this action
-    public override EBehaviorTreeState Execute()
-    {
-        Debug.Log(debugMessage);
-        return EBehaviorTreeState.Success;
-    }
+        public Log() : base()
+        {
+            description = "Print a message in the console";
+        }
 
-    protected override void OnStart()
-    {
-        
-    }
+        ///<summary>
+        /// Log a message to the Unity console
+        ///</summary>
+        public override EBehaviorTreeState Execute()
+        {
+            Debug.Log(debugMessage);
+            return EBehaviorTreeState.Success;
+        }
 
-    protected override void OnStop()
-    {
-        
+        protected override void OnStart()
+        {
+
+        }
+
+        protected override void OnStop()
+        {
+
+        }
     }
 }

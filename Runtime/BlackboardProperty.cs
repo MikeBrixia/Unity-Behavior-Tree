@@ -4,23 +4,30 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-// All the types supported by the blackboard
+///<summary>
+/// The blackboard supported value types
+///</summary>
 public enum BlackboardSupportedTypes { Boolean, Float, GameObject, Vector2, Vector3, String, Double, Integer, Color }
 
 [System.Serializable]
 public class BlackboardPropertyBase
 {
-
+    ///<summary>
+    /// The name of this blackboard property
+    ///</summary>
     [SerializeField]
     public string name = "NewVar";
-
+    
+    ///<summary>
+    /// The value type of this property
+    ///</summary>
     [SerializeField]
     public BlackboardSupportedTypes valueType = BlackboardSupportedTypes.Boolean;
 
     ///<summary>
     /// Initialize this property with the given type default value.
     ///</summary>
-    ///<returns> returns a copy of this property initialized with it's value type</returns>
+    ///<returns> A copy of this property initialized with it's value type</returns>
     public BlackboardPropertyBase InitializeProperty()
     {
         BlackboardPropertyBase property = null;

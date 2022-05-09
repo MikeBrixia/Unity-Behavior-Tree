@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
 
     ///<summary>
@@ -12,7 +12,7 @@ namespace BT
     /// to the displayed node
     ///</summary>
     [CustomEditor(typeof(BT_Node))]
-    public class NodeInspector : Editor
+    public class NodeInspector : UnityEditor.Editor
     {
         
         private SerializedProperty serializedNodeName;

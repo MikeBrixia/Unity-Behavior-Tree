@@ -4,19 +4,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BT
+namespace BT.Editor
 {
     public class BlackboardInspector : VisualElement
     {
         public new class UxmlFactory : UxmlFactory<BlackboardInspector, UxmlTraits> { }
         
-        private Editor blackboardInspector;
+        private UnityEditor.Editor blackboardInspector;
 
         public void UpdateInspector(BehaviorTree blackboardToInspect)
         {
             Clear();
             UnityEngine.Object.DestroyImmediate(blackboardInspector);
-            blackboardInspector = Editor.CreateEditorWithContext(new Object[] { blackboardToInspect }, null, typeof(BehaviorTree));
+            blackboardInspector = UnityEditor.Editor.CreateEditorWithContext(new Object[] { blackboardToInspect }, null, typeof(BehaviorTree));
             IMGUIContainer container = new IMGUIContainer(() =>
             {
                 if (blackboardInspector.target != null)

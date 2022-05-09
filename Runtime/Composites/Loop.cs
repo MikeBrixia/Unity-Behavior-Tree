@@ -2,12 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
-    public class Loop : BT_CompositeNode
+    ///<summary>
+    /// This composite node it's gonna loop a given number of times
+    /// thourgh it's childrens before returning success. If all loops are 
+    /// successfull this node is going to succed, if even one loop fails
+    /// this node it's going to fail.
+    ///</summary>
+    public sealed class Loop : BT_CompositeNode
     {
-        public int loopTimes = 3;
-
+        ///<summary>
+        /// The number of loops you want this composite
+        /// to perform.
+        ///</summary>
+        [Tooltip("The number of loops you want this composite to perform.")]
+        public int loopNumber = 3;
+        
+        ///<summary>
+        /// The loop we're currently executing
+        ///</summary>
         private int currentLoop = 0;
         
         public Loop() : base()
@@ -29,7 +43,7 @@ namespace BT
                     {
                         currentLoop++;
                         executedChildrenIndex = 0;
-                        if (currentLoop == loopTimes)
+                        if (currentLoop == loopNumber)
                         {
                             state = EBehaviorTreeState.Success;
                             currentLoop = 0;

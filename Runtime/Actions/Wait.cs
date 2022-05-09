@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
+    ///<summary>
+    /// Make the behavior tree wait for a given amount of time before
+    /// continuing executing the next instructions.
+    ///</summary>
     public class Wait : BT_ActionNode
     {
-
+        ///<summary>
+        /// The time the tree is going to wait
+        ///</summary>
         public float time = 5f;
-
+        
         private float startTime = 0f;
 
         // Called when the behavior tree wants to execute this action.
