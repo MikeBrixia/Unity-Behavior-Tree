@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
     ///<summary>
     ///Services are parallel nodes which can be attached to composites and actions and will be executed at their defined frequency 

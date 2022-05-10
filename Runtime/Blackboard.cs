@@ -3,8 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
+    /// <summary>
+    /// The blackboard is the "brain" of the Behavior Tree, responsible of storing
+    /// relevant data, used to make it's own decision.
+    /// The blackboard supports a limited number of types which can be used by the tree,
+    /// see BlackboardSupportedTypes in BlackboardPropertyBase for more info.
+    /// </summary>
     [CreateAssetMenu(fileName = "New Blackboard", menuName = "AI/Blackboard")]
     public class Blackboard : ScriptableObject, ISerializationCallbackReceiver
     {

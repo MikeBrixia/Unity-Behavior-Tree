@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using BT.Runtime;
 
 namespace BT.Editor
 {
@@ -19,7 +20,7 @@ namespace BT.Editor
         private SerializedProperty serializedNodeDescription;
 
         public delegate void OnValueChange<PropertyType>(PropertyType PropertyChanged);
-
+        
         public OnValueChange<string> onNodeNameChange;
         public OnValueChange<string> onNodeDescriptionChange;
 

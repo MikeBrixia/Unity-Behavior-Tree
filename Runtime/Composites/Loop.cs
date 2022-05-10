@@ -6,7 +6,7 @@ namespace BT.Runtime
 {
     ///<summary>
     /// This composite node it's gonna loop a given number of times
-    /// thourgh it's childrens before returning success. If all loops are 
+    /// through it's childrens before returning success. If all loops are 
     /// successfull this node is going to succed, if even one loop fails
     /// this node it's going to fail.
     ///</summary>

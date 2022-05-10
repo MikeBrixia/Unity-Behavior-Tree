@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
-using BT.Runtime;
 
-namespace BT
+namespace BT.Runtime
 {
     ///<summary>
     /// Behavior Tree possible states.

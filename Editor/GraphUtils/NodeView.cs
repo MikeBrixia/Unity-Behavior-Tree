@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using BT.Runtime;
 
 namespace BT.Editor
 {
-
+    
+    ///<summary>
+    /// Base class for all node views.
+    ///</summary>
     public abstract class NodeView : Node
     {
 
@@ -14,7 +18,10 @@ namespace BT.Editor
         /// The node contained inside this node view
         ///</summary>
         public NodeBase node { get; protected set; }
-
+        
+        ///<summary>
+        /// Set the position of this node view.
+        ///</summary>
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);

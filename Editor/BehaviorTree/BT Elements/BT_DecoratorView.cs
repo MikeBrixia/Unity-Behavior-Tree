@@ -7,15 +7,17 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using BT.Runtime;
 
 namespace BT.Editor
 {
-
+    ///<summary>
+    /// Class used to display decorator view.
+    ///</summary>
     public class BT_DecoratorView : BT_NodeVisualElement
     {
-        
         public delegate void OnDecoratorSelected(BT_DecoratorView decoratorViewSelected);
-
+        
         private VisualElement decoratorBorder;
         private Label nameLabel;
         private Label descriptionLabel;
@@ -24,7 +26,10 @@ namespace BT.Editor
         {
             
         }
-
+        
+        ///<summary>
+        /// Initialize UI Elements for this node view.
+        ///</summary>
         protected override void InitializeUIElements()
         {
             decoratorBorder = contentContainer.Q<VisualElement>("DecoratorBorder");
@@ -42,13 +47,19 @@ namespace BT.Editor
             parentView.decoratorViews.Add(this);
             parentView.decoratorsContainer.Add(this);
         }
-
+        
+        ///<summary>
+        /// Called when this node gets selected.
+        ///</summary>
         public override void OnSelected(MouseDownEvent eventData)
         {
             base.OnSelected(eventData);
             ShowSelectionBorder(decoratorBorder, 2f, Color.yellow);
         }
         
+        ///<summary>
+        /// Called when this node gets unselected.
+        ///</summary>
         public override void OnUnselected()
         {
            ShowSelectionBorder(decoratorBorder, 2f, Color.black);

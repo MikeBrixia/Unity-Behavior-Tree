@@ -11,7 +11,9 @@ using BT.Runtime;
 
 namespace BT.Editor
 {
-
+    ///<summary>
+    /// Base class for node views.
+    ///</summary>
     public class BT_NodeView : Node
     {
 
@@ -51,8 +53,15 @@ namespace BT.Editor
         /// Input port of the node
         ///</summary>
         public Port input { get; private set; }
-
+        
+        ///<summary>
+        /// Container for decorator nodes
+        ///</summary>
         public VisualElement decoratorsContainer { get; private set; }
+
+        ///<summary>
+        /// Container service containers
+        ///</summary>
         public VisualElement serviceContainer { get; private set; }
 
         private GUID guid;
@@ -61,13 +70,24 @@ namespace BT.Editor
         /// The graph which owns this node
         ///</summary>
         public BehaviorTreeGraphView behaviorTreeGraph { get; private set; }
-        private Vector2 mousePosition;
 
+        ///<summary>
+        /// The position of the mouse.
+        ///</summary>
+        private Vector2 mousePosition;
+        
+        ///<summary>
+        /// The displayed node name
+        ///</summary>
         private Label nodeNameLabel;
+
+        ///<summary>
+        /// The displayed node description
+        ///</summary>
         private Label nodeDescriptionLabel;
         private VisualElement titleElement;
         private VisualElement nodeBorder;
-
+     
         public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph) : base("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml")
         {
             this.viewDataKey = node.guid.ToString();
@@ -88,12 +108,18 @@ namespace BT.Editor
             // Finally draw the node on screen
             Draw();
         }
-
+        
+        ///<summary>
+        /// Called when the mouse cursor enter this node view.
+        ///</summary>
         private void OnMouseEnter(MouseEnterEvent evt)
         {
             BehaviorTreeSelectionManager.hoverObject = this;
         }
-
+        
+        ///<summary>
+        /// Called when we initialize visual element.
+        ///</summary>
         private void InitializeUIElements()
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
@@ -124,7 +150,10 @@ namespace BT.Editor
             CreateOutputPort();
             RefreshExpandedState();
         }
-
+        
+        ///<summary>
+        /// Create input port for this node view
+        ///</summary>
         private void CreateInputPort()
         {
             if (node.GetType() != typeof(BT_RootNode))
@@ -136,7 +165,10 @@ namespace BT.Editor
                 inputContainer.Add(input);
             }
         }
-
+        
+        ///<summary>
+        /// Create output port for this node view
+        ///</summary>
         private void CreateOutputPort()
         {
             if (!node.GetType().IsSubclassOf(typeof(BT_ActionNode)))
@@ -149,7 +181,10 @@ namespace BT.Editor
                 outputContainer.Add(output);
             }
         }
-
+        
+        ///<summary>
+        /// Set the position of this node view.
+        ///</summary>
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
@@ -158,20 +193,28 @@ namespace BT.Editor
             node.position.y = newPos.yMin;
             EditorUtility.SetDirty(node);
         }
-
+        
+        ///<summary>
+        /// Called when this node view gets selected.
+        ///</summary>
         public override void OnSelected()
         {
             BehaviorTreeSelectionManager.selectedObject = this;
             ShowSelectionBorder(5f);
             OnNodeSelected.Invoke(this);
         }
-
+        
+        ///<summary>
+        /// Called when this node view gets unselected.
+        ///</summary>
         public override void OnUnselected()
         {
             ShowSelectionBorder(0f);
         }
 
-        // Called when the user wants to open the contextual menu while having selected this node view
+        ///<summary>
+        /// Create contextual menu to handle node visual element creation.
+        ///</summary>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -192,7 +235,11 @@ namespace BT.Editor
                 }
             }
         }
-
+        
+        ///<summary>
+        /// Show or hide node border.
+        ///</summary>
+        ///<param name="width">the width of node border</param>
         public void ShowSelectionBorder(float width)
         {
             nodeBorder.style.color = Color.blue;
@@ -201,7 +248,10 @@ namespace BT.Editor
             nodeBorder.style.borderTopWidth = width;
             nodeBorder.style.borderBottomWidth = width;
         }
-
+        
+        ///<summary>
+        /// Show or hide node border.
+        ///</summary>
         public void SortChildrenNodes()
         {
             BT_CompositeNode compositeNode = node as BT_CompositeNode;
@@ -211,7 +261,6 @@ namespace BT.Editor
             }
         }
 
-        // Sort behavior tree nodes by horizontal position in the graph
         private int SortByPosition(BT_Node left, BT_Node right)
         {
             return left.position.x < right.position.x ? -1 : 1;

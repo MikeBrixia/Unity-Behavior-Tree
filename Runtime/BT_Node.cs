@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace BT
+namespace BT.Runtime
 {
     ///<summary>
     /// Base class for all behavior tree nodes which

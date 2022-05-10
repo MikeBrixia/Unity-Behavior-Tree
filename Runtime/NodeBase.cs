@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
 
     public abstract class NodeBase : ScriptableObject
