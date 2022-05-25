@@ -66,9 +66,8 @@ namespace BT.Runtime
             tree.rootNode.SetBlackboard(tree.blackboard);
             return tree;
         }
-
-// Editor only functionality
-#if UNITY_EDITOR
+    
+    #if (UNITY_EDITOR == true)
         
         public BT_Node CreateNode(Type nodeType)
         {
@@ -76,7 +75,6 @@ namespace BT.Runtime
             BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
             node.nodeName = nodeType.Name;
             node.guid = GUID.Generate();
-            
             
             if(nodeType == typeof(BT_RootNode))
             {
@@ -174,7 +172,8 @@ namespace BT.Runtime
             }
             return ChildrenNodes;
         }
+    #endif
+    
     }
-#endif
 }
 

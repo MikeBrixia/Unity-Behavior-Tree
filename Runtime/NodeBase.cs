@@ -8,12 +8,14 @@ namespace BT.Runtime
 
     public abstract class NodeBase : ScriptableObject
     {
-       
+        
+    #if (UNITY_EDITOR == true)
        ///<summary>
        /// Unique identifier for the node
        ///</summary>
        [HideInInspector] public GUID guid;
-       
+    #endif
+
        public string nodeName;
        
        public string description;
