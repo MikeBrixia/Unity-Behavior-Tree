@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Namespace BT.Runtime
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Namespace BT.Runtime
+   ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="BT.Runtime">
+  
+  <h1 id="BT_Runtime" data-uid="BT.Runtime" class="text-break">Namespace BT.Runtime
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">Classes
+  </h3>
+      <h4><a class="xref" href="BT.Runtime.BehaviorTree.html">BehaviorTree</a></h4>
+      <section><p>Behavior Tree asset which contains all the data needed from the BehaviorTreeComponent
+to make it run.
+Behavior Tree execute from left to right and from top to bottom</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BehaviorTreeComponent.html">BehaviorTreeComponent</a></h4>
+      <section><p>The component responsible of running the behavior tree.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.Blackboard.html">Blackboard</a></h4>
+      <section><p>The blackboard is the &quot;brain&quot; of the Behavior Tree, responsible of storing
+relevant data, used to make it&apos;s own decision.
+The blackboard supports a limited number of types which can be used by the tree,
+see BlackboardSupportedTypes in BlackboardPropertyBase for more info.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BlackboardDecorator.html">BlackboardDecorator</a></h4>
+      <section><p>This decorator it&apos;s going to check a blackboard
+Boolean value and return Success if the bool value is true, 
+false otherwise.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BlackboardProperty-1.html">BlackboardProperty&lt;TValueType&gt;</a></h4>
+      <section></section>
+      <h4><a class="xref" href="BT.Runtime.BlackboardPropertyBase.html">BlackboardPropertyBase</a></h4>
+      <section></section>
+      <h4><a class="xref" href="BT.Runtime.BT_ActionNode.html">BT_ActionNode</a></h4>
+      <section><p>Behavior Tree action node.
+Actions are nodes with one input and no outputs, which are responsible
+of executing different tasks such as making the AI wait for a given amount
+of time or chasing the player.
+Actions can have decorators and services nodes attached to them and will execute 
+both before executing their own logic.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BT_CompositeNode.html">BT_CompositeNode</a></h4>
+      <section><p>Composites nodes are the roots of branches in the tree and define how a specific branch
+should execute and what rules should it follow.
+This node have 1 input and multiple outputs(Childrens)</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BT_Decorator.html">BT_Decorator</a></h4>
+      <section><p>Decorators are nodes which can be attached to composite and action nodes 
+and are used as conditional nodes, to determine if a certain branch or task should be executed or not.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BT_Node.html">BT_Node</a></h4>
+      <section><p>Base class for all behavior tree nodes which
+contains the base logic for how a behavior tree
+node should behave.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BT_RootNode.html">BT_RootNode</a></h4>
+      <section></section>
+      <h4><a class="xref" href="BT.Runtime.BT_Selector.html">BT_Selector</a></h4>
+      <section><p>This composite node will execute all childrens nodes from left to right
+and stop when one of them succeds.
+if all children fails, this node also fails.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.BT_Service.html">BT_Service</a></h4>
+      <section><p>Services are parallel nodes which can be attached to composites and actions and will be executed at their defined frequency 
+as long as their branch is being executed. 
+at the moment Services are NOT multithreaded by default!</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.Log.html">Log</a></h4>
+      <section><p>Action node which logs a message to the unity console</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.Loop.html">Loop</a></h4>
+      <section><p>This composite node it&apos;s gonna loop a given number of times
+through it&apos;s childrens before returning success. If all loops are 
+successfull this node is going to succed, if even one loop fails
+this node it&apos;s going to fail.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.NodeBase.html">NodeBase</a></h4>
+      <section></section>
+      <h4><a class="xref" href="BT.Runtime.SequenceNode.html">SequenceNode</a></h4>
+      <section><p>This composite node it&apos;s going to execute all it&apos;s childrens from left to right
+and stop when one fails, if all children nodes succeds this composite succeds, if even one
+Children fails this composite it&apos;s going to fail.</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.Wait.html">Wait</a></h4>
+      <section><p>Make the behavior tree wait for a given amount of time before
+continuing executing the next instructions.</p>
+</section>
+    <h3 id="enums">Enums
+  </h3>
+      <h4><a class="xref" href="BT.Runtime.BlackboardSupportedTypes.html">BlackboardSupportedTypes</a></h4>
+      <section><p>The blackboard supported value types</p>
+</section>
+      <h4><a class="xref" href="BT.Runtime.EBehaviorTreeState.html">EBehaviorTreeState</a></h4>
+      <section><p>Behavior Tree possible states.</p>
+</section>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
