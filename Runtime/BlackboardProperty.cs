@@ -30,7 +30,11 @@ namespace BT.Runtime
         /// <summary>
         /// Unity Vector3 type.
         /// </summary>
-        Vector3, 
+        Vector3,
+        ///<summary>
+        /// Unity Quaternion type
+        /// </summary>
+        Quaternion,
         /// <summary>
         /// Primitive string type.
         /// </summary>
@@ -49,6 +53,14 @@ namespace BT.Runtime
         Color 
     }
 
+    public enum BlackboardVariableType
+    {
+        Variable,
+        CStyleArray,
+        List,
+        HashSet
+    }
+    
     [System.Serializable]
     public class BlackboardPropertyBase
     {
@@ -63,52 +75,87 @@ namespace BT.Runtime
         ///</summary>
         [SerializeField]
         public BlackboardSupportedTypes valueType = BlackboardSupportedTypes.Boolean;
-
+        
+        ///<summary>
+        /// The value type of this property
+        ///</summary>
+        [SerializeField]
+        public BlackboardVariableType variableType = BlackboardVariableType.Variable;
+        
         ///<summary>
         /// Initialize this property with the given type default value.
         ///</summary>
         ///<returns> A copy of this property initialized with it's value type</returns>
-        public BlackboardPropertyBase InitializeProperty()
+        public BlackboardPropertyBase CreateProperty()
         {
             BlackboardPropertyBase property = null;
             switch (valueType)
             {
                 case BlackboardSupportedTypes.Boolean:
-                    property = new BlackboardProperty<bool>(name, valueType, false);
+                    property = InitializeProperty<bool>(false);
                     break;
 
                 case BlackboardSupportedTypes.Float:
-                    property = new BlackboardProperty<float>(name, valueType, 0f);
+                    property = InitializeProperty<float>(0f);
                     break;
 
                 case BlackboardSupportedTypes.Vector2:
-                    property = new BlackboardProperty<Vector2>(name, valueType, Vector2.zero);
+                    property = InitializeProperty<Vector2>(Vector2.zero);
                     break;
 
                 case BlackboardSupportedTypes.Vector3:
-                    property = new BlackboardProperty<Vector3>(name, valueType, Vector3.zero);
+                    property = InitializeProperty<Vector3>(Vector3.zero);
                     break;
-
+                
+                case BlackboardSupportedTypes.Quaternion:
+                    property = InitializeProperty<Quaternion>(Quaternion.identity);
+                    break;
+                
                 case BlackboardSupportedTypes.Double:
-                    property = new BlackboardProperty<double>(name, valueType, 0);
+                    property = InitializeProperty<double>(0f);
                     break;
 
                 case BlackboardSupportedTypes.Integer:
-                    property = new BlackboardProperty<int>(name, valueType, 0);
+                    property = InitializeProperty<int>(0);
                     break;
 
                 case BlackboardSupportedTypes.String:
-                    property = new BlackboardProperty<string>(name, valueType, "None");
+                    property = InitializeProperty<string>("None");
                     break;
 
                 case BlackboardSupportedTypes.Color:
-                    property = new BlackboardProperty<Color>(name, valueType, Color.black);
+                    property = InitializeProperty<Color>(Color.black);
                     break;
-
+                
                 case BlackboardSupportedTypes.GameObject:
-                    property = new BlackboardProperty<GameObject>(name, valueType, null);
+                    property = InitializeProperty<GameObject>(null);
                     break;
             }
+            return property;
+        }
+
+        private BlackboardPropertyBase InitializeProperty<T>(T value)
+        {
+            BlackboardPropertyBase property = null;
+            switch (variableType)
+            {
+                case BlackboardVariableType.CStyleArray:
+                    property = new BlackboardProperty<T[]>(name, valueType, Array.Empty<T>());
+                    break;
+                
+                case BlackboardVariableType.List:
+                    property = new BlackboardProperty<List<T>>(name, valueType, null);
+                    break;
+                
+                case BlackboardVariableType.HashSet:
+                    property = new BlackboardProperty<HashSet<T>>(name, valueType, null);
+                    break;
+                
+                case BlackboardVariableType.Variable:
+                    property = new BlackboardProperty<T>(name, valueType, value);
+                    break;
+            }
+
             return property;
         }
     }

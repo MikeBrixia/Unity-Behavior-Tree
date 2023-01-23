@@ -48,6 +48,7 @@ namespace BT.Runtime
         
         public void OnBeforeSerialize()
         {
+            
         }
         
         public void OnAfterDeserialize()
@@ -55,7 +56,7 @@ namespace BT.Runtime
             blackboardDict = new Dictionary<string, BlackboardPropertyBase>();
             foreach(BlackboardPropertyBase property in blackboardProperties)
             {
-                BlackboardPropertyBase newProperty = property.InitializeProperty();
+                BlackboardPropertyBase newProperty = property.CreateProperty();
                 blackboardDict.TryAdd(property.name, newProperty);
             }
         }
