@@ -13,7 +13,7 @@ namespace BT.Runtime
     {
         public SequenceNode() : base()
         {
-            nodeName = "Sequence";
+            nodeTypeName = "Sequence";
             description = "Execute all it's childrens in order and stops when one of them fails";
         }
 

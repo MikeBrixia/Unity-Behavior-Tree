@@ -249,7 +249,7 @@ namespace BT
         }
 
         ///<summary>
-        /// Create edgle between to two nodes
+        /// Create edge between to two nodes
         ///</summary>
         private void CreateEdge(BT_NodeView parentView, BT_NodeView childView)
         {
@@ -322,9 +322,9 @@ namespace BT
                     Edge edge = Element as Edge;
                     if (edge != null)
                     {
-                        // The parent node it's node which is trying to connect to another node
+                        // The parent node is the node which is trying to connect to another node
                         BT_NodeView ParentNode = edge.output.node as BT_NodeView;
-                        // The child node it's the target node for the connection
+                        // The child node is the target node for the connection
                         BT_NodeView ChildNode = edge.input.node as BT_NodeView;
                         ChildNode.parentView = null;
                         tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);

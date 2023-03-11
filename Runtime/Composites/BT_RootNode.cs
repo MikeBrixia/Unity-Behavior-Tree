@@ -15,7 +15,7 @@ namespace BT.Runtime
 
         public BT_RootNode() : base()
         {
-            nodeName = "Root";
+            nodeTypeName = "Root";
             description = "Entry point of behavior tree";
         }
 

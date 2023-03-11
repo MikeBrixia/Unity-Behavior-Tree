@@ -20,8 +20,9 @@ namespace BT.Editor
         
         private VisualElement decoratorBorder;
         private Label nameLabel;
+        private Label typeNameLabel;
         private Label descriptionLabel;
-
+  
         public BT_DecoratorView(BT_NodeView parentView, BT_Node node, string filepath) : base(parentView, node, filepath)
         {
             
@@ -34,13 +35,20 @@ namespace BT.Editor
         {
             decoratorBorder = contentContainer.Q<VisualElement>("DecoratorBorder");
             nameLabel = contentContainer.Q<Label>("Decorator-Name");
+            typeNameLabel = contentContainer.Q<Label>("Decorator-Type-Name");
             descriptionLabel = contentContainer.Q<Label>("decorator-description");
             
+            // Serialized representation of the contained node
+            SerializedObject serializedNode = new SerializedObject(node);
+            
             nameLabel.bindingPath = "nodeName";
-            nameLabel.Bind(new SerializedObject(node));
+            nameLabel.Bind(serializedNode);
 
+            typeNameLabel.bindingPath = "nodeTypeName";
+            typeNameLabel.Bind(serializedNode);
+            
             descriptionLabel.bindingPath = "description";
-            descriptionLabel.Bind(new SerializedObject(node));
+            descriptionLabel.Bind(serializedNode);
 
             // Register this view as a child for the given node view and add it to the
             // UI Elements hyerarchy.

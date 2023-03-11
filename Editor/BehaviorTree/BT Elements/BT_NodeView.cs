@@ -80,7 +80,12 @@ namespace BT.Editor
         /// The displayed node name
         ///</summary>
         private Label nodeNameLabel;
-
+        
+        /// <summary>
+        /// The displayed node type name.
+        /// </summary>
+        private Label nodeTypeNameLabel;
+        
         ///<summary>
         /// The displayed node description
         ///</summary>
@@ -123,11 +128,18 @@ namespace BT.Editor
         private void InitializeUIElements()
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
+            nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
             SerializedObject serializedNode = new SerializedObject(node);
-        
+            
+            // Bind node name value to label
             nodeNameLabel.bindingPath = "nodeName";
             nodeNameLabel.Bind(serializedNode);
-
+            
+            // Bind node type name value to label
+            nodeTypeNameLabel.bindingPath = "nodeTypeName";
+            nodeTypeNameLabel.Bind(serializedNode);
+            
+            // Bind description value to description label.
             nodeDescriptionLabel = mainContainer.parent.Q<Label>("NodeDescription");
             nodeDescriptionLabel.bindingPath = "description";
             nodeDescriptionLabel.Bind(serializedNode);

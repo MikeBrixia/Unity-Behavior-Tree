@@ -13,7 +13,7 @@ namespace BT.Runtime
     {
         public BT_Selector() : base()
         {
-            nodeName = "Selector";
+            nodeTypeName = "Selector";
             description = "Execute all it's childrens in order and stops when one of them succeds";
         }
 

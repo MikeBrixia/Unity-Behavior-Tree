@@ -73,7 +73,7 @@ namespace BT.Runtime
         {
             // Create node and generate GUID
             BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
-            node.nodeName = nodeType.Name;
+            node.nodeTypeName = nodeType.Name;
             node.guid = GUID.Generate();
             
             if(nodeType == typeof(BT_RootNode))
@@ -85,7 +85,7 @@ namespace BT.Runtime
             AssetDatabase.AddObjectToAsset(node, this);
  
             // If undoing after creation, this node will be destroyed
-            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undos");
+            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undo");
             
             if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
                 && !nodeType.IsSubclassOf(typeof(BT_Service)))
@@ -105,23 +105,31 @@ namespace BT.Runtime
             Undo.RegisterCompleteObjectUndo(this, "Behavior tree node removed");
             nodes.Remove(Node);
 
+            List<BT_Decorator> decorators = new List<BT_Decorator>();
+            List<BT_Service> services = new List<BT_Service>();
+            
             // When destroying composite nodes also destroys their decorators and services
             BT_CompositeNode compositeNode = Node as BT_CompositeNode;
             if (compositeNode != null)
             {
-                compositeNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
-                compositeNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+                decorators = compositeNode.decorators;
+                services = compositeNode.services;
             }
 
             // When destroying action nodes also destroys their decorators and services
             BT_ActionNode actionNode = Node as BT_ActionNode;
             if (actionNode != null)
             {
-                actionNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
-                actionNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+                decorators = actionNode.decorators;
+                services = actionNode.services;
             }
             
+            // Save node state by registering an undo/redo action and then destroy it.
             Undo.DestroyObjectImmediate(Node);
+            
+            // Destroy all the decorator and service children references.
+            decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
+            services.ForEach(service => Undo.DestroyObjectImmediate(service));
             AssetDatabase.SaveAssets();
         }
 

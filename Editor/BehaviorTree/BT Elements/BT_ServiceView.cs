@@ -15,6 +15,7 @@ namespace BT.Editor
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
+        private Label serviceTypeNameLabel;
         private Label serviceFrequencyLabel;
         private Label serviceDescriptionLabel;
         private Label serviceUpdateLabel;
@@ -32,21 +33,27 @@ namespace BT.Editor
             // Get visual tree asset elements
             serviceBorder = contentContainer.Q<VisualElement>("ServiceBorder");
             serviceNameLabel = contentContainer.Q<Label>("ServiceName");
+            serviceTypeNameLabel =  contentContainer.Q<Label>("ServiceTypeName");
             serviceFrequencyLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
             serviceDescriptionLabel = contentContainer.Q<Label>("ServiceDescription");
             serviceUpdateLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
-            
+
+            SerializedObject serializedNode = new SerializedObject(node);
             // Initialize frequency label
             serviceFrequencyLabel.bindingPath = "frequencyDescription";
-            serviceFrequencyLabel.Bind(new SerializedObject(node));
+            serviceFrequencyLabel.Bind(serializedNode);
 
             // Initialize name label
             serviceNameLabel.bindingPath = "nodeName";
-            serviceNameLabel.Bind(new SerializedObject(node));
+            serviceNameLabel.Bind(serializedNode);
+            
+            // Initialize type name label.
+            serviceTypeNameLabel.bindingPath = "nodeTypeName";
+            serviceTypeNameLabel.Bind(serializedNode);
             
             // Initialize description label
             serviceDescriptionLabel.bindingPath = "description";
-            serviceDescriptionLabel.Bind(new SerializedObject(node));
+            serviceDescriptionLabel.Bind(serializedNode);
             
             parentView.serviceContainer.Add(this);
             parentView.serviceViews.Add(this);

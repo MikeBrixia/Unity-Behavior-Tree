@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BT.Runtime
 {
@@ -15,9 +16,20 @@ namespace BT.Runtime
        ///</summary>
        [HideInInspector] public GUID guid;
     #endif
-
-       public string nodeName;
+        
+        /// <summary>
+        /// Custom node name which can be defined by the user.
+        /// </summary>
+        [FormerlySerializedAs("userDefinedName")] public string nodeName;
+        
+        /// <summary>
+        /// The name type name of the node.
+        /// </summary>
+       [FormerlySerializedAs("nodeName")] [HideInInspector] public string nodeTypeName;
        
+       /// <summary>
+       /// Editable description of what this node does.
+       /// </summary>
        public string description;
         
        ///<summary>
@@ -32,7 +44,7 @@ namespace BT.Runtime
 
        public NodeBase()
        {
-           nodeName = GetType().ToString();
+           nodeTypeName = "(" + GetType() + ")";
        }
 
        public virtual NodeBase Clone()
