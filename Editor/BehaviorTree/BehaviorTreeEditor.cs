@@ -125,18 +125,18 @@ namespace BT.Editor
         ///<summary>
         /// Called when node visual elemenet changes.
         ///</summary>
-        private void OnNodeVisualElementSelectionChange(BT_NodeVisualElement nodeVisualElement)
+        private void OnNodeVisualElementSelectionChange(BT_ChildNodeView childNodeView)
         {
-            BehaviorTreeSelectionManager.selectedObject = nodeVisualElement;
+            BehaviorTreeSelectionManager.selectedObject = childNodeView;
             if (nodeInspectorView != null)
             {
-                BT_DecoratorView decoratorView = nodeVisualElement as BT_DecoratorView;
+                BT_DecoratorView decoratorView = childNodeView as BT_DecoratorView;
                 if(decoratorView != null)
                 {
                     nodeInspectorView.UpdateInspector(decoratorView.node);
                 }
 
-                BT_ServiceView serviceView = nodeVisualElement as BT_ServiceView;
+                BT_ServiceView serviceView = childNodeView as BT_ServiceView;
                 if(serviceView != null)
                 {
                     nodeInspectorView.UpdateInspector(serviceView.node);

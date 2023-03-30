@@ -12,7 +12,7 @@ namespace BT.Runtime
     /// Actions can have decorators and services nodes attached to them and will execute 
     /// both before executing their own logic.
     ///</summary>
-    public abstract class BT_ActionNode : BT_Node
+    public abstract class BT_ActionNode : BT_Node, IParentNode
     {
         
         ///<summary>
@@ -122,6 +122,30 @@ namespace BT.Runtime
             base.SetBlackboard(blackboard);
             decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
             services.ForEach(service => service.SetBlackboard(blackboard));
+        }
+
+        public IList<T> GetChildNodes<T>() where T : BT_Node, IChildNode
+        {
+            IList<T> resultList = null;
+            
+            // Is T Decorator node type?
+            if (typeof(T) == typeof(BT_Decorator))
+                resultList = decorators as IList<T>;
+            // Is T Service node type?
+            else if (typeof(T) == typeof(BT_Service))
+                resultList = services as IList<T>;
+            
+            return resultList;
+        }
+
+        public void AddChildNode<T>(T childNode) where T : BT_Node, IChildNode
+        {
+            // Is T Decorator node type?
+            if (typeof(T) == typeof(BT_Decorator))
+                decorators.Add(childNode as BT_Decorator);
+            // Is T Service node type?
+            else if (typeof(T) == typeof(BT_Service))
+                services.Add(childNode as BT_Service);
         }
     }
 }

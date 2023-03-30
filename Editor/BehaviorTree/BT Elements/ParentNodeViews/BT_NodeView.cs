@@ -1,11 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
-using UnityEngine.EventSystems;
 using UnityEditor.UIElements;
 using BT.Runtime;
 
@@ -14,31 +13,21 @@ namespace BT.Editor
     ///<summary>
     /// Base class for node views.
     ///</summary>
-    public class BT_NodeView : Node
+    public abstract class BT_NodeView : Node
     {
 
         ///<summary>
-        ///Reference to the node encapsulated inside this node view, this value is going
-        ///to contain the actual instructions of the node
+        /// Reference to the node encapsulated inside this node view, this value is going
+        /// to contain the actual instructions of the node
         ///</summary>
-        public BT_Node node { get; private set; }
+        public BT_Node node { get; protected set; }
         
         ///<summary>
         /// The parent view at which this node view is connected with
         /// it's input port
         ///</summary>
         public BT_NodeView parentView;
-
-        ///<summary>
-        /// decorator views containted inside this node view
-        ///</summary>
-        public List<BT_DecoratorView> decoratorViews { get; private set; }
-
-        ///<summary>
-        /// service views containted inside this node view
-        ///</summary>
-        public List<BT_ServiceView> serviceViews { get; private set; }
-
+        
         ///<summary>
         /// Called when this node view gets selected by the user
         ///</summary>
@@ -63,7 +52,10 @@ namespace BT.Editor
         /// Container service containers
         ///</summary>
         public VisualElement serviceContainer { get; private set; }
-
+        
+        /// <summary>
+        /// Unique GUID identifier for this node.
+        /// </summary>
         private GUID guid;
 
         ///<summary>
@@ -82,6 +74,11 @@ namespace BT.Editor
         private Label nodeNameLabel;
         
         /// <summary>
+        /// Path to the style sheet asset of this node
+        /// </summary>
+        protected string stylePath = "None";
+        
+        /// <summary>
         /// The displayed node type name.
         /// </summary>
         private Label nodeTypeNameLabel;
@@ -92,8 +89,8 @@ namespace BT.Editor
         private Label nodeDescriptionLabel;
         private VisualElement titleElement;
         private VisualElement nodeBorder;
-     
-        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph) : base("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml")
+
+        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
@@ -105,7 +102,7 @@ namespace BT.Editor
             Rect rect = this.contentRect;
             rect.position = this.node.position;
             SetPosition(rect);
-
+            
             // Register mouse callbacks
             EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
             RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
@@ -147,9 +144,6 @@ namespace BT.Editor
             decoratorsContainer = mainContainer.parent.Q<VisualElement>("DecoratorsContainer");
             serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
             nodeBorder = mainContainer.parent.Q<VisualElement>("selection-border");
-
-            decoratorViews = new List<BT_DecoratorView>();
-            serviceViews = new List<BT_ServiceView>();
         }
 
         ///<summary>
@@ -237,13 +231,15 @@ namespace BT.Editor
                 var decoratorTypes = TypeCache.GetTypesDerivedFrom<BT_Decorator>();
                 foreach (var type in decoratorTypes)
                 {
-                    evt.menu.AppendAction("Decorator/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
+                    evt.menu.AppendAction("Decorator/" + type.Name, (a) => 
+                        behaviorTreeGraph.CreateAttachedNode(type, this));
                 }
 
                 var serviceTypes = TypeCache.GetTypesDerivedFrom<BT_Service>();
                 foreach (var type in serviceTypes)
                 {
-                    evt.menu.AppendAction("Service/" + type.Name, (a) => behaviorTreeGraph.CreateAttachedNode(type, this));
+                    evt.menu.AppendAction("Service/" + type.Name, (a) => 
+                        behaviorTreeGraph.CreateAttachedNode(type, this));
                 }
             }
         }
@@ -252,7 +248,7 @@ namespace BT.Editor
         /// Show or hide node border.
         ///</summary>
         ///<param name="width">the width of node border</param>
-        public void ShowSelectionBorder(float width)
+        protected void ShowSelectionBorder(float width)
         {
             nodeBorder.style.color = Color.blue;
             nodeBorder.style.borderRightWidth = width;
@@ -277,6 +273,7 @@ namespace BT.Editor
         {
             return left.position.x < right.position.x ? -1 : 1;
         }
+        
     }
 }
 

@@ -11,7 +11,7 @@ namespace BT.Editor
     ///<summary>
     /// A visual element which can be attached to a BT node
     ///</summary>
-    public abstract class BT_NodeVisualElement : VisualElement
+    public abstract class BT_ChildNodeView : VisualElement
     {
 
         public string displayedName;
@@ -30,20 +30,20 @@ namespace BT.Editor
         ///<summary>
         /// Callback which is called when the decorator view gets selected.
         ///</summary>
-        public Action<BT_NodeVisualElement> selectedCallback;
+        public Action<BT_ChildNodeView> selectedCallback;
         
         ///<summary>
         /// the filepath of the visual element uxml.
         ///</summary>
-        protected string filepath;
+        protected string visualTreePath;
 
-        public BT_NodeVisualElement(BT_NodeView parentView, BT_Node node, string filepath)
+        public BT_ChildNodeView(BT_NodeView parentView, BT_Node node)
         {
             this.parentView = parentView;
             this.node = node;
-            this.filepath = filepath;
-
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(this.filepath);
+            this.visualTreePath = "/";
+            
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(this.visualTreePath);
             VisualElement decoratorRoot = visualTree.Instantiate();
             Add(decoratorRoot);
             
@@ -55,7 +55,7 @@ namespace BT.Editor
         /// Called on node view creation and used to initialize custom input events for this
         /// visual element.
         ///</summary>
-        protected virtual void InitializeViewInputOutput()
+        private void InitializeViewInputOutput()
         {
             // Register mouse callbacks
             EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
@@ -76,7 +76,7 @@ namespace BT.Editor
         /// Called when this visual element gets selected.
         ///</summary>
         ///<param name="evt"> Mouse event</param>
-        public virtual void OnSelected(MouseDownEvent evt)
+        private void OnSelected(MouseDownEvent evt)
         {
             BehaviorTreeSelectionManager.selectedObject = this;
             parentView.Unselect(parentView.behaviorTreeGraph);
@@ -92,7 +92,7 @@ namespace BT.Editor
         /// Called when the mouse cursor leaves the visual element.
         ///</summary>
         ///<param name="evt"> Mouse event </param>
-        protected virtual void OnMouseLeave(MouseLeaveEvent evt)
+        private void OnMouseLeave(MouseLeaveEvent evt)
         {
             BehaviorTreeSelectionManager.hoverObject = parentView;
         }
@@ -101,7 +101,7 @@ namespace BT.Editor
         /// Called when the mouse cursor enters the visual element.
         ///</summary>
         ///<param name="evt"> Mouse event </param>
-        protected virtual void OnMouseEnter(MouseEnterEvent evt)
+        protected void OnMouseEnter(MouseEnterEvent evt)
         {
             BehaviorTreeSelectionManager.hoverObject = this;
         }

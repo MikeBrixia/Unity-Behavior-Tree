@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5867570572947485248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: See player branch
-  nodeTypeName: SequenceNode
-  description: Execute all it's childrens in order and stops when one of them fails
-  position: {x: -394.95764, y: 579.3225}
-  isStarted: 0
-  childrens: []
-  decorators:
-  - {fileID: -2984758976731736148}
-  services:
-  - {fileID: -3534433206145239948}
---- !u!114 &-3534433206145239948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 337bd21b04a944d4a861edf61552de58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: 
-  nodeTypeName: MyCustomService
-  description: Node description
-  position: {x: 0, y: 0}
-  isStarted: 0
-  updateInterval: 0.5
-  updateOnStart: 0
-  frequencyDescription: 'Tick every: 0,5 seconds'
---- !u!114 &-2984758976731736148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: 
-  nodeTypeName: BlackboardDecorator
-  description: Check the blackboard entry and returns success or fail based on the
-    condition
-  position: {x: 0, y: 0}
-  isStarted: 0
-  blackboardKey: 
-  condition: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,9 +19,6 @@ MonoBehaviour:
   treeState: 0
   nodes:
   - {fileID: 3196565880031695731}
-  - {fileID: 7886714053318254719}
-  - {fileID: -5867570572947485248}
-  - {fileID: 5974458116557021615}
 --- !u!114 &3196565880031695731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,67 +36,4 @@ MonoBehaviour:
   description: Entry point of behavior tree
   position: {x: 0, y: 0}
   isStarted: 0
-  childNode: {fileID: 7886714053318254719}
---- !u!114 &3618340206922558326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: CanSee
-  nodeTypeName: BlackboardDecorator
-  description: Check the blackboard entry and returns success or fail based on the
-    condition
-  position: {x: 0, y: 0}
-  isStarted: 0
-  blackboardKey: 
-  condition: 1
---- !u!114 &5974458116557021615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: 
-  nodeTypeName: Log
-  description: Print a message in the console
-  position: {x: 257.1039, y: 678.6144}
-  isStarted: 0
-  decorators: []
-  services: []
-  debugMessage: 
---- !u!114 &7886714053318254719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1178b8f5538f46241a4a559e11dc3053, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeName: 
-  nodeTypeName: BT_Selector
-  description: Execute all it's childrens in order and stops when one of them succeds
-  position: {x: 0.000005722046, y: 280.42}
-  isStarted: 0
-  childrens:
-  - {fileID: -5867570572947485248}
-  - {fileID: 5974458116557021615}
-  decorators:
-  - {fileID: 3618340206922558326}
-  services: []
+  childNode: {fileID: 0}

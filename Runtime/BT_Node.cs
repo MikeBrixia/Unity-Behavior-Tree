@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -14,7 +15,7 @@ namespace BT.Runtime
         public Blackboard blackboard { get; set; }
 
         [HideInInspector]
-        public bool isStarted = false;
+        public bool isStarted;
 
         ///<summary>
         /// Called when this node has started executing it's instructions.
@@ -35,7 +36,7 @@ namespace BT.Runtime
         {
             OnStop();
         }
-
+        
         ///<summary>
         /// Called when this node has started it's execution
         ///</summary>

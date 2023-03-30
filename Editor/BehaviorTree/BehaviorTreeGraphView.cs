@@ -39,7 +39,7 @@ namespace BT
         /// Called when the user select a node visual element inside the graph.
         /// Node visual element are all the nodes which can be attached to other nodes.
         ///</summary>
-        public Action<BT_NodeVisualElement> onNodeVisualElementSelected;
+        public Action<BT_ChildNodeView> onNodeVisualElementSelected;
         
         ///<summary>
         /// Called when the user press a mouse button while it's cursor is inside
@@ -182,11 +182,11 @@ namespace BT
         ///</summary>
         private void OnGraphSelected(MouseDownEvent evt)
         {
-            BT_NodeVisualElement btVisualElement = BehaviorTreeSelectionManager.selectedObject
-                                                   as BT_NodeVisualElement;
-            if (btVisualElement != null)
+            BT_ChildNodeView btChildView = BehaviorTreeSelectionManager.selectedObject
+                                                   as BT_ChildNodeView;
+            if (btChildView != null)
             {
-                btVisualElement.OnUnselected();
+                btChildView.OnUnselected();
             }
         }
         
@@ -224,7 +224,8 @@ namespace BT
             {
                 tree.rootNode = tree.CreateNode(typeof(BT_RootNode)) as BT_RootNode;
             }
-            tree.nodes.ForEach(node => CreateNodeView(node));
+            
+            tree.nodes.ForEach(node => NodeFactory.CreateNodeView(node, this));
 
             // Add edge links between nodes when we open a behavior tree asset graph 
             foreach (BT_Node Node in tree.nodes)
@@ -376,9 +377,9 @@ namespace BT
         ///<param name="nodePosition"> The position of the node in the graph</param>
         public void CreateNode(Type type, Vector2 nodePosition)
         {
-            BT_Node Node = tree.CreateNode(type);
-            Node.position = nodePosition;
-            CreateNodeView(Node);
+            BT_Node node = tree.CreateNode(type);
+            node.position = nodePosition;
+            NodeFactory.CreateNodeView(node, this);
         }
 
         ///<summary>
@@ -451,64 +452,6 @@ namespace BT
                 actionNode.services.Add(service);
                 EditorUtility.SetDirty(actionNode);
             }
-        }
-
-        ///<summary>
-        /// Create a decorator view and attach it to a parent node view
-        ///</summary>
-        ///<param name="decorator"> The decorator node to attach</param>
-        ///<param name="parentNodeView"> The view to which the decorator it's going to be attacched</param>
-        ///<param name="filepath"> The filepath of the decorator view uxml to render on screen.</param>
-        public void CreateDecoratorViewAttached(BT_Decorator decorator, BT_NodeView parentNodeView,
-                                                string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml")
-        {
-            BT_DecoratorView decoratorView = new BT_DecoratorView(parentNodeView, decorator, filepath);
-            decoratorView.selectedCallback += onNodeVisualElementSelected;
-        }
-
-        ///<summary>
-        /// Create a service view and attach it to a parent node view
-        ///</summary>
-        ///<param name="service"> The decorator node to attach</param>
-        ///<param name="parentNodeView"> The view to which the service it's going to be attacched</param>
-        ///<param name="filepath"> The filepath of the service view uxml to render on screen.</param>
-        public void CreateServiceViewAttached(BT_Service service, BT_NodeView parentNodeView,
-                                              string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml")
-        {
-            BT_ServiceView serviceView = new BT_ServiceView(parentNodeView, service, filepath);
-            serviceView.selectedCallback += onNodeVisualElementSelected;
-        }
-        
-        ///<summary>
-        /// Create a brand new node view
-        ///</summary>
-        ///<param name="node"> The node from which the node view will be created </param>
-        private void CreateNodeView(BT_Node node)
-        {
-            // When guid is invalid, generate a brand new one
-            if (node.guid.Empty())
-            {
-                node.guid = GUID.Generate();
-            }
-            BT_NodeView nodeView = new BT_NodeView(node, this);
-
-            // Create decorators views for composite and action nodes
-            if (node.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
-            {
-                BT_CompositeNode compositeNode = node as BT_CompositeNode;
-                compositeNode.decorators.ForEach(decorator => CreateDecoratorViewAttached(decorator, nodeView));
-                compositeNode.services.ForEach(service => CreateServiceViewAttached(service, nodeView));
-            }
-            else if (node.GetType().IsSubclassOf(typeof(BT_ActionNode)))
-            {
-                BT_ActionNode actionNode = node as BT_ActionNode;
-                actionNode.decorators.ForEach(decorator => CreateDecoratorViewAttached(decorator, nodeView));
-                actionNode.services.ForEach(service => CreateServiceViewAttached(service, nodeView));
-            }
-
-            // Setup selection callback on the node view to be the same
-            nodeView.OnNodeSelected += OnNodeSelected;
-            AddElement(nodeView);
         }
     }
 }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -11,7 +10,7 @@ namespace BT.Editor
     ///<summary>
     /// Class used to display service views.
     ///</summary>
-    public class BT_ServiceView : BT_NodeVisualElement
+    public class BT_ServiceView : BT_ChildNodeView, IChildView
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
@@ -20,8 +19,9 @@ namespace BT.Editor
         private Label serviceDescriptionLabel;
         private Label serviceUpdateLabel;
 
-        public BT_ServiceView(BT_NodeView parentView, BT_Node node, string filepath) : base(parentView, node, filepath)
+        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_Node node) : base(parentView, node)
         {
+            this.visualTreePath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml";
         }
         
         ///<summary>
@@ -55,16 +55,16 @@ namespace BT.Editor
             serviceDescriptionLabel.bindingPath = "description";
             serviceDescriptionLabel.Bind(serializedNode);
             
+            if(parentView is IParentView view)
+                view.AddChildView<BT_ServiceView>(this);
             parentView.serviceContainer.Add(this);
-            parentView.serviceViews.Add(this);
         }
         
         ///<summary>
         /// Called when this service view it's selected
         ///</summary>
-        public override void OnSelected(MouseDownEvent evt)
+        public void OnSelected(MouseDownEvent evt)
         {
-            base.OnSelected(evt);
             ShowSelectionBorder(serviceBorder, 2f, Color.yellow);
         }
         
@@ -75,23 +75,20 @@ namespace BT.Editor
         {
            ShowSelectionBorder(serviceBorder, 2f, Color.black);
         }
-        
-        ///<summary>
-        /// Called when the mouse cursor enters the visual element.
-        ///</summary>
-        ///<param name="evt"> Mouse event </param>
-        protected override void OnMouseEnter(MouseEnterEvent evt)
-        {
-            base.OnMouseEnter(evt);
-        }
-        
+
         ///<summary>
         /// Called when the mouse cursor leaves the visual element.
         ///</summary>
         ///<param name="evt"> Mouse event </param>
-        protected override void OnMouseLeave(MouseLeaveEvent evt)
+        private void OnMouseLeave(MouseLeaveEvent evt)
         {
-            base.OnMouseLeave(evt);
+            BehaviorTreeSelectionManager.hoverObject = parentView;
+        }
+        
+        
+        public T GetParentView<T>() where T : BT_NodeView, IChildView
+        {
+            return parentView as T;
         }
     }
 }
