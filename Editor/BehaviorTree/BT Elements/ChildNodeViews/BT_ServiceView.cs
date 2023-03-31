@@ -82,7 +82,7 @@ namespace BT.Editor
         ///<param name="evt"> Mouse event </param>
         private void OnMouseLeave(MouseLeaveEvent evt)
         {
-            BehaviorTreeSelectionManager.hoverObject = parentView;
+            BehaviorTreeManager.hoverObject = parentView;
         }
         
         

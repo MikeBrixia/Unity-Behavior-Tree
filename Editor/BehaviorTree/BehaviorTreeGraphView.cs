@@ -124,7 +124,7 @@ namespace BT
         {
             if (evt.keyCode == KeyCode.Delete)
             {
-                BT_DecoratorView decoratorView = BehaviorTreeSelectionManager.selectedObject as BT_DecoratorView;
+                BT_DecoratorView decoratorView = BehaviorTreeManager.selectedObject as BT_DecoratorView;
                 if (decoratorView != null)
                 {
                     // Remove decorator view from action node
@@ -149,7 +149,7 @@ namespace BT
                     PopulateView(tree);
                 }
 
-                BT_ServiceView serviceView = BehaviorTreeSelectionManager.selectedObject as BT_ServiceView;
+                BT_ServiceView serviceView = BehaviorTreeManager.selectedObject as BT_ServiceView;
                 if (serviceView != null)
                 {
                     // Remove service view from action node
@@ -182,7 +182,7 @@ namespace BT
         ///</summary>
         private void OnGraphSelected(MouseDownEvent evt)
         {
-            BT_ChildNodeView btChildView = BehaviorTreeSelectionManager.selectedObject
+            BT_ChildNodeView btChildView = BehaviorTreeManager.selectedObject
                                                    as BT_ChildNodeView;
             if (btChildView != null)
             {
@@ -263,9 +263,9 @@ namespace BT
         ///</summary>
         public override void AddToSelection(ISelectable selectable)
         {
-            if (BehaviorTreeSelectionManager.hoverObject == null
-               || BehaviorTreeSelectionManager.hoverObject.GetType() != typeof(BT_DecoratorView)
-                && BehaviorTreeSelectionManager.hoverObject.GetType() != typeof(BT_ServiceView))
+            if (BehaviorTreeManager.hoverObject == null
+               || BehaviorTreeManager.hoverObject.GetType() != typeof(BT_DecoratorView)
+                && BehaviorTreeManager.hoverObject.GetType() != typeof(BT_ServiceView))
             {
                 base.AddToSelection(selectable);
             }
@@ -282,25 +282,28 @@ namespace BT
             {
                 mousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
             });
-
-            // Display all composite nodes
-            var compositeTypes = TypeCache.GetTypesDerivedFrom<BT_CompositeNode>();
-            foreach (var type in compositeTypes)
+            
+            // Get all parent nodes types in the project.
+            var parentTypes = TypeCache.GetTypesDerivedFrom<BT_ParentNode>();
+            
+            // For each parent node type create an action which allows developers to create
+            // parent nodes in the graph at mouse position.
+            foreach (Type nodeType in parentTypes)
             {
-                evt.menu.AppendAction("Composite/" + type.Name, (a) => CreateNode(type, mousePosition));
+                if (nodeType.BaseType != null)
+                {
+                    string baseTypeName = nodeType.BaseType.Name.Remove(0, 3);
+                    string actionName = baseTypeName + "/" + nodeType.Name;
+                    evt.menu.AppendAction(actionName, (a) => CreateNode(nodeType, mousePosition));
+                }
             }
-
-            // Display all action nodes
-            var actionTypes = TypeCache.GetTypesDerivedFrom<BT_ActionNode>();
-            foreach (var type in actionTypes)
-            {
-                evt.menu.AppendAction("Action/" + type.Name, (a) => CreateNode(type, mousePosition));
-            }
-
+            
+            // If there's no root node in the graph allow user to create it.
             if (tree.rootNode == null)
             {
                 evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
             }
+            
         }
         
         ///<summary>
@@ -375,83 +378,30 @@ namespace BT
         ///</summary>
         ///<param name="type"> The type of the node you want to create</param>
         ///<param name="nodePosition"> The position of the node in the graph</param>
-        public void CreateNode(Type type, Vector2 nodePosition)
+        private void CreateNode(Type type, Vector2 nodePosition)
         {
             BT_Node node = tree.CreateNode(type);
             node.position = nodePosition;
-            NodeFactory.CreateNodeView(node, this);
-        }
-
-        ///<summary>
-        /// Create a brand new node and attach it to a parent node
-        ///</summary>
-        ///<param name="nodeType"> The type of the node visual element you want to create and attach</param>
-        ///<param name="parentNode"> The Parent node to which the created node will be attached</param>
-        public void CreateAttachedNode(Type nodeType, BT_NodeView parentNode)
-        {
-            BT_Node node = tree.CreateNode(nodeType);
-
-            BT_Decorator decoratorNode = node as BT_Decorator;
-            if (decoratorNode != null)
-            {
-                AttachDecoratorToParent(decoratorNode, parentNode);
-                CreateDecoratorViewAttached(decoratorNode, parentNode);
-            }
-
-            BT_Service serviceNode = node as BT_Service;
-            if (serviceNode != null)
-            {
-                AttachServiceToParent(serviceNode, parentNode);
-                CreateServiceViewAttached(serviceNode, parentNode);
-            }
+            BT_NodeView nodeView = NodeFactory.CreateNodeView(node, this);
+            
+            // Setup selection callback on the node view to be the same
+            nodeView.OnNodeSelected += OnNodeSelected;
+            AddElement(nodeView);
         }
         
-        ///<summary>
-        /// Attach a decorator node to a parent view
-        ///</summary>
-        ///<param name="decorator"> The decorator node you want to attach</param>
-        ///<param name="parentNode"> The view to which the decorators will be attached</param>
-        private void AttachDecoratorToParent(BT_Decorator decorator, BT_NodeView parentNode)
+        /// <summary>
+        /// Create a child node attached to it's parent.
+        /// </summary>
+        /// <param name="nodeType"> The type of the child node to create. </param>
+        /// <param name="btParentNode"> The parent to which the new child will be attached. </param>
+        public void CreateChildNode(Type nodeType, BT_ParentNode btParentNode)
         {
-            BT_CompositeNode compositeNode = parentNode.node as BT_CompositeNode;
-            if (compositeNode != null)
-            {
-                Undo.RecordObject(compositeNode, "Undo decorator creation");
-                compositeNode.decorators.Add(decorator);
-                EditorUtility.SetDirty(compositeNode);
-            }
-
-            BT_ActionNode actionNode = parentNode.node as BT_ActionNode;
-            if (actionNode != null)
-            {
-                Undo.RecordObject(actionNode, "Undo decorator creation");
-                actionNode.decorators.Add(decorator);
-                EditorUtility.SetDirty(actionNode);
-            }
-        }
-        
-        ///<summary>
-        /// Attach a service node to a parent view
-        ///</summary>
-        ///<param name="service"> The service node you want to attach</param>
-        ///<param name="parentNode"> The view to which the service will be attached</param>
-        private void AttachServiceToParent(BT_Service service, BT_NodeView parentNode)
-        {
-            BT_CompositeNode compositeNode = parentNode.node as BT_CompositeNode;
-            if (compositeNode != null)
-            {
-                Undo.RecordObject(compositeNode, "Undo decorator creation");
-                compositeNode.services.Add(service);
-                EditorUtility.SetDirty(compositeNode);
-            }
-
-            BT_ActionNode actionNode = parentNode.node as BT_ActionNode;
-            if (actionNode != null)
-            {
-                Undo.RecordObject(actionNode, "Undo decorator creation");
-                actionNode.services.Add(service);
-                EditorUtility.SetDirty(actionNode);
-            }
+            BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, btParentNode, tree) as BT_ChildNode;
+            BT_NodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
+            
+            // Setup selection callback on the node view to be the same
+            nodeView.OnNodeSelected += OnNodeSelected;
+            AddElement(nodeView);
         }
     }
 }

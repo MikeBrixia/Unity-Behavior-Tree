@@ -9,7 +9,7 @@ namespace BT.Runtime
     ///Decorators are nodes which can be attached to composite and action nodes 
     ///and are used as conditional nodes, to determine if a certain branch or task should be executed or not.
     ///</summary>
-    public abstract class BT_Decorator : BT_Node, IChildNode
+    public abstract class BT_Decorator : BT_ChildNode
     {
         /// <summary>
         /// Called when the behavior tree wants to execute this decorator. 
@@ -31,7 +31,7 @@ namespace BT.Runtime
             return base.Clone();
         }
 
-        public T GetParentNode<T>() where T : BT_Node
+        public override T GetParentNode<T>()
         {
             return null;
         }

@@ -78,7 +78,7 @@ namespace BT.Editor
         ///<param name="evt"> Mouse event</param>
         private void OnSelected(MouseDownEvent evt)
         {
-            BehaviorTreeSelectionManager.selectedObject = this;
+            BehaviorTreeManager.selectedObject = this;
             parentView.Unselect(parentView.behaviorTreeGraph);
             selectedCallback?.Invoke(this);
         }
@@ -94,7 +94,7 @@ namespace BT.Editor
         ///<param name="evt"> Mouse event </param>
         private void OnMouseLeave(MouseLeaveEvent evt)
         {
-            BehaviorTreeSelectionManager.hoverObject = parentView;
+            BehaviorTreeManager.hoverObject = parentView;
         }
         
         ///<summary>
@@ -103,7 +103,7 @@ namespace BT.Editor
         ///<param name="evt"> Mouse event </param>
         protected void OnMouseEnter(MouseEnterEvent evt)
         {
-            BehaviorTreeSelectionManager.hoverObject = this;
+            BehaviorTreeManager.hoverObject = this;
         }
         
         ///<summary>

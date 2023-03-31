@@ -2,6 +2,7 @@ using System;
 using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
+using UnityEngine;
 
 namespace BT
 {
@@ -11,11 +12,99 @@ namespace BT
     /// </summary>
     public static class NodeFactory
     {
+        public static BT_Node CreateNode(Type nodeType, BehaviorTree tree)
+        {
+            // Create node and generate GUID
+            BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
+            if (node != null)
+            {
+                node.nodeTypeName = nodeType.Name;
+                node.guid = GUID.Generate();
+            
+                // If the new node is a root node, override
+                // the old root node with the new one.
+                if(nodeType == typeof(BT_RootNode))
+                {
+                    tree.rootNode = node as BT_RootNode;
+                }
+            
+                // Register the node in the behavior tree.
+                RegisterNode(node, tree);
+            }
+            return node;
+        }
+        
+        public static T CreateNode<T>(BehaviorTree tree) where T : BT_Node
+        {
+            // The type of the node we want to create.
+            Type nodeType = typeof(T);
+                
+            // Create node and generate GUID
+            T node = ScriptableObject.CreateInstance<T>();
+            node.nodeTypeName = nodeType.Name;
+            node.guid = GUID.Generate();
+            
+            // If the new node is a root node, override
+            // the old root node with the new one.
+            if(nodeType == typeof(BT_RootNode))
+            {
+                tree.rootNode = node as BT_RootNode;
+            }
+            
+            // Register the node in the behavior tree.
+            RegisterNode(node, tree);
+            return node;
+        }
+
+        public static BT_Node CreateChildNode(Type nodeType, BT_ParentNode btParent, BehaviorTree tree)
+        {
+            // Create node and generate GUID
+            BT_ChildNode node = ScriptableObject.CreateInstance(nodeType) as BT_ChildNode;
+            if (node != null)
+            {
+                node.nodeTypeName = nodeType.Name;
+                node.guid = GUID.Generate();
+            
+                // Register the node in the behavior tree.
+                RegisterNode(node, tree);
+                
+                // Add the created child node to it's parent
+                btParent.AddChildNode(node);
+                
+            }
+            return node;
+        }
+        
+        /// <summary>
+        /// Create a child node and attach it to it's parent.
+        /// </summary>
+        /// <param name="parent"> The parent node of the child. </param>
+        /// <param name="tree"> The Behavior Tree on which the node will be created. </param>
+        /// <typeparam name="TChildType"> The type of the child node. </typeparam>
+        /// <typeparam name="TParentType"> The type of the parent node. </typeparam>
+        /// <returns></returns>
+        private static TChildType CreateChildNode<TChildType, TParentType>(TParentType parent, BehaviorTree tree) where TChildType : BT_ChildNode
+                                                                                                                  where TParentType : BT_ParentNode
+        {
+            // Create node and generate GUID
+            TChildType node = ScriptableObject.CreateInstance<TChildType>();
+            node.nodeTypeName = typeof(TChildType).Name;
+            node.guid = GUID.Generate();
+            
+            // Register the node in the behavior tree.
+            RegisterNode(node, tree);
+            
+            // Add the child to the parent node
+            parent.AddChildNode(node);
+            
+            return node;
+        }
+        
         ///<summary>
         /// Create a brand new node view
         ///</summary>
         ///<param name="node"> The node which will be wrapped inside the new node view </param>
-        public static void CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_NodeView, IParentView
+        public static BT_NodeView CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_NodeView, IParentView
         {
             // When guid is invalid, generate a brand new one
             if (node.guid.Empty())
@@ -31,17 +120,15 @@ namespace BT
             {
                 parentView.CreateChildViews();
             }
-            
-            // Setup selection callback on the node view to be the same
-            nodeView.OnNodeSelected += graph.OnNodeSelected;
-            graph.AddElement(nodeView);
+
+            return nodeView;
         }
         
         ///<summary>
         /// Create a brand new node view
         ///</summary>
         ///<param name="node"> The node which will be wrapped inside the new node view </param>
-        public static void CreateNodeView(BT_Node node, BehaviorTreeGraphView graph)
+        public static BT_NodeView CreateNodeView(BT_Node node, BehaviorTreeGraphView graph)
         {
             // When guid is invalid, generate a brand new one
             if (node.guid.Empty())
@@ -50,7 +137,7 @@ namespace BT
             }
             
             // Create a node view of the type associated with the node type.
-            Type viewType = BehaviorTreeManager.nodeViewMap[node.GetType()];
+            Type viewType = BehaviorTreeManager.nodeViewMap[node.GetType().BaseType!];
             BT_NodeView nodeView = (BT_NodeView)Activator.CreateInstance(viewType,node, graph);
             
             // Create decorators views for composite and action nodes
@@ -58,13 +145,11 @@ namespace BT
             {
                 parentView.CreateChildViews();
             }
-            
-            // Setup selection callback on the node view to be the same
-            nodeView.OnNodeSelected += graph.OnNodeSelected;
-            graph.AddElement(nodeView);
+
+            return nodeView;
         }
         
-        public static void CreateChildNodeView(BT_Node parent, BT_Node childNode, BehaviorTreeGraphView graph) 
+        public static BT_NodeView CreateChildNodeView(BT_ParentNode parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
         {
             // When guid is invalid, generate a brand new one
             if (childNode.guid.Empty())
@@ -72,10 +157,46 @@ namespace BT
                 childNode.guid = GUID.Generate();
             }
             
-            // Create a node view of the type associated with the node type.
+            // Create child node view.
             Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType()];
-            BT_NodeView nodeView = (BT_NodeView)Activator.CreateInstance(viewType, childNode, graph);
+            BT_NodeView childView = (BT_NodeView)Activator.CreateInstance(viewType, childNode, graph);
             
+            // Register child node inside parent node
+            RegisterChildNode(childNode, parent);
+            
+            return childView;
+        }
+
+        private static void RegisterNode(BT_Node node, BehaviorTree tree)
+        {
+            Type nodeType = node.GetType();
+            
+            // Add the node as an asset to the tree.
+            AssetDatabase.AddObjectToAsset(node, tree);
+ 
+            // If undoing after creation, this node will be destroyed
+            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undo");
+            
+            if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
+                && !nodeType.IsSubclassOf(typeof(BT_Service)))
+            {
+                // Record created node for undoing actions and add it to the behavior tree node list
+                Undo.RecordObject(tree, "Undo add nodes");
+                tree.nodes.Add(node);
+            }
+            
+            // Save the node asset on the disk
+            AssetDatabase.SaveAssets();
+        }
+
+        private static void RegisterChildNode(BT_ChildNode child, BT_ParentNode parent)
+        {
+            if (parent != null)
+            {
+                Undo.RecordObject(parent, "Undo decorator creation");
+                parent.AddChildNode(child);
+                EditorUtility.SetDirty(parent);
+            }
         }
     }
 }

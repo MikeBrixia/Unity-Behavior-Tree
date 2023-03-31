@@ -115,7 +115,7 @@ namespace BT.Editor
         ///</summary>
         private void OnNodeSelectionChange(BT_NodeView nodeView)
         {
-            BehaviorTreeSelectionManager.selectedObject = nodeView;
+            BehaviorTreeManager.selectedObject = nodeView;
             if (nodeInspectorView != null)
             {
                 nodeInspectorView.UpdateInspector(nodeView.node);
@@ -127,7 +127,7 @@ namespace BT.Editor
         ///</summary>
         private void OnNodeVisualElementSelectionChange(BT_ChildNodeView childNodeView)
         {
-            BehaviorTreeSelectionManager.selectedObject = childNodeView;
+            BehaviorTreeManager.selectedObject = childNodeView;
             if (nodeInspectorView != null)
             {
                 BT_DecoratorView decoratorView = childNodeView as BT_DecoratorView;

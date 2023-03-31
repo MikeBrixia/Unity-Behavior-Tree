@@ -9,7 +9,7 @@ namespace BT.Runtime
     ///as long as their branch is being executed. 
     ///at the moment Services are NOT multithreaded by default!
     ///</summary>
-    public abstract class BT_Service : BT_Node, IChildNode
+    public abstract class BT_Service : BT_ChildNode
     {
         [Min(0)]
         [Tooltip("Interval at which this service is going to update")]
@@ -110,7 +110,7 @@ namespace BT.Runtime
 
     #endif
         
-        public T GetParentNode<T>() where T : BT_Node
+        public override T GetParentNode<T>()
         {
             throw new System.NotImplementedException();
         }

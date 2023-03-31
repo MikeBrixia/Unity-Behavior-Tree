@@ -73,10 +73,7 @@ namespace BT.Editor
         ///</summary>
         private Label nodeNameLabel;
         
-        /// <summary>
-        /// Path to the style sheet asset of this node
-        /// </summary>
-        protected string stylePath = "None";
+        private readonly string uiFilepath;
         
         /// <summary>
         /// The displayed node type name.
@@ -90,11 +87,13 @@ namespace BT.Editor
         private VisualElement titleElement;
         private VisualElement nodeBorder;
 
-        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph)
+        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
             this.behaviorTreeGraph = graph;
+            this.uiFilepath = path;
+            
             InitializeUIElements();
             
             // Set node position in the graph to where the user has clicked
@@ -116,7 +115,7 @@ namespace BT.Editor
         ///</summary>
         private void OnMouseEnter(MouseEnterEvent evt)
         {
-            BehaviorTreeSelectionManager.hoverObject = this;
+            BehaviorTreeManager.hoverObject = this;
         }
         
         ///<summary>
@@ -124,6 +123,9 @@ namespace BT.Editor
         ///</summary>
         private void InitializeUIElements()
         {
+            var template = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uiFilepath);
+            template.CloneTree(this);
+            
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
             nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
             SerializedObject serializedNode = new SerializedObject(node);
@@ -205,7 +207,7 @@ namespace BT.Editor
         ///</summary>
         public override void OnSelected()
         {
-            BehaviorTreeSelectionManager.selectedObject = this;
+            BehaviorTreeManager.selectedObject = this;
             ShowSelectionBorder(5f);
             OnNodeSelected.Invoke(this);
         }
@@ -224,22 +226,26 @@ namespace BT.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
+            
+            // Is the node wrapped inside this view a root node?
             if (node.GetType() != typeof(BT_RootNode))
             {
-                // When the user opens the menu while having selected a node view, show him 
-                // all the decorator and service nodes
-                var decoratorTypes = TypeCache.GetTypesDerivedFrom<BT_Decorator>();
-                foreach (var type in decoratorTypes)
+                BT_ParentNode btParentNode = node as BT_ParentNode;
+                
+                // Search for all Child node derived types
+                var childTypes = TypeCache.GetTypesDerivedFrom<BT_ChildNode>();
+                
+                // For each child node type in the project create an action
+                // which allows developers to create child nodes and attach them
+                // to this node view.
+                foreach (Type type in childTypes)
                 {
-                    evt.menu.AppendAction("Decorator/" + type.Name, (a) => 
-                        behaviorTreeGraph.CreateAttachedNode(type, this));
-                }
-
-                var serviceTypes = TypeCache.GetTypesDerivedFrom<BT_Service>();
-                foreach (var type in serviceTypes)
-                {
-                    evt.menu.AppendAction("Service/" + type.Name, (a) => 
-                        behaviorTreeGraph.CreateAttachedNode(type, this));
+                    if (type.BaseType != null && btParentNode != null)
+                    {
+                        string actionName = type.BaseType.Name + "/" + type.Name;
+                        evt.menu.AppendAction(actionName, (a) => 
+                            behaviorTreeGraph.CreateChildNode(type, btParentNode));
+                    }
                 }
             }
         }
