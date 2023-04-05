@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using BT.Runtime;
 using BT.Editor;
+using Editor.BehaviorTree.BT_Elements;
 
 namespace BT
 {
@@ -33,8 +34,13 @@ namespace BT
         ///<summary>
         /// Called when the user select a node inside the graph
         ///</summary>
-        public Action<BT_NodeView> OnNodeSelected;
-
+        public Action<BT_NodeView> onNodeSelected;
+        
+        /// <summary>
+        /// Called when the user selects a child node inside the graph.
+        /// </summary>
+        public Action<ISelectable> onChildNodeSelected;
+        
         ///<summary>
         /// Called when the user select a node visual element inside the graph.
         /// Node visual element are all the nodes which can be attached to other nodes.
@@ -91,13 +97,12 @@ namespace BT
             // Paste copied node views 
             foreach (BT_NodeView copiedNode in copyCache)
             {
-                BT_Node newNode = tree.CreateNode(copiedNode.node.GetType());
-                newNode = copiedNode.node;
+                BT_Node node = NodeFactory.CreateNode(copiedNode.node.GetType(), tree);
             }
             // Once we finished pasting nodes, clear the copy cache
             // and repopulate the view
             copyCache.Clear();
-            PopulateView(tree);
+            PopulateView();
         }
 
         ///<summary>
@@ -146,7 +151,7 @@ namespace BT
                     }
                     // Remove decorator from behavior tree
                     tree.DestroyNode(decoratorView.node);
-                    PopulateView(tree);
+                    PopulateView();
                 }
 
                 BT_ServiceView serviceView = BehaviorTreeManager.selectedObject as BT_ServiceView;
@@ -171,7 +176,7 @@ namespace BT
                     }
                     // Remove service from behavior tree
                     tree.DestroyNode(serviceView.node);
-                    PopulateView(tree);
+                    PopulateView();
                 }
 
             }
@@ -196,63 +201,84 @@ namespace BT
         private void OnUndoRedo()
         {
             AssetDatabase.SaveAssets();
-            PopulateView(tree);
+            PopulateView();
         }
         
         ///<summary>
         /// Find a node view by it's node.
         ///</summary>
-        ///<param name="node"> The node contained in the node view you want to search<param>
+        ///<param name="node"> The node contained in the node view you want to search</param>
         ///<returns> Return the node view of the given node </returns>
-        public BT_NodeView FindNodeView(BT_Node Node)
+        public BT_NodeView FindNodeView(BT_Node node)
         {
-            return GetNodeByGuid(Node.guid.ToString()) as BT_NodeView;
+            return GetNodeByGuid(node.guid.ToString()) as BT_NodeView;
         }
         
         ///<summary>
         /// Populate the graph by drawing all the nodes and links
         /// between them.
         ///</summary>
-        ///<param name="tree"> The Behavior Tree you want to display in the graph </param>
-        public void PopulateView(BehaviorTree tree)
+        public void PopulateView()
         {
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-
+            
+            // If not already present, create the root node
             if (tree.rootNode == null && AssetDatabase.Contains(tree))
             {
-                tree.rootNode = tree.CreateNode(typeof(BT_RootNode)) as BT_RootNode;
+                CreateNode(typeof(BT_RootNode), Vector2.zero);
             }
             
-            tree.nodes.ForEach(node => NodeFactory.CreateNodeView(node, this));
-
-            // Add edge links between nodes when we open a behavior tree asset graph 
-            foreach (BT_Node Node in tree.nodes)
+            // Create node views for all parent nodes.
+            // N.B. child node views are directly created by parents
+            // after their creation, see NodeFactory.cs CreateNodeView for more info.
+            foreach (BT_Node node in tree.nodes)
             {
-                BT_NodeView ParentView = FindNodeView(Node);
-                BT_RootNode rootNode = Node as BT_RootNode;
+                // Is the node a parent node?
+                if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
+                {
+                    BT_NodeView view = NodeFactory.CreateNodeView(node, this);
+                    AddElement(view);
+                }
+            }
+            
+            // Add edge links between nodes when we open a behavior tree asset graph 
+            CreateNodesConnections();
+        }
+        
+        // Create connections between all the nodes placed inside the behavior tree
+        // graph.
+        private void CreateNodesConnections()
+        {
+            // Add edge links between nodes when we open a behavior tree asset graph 
+            foreach (BT_Node node in tree.nodes)
+            {
+                BT_ParentNodeView parentView = FindNodeView(node) as BT_ParentNodeView;
+                BT_RootNode rootNode = node as BT_RootNode;
                 if (rootNode != null && rootNode.childNode != null)
                 {
-                    BT_NodeView ChildView = FindNodeView(rootNode.childNode);
-                    CreateEdge(ParentView, ChildView);
+                    // Connect root node to it's child.
+                    BT_ParentNodeView childView = FindNodeView(rootNode.childNode) as BT_ParentNodeView;
+                    CreateEdge(parentView, childView);
                 }
                 else
                 {
-                    List<BT_Node> Childrens = tree.GetChildrenNodes(Node);
-                    foreach (BT_Node ChildrenNode in Childrens)
+                    List<BT_Node> childrens = tree.GetChildrenNodes(node);
+                    // Connect all other nodes.
+                    foreach (BT_Node childrenNode in childrens)
                     {
-                        BT_NodeView ChildView = FindNodeView(ChildrenNode);
-                        CreateEdge(ParentView, ChildView);
+                        BT_ParentNodeView childView = FindNodeView(childrenNode) as BT_ParentNodeView;
+                        CreateEdge(parentView, childView);
                     }
                 }
             }
         }
-
+        
         ///<summary>
-        /// Create edge between to two nodes
+        /// Create edge link between to two nodes
         ///</summary>
-        private void CreateEdge(BT_NodeView parentView, BT_NodeView childView)
+        private void CreateEdge(BT_ParentNodeView parentView, BT_ParentNodeView childView)
         {
             Edge edge = parentView.output.ConnectTo(childView.input);
             AddElement(edge);
@@ -327,9 +353,9 @@ namespace BT
                     if (edge != null)
                     {
                         // The parent node is the node which is trying to connect to another node
-                        BT_NodeView ParentNode = edge.output.node as BT_NodeView;
+                        BT_ParentNodeView ParentNode = edge.output.node as BT_ParentNodeView;
                         // The child node is the target node for the connection
-                        BT_NodeView ChildNode = edge.input.node as BT_NodeView;
+                        BT_ParentNodeView ChildNode = edge.input.node as BT_ParentNodeView;
                         ChildNode.parentView = null;
                         tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
                         ParentNode.SortChildrenNodes();
@@ -343,11 +369,11 @@ namespace BT
                 foreach (Edge edge in graphViewChange.edgesToCreate)
                 {
                     // The parent node it's node which is trying to connect to another node
-                    BT_NodeView ParentNode = edge.output.node as BT_NodeView;
+                    BT_ParentNodeView parentNode = edge.output.node as BT_ParentNodeView;
                     // The child node it's the target node for the connection
-                    BT_NodeView ChildNode = edge.input.node as BT_NodeView;
-                    tree.AddChildToParentNode(ChildNode.node, ParentNode.node);
-                    ParentNode.SortChildrenNodes();
+                    BT_ParentNodeView childNode = edge.input.node as BT_ParentNodeView;
+                    tree.AddChildToParentNode(childNode.node, parentNode.node);
+                    parentNode.SortChildrenNodes();
                 }
             }
 
@@ -355,8 +381,9 @@ namespace BT
             {
                 foreach (Node node in nodes)
                 {
-                    BT_NodeView nodeView = node as BT_NodeView;
-                    nodeView.SortChildrenNodes();
+                    BT_ParentNodeView nodeView = node as BT_ParentNodeView;
+                    if(nodeView != null)
+                        nodeView.SortChildrenNodes();
                 }
             }
             return graphViewChange;
@@ -385,7 +412,7 @@ namespace BT
             BT_NodeView nodeView = NodeFactory.CreateNodeView(node, this);
             
             // Setup selection callback on the node view to be the same
-            nodeView.OnNodeSelected += OnNodeSelected;
+            nodeView.onNodeSelected += onNodeSelected;
             AddElement(nodeView);
         }
         
@@ -397,11 +424,10 @@ namespace BT
         public void CreateChildNode(Type nodeType, BT_ParentNode btParentNode)
         {
             BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, btParentNode, tree) as BT_ChildNode;
-            BT_NodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
+            BT_ChildNodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
             
             // Setup selection callback on the node view to be the same
-            nodeView.OnNodeSelected += OnNodeSelected;
-            AddElement(nodeView);
+            nodeView.selectedCallback += onNodeVisualElementSelected;
         }
     }
 }

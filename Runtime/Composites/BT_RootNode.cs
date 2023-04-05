@@ -1,11 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using BT;
 
 namespace BT.Runtime
 {
-    public sealed class BT_RootNode : BT_Node
+    public sealed class BT_RootNode : BT_ParentNode
     {
         ///<summary>
         /// The root of the Behavior Tree, execution will start
@@ -53,6 +52,16 @@ namespace BT.Runtime
         protected override void OnStop()
         {
 
+        }
+
+        public override IList<T> GetChildNodes<T>()
+        {
+            return null;
+        }
+
+        public override void AddChildNode<T>(T childNode)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

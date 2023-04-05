@@ -6,7 +6,7 @@ using BT.Runtime;
 
 namespace Editor.BehaviorTree.BT_Elements
 {
-    public class BT_ActionView : BT_NodeView, IParentView
+    public class BT_ActionView : BT_ParentNodeView, IParentView
     {
         ///<summary>
         /// decorator views contained inside this node view
@@ -51,7 +51,7 @@ namespace Editor.BehaviorTree.BT_Elements
 
         public void CreateChildViews()
         {
-            if (node is BT_ParentNode parentNode)
+            if (node is BT_ParentNode parentNode and not BT_RootNode)
             {
                 // Create decorators child views.
                 IList<BT_Decorator> decorators = parentNode.GetChildNodes<BT_Decorator>();

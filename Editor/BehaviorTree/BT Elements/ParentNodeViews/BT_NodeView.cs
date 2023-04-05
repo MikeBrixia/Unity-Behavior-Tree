@@ -1,5 +1,4 @@
 
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -31,17 +30,7 @@ namespace BT.Editor
         ///<summary>
         /// Called when this node view gets selected by the user
         ///</summary>
-        public Action<BT_NodeView> OnNodeSelected;
-
-        ///<summary>
-        /// Output port of the node
-        ///</summary>
-        public Port output { get; private set; }
-
-        ///<summary>
-        /// Input port of the node
-        ///</summary>
-        public Port input { get; private set; }
+        public Action<BT_NodeView> onNodeSelected;
         
         ///<summary>
         /// Container for decorator nodes
@@ -73,8 +62,6 @@ namespace BT.Editor
         ///</summary>
         private Label nodeNameLabel;
         
-        private readonly string uiFilepath;
-        
         /// <summary>
         /// The displayed node type name.
         /// </summary>
@@ -87,27 +74,17 @@ namespace BT.Editor
         private VisualElement titleElement;
         private VisualElement nodeBorder;
 
-        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path)
+        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path) : base(path)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
             this.behaviorTreeGraph = graph;
-            this.uiFilepath = path;
-            
+
             InitializeUIElements();
-            
-            // Set node position in the graph to where the user has clicked
-            // to open the contextual menu
-            Rect rect = this.contentRect;
-            rect.position = this.node.position;
-            SetPosition(rect);
             
             // Register mouse callbacks
             EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
             RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
-
-            // Finally draw the node on screen
-            Draw();
         }
         
         ///<summary>
@@ -123,9 +100,6 @@ namespace BT.Editor
         ///</summary>
         private void InitializeUIElements()
         {
-            var template = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uiFilepath);
-            template.CloneTree(this);
-            
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
             nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
             SerializedObject serializedNode = new SerializedObject(node);
@@ -147,60 +121,6 @@ namespace BT.Editor
             serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
             nodeBorder = mainContainer.parent.Q<VisualElement>("selection-border");
         }
-
-        ///<summary>
-        /// Draw basic node layout
-        ///</summary>
-        public virtual void Draw()
-        {
-            // Initialize node ports
-            CreateInputPort();
-            CreateOutputPort();
-            RefreshExpandedState();
-        }
-        
-        ///<summary>
-        /// Create input port for this node view
-        ///</summary>
-        private void CreateInputPort()
-        {
-            if (node.GetType() != typeof(BT_RootNode))
-            {
-                // Create input port
-                input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, null);
-                input.style.flexDirection = FlexDirection.Column;
-                // Add ports to their respective container
-                inputContainer.Add(input);
-            }
-        }
-        
-        ///<summary>
-        /// Create output port for this node view
-        ///</summary>
-        private void CreateOutputPort()
-        {
-            if (!node.GetType().IsSubclassOf(typeof(BT_ActionNode)))
-            {
-                Port.Capacity PortCapacity = node.GetType().IsSubclassOf(typeof(BT_CompositeNode)) ? Port.Capacity.Multi : Port.Capacity.Single;
-
-                // Create output port
-                output = InstantiatePort(Orientation.Vertical, Direction.Output, PortCapacity, null);
-                output.style.flexDirection = FlexDirection.ColumnReverse;
-                outputContainer.Add(output);
-            }
-        }
-        
-        ///<summary>
-        /// Set the position of this node view.
-        ///</summary>
-        public override void SetPosition(Rect newPos)
-        {
-            base.SetPosition(newPos);
-            Undo.RecordObject(node, "Node position");
-            node.position.x = newPos.xMin;
-            node.position.y = newPos.yMin;
-            EditorUtility.SetDirty(node);
-        }
         
         ///<summary>
         /// Called when this node view gets selected.
@@ -209,7 +129,7 @@ namespace BT.Editor
         {
             BehaviorTreeManager.selectedObject = this;
             ShowSelectionBorder(5f);
-            OnNodeSelected.Invoke(this);
+            onNodeSelected.Invoke(this);
         }
         
         ///<summary>
@@ -220,36 +140,6 @@ namespace BT.Editor
             ShowSelectionBorder(0f);
         }
 
-        ///<summary>
-        /// Create contextual menu to handle node visual element creation.
-        ///</summary>
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            base.BuildContextualMenu(evt);
-            
-            // Is the node wrapped inside this view a root node?
-            if (node.GetType() != typeof(BT_RootNode))
-            {
-                BT_ParentNode btParentNode = node as BT_ParentNode;
-                
-                // Search for all Child node derived types
-                var childTypes = TypeCache.GetTypesDerivedFrom<BT_ChildNode>();
-                
-                // For each child node type in the project create an action
-                // which allows developers to create child nodes and attach them
-                // to this node view.
-                foreach (Type type in childTypes)
-                {
-                    if (type.BaseType != null && btParentNode != null)
-                    {
-                        string actionName = type.BaseType.Name + "/" + type.Name;
-                        evt.menu.AppendAction(actionName, (a) => 
-                            behaviorTreeGraph.CreateChildNode(type, btParentNode));
-                    }
-                }
-            }
-        }
-        
         ///<summary>
         /// Show or hide node border.
         ///</summary>
@@ -262,24 +152,7 @@ namespace BT.Editor
             nodeBorder.style.borderTopWidth = width;
             nodeBorder.style.borderBottomWidth = width;
         }
-        
-        ///<summary>
-        /// Show or hide node border.
-        ///</summary>
-        public void SortChildrenNodes()
-        {
-            BT_CompositeNode compositeNode = node as BT_CompositeNode;
-            if (compositeNode != null)
-            {
-                compositeNode.childrens.Sort(SortByPosition);
-            }
-        }
 
-        private int SortByPosition(BT_Node left, BT_Node right)
-        {
-            return left.position.x < right.position.x ? -1 : 1;
-        }
-        
     }
 }
 

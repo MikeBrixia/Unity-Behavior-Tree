@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BT
 {
     /// <summary>
-    /// Factory responsible of creating BT nodes and
+    /// Factory responsible of creating and destroying BT nodes and
     /// BT Nodes views.
     /// </summary>
     public static class NodeFactory
@@ -104,7 +104,7 @@ namespace BT
         /// Create a brand new node view
         ///</summary>
         ///<param name="node"> The node which will be wrapped inside the new node view </param>
-        public static BT_NodeView CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_NodeView, IParentView
+        public static T CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_NodeView, IParentView
         {
             // When guid is invalid, generate a brand new one
             if (node.guid.Empty())
@@ -113,7 +113,7 @@ namespace BT
             }
             
             // Create node view of type T.
-            BT_NodeView nodeView = (BT_NodeView)Activator.CreateInstance(typeof(T),node, graph);
+            T nodeView = (T)Activator.CreateInstance(typeof(T),node, graph);
             
             // Create decorators views for composite and action nodes
             if(nodeView is IParentView parentView)
@@ -136,8 +136,12 @@ namespace BT
                 node.guid = GUID.Generate();
             }
             
+            // TO CHANGE.
+            Type nodeType = node.GetType();
+            nodeType = nodeType == typeof(BT_RootNode) ? typeof(BT_RootNode) : nodeType.BaseType;
+            
             // Create a node view of the type associated with the node type.
-            Type viewType = BehaviorTreeManager.nodeViewMap[node.GetType().BaseType!];
+            Type viewType = BehaviorTreeManager.nodeViewMap[nodeType!];
             BT_NodeView nodeView = (BT_NodeView)Activator.CreateInstance(viewType,node, graph);
             
             // Create decorators views for composite and action nodes
@@ -149,7 +153,7 @@ namespace BT
             return nodeView;
         }
         
-        public static BT_NodeView CreateChildNodeView(BT_ParentNode parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
+        public static BT_ChildNodeView CreateChildNodeView(BT_ParentNode parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
         {
             // When guid is invalid, generate a brand new one
             if (childNode.guid.Empty())
@@ -158,8 +162,8 @@ namespace BT
             }
             
             // Create child node view.
-            Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType()];
-            BT_NodeView childView = (BT_NodeView)Activator.CreateInstance(viewType, childNode, graph);
+            Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType().BaseType!];
+            BT_ChildNodeView childView = (BT_ChildNodeView)Activator.CreateInstance(viewType, childNode, graph);
             
             // Register child node inside parent node
             RegisterChildNode(childNode, parent);

@@ -82,7 +82,7 @@ namespace BT.Editor
             treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
 
             // Initialize Callback for when the node selection changes from a node to another node
-            behaviorTreeView.OnNodeSelected = OnNodeSelectionChange;
+            behaviorTreeView.onNodeSelected = OnNodeSelectionChange;
             behaviorTreeView.onNodeVisualElementSelected = OnNodeVisualElementSelectionChange;
 
             OnSelectionChange();
@@ -106,7 +106,7 @@ namespace BT.Editor
                     serializedBlackboard = new SerializedObject(tree.blackboard);
                     blackboardProperty = serializedBlackboard.FindProperty("blackboardProperties");
                 }
-                behaviorTreeView.PopulateView(tree);
+                behaviorTreeView.PopulateView();
             }
         }
 
