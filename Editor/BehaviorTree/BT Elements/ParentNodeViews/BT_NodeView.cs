@@ -19,7 +19,7 @@ namespace BT.Editor
         /// Reference to the node encapsulated inside this node view, this value is going
         /// to contain the actual instructions of the node
         ///</summary>
-        public BT_Node node { get; protected set; }
+        public BT_ParentNode node { get; protected set; }
         
         ///<summary>
         /// The parent view at which this node view is connected with
@@ -74,7 +74,7 @@ namespace BT.Editor
         private VisualElement titleElement;
         private VisualElement nodeBorder;
 
-        protected BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path) : base(path)
+        protected BT_NodeView(BT_ParentNode node, BehaviorTreeGraphView graph, string path) : base(path)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;

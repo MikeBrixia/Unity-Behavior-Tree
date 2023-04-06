@@ -24,7 +24,7 @@ namespace BT.Editor
         ///</summary>
         private Vector2 mousePosition;
         
-        protected BT_ParentNodeView(BT_Node node, BehaviorTreeGraphView graph, string path) : base(node, graph, path)
+        protected BT_ParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph, string path) : base(node, graph, path)
         {
             // Set node position in the graph to where the user has clicked
             // to open the contextual menu

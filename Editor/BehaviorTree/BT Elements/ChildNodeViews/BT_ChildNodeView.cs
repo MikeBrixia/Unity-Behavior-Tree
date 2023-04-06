@@ -26,7 +26,7 @@ namespace BT.Editor
         ///<summary>
         /// The node contained inside this behavior tree visual element.
         ///</summary>
-        public BT_Node node;
+        public BT_ChildNode node;
 
         ///<summary>
         /// Callback which is called when the decorator view gets selected.
@@ -38,7 +38,7 @@ namespace BT.Editor
         ///</summary>
         protected string path;
 
-        public BT_ChildNodeView(BT_NodeView parentView, BT_Node node, string path)
+        protected BT_ChildNodeView(BT_NodeView parentView, BT_ChildNode node, string path)
         {
             this.parentView = parentView;
             this.node = node;

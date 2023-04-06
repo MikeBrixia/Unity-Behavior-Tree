@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace BT.Runtime
@@ -9,7 +12,7 @@ namespace BT.Runtime
     /// should execute and what rules should it follow.
     /// This node have 1 input and multiple outputs(Childrens)
     ///</summary>
-    public abstract class BT_CompositeNode : BT_Node
+    public abstract class BT_CompositeNode : BT_ParentNode
     {
 
         ///<summary>
@@ -125,6 +128,38 @@ namespace BT.Runtime
             decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
             services.ForEach(service => service.SetBlackboard(blackboard));
             childrens.ForEach(children => children.SetBlackboard(blackboard));
+        }
+
+        public override List<T> GetChildNodes<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void AddChildNode<T>(T childNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Type[] GetNodeChildTypes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DestroyChildrenNodes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DestroyChild(BT_ChildNode child)
+        {
+            if (child.GetType() == typeof(BT_Decorator))
+            {
+                decorators.Remove((BT_Decorator) child);
+            }
+            else if (child.GetType() == typeof(BT_Service))
+            {
+                services.Remove((BT_Service) child);
+            }
         }
     }
 }

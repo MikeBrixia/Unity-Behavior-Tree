@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +63,21 @@ namespace BT.Runtime
         public override void AddChildNode<T>(T childNode)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override Type[] GetNodeChildTypes()
+        {
+            return null;
+        }
+
+        public override void DestroyChildrenNodes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DestroyChild(BT_ChildNode child)
+        {
+            throw new NotImplementedException();
         }
     }
 }

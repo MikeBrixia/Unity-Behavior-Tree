@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
@@ -177,6 +178,35 @@ namespace BT
             return childView;
         }
 
+        public static void DestroyParentNode(BT_ParentNode node, BehaviorTree tree)
+        {
+            // Remove node from the tree.
+            Undo.RegisterCompleteObjectUndo(tree, "Behavior tree node removed");
+            tree.nodes.Remove(node);
+
+            // Save node state by registering an undo/redo action and then destroy it.
+            Undo.DestroyObjectImmediate(node);
+            
+            // Destroy all children nodes.
+            node.DestroyChildrenNodes();
+            
+            // Save operations to disk.
+            AssetDatabase.SaveAssets();
+        }
+
+        public static void DestroyChildNode(BT_ChildNode child, BehaviorTree tree)
+        {
+            // Remove node from the tree.
+            Undo.RegisterCompleteObjectUndo(tree, "Behavior tree node removed");
+            tree.nodes.Remove(child);
+            
+            // Destroy node.
+            Undo.DestroyObjectImmediate(child);
+            
+            // Save operations to disk.
+            AssetDatabase.SaveAssets();
+        }
+        
         private static void RegisterNode(BT_Node node, BehaviorTree tree)
         {
             Type nodeType = node.GetType();

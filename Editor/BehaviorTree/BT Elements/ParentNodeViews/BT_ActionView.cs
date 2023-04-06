@@ -25,7 +25,7 @@ namespace Editor.BehaviorTree.BT_Elements
         /// </summary>
         private const string ACTION_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml";
         
-        public BT_ActionView(BT_Node node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
+        public BT_ActionView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
         {
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();

@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -8,7 +8,6 @@ using System;
 using System.Linq;
 using BT.Runtime;
 using BT.Editor;
-using Editor.BehaviorTree.BT_Elements;
 
 namespace BT
 {
@@ -129,56 +128,27 @@ namespace BT
         {
             if (evt.keyCode == KeyCode.Delete)
             {
-                BT_DecoratorView decoratorView = BehaviorTreeManager.selectedObject as BT_DecoratorView;
-                if (decoratorView != null)
+                // If a parent node, destroy it.
+                if (BehaviorTreeManager.selectedObject is BT_ParentNodeView parentView)
                 {
-                    // Remove decorator view from action node
-                    BT_ActionNode actionNode = decoratorView.parentView.node as BT_ActionNode;
-                    if (actionNode != null)
-                    {
-                        Undo.RecordObject(actionNode, "Undo delete decorator");
-                        actionNode.decorators.Remove(decoratorView.node as BT_Decorator);
-                        EditorUtility.SetDirty(actionNode);
-                    }
-
-                    // Remove decorator view from composite node
-                    BT_CompositeNode compositeNode = decoratorView.parentView.node as BT_CompositeNode;
-                    if (compositeNode != null)
-                    {
-                        Undo.RecordObject(compositeNode, "Undo delete decorator");
-                        compositeNode.decorators.Remove(decoratorView.node as BT_Decorator);
-                        EditorUtility.SetDirty(compositeNode);
-                    }
                     // Remove decorator from behavior tree
-                    tree.DestroyNode(decoratorView.node);
+                    NodeFactory.DestroyParentNode(parentView.node, tree);
                     PopulateView();
                 }
-
-                BT_ServiceView serviceView = BehaviorTreeManager.selectedObject as BT_ServiceView;
-                if (serviceView != null)
+                // Otherwise destroy the child node and remove it from it's parent and from the tree.
+                else if (BehaviorTreeManager.selectedObject is BT_ChildNodeView childView)
                 {
-                    // Remove service view from action node
-                    BT_ActionNode actionNode = serviceView.parentView.node as BT_ActionNode;
-                    if (actionNode != null)
-                    {
-                        Undo.RecordObject(actionNode, "Undo delete service");
-                        actionNode.services.Remove(serviceView.node as BT_Service);
-                        EditorUtility.SetDirty(actionNode);
-                    }
-
-                    // Remove service view from composite node
-                    BT_CompositeNode compositeNode = serviceView.parentView.node as BT_CompositeNode;
-                    if (compositeNode != null)
-                    {
-                        Undo.RecordObject(compositeNode, "Undo delete decorator");
-                        compositeNode.services.Remove(serviceView.node as BT_Service);
-                        EditorUtility.SetDirty(compositeNode);
-                    }
-                    // Remove service from behavior tree
-                    tree.DestroyNode(serviceView.node);
+                    BT_NodeView pView = childView.parentView;
+                    
+                    // Remove node from parent.
+                    Undo.RecordObject(pView.node, "Undo delete decorator");
+                    pView.node.DestroyChild(childView.node);
+                    EditorUtility.SetDirty(pView.node);
+                    
+                    // Destroy the child node and remove it from the tree.
+                    NodeFactory.DestroyChildNode(childView.node, tree);
                     PopulateView();
                 }
-
             }
         }
         
@@ -412,7 +382,7 @@ namespace BT
         ///<param name="nodePosition"> The position of the node in the graph</param>
         private void CreateNode(Type type, Vector2 nodePosition)
         {
-            BT_Node node = tree.CreateNode(type);
+            BT_Node node = NodeFactory.CreateNode(type, tree);
             node.position = nodePosition;
             BT_NodeView nodeView = NodeFactory.CreateNodeView(node, this);
             

@@ -19,7 +19,7 @@ namespace BT.Editor
 
         private const string DECORATOR_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml";
         
-        public BT_DecoratorView(BT_NodeView parentView, BT_Node node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
+        public BT_DecoratorView(BT_NodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
         {
             this.parentView = parentView;
             this.node = node;

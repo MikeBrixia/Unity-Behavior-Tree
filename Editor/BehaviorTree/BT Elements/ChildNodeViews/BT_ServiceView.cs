@@ -20,7 +20,7 @@ namespace BT.Editor
         private Label serviceUpdateLabel;
         private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml";
         
-        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_Node node) : base(parentView, node, SERVICE_PATH)
+        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_ChildNode node) : base(parentView, node, SERVICE_PATH)
         {
             
         }

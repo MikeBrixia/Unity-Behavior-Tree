@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,7 +63,7 @@ namespace BT.Runtime
         ///<summary>
         /// Executes all decorators attached to this action
         ///</summary>
-        ///<returns> True if all decorators are successfull, false otherwise</returns>
+        ///<returns> True if all decorators are successful, false otherwise</returns>
         private bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
@@ -123,7 +124,9 @@ namespace BT.Runtime
             decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
             services.ForEach(service => service.SetBlackboard(blackboard));
         }
-
+        
+#if UNITY_EDITOR
+        
         public override List<T> GetChildNodes<T>()
         {
             List<T> resultList = null;
@@ -139,7 +142,7 @@ namespace BT.Runtime
         public override void AddChildNode<T>(T childNode)
         {
             // The base type of the node.
-            System.Type nodeType = childNode.GetType().BaseType;
+            Type nodeType = childNode.GetType().BaseType;
             // Is T Decorator node type?
             if (nodeType == typeof(BT_Decorator))
                 decorators.Add(childNode as BT_Decorator);
@@ -147,6 +150,34 @@ namespace BT.Runtime
             else if (nodeType == typeof(BT_Service))
                 services.Add(childNode as BT_Service);
         }
+ 
+        public override Type[] GetNodeChildTypes()
+        {
+            return new Type[]
+            {
+                typeof(BT_Decorator),
+                typeof(BT_Service)
+            };
+        }
+
+        public override void DestroyChildrenNodes()
+        {
+            decorators.ForEach(decorator => UnityEditor.Undo.DestroyObjectImmediate(decorator));
+            services.ForEach(service => UnityEditor.Undo.DestroyObjectImmediate(service));
+        }
+
+        public override void DestroyChild(BT_ChildNode child)
+        {
+            if (child.GetType() == typeof(BT_Decorator))
+            {
+                decorators.Remove((BT_Decorator) child);
+            }
+            else if (child.GetType() == typeof(BT_Service))
+            {
+                services.Remove((BT_Service) child);
+            }
+        }
+#endif
     }
 }
 
