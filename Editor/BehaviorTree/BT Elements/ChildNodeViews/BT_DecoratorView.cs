@@ -12,23 +12,17 @@ namespace BT.Editor
     ///</summary>
     public class BT_DecoratorView : BT_ChildNodeView, IChildView
     {
-        
-        public delegate void OnDecoratorSelected(BT_DecoratorView decoratorViewSelected);
-        
         private VisualElement decoratorBorder;
         private Label nameLabel;
         private Label typeNameLabel;
         private Label descriptionLabel;
-  
-        public BT_DecoratorView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_Node node) : base(parentView, node)
+
+        private const string DECORATOR_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml";
+        
+        public BT_DecoratorView(BT_NodeView parentView, BT_Node node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
         {
             this.parentView = parentView;
             this.node = node;
-            this.visualTreePath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml";
-            
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(visualTreePath);
-            VisualElement decoratorRoot = visualTree.Instantiate();
-            Add(decoratorRoot);
             
             InitializeViewInputOutput();
             InitializeUIElements();
@@ -75,6 +69,7 @@ namespace BT.Editor
             // UI Elements hyerarchy.
             if(parentView is IParentView view)
                 view.AddChildView<BT_DecoratorView>(this);
+            
             parentView.decoratorsContainer.Add(this);
         }
         

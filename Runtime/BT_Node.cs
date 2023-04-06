@@ -11,7 +11,6 @@ namespace BT.Runtime
     ///</summary>
     public abstract class BT_Node : NodeBase
     {
-
         public Blackboard blackboard { get; set; }
 
         [HideInInspector]

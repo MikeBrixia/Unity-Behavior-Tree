@@ -13,7 +13,7 @@ namespace BT.Runtime
         /// </summary>
         /// <typeparam name="T"> The type of the child node you want to get.</typeparam>
         /// <returns> A list of all child nodes of type T</returns>
-        public abstract IList<T> GetChildNodes<T>() where T : BT_ChildNode;
+        public abstract List<T> GetChildNodes<T>() where T : BT_ChildNode;
 
         /// <summary>
         /// Add a child node to this parent node.

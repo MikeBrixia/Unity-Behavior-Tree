@@ -39,7 +39,7 @@ namespace BT
         /// <summary>
         /// Called when the user selects a child node inside the graph.
         /// </summary>
-        public Action<ISelectable> onChildNodeSelected;
+        public Action<BT_ChildNodeView> onChildNodeSelected;
         
         ///<summary>
         /// Called when the user select a node visual element inside the graph.
@@ -239,6 +239,8 @@ namespace BT
                 if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
                 {
                     BT_NodeView view = NodeFactory.CreateNodeView(node, this);
+                    // Setup selection callback on the node view to be the same
+                    view.onNodeSelected += onNodeSelected;
                     AddElement(view);
                 }
             }
@@ -309,27 +311,30 @@ namespace BT
                 mousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
             });
             
-            // Get all parent nodes types in the project.
-            var parentTypes = TypeCache.GetTypesDerivedFrom<BT_ParentNode>();
-            
-            // For each parent node type create an action which allows developers to create
-            // parent nodes in the graph at mouse position.
-            foreach (Type nodeType in parentTypes)
+            // Has the user selected a node view object?
+            if (BehaviorTreeManager.selectedObject == null)
             {
-                if (nodeType.BaseType != null)
+                // Get all parent nodes types in the project.
+                TypeCache.TypeCollection parentTypes = TypeCache.GetTypesDerivedFrom<BT_ParentNode>();
+            
+                // For each parent node type create an action which allows developers to create
+                // parent nodes in the graph at mouse position.
+                foreach (Type nodeType in parentTypes)
                 {
-                    string baseTypeName = nodeType.BaseType.Name.Remove(0, 3);
-                    string actionName = baseTypeName + "/" + nodeType.Name;
-                    evt.menu.AppendAction(actionName, (a) => CreateNode(nodeType, mousePosition));
+                    if (nodeType.BaseType != null)
+                    {
+                        string baseTypeName = nodeType.BaseType.Name.Remove(0, 3);
+                        string actionName = baseTypeName + "/" + nodeType.Name;
+                        evt.menu.AppendAction(actionName, (a) => CreateNode(nodeType, mousePosition));
+                    }
+                }
+            
+                // If there's no root node in the graph allow user to create it.
+                if (tree.rootNode == null)
+                {
+                    evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
                 }
             }
-            
-            // If there's no root node in the graph allow user to create it.
-            if (tree.rootNode == null)
-            {
-                evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
-            }
-            
         }
         
         ///<summary>
@@ -421,9 +426,9 @@ namespace BT
         /// </summary>
         /// <param name="nodeType"> The type of the child node to create. </param>
         /// <param name="btParentNode"> The parent to which the new child will be attached. </param>
-        public void CreateChildNode(Type nodeType, BT_ParentNode btParentNode)
+        public void CreateChildNode(Type nodeType, BT_ParentNodeView btParentNode)
         {
-            BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, btParentNode, tree) as BT_ChildNode;
+            BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, (BT_ParentNode) btParentNode.node, tree) as BT_ChildNode;
             BT_ChildNodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
             
             // Setup selection callback on the node view to be the same

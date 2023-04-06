@@ -50,7 +50,7 @@ namespace BT.Editor
         ///<summary>
         /// The graph which owns this node
         ///</summary>
-        public BehaviorTreeGraphView behaviorTreeGraph { get; private set; }
+        public BehaviorTreeGraphView graph { get; private set; }
 
         ///<summary>
         /// The position of the mouse.
@@ -74,11 +74,11 @@ namespace BT.Editor
         private VisualElement titleElement;
         private VisualElement nodeBorder;
 
-        public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path) : base(path)
+        protected BT_NodeView(BT_Node node, BehaviorTreeGraphView graph, string path) : base(path)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
-            this.behaviorTreeGraph = graph;
+            this.graph = graph;
 
             InitializeUIElements();
             
@@ -129,7 +129,7 @@ namespace BT.Editor
         {
             BehaviorTreeManager.selectedObject = this;
             ShowSelectionBorder(5f);
-            onNodeSelected.Invoke(this);
+            onNodeSelected?.Invoke(this);
         }
         
         ///<summary>
@@ -138,6 +138,7 @@ namespace BT.Editor
         public override void OnUnselected()
         {
             ShowSelectionBorder(0f);
+            BehaviorTreeManager.selectedObject = null;
         }
 
         ///<summary>

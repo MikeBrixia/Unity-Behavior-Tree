@@ -34,17 +34,17 @@ namespace BT.Editor
         public Action<BT_ChildNodeView> selectedCallback;
         
         ///<summary>
-        /// the filepath of the visual element uxml.
+        /// the filepath of the visual element uxml file.
         ///</summary>
-        protected string visualTreePath;
+        protected string path;
 
-        public BT_ChildNodeView(BT_NodeView parentView, BT_Node node)
+        public BT_ChildNodeView(BT_NodeView parentView, BT_Node node, string path)
         {
             this.parentView = parentView;
             this.node = node;
-            this.visualTreePath = "/";
+            this.path = path;
             
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(this.visualTreePath);
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(this.path);
             VisualElement decoratorRoot = visualTree.Instantiate();
             Add(decoratorRoot);
             
@@ -80,7 +80,7 @@ namespace BT.Editor
         private void OnSelected(MouseDownEvent evt)
         {
             BehaviorTreeManager.selectedObject = this;
-            parentView.Unselect(parentView.behaviorTreeGraph);
+            parentView.Unselect(parentView.graph);
             selectedCallback?.Invoke(this);
         }
         

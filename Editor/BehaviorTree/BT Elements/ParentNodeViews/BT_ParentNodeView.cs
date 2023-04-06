@@ -116,8 +116,6 @@ namespace BT.Editor
             // Is the node wrapped inside this view a root node?
             if (node.GetType() != typeof(BT_RootNode))
             {
-                BT_ParentNode btParentNode = node as BT_ParentNode;
-                
                 // Search for all Child node derived types
                 var childTypes = TypeCache.GetTypesDerivedFrom<BT_ChildNode>();
                 
@@ -126,13 +124,13 @@ namespace BT.Editor
                 // to this node view.
                 foreach (Type type in childTypes)
                 {
-                    if (type.BaseType != null & btParentNode != null & !type.IsAbstract)
+                    if (type.BaseType != null & node != null & !type.IsAbstract)
                     {
                         string actionName = type.BaseType.Name + "/" + type.Name;
                         // Remove the BT_ prefix from the node type name
                         actionName = actionName.Remove(0, 3);
                         evt.menu.AppendAction(actionName, (a) => 
-                            behaviorTreeGraph.CreateChildNode(type, btParentNode));
+                            graph.CreateChildNode(type, this));
                     }
                 }
             }

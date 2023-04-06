@@ -18,12 +18,12 @@ namespace BT.Runtime
         ///<summary>
         /// The decorators attached to this action
         ///</summary>
-        [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
+        [HideInInspector] public List<BT_Decorator> decorators = new();
         
         ///<summary>
         /// The services attached to this action
         ///</summary>
-        [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
+        [HideInInspector] public List<BT_Service> services = new();
         
         ///<summary>
         /// Called when the behavior tree wants to execute this action. 
@@ -124,27 +124,27 @@ namespace BT.Runtime
             services.ForEach(service => service.SetBlackboard(blackboard));
         }
 
-        public override IList<T> GetChildNodes<T>()
+        public override List<T> GetChildNodes<T>()
         {
-            IList<T> resultList = null;
-            
+            List<T> resultList = null;
             // Is T Decorator node type?
             if (typeof(T) == typeof(BT_Decorator))
-                resultList = decorators as IList<T>;
+                resultList = decorators as List<T>;
             // Is T Service node type?
             else if (typeof(T) == typeof(BT_Service))
-                resultList = services as IList<T>;
-            
+                resultList = services as List<T>;
             return resultList;
         }
 
         public override void AddChildNode<T>(T childNode)
         {
+            // The base type of the node.
+            System.Type nodeType = childNode.GetType().BaseType;
             // Is T Decorator node type?
-            if (typeof(T) == typeof(BT_Decorator))
+            if (nodeType == typeof(BT_Decorator))
                 decorators.Add(childNode as BT_Decorator);
             // Is T Service node type?
-            else if (typeof(T) == typeof(BT_Service))
+            else if (nodeType == typeof(BT_Service))
                 services.Add(childNode as BT_Service);
         }
     }

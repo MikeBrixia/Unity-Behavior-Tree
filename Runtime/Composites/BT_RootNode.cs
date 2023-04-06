@@ -54,7 +54,7 @@ namespace BT.Runtime
 
         }
 
-        public override IList<T> GetChildNodes<T>()
+        public override List<T> GetChildNodes<T>()
         {
             return null;
         }

@@ -1,8 +1,10 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using BT;
 using BT.Editor;
 using BT.Runtime;
+using UnityEngine;
 
 namespace Editor.BehaviorTree.BT_Elements
 {
@@ -21,9 +23,9 @@ namespace Editor.BehaviorTree.BT_Elements
         /// <summary>
         /// The filepath of the action element UXML file.
         /// </summary>
-        private const string actionUiFilepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml";
+        private const string ACTION_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml";
         
-        public BT_ActionView(BT_Node node, BehaviorTreeGraphView graph) : base(node, graph, actionUiFilepath)
+        public BT_ActionView(BT_Node node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
         {
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();
@@ -43,9 +45,10 @@ namespace Editor.BehaviorTree.BT_Elements
 
         public void AddChildView<T>(T childView) where T : BT_ChildNodeView, IChildView
         {
-            if (typeof(T) == typeof(BT_DecoratorView))
+            Type nodeType = typeof(T);
+            if (nodeType == typeof(BT_DecoratorView))
                 decoratorViews.Add(childView as BT_DecoratorView);
-            else if (typeof(T) == typeof(BT_ServiceView))
+            else if (nodeType == typeof(BT_ServiceView))
                 serviceViews.Add(childView as BT_ServiceView);
         }
 
@@ -53,18 +56,21 @@ namespace Editor.BehaviorTree.BT_Elements
         {
             if (node is BT_ParentNode parentNode and not BT_RootNode)
             {
+                BT_ChildNodeView view;
                 // Create decorators child views.
-                IList<BT_Decorator> decorators = parentNode.GetChildNodes<BT_Decorator>();
+                List<BT_Decorator> decorators = parentNode.GetChildNodes<BT_Decorator>();
                 foreach (BT_Decorator decorator in decorators)
                 {
-                    NodeFactory.CreateChildNodeView(parentNode, decorator, behaviorTreeGraph);
+                    view = NodeFactory.CreateChildNodeView(this, decorator, graph);
+                    decoratorViews.Add((BT_DecoratorView) view);
                 }
                 
                 // Create services child views.
-                IList<BT_Service> services = parentNode.GetChildNodes<BT_Service>();
+                List<BT_Service> services = parentNode.GetChildNodes<BT_Service>();
                 foreach (BT_Service service in services)
                 {
-                    NodeFactory.CreateChildNodeView(parentNode, service, behaviorTreeGraph);
+                    view = NodeFactory.CreateChildNodeView(this, service, graph);
+                    serviceViews.Add((BT_ServiceView) view);
                 }
             }
         }

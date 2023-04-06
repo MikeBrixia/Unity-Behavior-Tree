@@ -56,7 +56,7 @@ namespace BT
             return node;
         }
 
-        public static BT_Node CreateChildNode(Type nodeType, BT_ParentNode btParent, BehaviorTree tree)
+        public static BT_Node CreateChildNode(Type nodeType, BT_ParentNode parent, BehaviorTree tree)
         {
             // Create node and generate GUID
             BT_ChildNode node = ScriptableObject.CreateInstance(nodeType) as BT_ChildNode;
@@ -68,8 +68,8 @@ namespace BT
                 // Register the node in the behavior tree.
                 RegisterNode(node, tree);
                 
-                // Add the created child node to it's parent
-                btParent.AddChildNode(node);
+                // Register child node inside parent node
+                RegisterChildNode(node, parent);
                 
             }
             return node;
@@ -94,9 +94,9 @@ namespace BT
             // Register the node in the behavior tree.
             RegisterNode(node, tree);
             
-            // Add the child to the parent node
-            parent.AddChildNode(node);
-            
+            // Register child node inside parent node
+            RegisterChildNode(node, parent);
+
             return node;
         }
         
@@ -120,7 +120,10 @@ namespace BT
             {
                 parentView.CreateChildViews();
             }
-
+            
+            // Setup node selection callback.
+            nodeView.onNodeSelected = graph.onNodeSelected;
+            
             return nodeView;
         }
         
@@ -149,11 +152,14 @@ namespace BT
             {
                 parentView.CreateChildViews();
             }
-
+            
+            // Setup node selection callback.
+            nodeView.onNodeSelected = graph.onNodeSelected;
+            
             return nodeView;
         }
         
-        public static BT_ChildNodeView CreateChildNodeView(BT_ParentNode parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
+        public static BT_ChildNodeView CreateChildNodeView(BT_ParentNodeView parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
         {
             // When guid is invalid, generate a brand new one
             if (childNode.guid.Empty())
@@ -163,11 +169,11 @@ namespace BT
             
             // Create child node view.
             Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType().BaseType!];
-            BT_ChildNodeView childView = (BT_ChildNodeView)Activator.CreateInstance(viewType, childNode, graph);
+            BT_ChildNodeView childView = (BT_ChildNodeView)Activator.CreateInstance(viewType, parent, childNode, graph);
             
-            // Register child node inside parent node
-            RegisterChildNode(childNode, parent);
-            
+            // Setup node selection callback.
+            childView.selectedCallback = graph.onChildNodeSelected;
+
             return childView;
         }
 

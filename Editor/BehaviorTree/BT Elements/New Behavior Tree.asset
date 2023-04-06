@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1552732706271304420
+--- !u!114 &-6781173651077292629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18,7 +18,49 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   isStarted: 0
   childNode: {fileID: 0}
---- !u!114 &-1497312457892478053
+--- !u!114 &-5591188488938354238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: Log
+  description: Print a message in the console
+  position: {x: 0, y: 294.56}
+  isStarted: 0
+  decorators:
+  - {fileID: 2934139625436250379}
+  services: []
+  debugMessage: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
+  m_Name: New Behavior Tree
+  m_EditorClassIdentifier: 
+  blackboard: {fileID: 0}
+  rootNode: {fileID: -6781173651077292629}
+  canTick: 0
+  updateInterval: 0.1
+  treeState: 0
+  nodes:
+  - {fileID: -6781173651077292629}
+  - {fileID: -5591188488938354238}
+  - {fileID: 6729971727148574700}
+--- !u!114 &2934139625436250379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,27 +80,7 @@ MonoBehaviour:
   isStarted: 0
   blackboardKey: 
   condition: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
-  m_Name: New Behavior Tree
-  m_EditorClassIdentifier: 
-  blackboard: {fileID: 0}
-  rootNode: {fileID: -1552732706271304420}
-  canTick: 0
-  updateInterval: 0.1
-  treeState: 0
-  nodes:
-  - {fileID: -1552732706271304420}
-  - {fileID: 116758242800680264}
---- !u!114 &116758242800680264
+--- !u!114 &6729971727148574700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,8 +95,29 @@ MonoBehaviour:
   nodeName: 
   nodeTypeName: Log
   description: Print a message in the console
-  position: {x: -37.600006, y: 262.5001}
+  position: {x: 436.46432, y: 349.97614}
   isStarted: 0
-  decorators: []
+  decorators:
+  - {fileID: 7772375399858647998}
   services: []
   debugMessage: 
+--- !u!114 &7772375399858647998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: BlackboardDecorator
+  description: Check the blackboard entry and returns success or fail based on the
+    condition
+  position: {x: 0, y: 0}
+  isStarted: 0
+  blackboardKey: 
+  condition: 1

@@ -18,10 +18,11 @@ namespace BT.Editor
         private Label serviceFrequencyLabel;
         private Label serviceDescriptionLabel;
         private Label serviceUpdateLabel;
-
-        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_Node node) : base(parentView, node)
+        private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml";
+        
+        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_Node node) : base(parentView, node, SERVICE_PATH)
         {
-            this.visualTreePath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml";
+            
         }
         
         ///<summary>
