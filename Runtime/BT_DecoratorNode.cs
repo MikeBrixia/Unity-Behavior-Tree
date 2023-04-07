@@ -17,20 +17,11 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this decorator has been executed successfully, RUNNING if is still executing
         /// and FAILED if the action has failed to execute it's tasks.</returns>
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             return state;
         }
         
-        ///<summary>
-        /// Make a copy of this decorator asset
-        ///</summary>
-        ///<returns> A copy of this decorator asset.</returns>
-        public override NodeBase Clone()
-        {
-            return base.Clone();
-        }
-
         public override T GetParentNode<T>()
         {
             return null;

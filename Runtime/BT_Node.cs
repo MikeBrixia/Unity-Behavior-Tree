@@ -10,12 +10,55 @@ namespace BT.Runtime
     /// contains the base logic for how a behavior tree
     /// node should behave.
     ///</summary>
-    public abstract class BT_Node : NodeBase
+    public abstract class BT_Node : ScriptableObject
     {
+        
+#if (UNITY_EDITOR == true)
+        ///<summary>
+        /// Unique identifier for the node
+        ///</summary>
+        [HideInInspector] public GUID guid;
+#endif
+        
+        /// <summary>
+        /// Custom node name which can be defined by the user.
+        /// </summary>
+        public string nodeName;
+        
+        /// <summary>
+        /// The name type name of the node.
+        /// </summary>
+        [HideInInspector] public string nodeTypeName;
+        
+        /// <summary>
+        /// Editable description of what this node does.
+        /// </summary>
+        public string description;
+        
+        ///<summary>
+        /// The position of this node in the graph
+        ///</summary>
+        [HideInInspector] public Vector2 position;
+        
         public Blackboard blackboard { get; set; }
 
         [HideInInspector]
         public bool isStarted;
+        
+        ///<summary>
+        /// The current state of this specific node
+        ///</summary>
+        protected EBehaviorTreeState state = EBehaviorTreeState.Running;
+
+        public BT_Node()
+        {
+            nodeTypeName = "(" + GetType() + ")";
+        }
+
+        public virtual BT_Node Clone()
+        {
+            return Instantiate(this);
+        }
 
         ///<summary>
         /// Called when this node has started executing it's instructions.
@@ -53,7 +96,7 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this node has been executed successfully, RUNNING if is still executing
         /// and FAILED if the node has failed to execute it's tasks.</returns>
-        public abstract EBehaviorTreeState Execute();
+        protected abstract EBehaviorTreeState Execute();
 
         ///<summary>
         /// Called when the Behavior Tree wants to execute this node, 

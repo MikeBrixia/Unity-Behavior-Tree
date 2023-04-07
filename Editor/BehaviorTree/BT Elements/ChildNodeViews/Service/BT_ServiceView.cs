@@ -18,11 +18,27 @@ namespace BT.Editor
         private Label serviceFrequencyLabel;
         private Label serviceDescriptionLabel;
         private Label serviceUpdateLabel;
-        private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml";
+        private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/Service/ServiceView.uxml";
         
-        public BT_ServiceView(BehaviorTreeGraphView graph, BT_NodeView parentView, BT_ChildNode node) : base(parentView, node, SERVICE_PATH)
+        public BT_ServiceView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, SERVICE_PATH)
         {
-            
+            InitializeUIElements();
+            InitializeViewInputOutput();
+        }
+        
+        ///<summary>
+        /// Called on node view creation and used to initialize custom input events for this
+        /// visual element.
+        ///</summary>
+        private void InitializeViewInputOutput()
+        {
+            // Register mouse callbacks
+            EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
+            RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
+            EventCallback<MouseLeaveEvent> mouseLeaveEvent = OnMouseLeave;
+            RegisterCallback<MouseLeaveEvent>(mouseLeaveEvent);
+            EventCallback<MouseDownEvent> mousePressedEvent = OnSelected;
+            RegisterCallback<MouseDownEvent>(mousePressedEvent); 
         }
         
         ///<summary>
@@ -87,7 +103,7 @@ namespace BT.Editor
         }
         
         
-        public T GetParentView<T>() where T : BT_NodeView, IChildView
+        public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
         {
             return parentView as T;
         }

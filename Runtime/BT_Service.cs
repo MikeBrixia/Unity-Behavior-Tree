@@ -34,7 +34,7 @@ namespace BT.Runtime
         /// Put here all the code you want this service to execute.
         ///</summary>
         ///<returns> The return value of service nodes doesn't matter.</returns>
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             float elapsedTime = Time.time - startTime;
             if(elapsedTime >= updateInterval)

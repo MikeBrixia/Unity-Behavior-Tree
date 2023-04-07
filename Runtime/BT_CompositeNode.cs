@@ -108,11 +108,11 @@ namespace BT.Runtime
         /// Make a copy of this composite asset
         ///</summary>
         ///<returns> A copy of this composite asset.</returns>
-        public override NodeBase Clone()
+        public override BT_Node Clone()
         {
             BT_CompositeNode composite = Instantiate(this);
             composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            composite.childrens = composite.childrens.ConvertAll(child => child.Clone() as BT_Node);
+            composite.childrens = composite.childrens.ConvertAll(child => child.Clone());
             composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
@@ -132,22 +132,51 @@ namespace BT.Runtime
 
         public override List<T> GetChildNodes<T>()
         {
-            throw new NotImplementedException();
+            List<T> resultList = null;
+            // Is T Decorator node type?
+            if (typeof(T) == typeof(BT_Decorator))
+                resultList = decorators as List<T>;
+            // Is T Service node type?
+            else if (typeof(T) == typeof(BT_Service))
+                resultList = services as List<T>;
+            return resultList;
+        }
+
+        public override List<BT_Node> GetChildNodes()
+        {
+            return childrens;
         }
 
         public override void AddChildNode<T>(T childNode)
         {
-            throw new NotImplementedException();
+            // The base type of the node.
+            Type nodeType = childNode.GetType().BaseType;
+            // Is T Decorator node type?
+            if (nodeType == typeof(BT_Decorator))
+                decorators.Add(childNode as BT_Decorator);
+            // Is T Service node type?
+            else if (nodeType == typeof(BT_Service))
+                services.Add(childNode as BT_Service);
+        }
+
+        public override void AddChildNode(BT_ParentNode child)
+        {
+            childrens.Add(child);
         }
 
         public override Type[] GetNodeChildTypes()
         {
-            throw new NotImplementedException();
+            return new Type[]
+            {
+                typeof(BT_Decorator),
+                typeof(BT_Service)
+            };
         }
 
         public override void DestroyChildrenNodes()
         {
-            throw new NotImplementedException();
+            decorators.ForEach(decorator => UnityEditor.Undo.DestroyObjectImmediate(decorator));
+            services.ForEach(service => UnityEditor.Undo.DestroyObjectImmediate(service));
         }
 
         public override void DestroyChild(BT_ChildNode child)

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 using UnityEditor;
-using UnityEngine.UIElements;
 using BT.Runtime;
 
 namespace BT.Editor
@@ -19,20 +16,11 @@ namespace BT.Editor
         private SerializedProperty serializedNodeName;
         private SerializedProperty serializedNodeDescription;
 
-        public delegate void OnValueChange<PropertyType>(PropertyType PropertyChanged);
+        private delegate void onValueChange<in TPropertyType>(TPropertyType propertyChanged);
         
-        public OnValueChange<string> onNodeNameChange;
-        public OnValueChange<string> onNodeDescriptionChange;
-
-        public NodeInspector()
-        {
-            
-        }
+        private onValueChange<string> onNodeNameChange;
+        private onValueChange<string> onNodeDescriptionChange;
         
-        void OnEnable()
-        {
-        }
-
         public override void OnInspectorGUI()
         {
             // Load properties

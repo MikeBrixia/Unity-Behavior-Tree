@@ -19,7 +19,7 @@ namespace BT.Runtime
             description = "Entry point of behavior tree";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             return childNode.ExecuteNode();
         }
@@ -27,7 +27,7 @@ namespace BT.Runtime
         ///<summary>
         /// Make a copy this root node asset.
         ///</summary>
-        public override NodeBase Clone()
+        public override BT_Node Clone()
         {
             BT_RootNode node = Instantiate(this);
             node.childNode = node.childNode.Clone() as BT_Node;
@@ -60,9 +60,19 @@ namespace BT.Runtime
             return null;
         }
 
+        public override List<BT_Node> GetChildNodes()
+        {
+            return null;
+        }
+
         public override void AddChildNode<T>(T childNode)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void AddChildNode(BT_ParentNode child)
+        {
+            childNode = child;
         }
 
         public override Type[] GetNodeChildTypes()

@@ -34,7 +34,7 @@ namespace BT.Runtime
             description = "Check the blackboard entry and returns success or fail based on the condition";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             bool conditionResult = blackboard.GetBlackboardValueByKey<bool>(blackboardKey);
             if(condition == BlackboardDecoratorCondition.IsSetToTrue)

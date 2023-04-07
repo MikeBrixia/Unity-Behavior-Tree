@@ -33,18 +33,13 @@ namespace BT
         ///<summary>
         /// Called when the user select a node inside the graph
         ///</summary>
-        public Action<BT_NodeView> onNodeSelected;
-        
-        /// <summary>
-        /// Called when the user selects a child node inside the graph.
-        /// </summary>
-        public Action<BT_ChildNodeView> onChildNodeSelected;
-        
+        public Action<BT_ParentNodeView> onNodeSelected;
+
         ///<summary>
         /// Called when the user select a node visual element inside the graph.
         /// Node visual element are all the nodes which can be attached to other nodes.
         ///</summary>
-        public Action<BT_ChildNodeView> onNodeVisualElementSelected;
+        public Action<BT_ChildNodeView> onChildNodeSelected;
         
         ///<summary>
         /// Called when the user press a mouse button while it's cursor is inside
@@ -55,7 +50,7 @@ namespace BT
         ///<summary>
         /// all the data which we want to copy with CTRL-C
         ///</summary>
-        private List<BT_NodeView> copyCache = new List<BT_NodeView>();
+        private List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
 
         public BehaviorTreeGraphView()
         {
@@ -63,8 +58,8 @@ namespace BT
             Insert(0, new GridBackground());
 
             // Load style sheet
-            var StyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/GridBackgroundStyle.uss");
-            styleSheets.Add(StyleSheet);
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/GridBackgroundStyle.uss");
+            styleSheets.Add(styleSheet);
 
             // Add manipulators to this graph
             this.AddManipulator(new ContentDragger());
@@ -94,7 +89,7 @@ namespace BT
         private void OnPaste(string operationName, string data)
         {
             // Paste copied node views 
-            foreach (BT_NodeView copiedNode in copyCache)
+            foreach (BT_ParentNodeView copiedNode in copyCache)
             {
                 BT_Node node = NodeFactory.CreateNode(copiedNode.node.GetType(), tree);
             }
@@ -112,10 +107,10 @@ namespace BT
             copyCache.Clear();
             foreach (GraphElement element in elements)
             {
-                BT_NodeView nodeToCopy = element as BT_NodeView;
-                if (nodeToCopy != null)
+                BT_ParentNodeView parentNodeToCopy = element as BT_ParentNodeView;
+                if (parentNodeToCopy != null)
                 {
-                    copyCache.Add(nodeToCopy);
+                    copyCache.Add(parentNodeToCopy);
                 }
             }
             return copyCache.ToString();
@@ -138,7 +133,7 @@ namespace BT
                 // Otherwise destroy the child node and remove it from it's parent and from the tree.
                 else if (BehaviorTreeManager.selectedObject is BT_ChildNodeView childView)
                 {
-                    BT_NodeView pView = childView.parentView;
+                    BT_ParentNodeView pView = childView.parentView;
                     
                     // Remove node from parent.
                     Undo.RecordObject(pView.node, "Undo delete decorator");
@@ -179,9 +174,9 @@ namespace BT
         ///</summary>
         ///<param name="node"> The node contained in the node view you want to search</param>
         ///<returns> Return the node view of the given node </returns>
-        public BT_NodeView FindNodeView(BT_Node node)
+        private BT_ParentNodeView FindNodeView(BT_Node node)
         {
-            return GetNodeByGuid(node.guid.ToString()) as BT_NodeView;
+            return GetNodeByGuid(node.guid.ToString()) as BT_ParentNodeView;
         }
         
         ///<summary>
@@ -208,9 +203,7 @@ namespace BT
                 // Is the node a parent node?
                 if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
                 {
-                    BT_NodeView view = NodeFactory.CreateNodeView(node, this);
-                    // Setup selection callback on the node view to be the same
-                    view.onNodeSelected += onNodeSelected;
+                    BT_ParentNodeView view = NodeFactory.CreateNodeView(node, this);
                     AddElement(view);
                 }
             }
@@ -219,29 +212,35 @@ namespace BT
             CreateNodesConnections();
         }
         
-        // Create connections between all the nodes placed inside the behavior tree
-        // graph.
+        /// <summary>
+        /// Create connections between all the nodes placed inside the behavior tree
+        /// graph.
+        /// </summary>
         private void CreateNodesConnections()
         {
             // Add edge links between nodes when we open a behavior tree asset graph 
             foreach (BT_Node node in tree.nodes)
             {
-                BT_ParentNodeView parentView = FindNodeView(node) as BT_ParentNodeView;
+                BT_ParentNodeView parentView = FindNodeView(node);
                 BT_RootNode rootNode = node as BT_RootNode;
                 if (rootNode != null && rootNode.childNode != null)
                 {
                     // Connect root node to it's child.
-                    BT_ParentNodeView childView = FindNodeView(rootNode.childNode) as BT_ParentNodeView;
+                    BT_ParentNodeView childView = FindNodeView(rootNode.childNode);
                     CreateEdge(parentView, childView);
                 }
-                else
+                else if(node is BT_ParentNode parentNode)
                 {
-                    List<BT_Node> childrens = tree.GetChildrenNodes(node);
-                    // Connect all other nodes.
-                    foreach (BT_Node childrenNode in childrens)
+                    List<BT_Node> children = parentNode.GetChildNodes();
+
+                    if (children != null)
                     {
-                        BT_ParentNodeView childView = FindNodeView(childrenNode) as BT_ParentNodeView;
-                        CreateEdge(parentView, childView);
+                        // Connect all other nodes.
+                        foreach (BT_Node childrenNode in children)
+                        {
+                            BT_ParentNodeView childView = FindNodeView(childrenNode);
+                            CreateEdge(parentView, childView);
+                        }
                     }
                 }
             }
@@ -312,32 +311,61 @@ namespace BT
         ///</summary>
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
+            
+            // Remove all the nodes which have been deleted.
+            RemoveDeletedNodes(graphViewChange);
+
+            // Update nodes by adding the Child node to the Parent node
+            RecreateEdges(graphViewChange);
+            
+            // Sort by position all the moved node elements.
+            if (graphViewChange.movedElements != null)
+            {
+                foreach (Node node in nodes)
+                {
+                    if(node is BT_ParentNodeView nodeView)
+                        nodeView.SortChildrenNodes();
+                }
+            }
+            return graphViewChange;
+        }
+        
+        /// <summary>
+        /// Remove from the graph all the nodes which have been deleted.
+        /// </summary>
+        private void RemoveDeletedNodes(GraphViewChange graphViewChange)
+        {
             // Updates nodes by removing from the graph view the deleted nodes
             if (graphViewChange.elementsToRemove != null)
             {
-                foreach (GraphElement Element in graphViewChange.elementsToRemove)
+                foreach (GraphElement element in graphViewChange.elementsToRemove)
                 {
-                    BT_NodeView NodeView = Element as BT_NodeView;
-                    if (NodeView != null)
+                    if (element is BT_ParentNodeView parentNodeView)
                     {
-                        // Perform node destruction process
-                        tree.DestroyNode(NodeView.node);
+                        // Destroy the node.
+                        NodeFactory.DestroyParentNode(parentNodeView.node, tree);
                     }
-
-                    Edge edge = Element as Edge;
-                    if (edge != null)
+                    
+                    // Update connected nodes.
+                    if (element is Edge edge)
                     {
                         // The parent node is the node which is trying to connect to another node
-                        BT_ParentNodeView ParentNode = edge.output.node as BT_ParentNodeView;
+                        BT_ParentNodeView parentNode = edge.output.node as BT_ParentNodeView;
                         // The child node is the target node for the connection
-                        BT_ParentNodeView ChildNode = edge.input.node as BT_ParentNodeView;
-                        ChildNode.parentView = null;
-                        tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
-                        ParentNode.SortChildrenNodes();
+                        BT_ParentNodeView childNode = edge.input.node as BT_ParentNodeView;
+                        childNode.parentView = null;
+                        parentNode.SortChildrenNodes();
                     }
                 }
             }
-
+        }
+        
+        /// <summary>
+        /// Recreate connections edges between graph nodes.
+        /// </summary>
+        /// <param name="graphViewChange"> Registered graph changes. </param>
+        private void RecreateEdges(GraphViewChange graphViewChange)
+        {
             // Update nodes by adding the Child node to the Parent node
             if (graphViewChange.edgesToCreate != null)
             {
@@ -347,23 +375,17 @@ namespace BT
                     BT_ParentNodeView parentNode = edge.output.node as BT_ParentNodeView;
                     // The child node it's the target node for the connection
                     BT_ParentNodeView childNode = edge.input.node as BT_ParentNodeView;
-                    tree.AddChildToParentNode(childNode.node, parentNode.node);
+                    
+                    // Add child parent node to parent.
+                    Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node add child");
+                    parentNode.node.AddChildNode(childNode.node);
+                    EditorUtility.SetDirty(parentNode.node);
+                    // Once added, sort all the parent children.
                     parentNode.SortChildrenNodes();
                 }
             }
-
-            if (graphViewChange.movedElements != null)
-            {
-                foreach (Node node in nodes)
-                {
-                    BT_ParentNodeView nodeView = node as BT_ParentNodeView;
-                    if(nodeView != null)
-                        nodeView.SortChildrenNodes();
-                }
-            }
-            return graphViewChange;
         }
-
+        
         ///<summary>
         /// Get a list of compatible ports.
         ///</summary>
@@ -384,11 +406,11 @@ namespace BT
         {
             BT_Node node = NodeFactory.CreateNode(type, tree);
             node.position = nodePosition;
-            BT_NodeView nodeView = NodeFactory.CreateNodeView(node, this);
+            BT_ParentNodeView parentNodeView = NodeFactory.CreateNodeView(node, this);
             
             // Setup selection callback on the node view to be the same
-            nodeView.onNodeSelected += onNodeSelected;
-            AddElement(nodeView);
+            parentNodeView.onNodeSelected += onNodeSelected;
+            AddElement(parentNodeView);
         }
         
         /// <summary>
@@ -402,7 +424,7 @@ namespace BT
             BT_ChildNodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
             
             // Setup selection callback on the node view to be the same
-            nodeView.selectedCallback += onNodeVisualElementSelected;
+            nodeView.selectedCallback += onChildNodeSelected;
         }
     }
 }

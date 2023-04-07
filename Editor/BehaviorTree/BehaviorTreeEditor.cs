@@ -59,7 +59,7 @@ namespace BT.Editor
             saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
             refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
             
-            // Initiliaze toolbar buttons click event
+            // Initialize toolbar buttons click event
             saveButton.clicked += AssetDatabase.SaveAssets;
             refreshButton.clicked += AssetDatabase.Refresh;
 
@@ -83,7 +83,7 @@ namespace BT.Editor
 
             // Initialize Callback for when the node selection changes from a node to another node
             behaviorTreeView.onNodeSelected = OnNodeSelectionChange;
-            behaviorTreeView.onNodeVisualElementSelected = OnNodeVisualElementSelectionChange;
+            behaviorTreeView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
 
             OnSelectionChange();
         }
@@ -93,6 +93,7 @@ namespace BT.Editor
         ///</summary>
         private void OnSelectionChange()
         {
+            // The currently selected behavior tree.
             BehaviorTree tree = Selection.activeObject as BehaviorTree;
             if (tree != null)
             {
@@ -106,6 +107,9 @@ namespace BT.Editor
                     serializedBlackboard = new SerializedObject(tree.blackboard);
                     blackboardProperty = serializedBlackboard.FindProperty("blackboardProperties");
                 }
+                
+                // When the user selects a behavior tree we need to populate
+                // the graph view with the tree asset data.
                 behaviorTreeView.PopulateView();
             }
         }
@@ -113,12 +117,12 @@ namespace BT.Editor
         ///<summary>
         /// Called when the behavior tree editor selected node changes.
         ///</summary>
-        private void OnNodeSelectionChange(BT_NodeView nodeView)
+        private void OnNodeSelectionChange(BT_ParentNodeView parentNodeView)
         {
-            BehaviorTreeManager.selectedObject = nodeView;
+            BehaviorTreeManager.selectedObject = parentNodeView;
             if (nodeInspectorView != null)
             {
-                nodeInspectorView.UpdateInspector(nodeView.node);
+                nodeInspectorView.UpdateInspector(parentNodeView.node);
             }
         }
         

@@ -17,15 +17,15 @@ namespace BT.Editor
         private Label typeNameLabel;
         private Label descriptionLabel;
 
-        private const string DECORATOR_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml";
+        private const string DECORATOR_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/Decorator/DecoratorView.uxml";
         
-        public BT_DecoratorView(BT_NodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
+        public BT_DecoratorView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
         {
             this.parentView = parentView;
             this.node = node;
             
             InitializeViewInputOutput();
-            InitializeUIElements();
+            
         }
         
         ///<summary>
@@ -98,7 +98,7 @@ namespace BT.Editor
             BehaviorTreeManager.hoverObject = parentView;
         }
         
-        public T GetParentView<T>() where T : BT_NodeView, IChildView
+        public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
         {
             return parentView as T;
         }

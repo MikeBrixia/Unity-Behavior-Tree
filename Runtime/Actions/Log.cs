@@ -22,7 +22,7 @@ namespace BT.Runtime
         ///<summary>
         /// Log a message to the Unity console
         ///</summary>
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             Debug.Log(debugMessage);
             return EBehaviorTreeState.Success;

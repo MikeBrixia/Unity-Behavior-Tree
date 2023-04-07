@@ -30,7 +30,7 @@ namespace BT.Runtime
                            " if even one loop fails this node it's going to fail";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             BT_Node child = childrens[executedChildrenIndex];
             switch (child.ExecuteNode())

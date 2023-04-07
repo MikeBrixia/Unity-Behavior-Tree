@@ -1,10 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using BT;
 using BT.Editor;
 using BT.Runtime;
-using UnityEngine;
 
 namespace Editor.BehaviorTree.BT_Elements
 {
@@ -23,7 +21,7 @@ namespace Editor.BehaviorTree.BT_Elements
         /// <summary>
         /// The filepath of the action element UXML file.
         /// </summary>
-        private const string ACTION_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml";
+        private const string ACTION_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml";
         
         public BT_ActionView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
         {

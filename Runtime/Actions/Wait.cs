@@ -21,7 +21,7 @@ namespace BT.Runtime
         // Modify the 'state' has you need, return SUCCESS when you want this node
         // to succed, RUNNING when you want to notify the tree that this node is still running
         // and has not finished yet and FAILED when you want this node to fail
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             float elapsedTime = Time.time - startTime;
             if (elapsedTime >= time)

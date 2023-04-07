@@ -14,14 +14,11 @@ namespace BT.Editor
     ///</summary>
     public abstract class BT_ChildNodeView : VisualElement
     {
-
-        public string displayedName;
-        public string displayedDescription;
         
         ///<summary>
         /// The parent view of this visual element.
         ///</summary>
-        public BT_NodeView parentView;
+        public BT_ParentNodeView parentView;
         
         ///<summary>
         /// The node contained inside this behavior tree visual element.
@@ -33,18 +30,12 @@ namespace BT.Editor
         ///</summary>
         public Action<BT_ChildNodeView> selectedCallback;
         
-        ///<summary>
-        /// the filepath of the visual element uxml file.
-        ///</summary>
-        protected string path;
-
-        protected BT_ChildNodeView(BT_NodeView parentView, BT_ChildNode node, string path)
+        protected BT_ChildNodeView(BT_ParentNodeView parentView, BT_ChildNode node, string path)
         {
             this.parentView = parentView;
             this.node = node;
-            this.path = path;
             
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(this.path);
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
             VisualElement decoratorRoot = visualTree.Instantiate();
             Add(decoratorRoot);
             
@@ -56,7 +47,7 @@ namespace BT.Editor
         /// Called on node view creation and used to initialize custom input events for this
         /// visual element.
         ///</summary>
-        private void InitializeViewInputOutput()
+        protected void InitializeViewInputOutput()
         {
             // Register mouse callbacks
             EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
@@ -65,6 +56,8 @@ namespace BT.Editor
             RegisterCallback<MouseLeaveEvent>(mouseLeaveEvent);
             EventCallback<MouseDownEvent> mousePressedEvent = OnSelected;
             RegisterCallback<MouseDownEvent>(mousePressedEvent); 
+            
+            Debug.Log("ciao");
         }
         
         ///<summary>
@@ -81,7 +74,7 @@ namespace BT.Editor
         {
             BehaviorTreeManager.selectedObject = this;
             parentView.Unselect(parentView.graph);
-            selectedCallback?.Invoke(this);
+            selectedCallback.Invoke(this);
         }
         
         ///<summary>

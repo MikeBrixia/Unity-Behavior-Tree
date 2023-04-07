@@ -17,7 +17,7 @@ namespace BT.Runtime
             description = "Execute all it's childrens in order and stops when one of them fails";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             BT_Node child = childrens[executedChildrenIndex];
             switch (child.ExecuteNode())

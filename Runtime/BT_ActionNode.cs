@@ -32,7 +32,7 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this action has been executed successfully, RUNNING if is still executing
         /// and FAILED if the action has failed to execute it's tasks.</returns>
-        public override EBehaviorTreeState Execute()
+        protected override EBehaviorTreeState Execute()
         {
             return EBehaviorTreeState.Success;
         }
@@ -105,7 +105,7 @@ namespace BT.Runtime
         /// Make a copy of this action asset
         ///</summary>
         ///<returns> A copy of this action asset</returns>
-        public override NodeBase Clone()
+        public override BT_Node Clone()
         {
             BT_ActionNode action = Instantiate(this);
             action.decorators = action.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
@@ -139,6 +139,11 @@ namespace BT.Runtime
             return resultList;
         }
 
+        public override List<BT_Node> GetChildNodes()
+        {
+            return null;
+        }
+
         public override void AddChildNode<T>(T childNode)
         {
             // The base type of the node.
@@ -150,7 +155,12 @@ namespace BT.Runtime
             else if (nodeType == typeof(BT_Service))
                 services.Add(childNode as BT_Service);
         }
- 
+
+        public override void AddChildNode(BT_ParentNode child)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Type[] GetNodeChildTypes()
         {
             return new Type[]
@@ -165,7 +175,7 @@ namespace BT.Runtime
             decorators.ForEach(decorator => UnityEditor.Undo.DestroyObjectImmediate(decorator));
             services.ForEach(service => UnityEditor.Undo.DestroyObjectImmediate(service));
         }
-
+        
         public override void DestroyChild(BT_ChildNode child)
         {
             Type nodeParentType = child.GetNodeParentType();

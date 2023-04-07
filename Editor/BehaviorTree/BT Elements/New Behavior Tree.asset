@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2999286840358580369
+--- !u!114 &-2908404908450818840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,7 +39,7 @@ MonoBehaviour:
   treeState: 0
   nodes:
   - {fileID: 1218155448870918080}
-  - {fileID: 1887869204525677877}
+  - {fileID: 8377004423016332088}
 --- !u!114 &1218155448870918080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,10 +55,50 @@ MonoBehaviour:
   nodeName: 
   nodeTypeName: BT_RootNode
   description: Entry point of behavior tree
+  position: {x: 24.935095, y: -8.452472}
+  isStarted: 0
+  childNode: {fileID: 8377004423016332088}
+--- !u!114 &4690429092083372357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337bd21b04a944d4a861edf61552de58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: MyCustomService
+  description: Node description
   position: {x: 0, y: 0}
   isStarted: 0
-  childNode: {fileID: 0}
---- !u!114 &1887869204525677877
+  updateInterval: 0.5
+  updateOnStart: 0
+  frequencyDescription: 'Tick every: 0,5 seconds'
+--- !u!114 &7733129264638825452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: BlackboardDecorator
+  description: Check the blackboard entry and returns success or fail based on the
+    condition
+  position: {x: 0, y: 0}
+  isStarted: 0
+  blackboardKey: 
+  condition: 1
+--- !u!114 &8377004423016332088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,9 +113,11 @@ MonoBehaviour:
   nodeName: 
   nodeTypeName: Log
   description: Print a message in the console
-  position: {x: 0, y: 255.52}
+  position: {x: 25, y: 213}
   isStarted: 0
   decorators:
-  - {fileID: -2999286840358580369}
-  services: []
+  - {fileID: -2908404908450818840}
+  - {fileID: 7733129264638825452}
+  services:
+  - {fileID: 4690429092083372357}
   debugMessage: 
