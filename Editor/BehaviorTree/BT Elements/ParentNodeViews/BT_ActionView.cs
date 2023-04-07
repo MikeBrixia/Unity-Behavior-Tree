@@ -54,11 +54,11 @@ namespace Editor.BehaviorTree.BT_Elements
 
         public void CreateChildViews()
         {
-            if (node is BT_ParentNode parentNode and not BT_RootNode)
+            if (node != null && node is not BT_RootNode)
             {
                 BT_ChildNodeView view;
                 // Create decorators child views.
-                List<BT_Decorator> decorators = parentNode.GetChildNodes<BT_Decorator>();
+                List<BT_Decorator> decorators = node.GetChildNodes<BT_Decorator>();
                 foreach (BT_Decorator decorator in decorators)
                 {
                     view = NodeFactory.CreateChildNodeView(this, decorator, graph);
@@ -66,7 +66,7 @@ namespace Editor.BehaviorTree.BT_Elements
                 }
                 
                 // Create services child views.
-                List<BT_Service> services = parentNode.GetChildNodes<BT_Service>();
+                List<BT_Service> services = node.GetChildNodes<BT_Service>();
                 foreach (BT_Service service in services)
                 {
                     view = NodeFactory.CreateChildNodeView(this, service, graph);

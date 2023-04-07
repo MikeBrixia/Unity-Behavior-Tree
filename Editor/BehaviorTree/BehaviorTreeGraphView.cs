@@ -146,7 +146,7 @@ namespace BT
                     EditorUtility.SetDirty(pView.node);
                     
                     // Destroy the child node and remove it from the tree.
-                    NodeFactory.DestroyChildNode(childView.node, tree);
+                    NodeFactory.DestroyChildNode(childView.parentView.node, childView.node, tree);
                     PopulateView();
                 }
             }

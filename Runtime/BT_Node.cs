@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -112,6 +113,11 @@ namespace BT.Runtime
         internal virtual void SetBlackboard(Blackboard blackboard)
         {
             this.blackboard = blackboard;
+        }
+
+        public Type GetNodeParentType()
+        {
+            return GetType().BaseType;
         }
     }
 }

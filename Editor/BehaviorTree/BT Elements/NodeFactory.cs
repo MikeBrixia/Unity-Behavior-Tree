@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
@@ -127,11 +126,12 @@ namespace BT
             
             return nodeView;
         }
-        
-        ///<summary>
-        /// Create a brand new node view
-        ///</summary>
-        ///<param name="node"> The node which will be wrapped inside the new node view </param>
+
+        /// <summary>
+        ///  Create a brand new node view
+        /// </summary>
+        /// <param name="node"> The node which will be wrapped inside the new node view </param>
+        /// <param name="graph"> The graph in which the tree is currently displayed. </param>
         public static BT_NodeView CreateNodeView(BT_Node node, BehaviorTreeGraphView graph)
         {
             // When guid is invalid, generate a brand new one
@@ -168,6 +168,7 @@ namespace BT
                 childNode.guid = GUID.Generate();
             }
             
+            Debug.Log(childNode);
             // Create child node view.
             Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType().BaseType!];
             BT_ChildNodeView childView = (BT_ChildNodeView)Activator.CreateInstance(viewType, parent, childNode, graph);
@@ -194,11 +195,15 @@ namespace BT
             AssetDatabase.SaveAssets();
         }
 
-        public static void DestroyChildNode(BT_ChildNode child, BehaviorTree tree)
+        public static void DestroyChildNode(BT_ParentNode parent, BT_ChildNode child, BehaviorTree tree)
         {
             // Remove node from the tree.
-            Undo.RegisterCompleteObjectUndo(tree, "Behavior tree node removed");
+            Undo.RegisterCompleteObjectUndo(tree, "Behavior Tree child node removed");
             tree.nodes.Remove(child);
+            
+            // Remove child from parent node.
+            Undo.RecordObject(parent, "Behavior Tree child node removed");
+            parent.DestroyChild(child);
             
             // Destroy node.
             Undo.DestroyObjectImmediate(child);

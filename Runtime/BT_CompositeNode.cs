@@ -152,11 +152,12 @@ namespace BT.Runtime
 
         public override void DestroyChild(BT_ChildNode child)
         {
-            if (child.GetType() == typeof(BT_Decorator))
+            Type nodeParentType = child.GetNodeParentType();
+            if (nodeParentType == typeof(BT_Decorator))
             {
                 decorators.Remove((BT_Decorator) child);
             }
-            else if (child.GetType() == typeof(BT_Service))
+            else if (nodeParentType == typeof(BT_Service))
             {
                 services.Remove((BT_Service) child);
             }
