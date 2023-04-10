@@ -60,7 +60,7 @@ namespace Editor.BehaviorTree.BT_Elements
                 foreach (BT_Decorator decorator in decorators)
                 {
                     view = NodeFactory.CreateChildNodeView(this, decorator, graph);
-                    decoratorViews.Add((BT_DecoratorView) view);
+                    AddChildView<BT_DecoratorView>((BT_DecoratorView) view);
                 }
                 
                 // Create services child views.
@@ -68,7 +68,7 @@ namespace Editor.BehaviorTree.BT_Elements
                 foreach (BT_Service service in services)
                 {
                     view = NodeFactory.CreateChildNodeView(this, service, graph);
-                    serviceViews.Add((BT_ServiceView) view);
+                    AddChildView<BT_ServiceView>((BT_ServiceView)view);
                 }
             }
         }

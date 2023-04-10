@@ -1,4 +1,3 @@
-
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -21,26 +20,6 @@ namespace BT.Editor
         
         public BT_DecoratorView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
         {
-            this.parentView = parentView;
-            this.node = node;
-            
-            InitializeViewInputOutput();
-            
-        }
-        
-        ///<summary>
-        /// Called on node view creation and used to initialize custom input events for this
-        /// visual element.
-        ///</summary>
-        private void InitializeViewInputOutput()
-        {
-            // Register mouse callbacks
-            EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
-            RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
-            EventCallback<MouseLeaveEvent> mouseLeaveEvent = OnMouseLeave;
-            RegisterCallback<MouseLeaveEvent>(mouseLeaveEvent);
-            EventCallback<MouseDownEvent> mousePressedEvent = OnSelected;
-            RegisterCallback<MouseDownEvent>(mousePressedEvent); 
         }
         
         ///<summary>
@@ -48,7 +27,7 @@ namespace BT.Editor
         ///</summary>
         protected override void InitializeUIElements()
         {
-            decoratorBorder = contentContainer.Q<VisualElement>("DecoratorBorder");
+            decoratorBorder = contentContainer.Q<VisualElement>("decorator-border");
             nameLabel = contentContainer.Q<Label>("Decorator-Name");
             typeNameLabel = contentContainer.Q<Label>("Decorator-Type-Name");
             descriptionLabel = contentContainer.Q<Label>("decorator-description");
@@ -66,38 +45,27 @@ namespace BT.Editor
             descriptionLabel.Bind(serializedNode);
 
             // Register this view as a child for the given node view and add it to the
-            // UI Elements hyerarchy.
+            // UI Elements hierarchy.
             if(parentView is IParentView view)
                 view.AddChildView<BT_DecoratorView>(this);
             
             parentView.decoratorsContainer.Add(this);
         }
         
-        ///<summary>
-        /// Called when this node gets selected.
-        ///</summary>
-        public void OnSelected(MouseDownEvent eventData)
+        public override void OnSelected()
         {
-            ShowSelectionBorder(decoratorBorder, 2f, Color.yellow);
+            base.OnSelected();
+            selectedCallback.Invoke(this);
+            ShowSelectionBorder(decoratorBorder, 5f, Color.yellow);
         }
-        
-        ///<summary>
-        /// Called when this node gets unselected.
-        ///</summary>
+
         public override void OnUnselected()
         {
-           ShowSelectionBorder(decoratorBorder, 2f, Color.black);
+            base.OnUnselected();
+            selectedCallback.Invoke(this);
+            ShowSelectionBorder(decoratorBorder, 2f, Color.black);
         }
-        
-        ///<summary>
-        /// Called when the mouse cursor leaves the visual element.
-        ///</summary>
-        ///<param name="evt"> Mouse event </param>
-        private void OnMouseLeave(MouseLeaveEvent evt)
-        {
-            BehaviorTreeManager.hoverObject = parentView;
-        }
-        
+
         public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
         {
             return parentView as T;

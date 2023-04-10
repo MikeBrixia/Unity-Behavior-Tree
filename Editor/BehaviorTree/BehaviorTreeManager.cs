@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using BT.Runtime;
 using Editor.BehaviorTree.BT_Elements;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BT.Editor
 {
@@ -30,12 +32,12 @@ namespace BT.Editor
         ///<summary>
         /// The object on which the mouse is currently hovering
         ///</summary>
-        public static object hoverObject { get; set; }
-
+        public static ISelectable hoverObject { get; set; }
+        
         ///<summary>
         /// The currently selected object
         ///</summary>
-        public static object selectedObject { get; set; }
+        public static ISelectable selectedObject { get; set; }
     }
 
 }

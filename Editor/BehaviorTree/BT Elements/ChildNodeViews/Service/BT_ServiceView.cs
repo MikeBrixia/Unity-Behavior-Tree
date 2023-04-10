@@ -10,35 +10,17 @@ namespace BT.Editor
     ///<summary>
     /// Class used to display service views.
     ///</summary>
-    public class BT_ServiceView : BT_ChildNodeView, IChildView
+    public sealed class BT_ServiceView : BT_ChildNodeView, IChildView
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
         private Label serviceTypeNameLabel;
         private Label serviceFrequencyLabel;
         private Label serviceDescriptionLabel;
-        private Label serviceUpdateLabel;
         private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/Service/ServiceView.uxml";
         
         public BT_ServiceView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, SERVICE_PATH)
         {
-            InitializeUIElements();
-            InitializeViewInputOutput();
-        }
-        
-        ///<summary>
-        /// Called on node view creation and used to initialize custom input events for this
-        /// visual element.
-        ///</summary>
-        private void InitializeViewInputOutput()
-        {
-            // Register mouse callbacks
-            EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
-            RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
-            EventCallback<MouseLeaveEvent> mouseLeaveEvent = OnMouseLeave;
-            RegisterCallback<MouseLeaveEvent>(mouseLeaveEvent);
-            EventCallback<MouseDownEvent> mousePressedEvent = OnSelected;
-            RegisterCallback<MouseDownEvent>(mousePressedEvent); 
         }
         
         ///<summary>
@@ -48,14 +30,14 @@ namespace BT.Editor
         protected override void InitializeUIElements()
         {
             // Get visual tree asset elements
-            serviceBorder = contentContainer.Q<VisualElement>("ServiceBorder");
+            serviceBorder = contentContainer.Q<VisualElement>("selection-border");
             serviceNameLabel = contentContainer.Q<Label>("ServiceName");
             serviceTypeNameLabel =  contentContainer.Q<Label>("ServiceTypeName");
             serviceFrequencyLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
             serviceDescriptionLabel = contentContainer.Q<Label>("ServiceDescription");
-            serviceUpdateLabel = contentContainer.Q<Label>("ServiceUpdateFrequencyLabel");
 
             SerializedObject serializedNode = new SerializedObject(node);
+            
             // Initialize frequency label
             serviceFrequencyLabel.bindingPath = "frequencyDescription";
             serviceFrequencyLabel.Bind(serializedNode);
@@ -77,32 +59,20 @@ namespace BT.Editor
             parentView.serviceContainer.Add(this);
         }
         
-        ///<summary>
-        /// Called when this service view it's selected
-        ///</summary>
-        public void OnSelected(MouseDownEvent evt)
+        public override void OnSelected()
         {
-            ShowSelectionBorder(serviceBorder, 2f, Color.yellow);
-        }
-        
-        ///<summary>
-        /// Called when this service view it's unselected
-        ///</summary>
-        public override void OnUnselected()
-        {
-           ShowSelectionBorder(serviceBorder, 2f, Color.black);
+            base.OnSelected();
+            selectedCallback.Invoke(this);
+            ShowSelectionBorder(serviceBorder, 5f, Color.yellow);
         }
 
-        ///<summary>
-        /// Called when the mouse cursor leaves the visual element.
-        ///</summary>
-        ///<param name="evt"> Mouse event </param>
-        private void OnMouseLeave(MouseLeaveEvent evt)
+        public override void OnUnselected()
         {
-            BehaviorTreeManager.hoverObject = parentView;
+            base.OnUnselected();
+            selectedCallback.Invoke(this);
+            ShowSelectionBorder(serviceBorder, 2f, Color.black);
         }
-        
-        
+
         public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
         {
             return parentView as T;

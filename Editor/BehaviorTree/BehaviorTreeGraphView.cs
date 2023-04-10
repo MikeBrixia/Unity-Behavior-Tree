@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -26,15 +25,10 @@ namespace BT
         public BehaviorTree tree;
 
         ///<summary>
-        /// the position of the mouse in the graph
-        ///</summary>
-        private Vector2 mousePosition;
-        
-        ///<summary>
         /// Called when the user select a node inside the graph
         ///</summary>
         public Action<BT_ParentNodeView> onNodeSelected;
-
+        
         ///<summary>
         /// Called when the user select a node visual element inside the graph.
         /// Node visual element are all the nodes which can be attached to other nodes.
@@ -42,16 +36,15 @@ namespace BT
         public Action<BT_ChildNodeView> onChildNodeSelected;
         
         ///<summary>
-        /// Called when the user press a mouse button while it's cursor is inside
-        /// the graph window.
+        /// the position of the mouse in the graph
         ///</summary>
-        private EventCallback<MouseDownEvent> mousePressedEvent;
-
+        private Vector2 mousePosition;
+        
         ///<summary>
         /// all the data which we want to copy with CTRL-C
         ///</summary>
-        private List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
-
+        private readonly List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
+        
         public BehaviorTreeGraphView()
         {
             // Insert background under everything else
@@ -66,17 +59,12 @@ namespace BT
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
-
+            
             // Setup custom undo/redo events
             Undo.undoRedoPerformed += OnUndoRedo;
 
-            // Register mouse callbacks
-            mousePressedEvent = OnGraphSelected;
-            RegisterCallback<MouseDownEvent>(mousePressedEvent, TrickleDown.TrickleDown);
-
             // Keyboard callbacks
-            EventCallback<KeyDownEvent> keyboardPressedEvent = OnKeyboardPressed;
-            RegisterCallback<KeyDownEvent>(keyboardPressedEvent);
+            RegisterCallback<KeyDownEvent>(OnKeyboardPressed, TrickleDown.TrickleDown);
 
             // Copy/paste callbacks
             serializeGraphElements += OnCopy;
@@ -92,6 +80,7 @@ namespace BT
             foreach (BT_ParentNodeView copiedNode in copyCache)
             {
                 BT_Node node = NodeFactory.CreateNode(copiedNode.node.GetType(), tree);
+                node.position = mousePosition;
             }
             // Once we finished pasting nodes, clear the copy cache
             // and repopulate the view
@@ -107,8 +96,7 @@ namespace BT
             copyCache.Clear();
             foreach (GraphElement element in elements)
             {
-                BT_ParentNodeView parentNodeToCopy = element as BT_ParentNodeView;
-                if (parentNodeToCopy != null)
+                if (element is BT_ParentNodeView parentNodeToCopy)
                 {
                     copyCache.Add(parentNodeToCopy);
                 }
@@ -146,20 +134,7 @@ namespace BT
                 }
             }
         }
-        
-        ///<summary>
-        /// Called when the graph gets selected by the user.
-        ///</summary>
-        private void OnGraphSelected(MouseDownEvent evt)
-        {
-            BT_ChildNodeView btChildView = BehaviorTreeManager.selectedObject
-                                                   as BT_ChildNodeView;
-            if (btChildView != null)
-            {
-                btChildView.OnUnselected();
-            }
-        }
-        
+
         ///<summary>
         /// Called when there is an undo/redo event.
         ///</summary>
@@ -254,18 +229,14 @@ namespace BT
             Edge edge = parentView.output.ConnectTo(childView.input);
             AddElement(edge);
         }
-
-        ///<summary>
-        /// Handle node and node visual element selection
-        ///</summary>
+        
         public override void AddToSelection(ISelectable selectable)
         {
-            if (BehaviorTreeManager.hoverObject == null
-               || BehaviorTreeManager.hoverObject.GetType() != typeof(BT_DecoratorView)
-                && BehaviorTreeManager.hoverObject.GetType() != typeof(BT_ServiceView))
+            if (selectable is BT_ChildNodeView)
             {
-                base.AddToSelection(selectable);
+                ClearSelection();
             }
+            base.AddToSelection(selectable);
         }
 
         ///<summary>
@@ -311,7 +282,6 @@ namespace BT
         ///</summary>
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            
             // Remove all the nodes which have been deleted.
             RemoveDeletedNodes(graphViewChange);
 

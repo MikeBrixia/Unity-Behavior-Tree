@@ -89,6 +89,9 @@ namespace BT.Editor
             // Initialize all the UI elements.
             InitializeUIElements();
             
+            RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+            RegisterCallback<MouseLeaveEvent>(OnMouseEnter);
+            
             // Set node position in the graph to where the user has clicked
             // to open the contextual menu
             Rect rect = this.contentRect;
@@ -97,20 +100,18 @@ namespace BT.Editor
             
             // Draw parent node ports.
             Draw();
-            
-            // Register mouse callbacks
-            EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
-            RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
         }
-        
-        ///<summary>
-        /// Called when the mouse cursor enter this node view.
-        ///</summary>
+
+        private void OnMouseEnter(MouseLeaveEvent evt)
+        {
+            BehaviorTreeManager.hoverObject = null;
+        }
+
         private void OnMouseEnter(MouseEnterEvent evt)
         {
             BehaviorTreeManager.hoverObject = this;
         }
-        
+
         ///<summary>
         /// Called when we initialize visual element.
         ///</summary>
@@ -156,7 +157,7 @@ namespace BT.Editor
             ShowSelectionBorder(0f);
             BehaviorTreeManager.selectedObject = null;
         }
-
+        
         ///<summary>
         /// Show or hide node border.
         ///</summary>

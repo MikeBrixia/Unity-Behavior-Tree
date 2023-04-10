@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,18 +10,17 @@ namespace BT.Editor
     ///<summary>
     /// A visual element which can be attached to a BT node
     ///</summary>
-    public abstract class BT_ChildNodeView : VisualElement
+    public abstract class BT_ChildNodeView : GraphElement
     {
-        
         ///<summary>
         /// The parent view of this visual element.
         ///</summary>
-        public BT_ParentNodeView parentView;
+        public readonly BT_ParentNodeView parentView;
         
         ///<summary>
         /// The node contained inside this behavior tree visual element.
         ///</summary>
-        public BT_ChildNode node;
+        public readonly BT_ChildNode node;
 
         ///<summary>
         /// Callback which is called when the decorator view gets selected.
@@ -35,29 +32,18 @@ namespace BT.Editor
             this.parentView = parentView;
             this.node = node;
             
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
-            VisualElement decoratorRoot = visualTree.Instantiate();
-            Add(decoratorRoot);
+            // Add child node uxml asset to visual tree.
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
+            VisualElement childRoot = visualTree.Instantiate();
+            Add(childRoot);
             
-            InitializeViewInputOutput();
-            InitializeUIElements();
+            // Create child node GUI
+            OnCreateGUI();
         }
         
-        ///<summary>
-        /// Called on node view creation and used to initialize custom input events for this
-        /// visual element.
-        ///</summary>
-        protected void InitializeViewInputOutput()
+        private void OnCreateGUI()
         {
-            // Register mouse callbacks
-            EventCallback<MouseEnterEvent> mouseEnterEvent = OnMouseEnter;
-            RegisterCallback<MouseEnterEvent>(mouseEnterEvent);
-            EventCallback<MouseLeaveEvent> mouseLeaveEvent = OnMouseLeave;
-            RegisterCallback<MouseLeaveEvent>(mouseLeaveEvent);
-            EventCallback<MouseDownEvent> mousePressedEvent = OnSelected;
-            RegisterCallback<MouseDownEvent>(mousePressedEvent); 
-            
-            Debug.Log("ciao");
+            InitializeUIElements();
         }
         
         ///<summary>
@@ -66,40 +52,11 @@ namespace BT.Editor
         ///</summary>
         protected abstract void InitializeUIElements();
         
-        ///<summary>
-        /// Called when this visual element gets selected.
-        ///</summary>
-        ///<param name="evt"> Mouse event</param>
-        private void OnSelected(MouseDownEvent evt)
+        public override bool IsSelectable()
         {
-            BehaviorTreeManager.selectedObject = this;
-            parentView.Unselect(parentView.graph);
-            selectedCallback.Invoke(this);
+            return !selected;
         }
-        
-        ///<summary>
-        /// Called when this visual element gets unselected.
-        ///</summary>
-        public abstract void OnUnselected();
-        
-        ///<summary>
-        /// Called when the mouse cursor leaves the visual element.
-        ///</summary>
-        ///<param name="evt"> Mouse event </param>
-        private void OnMouseLeave(MouseLeaveEvent evt)
-        {
-            BehaviorTreeManager.hoverObject = parentView;
-        }
-        
-        ///<summary>
-        /// Called when the mouse cursor enters the visual element.
-        ///</summary>
-        ///<param name="evt"> Mouse event </param>
-        protected void OnMouseEnter(MouseEnterEvent evt)
-        {
-            BehaviorTreeManager.hoverObject = this;
-        }
-        
+
         ///<summary>
         /// Modify selection border display.
         ///</summary>

@@ -8,7 +8,6 @@ using BT.Runtime;
 
 namespace BT
 {
-     
     public class BehaviorTreeInspector : VisualElement
     {
         public new class UxmlFactory : UxmlFactory<BehaviorTreeInspector, UxmlTraits> { }
@@ -16,11 +15,7 @@ namespace BT
         ///<summary>
         /// The editor which is going to inspect the node.
         ///</summary>
-        private NodeInspector InspectorEditor;
-        
-        public BehaviorTreeInspector()
-        {
-        }
+        private NodeInspector inspectorEditor;
         
         ///<summary>
         /// Update the inspector view.
@@ -30,19 +25,23 @@ namespace BT
         {
             // Clear Inspector view and reference before creating a new editor
             Clear();
-            UnityEngine.Object.DestroyImmediate(InspectorEditor);
+            Object.DestroyImmediate(inspectorEditor);
             // Initialize new editor
-            InspectorEditor = UnityEditor.Editor.CreateEditorWithContext(new Object[] { nodeToInspect }, null, typeof(NodeInspector)) as NodeInspector;
-            InspectorEditor.UseDefaultMargins(); 
-            // Create action to pass as a parameter to the IMGUI Container
-            IMGUIContainer Container = new IMGUIContainer(() => 
-            { 
-                if(InspectorEditor.target != null)
+            inspectorEditor = UnityEditor.Editor.CreateEditorWithContext(new Object[] { nodeToInspect }, null, typeof(NodeInspector)) 
+                              as NodeInspector;
+            if (inspectorEditor != null)
+            {
+                inspectorEditor.UseDefaultMargins();
+                // Create action to pass as a parameter to the IMGUI Container
+                IMGUIContainer container = new IMGUIContainer(() =>
                 {
-                    InspectorEditor.OnInspectorGUI();
-                } 
-            });
-            Add(Container);
+                    if (inspectorEditor.target != null)
+                    {
+                        inspectorEditor.OnInspectorGUI();
+                    }
+                });
+                Add(container);
+            }
         }
     }
 }
