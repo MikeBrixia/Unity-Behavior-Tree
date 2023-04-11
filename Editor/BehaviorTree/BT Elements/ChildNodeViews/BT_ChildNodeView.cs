@@ -27,10 +27,7 @@ namespace BT.Editor
         /// Callback which is called when the decorator view gets selected.
         ///</summary>
         public Action<BT_ChildNodeView> selectedCallback;
-        
-        protected const string CHILD_NODE_STYLE_PATH =
-            "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/child-node-container.uss";
-        
+
         protected BT_ChildNodeView(BT_ParentNodeView parentView, BT_ChildNode node, string path)
         {
             this.parentView = parentView;
@@ -39,9 +36,6 @@ namespace BT.Editor
             // Add child node uxml asset to visual tree.
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
             VisualElement childRoot = visualTree.Instantiate();
-            
-            StyleSheet asset = AssetDatabase.LoadAssetAtPath<StyleSheet>(CHILD_NODE_STYLE_PATH);
-            childRoot.contentContainer.styleSheets.Add(asset);
             
             // Ignore graph element template container.
             Add(childRoot.Children().First());
