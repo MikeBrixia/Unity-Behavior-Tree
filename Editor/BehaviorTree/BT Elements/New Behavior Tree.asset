@@ -20,6 +20,28 @@ MonoBehaviour:
   updateInterval: 0.5
   updateOnStart: 0
   frequencyDescription: 'Tick every: 0,5 seconds'
+--- !u!114 &-5079900730206624162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1178b8f5538f46241a4a559e11dc3053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: BT_Selector
+  description: Execute all it's childrens in order and stops when one of them succeds
+  position: {x: 630, y: 325}
+  isStarted: 0
+  childrens: []
+  decorators:
+  - {fileID: -322753318112574162}
+  services:
+  - {fileID: 6026152079153108266}
 --- !u!114 &-3173808292748664823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +82,26 @@ MonoBehaviour:
   isStarted: 0
   blackboardKey: 
   condition: 1
+--- !u!114 &-322753318112574162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: BlackboardDecorator
+  description: Check the blackboard entry and returns success or fail based on the
+    condition
+  position: {x: 0, y: 0}
+  isStarted: 0
+  blackboardKey: 
+  condition: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +122,7 @@ MonoBehaviour:
   nodes:
   - {fileID: 1218155448870918080}
   - {fileID: 8377004423016332088}
+  - {fileID: -5079900730206624162}
 --- !u!114 &1218155448870918080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +138,49 @@ MonoBehaviour:
   nodeName: 
   nodeTypeName: BT_RootNode
   description: Entry point of behavior tree
-  position: {x: 24, y: -32.64}
+  position: {x: 23.99999, y: -48.741055}
   isStarted: 0
   childNode: {fileID: 8377004423016332088}
+--- !u!114 &4102516666355531675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c82b8ad17e50e44c9f51fcd9816769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: BlackboardDecorator
+  description: Check the blackboard entry and returns success or fail based on the
+    condition
+  position: {x: 0, y: 0}
+  isStarted: 0
+  blackboardKey: 
+  condition: 1
+--- !u!114 &6026152079153108266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337bd21b04a944d4a861edf61552de58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: 
+  nodeTypeName: MyCustomService
+  description: Node description
+  position: {x: 0, y: 0}
+  isStarted: 0
+  updateInterval: 0.5
+  updateOnStart: 0
+  frequencyDescription: 'Tick every: 0,5 seconds'
 --- !u!114 &8377004423016332088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,10 +196,12 @@ MonoBehaviour:
   nodeName: 
   nodeTypeName: Log
   description: Print a message in the console
-  position: {x: 24.00003, y: 171}
+  position: {x: 24, y: 145}
   isStarted: 0
   decorators:
   - {fileID: -2908404908450818840}
+  - {fileID: 4102516666355531675}
   services:
   - {fileID: -8260910244093898586}
+  - {fileID: -3173808292748664823}
   debugMessage: 

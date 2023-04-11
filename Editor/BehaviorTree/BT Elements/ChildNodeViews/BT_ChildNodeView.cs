@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -27,6 +28,9 @@ namespace BT.Editor
         ///</summary>
         public Action<BT_ChildNodeView> selectedCallback;
         
+        protected const string CHILD_NODE_STYLE_PATH =
+            "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/child-node-container.uss";
+        
         protected BT_ChildNodeView(BT_ParentNodeView parentView, BT_ChildNode node, string path)
         {
             this.parentView = parentView;
@@ -35,9 +39,17 @@ namespace BT.Editor
             // Add child node uxml asset to visual tree.
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
             VisualElement childRoot = visualTree.Instantiate();
-            Add(childRoot);
             
-            // Create child node GUI
+            StyleSheet asset = AssetDatabase.LoadAssetAtPath<StyleSheet>(CHILD_NODE_STYLE_PATH);
+            childRoot.contentContainer.styleSheets.Add(asset);
+            
+            // Ignore graph element template container.
+            Add(childRoot.Children().First());
+            
+            // Remove graph element default stylesheet.
+            contentContainer.RemoveFromClassList("graphElement");
+            
+            // Create child node GUI.
             OnCreateGUI();
         }
         
@@ -45,16 +57,22 @@ namespace BT.Editor
         {
             InitializeUIElements();
         }
-        
+
         ///<summary>
         /// Called on node view creation and used to initialize UI elements
         /// for this node view.
         ///</summary>
         protected abstract void InitializeUIElements();
-        
+
         public override bool IsSelectable()
         {
             return !selected;
+        }
+
+        public override void Select(VisualElement selectionContainer, bool additive)
+        {
+            base.Select(selectionContainer, additive);
+            Debug.Log("ciao");
         }
 
         ///<summary>

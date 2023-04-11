@@ -25,6 +25,7 @@ namespace BT.Editor
         {
             [typeof(BT_RootNode)] = typeof(BT_ActionView),
             [typeof(BT_ActionNode)] = typeof(BT_ActionView),
+            [typeof(BT_CompositeNode)] = typeof(BT_ActionView),
             [typeof(BT_Decorator)] = typeof(BT_DecoratorView),
             [typeof(BT_Service)] = typeof(BT_ServiceView)
         };

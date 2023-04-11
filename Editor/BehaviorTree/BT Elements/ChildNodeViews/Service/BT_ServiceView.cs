@@ -1,4 +1,5 @@
 
+using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -56,7 +57,10 @@ namespace BT.Editor
             
             if(parentView is IParentView view)
                 view.AddChildView<BT_ServiceView>(this);
-            parentView.serviceContainer.Add(this);
+            
+            // Add parent view visual tree asset content inside the parent node
+            // service container. 
+            parentView.serviceContainer.Add(contentContainer);
         }
         
         public override void OnSelected()

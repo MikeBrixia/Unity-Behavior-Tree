@@ -1,8 +1,11 @@
+using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using BT.Runtime;
+using UnityEditor.Experimental.GraphView;
+using Blackboard = UnityEditor.Experimental.GraphView.Blackboard;
 
 namespace BT.Editor
 {
@@ -43,13 +46,15 @@ namespace BT.Editor
             
             descriptionLabel.bindingPath = "description";
             descriptionLabel.Bind(serializedNode);
-
+            
             // Register this view as a child for the given node view and add it to the
             // UI Elements hierarchy.
             if(parentView is IParentView view)
                 view.AddChildView<BT_DecoratorView>(this);
             
-            parentView.decoratorsContainer.Add(this);
+            // Add parent view visual tree asset content inside the parent node
+            // decorator container. 
+            parentView.decoratorsContainer.Add(contentContainer);
         }
         
         public override void OnSelected()
