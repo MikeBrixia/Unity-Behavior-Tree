@@ -59,7 +59,6 @@ namespace BT.Editor
             this.node = node;
             this.graph = graph;
             
-            
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
             RegisterCallback<MouseLeaveEvent>(OnMouseEnter);
             
@@ -205,7 +204,7 @@ namespace BT.Editor
         }
 
         ///<summary>
-        /// Show or hide node border.
+        /// Sort children nodes from left to right.
         ///</summary>
         public void SortChildrenNodes()
         {

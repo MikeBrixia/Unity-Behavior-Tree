@@ -37,6 +37,13 @@ namespace BT.Runtime
         public abstract void AddChildNode(BT_ParentNode child);
         
         /// <summary>
+        /// Remove the given child node connected to this parent node. Child node
+        /// will be disconnected from this parent node.
+        /// </summary>
+        /// <param name="child"> The node you want to disconnect.</param>
+        public abstract void RemoveChildNode<T>(T child) where T : BT_ParentNode;
+        
+        /// <summary>
         /// Get all the children types supported by this node.
         /// </summary>
         /// <returns> An array of all the supported children node types. </returns>

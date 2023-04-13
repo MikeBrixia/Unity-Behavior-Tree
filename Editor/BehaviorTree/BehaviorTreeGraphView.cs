@@ -111,15 +111,8 @@ namespace BT
         {
             if (evt.keyCode == KeyCode.Delete)
             {
-                // If a parent node, destroy it.
-                if (BehaviorTreeManager.selectedObject is BT_ParentNodeView parentView)
-                {
-                    // Remove decorator from behavior tree
-                    NodeFactory.DestroyParentNode(parentView.node, tree);
-                    PopulateView();
-                }
                 // Otherwise destroy the child node and remove it from it's parent and from the tree.
-                else if (BehaviorTreeManager.selectedObject is BT_ChildNodeView childView)
+                if (BehaviorTreeManager.selectedObject is BT_ChildNodeView childView)
                 {
                     BT_ParentNodeView pView = childView.parentView;
                     
@@ -203,11 +196,12 @@ namespace BT
                     // Connect root node to it's child.
                     BT_ParentNodeView childView = FindNodeView(rootNode.childNode);
                     CreateEdge(parentView, childView);
+                    childView.parentView = null;
                 }
                 else if(node is BT_ParentNode parentNode)
                 {
                     List<BT_Node> children = parentNode.GetChildNodes();
-
+                    
                     if (children != null)
                     {
                         // Connect all other nodes.
@@ -215,6 +209,7 @@ namespace BT
                         {
                             BT_ParentNodeView childView = FindNodeView(childrenNode);
                             CreateEdge(parentView, childView);
+                            childView.parentView = parentView;
                         }
                     }
                 }
@@ -312,7 +307,6 @@ namespace BT
                 {
                     if (element is BT_ParentNodeView parentNodeView)
                     {
-                        // Destroy the node.
                         NodeFactory.DestroyParentNode(parentNodeView.node, tree);
                     }
                     
@@ -320,10 +314,18 @@ namespace BT
                     if (element is Edge edge)
                     {
                         // The parent node is the node which is trying to connect to another node
-                        BT_ParentNodeView parentNode = edge.output.node as BT_ParentNodeView;
+                        BT_ParentNodeView parentNode = (BT_ParentNodeView) edge.output.node;
                         // The child node is the target node for the connection
-                        BT_ParentNodeView childNode = edge.input.node as BT_ParentNodeView;
+                        BT_ParentNodeView childNode = (BT_ParentNodeView) edge.input.node;
                         childNode.parentView = null;
+                        
+                        // Remove connected child from parent and register and undo/redo action for it.
+                        Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node remove child");
+                        parentNode.node.RemoveChildNode(childNode.node);
+                        EditorUtility.SetDirty(parentNode.node);
+                        
+                        // Once an element has been removed, re-sort all nodes
+                        // to determine the correct order of execution
                         parentNode.SortChildrenNodes();
                     }
                 }
@@ -342,14 +344,16 @@ namespace BT
                 foreach (Edge edge in graphViewChange.edgesToCreate)
                 {
                     // The parent node it's node which is trying to connect to another node
-                    BT_ParentNodeView parentNode = edge.output.node as BT_ParentNodeView;
+                    BT_ParentNodeView parentNode = (BT_ParentNodeView) edge.output.node;
                     // The child node it's the target node for the connection
-                    BT_ParentNodeView childNode = edge.input.node as BT_ParentNodeView;
+                    BT_ParentNodeView childNode = (BT_ParentNodeView) edge.input.node;
                     
                     // Add child parent node to parent.
                     Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node add child");
                     parentNode.node.AddChildNode(childNode.node);
+                    childNode.parentView = parentNode;
                     EditorUtility.SetDirty(parentNode.node);
+                    
                     // Once added, sort all the parent children.
                     parentNode.SortChildrenNodes();
                 }
@@ -390,7 +394,7 @@ namespace BT
         /// <param name="btParentNode"> The parent to which the new child will be attached. </param>
         public void CreateChildNode(Type nodeType, BT_ParentNodeView btParentNode)
         {
-            BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, (BT_ParentNode) btParentNode.node, tree) as BT_ChildNode;
+            BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, btParentNode.node, tree) as BT_ChildNode;
             BT_ChildNodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
             
             // Setup selection callback on the node view to be the same

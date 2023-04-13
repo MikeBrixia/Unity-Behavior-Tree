@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace BT.Runtime
@@ -162,6 +159,15 @@ namespace BT.Runtime
         public override void AddChildNode(BT_ParentNode child)
         {
             childrens.Add(child);
+        }
+
+        public override void RemoveChildNode<T>(T child)
+        {
+            Type nodeType = typeof(T);
+            if (nodeType == typeof(BT_ParentNode))
+            {
+                childrens.Remove(child);
+            }
         }
 
         public override Type[] GetNodeChildTypes()

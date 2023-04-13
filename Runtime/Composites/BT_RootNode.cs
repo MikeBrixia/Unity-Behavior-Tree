@@ -62,7 +62,7 @@ namespace BT.Runtime
 
         public override List<BT_Node> GetChildNodes()
         {
-            return null;
+            return new List<BT_Node> {childNode};
         }
 
         public override void AddChildNode<T>(T childNode)
@@ -73,6 +73,11 @@ namespace BT.Runtime
         public override void AddChildNode(BT_ParentNode child)
         {
             childNode = child;
+        }
+
+        public override void RemoveChildNode<T>(T child)
+        {
+            childNode = childNode.Equals(child) ? null : childNode;
         }
 
         public override Type[] GetNodeChildTypes()

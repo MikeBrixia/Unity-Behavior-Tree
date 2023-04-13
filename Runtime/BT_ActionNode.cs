@@ -158,7 +158,12 @@ namespace BT.Runtime
 
         public override void AddChildNode(BT_ParentNode child)
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Action nodes cannot have children");
+        }
+
+        public override void RemoveChildNode<T>(T child)
+        {
+            Debug.LogWarning("Action nodes cannot have children");
         }
 
         public override Type[] GetNodeChildTypes()

@@ -174,7 +174,7 @@ namespace BT
             // Remove node from the tree.
             Undo.RegisterCompleteObjectUndo(tree, "Behavior tree node removed");
             tree.nodes.Remove(node);
-
+            
             // Save node state by registering an undo/redo action and then destroy it.
             Undo.DestroyObjectImmediate(node);
             
