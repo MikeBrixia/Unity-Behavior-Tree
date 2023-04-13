@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using BT.Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +15,7 @@ namespace BT.Editor
         /// Reference to the node encapsulated inside this node view, this value is going
         /// to contain the actual instructions of the node
         ///</summary>
-        public BT_ParentNode node { get; protected set; }
+        public BT_ParentNode node { get; }
         
         ///<summary>
         /// The parent view at which this node view is connected with
@@ -28,16 +28,6 @@ namespace BT.Editor
         ///</summary>
         public Action<BT_ParentNodeView> onNodeSelected;
         
-        ///<summary>
-        /// Container for decorator nodes
-        ///</summary>
-        public VisualElement decoratorsContainer { get; private set; }
-
-        ///<summary>
-        /// Container service containers
-        ///</summary>
-        public VisualElement serviceContainer { get; private set; }
-        
         /// <summary>
         /// Unique GUID identifier for this node.
         /// </summary>
@@ -46,17 +36,7 @@ namespace BT.Editor
         ///<summary>
         /// The graph which owns this node
         ///</summary>
-        public BehaviorTreeGraphView graph { get; private set; }
-        
-        ///<summary>
-        /// The displayed node name
-        ///</summary>
-        private Label nodeNameLabel;
-        
-        /// <summary>
-        /// The displayed node type name.
-        /// </summary>
-        private Label nodeTypeNameLabel;
+        protected readonly BehaviorTreeGraphView graph;
         
         ///<summary>
         /// Output port of the node
@@ -73,21 +53,12 @@ namespace BT.Editor
         ///</summary>
         private Vector2 mousePosition;
         
-        ///<summary>
-        /// The displayed node description
-        ///</summary>
-        private Label nodeDescriptionLabel;
-        private VisualElement titleElement;
-        private VisualElement nodeBorder;
-
         protected BT_ParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph, string path) : base(path)
         {
             this.viewDataKey = node.guid.ToString();
             this.node = node;
             this.graph = graph;
             
-            // Initialize all the UI elements.
-            InitializeUIElements();
             
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
             RegisterCallback<MouseLeaveEvent>(OnMouseEnter);
@@ -98,10 +69,19 @@ namespace BT.Editor
             rect.position = this.node.position;
             SetPosition(rect);
             
-            // Draw parent node ports.
-            Draw();
+            // Begin creating parent node GUI.
+            OnCreateGUI();
         }
 
+        protected void OnCreateGUI()
+        {
+            // Initialize all UI elements.
+            InitializeUIElements();
+            
+            // CreateNodePorts parent node ports.
+            CreateNodePorts();
+        }
+        
         private void OnMouseEnter(MouseLeaveEvent evt)
         {
             BehaviorTreeManager.hoverObject = null;
@@ -111,33 +91,30 @@ namespace BT.Editor
         {
             BehaviorTreeManager.hoverObject = this;
         }
-
+        
         ///<summary>
         /// Called when we initialize visual element.
         ///</summary>
-        private void InitializeUIElements()
-        {
-            nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
-            nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
-            SerializedObject serializedNode = new SerializedObject(node);
-            
-            // Bind node name value to label
-            nodeNameLabel.bindingPath = "nodeName";
-            nodeNameLabel.Bind(serializedNode);
-            
-            // Bind node type name value to label
-            nodeTypeNameLabel.bindingPath = "nodeTypeName";
-            nodeTypeNameLabel.Bind(serializedNode);
-            
-            // Bind description value to description label.
-            nodeDescriptionLabel = mainContainer.parent.Q<Label>("NodeDescription");
-            nodeDescriptionLabel.bindingPath = "description";
-            nodeDescriptionLabel.Bind(serializedNode);
-
-            decoratorsContainer = mainContainer.parent.Q<VisualElement>("DecoratorsContainer");
-            serviceContainer = mainContainer.parent.Q<VisualElement>("ServiceContainer");
-            nodeBorder = mainContainer.parent.Q<VisualElement>("selection-border");
-        }
+        protected abstract void InitializeUIElements();
+        
+        /// <summary>
+        /// Get all the child views of the parent
+        /// </summary>
+        /// <typeparam name="T"> The type of the child views </typeparam>
+        /// <returns> A list of all child views inside the parent. </returns>
+        public abstract List<T> GetChildViews<T>() where T : BT_ChildNodeView;
+        
+        /// <summary>
+        /// Add a child view to this parent view.
+        /// </summary>
+        /// <param name="childView"> The child you want to add. </param>
+        /// <typeparam name="T"> The type of the child view. </typeparam>
+        public abstract void AddChildView<T>(T childView) where T : BT_ChildNodeView;
+        
+        /// <summary>
+        /// Create all child views using child nodes.
+        /// </summary>
+        public abstract void CreateChildViews();
         
         ///<summary>
         /// Called when this node view gets selected.
@@ -145,7 +122,6 @@ namespace BT.Editor
         public override void OnSelected()
         {
             BehaviorTreeManager.selectedObject = this;
-            ShowSelectionBorder(5f);
             onNodeSelected?.Invoke(this);
         }
         
@@ -154,21 +130,21 @@ namespace BT.Editor
         ///</summary>
         public override void OnUnselected()
         {
-            ShowSelectionBorder(0f);
             BehaviorTreeManager.selectedObject = null;
         }
-        
-        ///<summary>
-        /// Show or hide node border.
-        ///</summary>
-        ///<param name="width">the width of node border</param>
-        protected void ShowSelectionBorder(float width)
+
+        /// <summary>
+        ///  Show or hide node border.
+        /// </summary>
+        /// <param name="element"> The visual element you want to show the border. </param>
+        /// <param name="width">the width of node border</param>
+        protected void ShowSelectionBorder(VisualElement element, float width)
         {
-            nodeBorder.style.color = Color.blue;
-            nodeBorder.style.borderRightWidth = width;
-            nodeBorder.style.borderLeftWidth = width;
-            nodeBorder.style.borderTopWidth = width;
-            nodeBorder.style.borderBottomWidth = width;
+            element.style.color = Color.blue;
+            element.style.borderRightWidth = width;
+            element.style.borderLeftWidth = width;
+            element.style.borderTopWidth = width;
+            element.style.borderBottomWidth = width;
         }
         
         ///<summary>
@@ -177,8 +153,10 @@ namespace BT.Editor
         public sealed override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
-            // Constantly update node position in the graph with
-            // Undo/redo support
+            
+            // update node position in the graph with
+            // Undo/redo support. User will be able to undo
+            // all nodes movement operations.
             Undo.RecordObject(node, "Node position");
             node.position.x = newPos.xMin;
             node.position.y = newPos.yMin;
@@ -217,11 +195,10 @@ namespace BT.Editor
         }
         
         ///<summary>
-        /// Draw basic node layout
+        /// Create node input and output ports and initialize them.
         ///</summary>
-        private void Draw()
+        private void CreateNodePorts()
         {
-            // Initialize node ports
             CreateInputPort();
             CreateOutputPort();
             RefreshExpandedState();

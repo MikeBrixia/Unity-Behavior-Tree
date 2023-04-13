@@ -39,16 +39,16 @@ namespace BT.Editor
             
             // Ignore graph element template container.
             Add(childRoot.Children().First());
-            
-            // Remove graph element default stylesheet.
-            contentContainer.RemoveFromClassList("graphElement");
-            
+
             // Create child node GUI.
             OnCreateGUI();
         }
         
         private void OnCreateGUI()
         {
+            // Remove graph element default stylesheet.
+            contentContainer.RemoveFromClassList("graphElement");
+            
             InitializeUIElements();
         }
 
@@ -57,16 +57,17 @@ namespace BT.Editor
         /// for this node view.
         ///</summary>
         protected abstract void InitializeUIElements();
-
+        
+        /// <summary>
+        /// Get the parent view of this child.
+        /// </summary>
+        /// <typeparam name="T"> The type of the parent view. </typeparam>
+        /// <returns> The parent view. </returns>
+        public abstract T GetParentView<T>() where T : BT_ParentNodeView;
+        
         public override bool IsSelectable()
         {
             return !selected;
-        }
-
-        public override void Select(VisualElement selectionContainer, bool additive)
-        {
-            base.Select(selectionContainer, additive);
-            Debug.Log("ciao");
         }
 
         ///<summary>

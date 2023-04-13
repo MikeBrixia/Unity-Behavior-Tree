@@ -11,7 +11,7 @@ namespace BT.Editor
     ///<summary>
     /// Class used to display service views.
     ///</summary>
-    public sealed class BT_ServiceView : BT_ChildNodeView, IChildView
+    public sealed class BT_ServiceView : BT_ChildNodeView
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;
@@ -55,12 +55,10 @@ namespace BT.Editor
             serviceDescriptionLabel.bindingPath = "description";
             serviceDescriptionLabel.Bind(serializedNode);
             
-            if(parentView is IParentView view)
-                view.AddChildView<BT_ServiceView>(this);
+            // Register this view as a child for the given node view and add it to the
+            // UI Elements hierarchy.
+            parentView.AddChildView<BT_ServiceView>(this);
             
-            // Add parent view visual tree asset content inside the parent node
-            // service container. 
-            parentView.serviceContainer.Add(contentContainer);
         }
         
         public override void OnSelected()
@@ -77,7 +75,7 @@ namespace BT.Editor
             ShowSelectionBorder(serviceBorder, 2f, Color.black);
         }
 
-        public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
+        public override T GetParentView<T>()
         {
             return parentView as T;
         }

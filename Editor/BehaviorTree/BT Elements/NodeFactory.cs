@@ -70,7 +70,6 @@ namespace BT
                 
                 // Register child node inside parent node
                 RegisterChildNode(node, parent);
-                
             }
             return node;
         }
@@ -104,7 +103,7 @@ namespace BT
         /// Create a brand new node view
         ///</summary>
         ///<param name="node"> The node which will be wrapped inside the new node view </param>
-        public static T CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_ParentNodeView, IParentView
+        public static T CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_ParentNodeView
         {
             // When guid is invalid, generate a brand new one
             if (node.guid.Empty())
@@ -115,11 +114,8 @@ namespace BT
             // Create node view of type T.
             T nodeView = (T)Activator.CreateInstance(typeof(T),node, graph);
             
-            // Create decorators views for composite and action nodes
-            if(nodeView is IParentView parentView)
-            {
-                parentView.CreateChildViews();
-            }
+            // Create all attached and supported nodes for this parent node view.
+            nodeView.CreateChildViews();
             
             // Setup node selection callback.
             nodeView.onNodeSelected = graph.onNodeSelected;
@@ -148,11 +144,8 @@ namespace BT
             Type viewType = BehaviorTreeManager.nodeViewMap[nodeType!];
             BT_ParentNodeView parentNodeView = (BT_ParentNodeView)Activator.CreateInstance(viewType,node, graph);
             
-            // Create decorators views for composite and action nodes
-            if(parentNodeView is IParentView parentView)
-            {
-                parentView.CreateChildViews();
-            }
+            // Create all attached and supported nodes for this parent node view.
+            parentNodeView.CreateChildViews();
             
             // Setup node selection callback.
             parentNodeView.onNodeSelected = graph.onNodeSelected;

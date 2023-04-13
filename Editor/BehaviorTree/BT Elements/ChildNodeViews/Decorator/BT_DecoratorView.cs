@@ -12,7 +12,7 @@ namespace BT.Editor
     ///<summary>
     /// Class used to display decorator view.
     ///</summary>
-    public class BT_DecoratorView : BT_ChildNodeView, IChildView
+    public class BT_DecoratorView : BT_ChildNodeView
     {
         private VisualElement decoratorBorder;
         private Label nameLabel;
@@ -49,12 +49,7 @@ namespace BT.Editor
             
             // Register this view as a child for the given node view and add it to the
             // UI Elements hierarchy.
-            if(parentView is IParentView view)
-                view.AddChildView<BT_DecoratorView>(this);
-            
-            // Add parent view visual tree asset content inside the parent node
-            // decorator container. 
-            parentView.decoratorsContainer.Add(contentContainer);
+            parentView.AddChildView<BT_DecoratorView>(this);
         }
         
         public override void OnSelected()
@@ -71,7 +66,7 @@ namespace BT.Editor
             ShowSelectionBorder(decoratorBorder, 2f, Color.black);
         }
 
-        public T GetParentView<T>() where T : BT_ParentNodeView, IChildView
+        public override T GetParentView<T>()
         {
             return parentView as T;
         }
