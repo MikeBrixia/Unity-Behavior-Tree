@@ -139,7 +139,7 @@ namespace BT.Runtime
             return resultList;
         }
 
-        public override List<BT_Node> GetChildNodes()
+        public override List<BT_Node> GetConnectedNodes()
         {
             return null;
         }
@@ -156,12 +156,12 @@ namespace BT.Runtime
                 services.Add(childNode as BT_Service);
         }
 
-        public override void AddChildNode(BT_ParentNode child)
+        public override void ConnectNode(BT_ParentNode child)
         {
             Debug.LogWarning("Action nodes cannot have children");
         }
 
-        public override void RemoveChildNode<T>(T child)
+        public override void DisconnectNode(BT_ParentNode child)
         {
             Debug.LogWarning("Action nodes cannot have children");
         }

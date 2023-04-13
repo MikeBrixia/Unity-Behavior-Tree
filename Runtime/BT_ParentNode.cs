@@ -4,8 +4,12 @@ using System.Collections.Generic;
 namespace BT.Runtime
 {
     /// <summary>
-    /// Parent nodes are behavior trees who can
-    /// have children nodes attached to them.
+    /// Parent nodes are nodes who can
+    /// have children nodes attached to them
+    /// and can be connected to other parent nodes
+    /// by using input/output ports.
+    /// This type of node can be placed and dragged inside
+    /// the graph and hold a position in it.
     /// </summary>
     public abstract class BT_ParentNode : BT_Node
     {
@@ -20,7 +24,7 @@ namespace BT.Runtime
         /// Get a list of all the nodes connected to this parent node.
         /// </summary>
         /// <returns> All the nodes connected to this node. </returns>
-        public abstract List<BT_Node> GetChildNodes();
+        public abstract List<BT_Node> GetConnectedNodes();
         
         /// <summary>
         /// Add a child node to this parent node.
@@ -30,18 +34,19 @@ namespace BT.Runtime
         public abstract void AddChildNode<T>(T childNode) where T : BT_ChildNode;
         
         /// <summary>
-        /// Connect this node to another parent node. When connected
-        /// The child node will become a children of this node.
+        /// Connect this node to another node. When connected
+        /// The node will become the parent of the "child" node.
         /// </summary>
         /// <param name="child"> The child node to connect to this parent node. </param>
-        public abstract void AddChildNode(BT_ParentNode child);
+        public abstract void ConnectNode(BT_ParentNode child);
         
         /// <summary>
-        /// Remove the given child node connected to this parent node. Child node
-        /// will be disconnected from this parent node.
+        /// Remove a node connected to this parent node. Child node
+        /// will be disconnected from this parent node and will no
+        /// longer be a child of this node.
         /// </summary>
         /// <param name="child"> The node you want to disconnect.</param>
-        public abstract void RemoveChildNode<T>(T child) where T : BT_ParentNode;
+        public abstract void DisconnectNode(BT_ParentNode child);
         
         /// <summary>
         /// Get all the children types supported by this node.

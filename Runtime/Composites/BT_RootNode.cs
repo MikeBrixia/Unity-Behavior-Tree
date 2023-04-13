@@ -60,7 +60,7 @@ namespace BT.Runtime
             return null;
         }
 
-        public override List<BT_Node> GetChildNodes()
+        public override List<BT_Node> GetConnectedNodes()
         {
             return new List<BT_Node> {childNode};
         }
@@ -70,13 +70,13 @@ namespace BT.Runtime
             throw new System.NotImplementedException();
         }
 
-        public override void AddChildNode(BT_ParentNode child)
+        public override void ConnectNode(BT_ParentNode child)
         {
             childNode = child;
         }
 
-        public override void RemoveChildNode<T>(T child)
-        {
+        public override void DisconnectNode(BT_ParentNode child)
+        { 
             childNode = childNode.Equals(child) ? null : childNode;
         }
 

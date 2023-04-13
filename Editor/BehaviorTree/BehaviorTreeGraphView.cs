@@ -196,11 +196,11 @@ namespace BT
                     // Connect root node to it's child.
                     BT_ParentNodeView childView = FindNodeView(rootNode.childNode);
                     CreateEdge(parentView, childView);
-                    childView.parentView = null;
+                    childView.parentView = parentView;
                 }
                 else if(node is BT_ParentNode parentNode)
                 {
-                    List<BT_Node> children = parentNode.GetChildNodes();
+                    List<BT_Node> children = parentNode.GetConnectedNodes();
                     
                     if (children != null)
                     {
@@ -321,10 +321,10 @@ namespace BT
                         
                         // Remove connected child from parent and register and undo/redo action for it.
                         Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node remove child");
-                        parentNode.node.RemoveChildNode(childNode.node);
+                        parentNode.node.DisconnectNode(childNode.node);
                         EditorUtility.SetDirty(parentNode.node);
                         
-                        // Once an element has been removed, re-sort all nodes
+                        // Once an element has been removed, re-sort all child nodes
                         // to determine the correct order of execution
                         parentNode.SortChildrenNodes();
                     }
@@ -350,7 +350,7 @@ namespace BT
                     
                     // Add child parent node to parent.
                     Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node add child");
-                    parentNode.node.AddChildNode(childNode.node);
+                    parentNode.node.ConnectNode(childNode.node);
                     childNode.parentView = parentNode;
                     EditorUtility.SetDirty(parentNode.node);
                     
