@@ -54,7 +54,7 @@ namespace BT
             Insert(0, new GridBackground());
 
             // Load style sheet
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/GridBackgroundStyle.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
             styleSheets.Add(styleSheet);
 
             // Add manipulators to this graph
@@ -68,10 +68,18 @@ namespace BT
 
             // Keyboard callbacks
             RegisterCallback<KeyDownEvent>(OnKeyboardPressed, TrickleDown.TrickleDown);
-
+            
+            RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            
             // Copy/paste callbacks
             serializeGraphElements += OnCopy;
             unserializeAndPaste += OnPaste;
+        }
+
+        private void OnPointerMove(PointerMoveEvent evt)
+        {
+            // Update mouse position.
+            mousePosition = ((Vector2)evt.localPosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
         }
 
         ///<summary>
@@ -79,14 +87,15 @@ namespace BT
         ///</summary>
         private void OnPaste(string operationName, string data)
         {
+            Debug.Log(data);
             // Paste copied node views 
-            foreach (BT_ParentNodeView copiedNode in copyCache)
+            foreach (BT_ParentNodeView copiedData in copyCache)
             {
-                BT_Node node = NodeFactory.CreateNode(copiedNode.node.GetType(), tree);
-                node.position = mousePosition;
+                CreateNode(copiedData.node.GetType(), mousePosition);
             }
+            
             // Once we finished pasting nodes, clear the copy cache
-            // and repopulate the view
+            // and repopulate the view.
             copyCache.Clear();
             PopulateView();
         }
@@ -159,6 +168,8 @@ namespace BT
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
+            
+            // N.B. When copy pasting and undoing tree is null for some reason.
             
             // If not already present, create the root node
             if (tree.rootNode == null && AssetDatabase.Contains(tree))
@@ -242,16 +253,12 @@ namespace BT
         ///</summary>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            // Workaround to find the mouse position in the graph space because evt.originalMousePosition doesn't work
-            RegisterCallback<MouseDownEvent>
-            (evt =>
-            {
-                mousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
-            });
-            
             // Has the user selected a node view object?
             if (BehaviorTreeManager.selectedObject == null)
             {
+                // Compute mouse position(evt.mousePosition returns strange position).
+                mousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
+                
                 // Get all parent nodes types in the project.
                 TypeCache.TypeCollection parentTypes = TypeCache.GetTypesDerivedFrom<BT_ParentNode>();
             

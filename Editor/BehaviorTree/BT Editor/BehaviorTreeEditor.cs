@@ -51,7 +51,7 @@ namespace BT.Editor
         public void CreateGUI()
         {
             // Load UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BehaviorTreeEditor.uxml");
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
             visualTree.CloneTree(rootVisualElement);
             
             behaviorTreeView = rootVisualElement.Q<BehaviorTreeGraphView>();

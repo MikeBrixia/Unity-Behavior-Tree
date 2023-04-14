@@ -10,7 +10,7 @@ namespace BT.Runtime
     public class BehaviorTreeComponent : MonoBehaviour
     {
         ///<summary>
-        /// The behavior tree this component is responsible to run
+        /// The behavior tree asset this component is responsible to run
         ///</summary>
         [SerializeField] private BehaviorTree behaviorTree;
         
@@ -28,14 +28,8 @@ namespace BT.Runtime
         ///<summary>
         /// The state of the currently running Behavior Tree
         ///</summary>
-        public EBehaviorTreeState behaviorTreeState
-        {
-            get
-            {
-                return behaviorTree.treeState;
-            }
-        }
-        
+        public EBehaviorTreeState behaviorTreeState => behaviorTree.treeState;
+
         void Awake()
         {
             // Clone behavior tree
