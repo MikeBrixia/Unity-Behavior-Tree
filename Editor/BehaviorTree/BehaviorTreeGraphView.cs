@@ -41,9 +41,12 @@ namespace BT
         private Vector2 mousePosition;
         
         ///<summary>
-        /// all the data which we want to copy with CTRL-C
+        /// all the data which we want to copy with CTRL-C-CTRL-V.
+        /// copied data will be temporarily stored and will be the same
+        /// across al behavior tree graphs, allowing users to copy nodes from one graph
+        /// and pasting them inside another graph.
         ///</summary>
-        private readonly List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
+        private static readonly List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
         
         public BehaviorTreeGraphView()
         {
@@ -198,7 +201,7 @@ namespace BT
                     CreateEdge(parentView, childView);
                     childView.parentView = parentView;
                 }
-                else if(node is BT_ParentNode parentNode)
+                else if(node is BT_ParentNode parentNode and not BT_RootNode)
                 {
                     List<BT_Node> children = parentNode.GetConnectedNodes();
                     
@@ -227,7 +230,7 @@ namespace BT
         
         public override void AddToSelection(ISelectable selectable)
         {
-            if (selectable is BT_ChildNodeView)
+            if (selectable is BT_ChildNodeView && selection.Count <=1)
             {
                 ClearSelection();
             }

@@ -59,7 +59,6 @@ namespace Editor.BehaviorTree.BT_Elements
         
         public BT_ActionView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
         {
-            Debug.Log(node);
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();
         }

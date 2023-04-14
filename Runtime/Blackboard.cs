@@ -17,7 +17,7 @@ namespace BT.Runtime
         /// <summary>
         /// Dictionary which contains all serialized blackboard key-value pairs.
         /// </summary>
-        [SerializeField] private Dictionary<string, BlackboardPropertyBase> blackboardDict = new Dictionary<string, BlackboardPropertyBase>();
+        private Dictionary<string, BlackboardPropertyBase> blackboardDict = new Dictionary<string, BlackboardPropertyBase>();
         
         ///<summary>
         /// All the properties stored in this blackboard.
