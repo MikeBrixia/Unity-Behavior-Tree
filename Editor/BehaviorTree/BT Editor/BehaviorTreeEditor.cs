@@ -99,7 +99,7 @@ namespace BT.Editor
             {
                 treeViewLabel.text = " Tree View: " + tree.name;
                 behaviorTreeView.tree = tree;
-
+                
                 // serialized properties used for inspecting blackboard asset in the 
                 // behavior tree editor view.
                 if(tree.blackboard != null)

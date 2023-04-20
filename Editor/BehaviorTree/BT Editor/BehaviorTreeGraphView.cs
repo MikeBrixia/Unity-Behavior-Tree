@@ -7,6 +7,8 @@ using System;
 using System.Linq;
 using BT.Runtime;
 using BT.Editor;
+using Edge = UnityEditor.Experimental.GraphView.Edge;
+using Node = UnityEditor.Experimental.GraphView.Node;
 
 namespace BT
 {
@@ -14,9 +16,9 @@ namespace BT
     /// The behavior tree graph view in which the user is going to
     /// Create, move and delete behavior tree nodes
     ///</summary>
-    public class BehaviorTreeGraphView : GraphView
+    public sealed class BehaviorTreeGraphView : GraphView
     {
-
+        
         public new class UxmlFactory : UxmlFactory<BehaviorTreeGraphView, UxmlTraits> { }
         
         ///<summary>
@@ -38,7 +40,17 @@ namespace BT
         ///<summary>
         /// the position of the mouse in the graph
         ///</summary>
-        private Vector2 mousePosition;
+        private Vector2 currentMousePosition;
+        
+        /// <summary>
+        /// The last position in the graph where the user clicked it's mouse.
+        /// </summary>
+        private Vector2 lastClickPosition;
+        
+        /// <summary>
+        /// The rectangle used for rectangle selection inside the graph.
+        /// </summary>
+        private Rect rectangleSelection;
         
         ///<summary>
         /// all the data which we want to copy with CTRL-C-CTRL-V.
@@ -46,7 +58,7 @@ namespace BT
         /// across al behavior tree graphs, allowing users to copy nodes from one graph
         /// and pasting them inside another graph.
         ///</summary>
-        private static readonly List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
+        private static readonly List<NodeSelectionInfo> copyCache = new List<NodeSelectionInfo>();
         
         public BehaviorTreeGraphView()
         {
@@ -56,7 +68,7 @@ namespace BT
             // Load style sheet
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
             styleSheets.Add(styleSheet);
-
+            
             // Add manipulators to this graph
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new ContentZoomer());
@@ -69,29 +81,81 @@ namespace BT
             // Keyboard callbacks
             RegisterCallback<KeyDownEvent>(OnKeyboardPressed, TrickleDown.TrickleDown);
             
+            // Mouse callbacks
+            RegisterCallback<MouseDownEvent>(OnClick);
             RegisterCallback<PointerMoveEvent>(OnPointerMove);
             
             // Copy/paste callbacks
             serializeGraphElements += OnCopy;
             unserializeAndPaste += OnPaste;
+            
+            // Initialize rectangle selection.
+            rectangleSelection = new Rect();
         }
 
+        private void OnClick(MouseDownEvent evt)
+        {
+            lastClickPosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
+        }
+        
+        /// <summary>
+        /// Called when the mouse pointer moves inside the behavior tree graph.
+        /// </summary>
+        /// <param name="evt"></param>
         private void OnPointerMove(PointerMoveEvent evt)
         {
             // Update mouse position.
-            mousePosition = ((Vector2)evt.localPosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
+            currentMousePosition = ((Vector2)evt.localPosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
+            
+            // Update rectangle selection with the new min and max positions.
+            // min position will be equal to the last point of the graph on which the user clicked.
+            rectangleSelection.min = lastClickPosition;
+            
+            // Max position will be equal to the current mouse pointer position in the graph.
+            rectangleSelection.max = currentMousePosition;
         }
-
+        
         ///<summary>
         /// Called when the user express the intention to paste some nodes(ctrl-v)
         ///</summary>
         private void OnPaste(string operationName, string data)
         {
-            Debug.Log(data);
             // Paste copied node views 
-            foreach (BT_ParentNodeView copiedData in copyCache)
+            foreach (NodeSelectionInfo copiedData in copyCache)
             {
-                CreateNode(copiedData.node.GetType(), mousePosition);
+                // The node we're trying to copy.
+                BT_Node pastedNode = copiedData.node;
+                
+                // The position at which we want to create the node.
+                Vector2 nodePosition;
+                
+                // Is the user trying to copy more than one node?
+                if (copyCache.Count > 1)
+                {
+                    // Get the center of the selection in which the copied node was selected and use it
+                    // to compute the direction from the selection center to the node position in the graph
+                    // where the node was selected.
+                    Vector2 selectionCenter = copiedData.selectionRectangle.center;
+                    Vector2 dirFromCenter = (pastedNode.position - copiedData.selectionRectangle.center).normalized;
+                
+                    // Compute distance between the selection center and node position in the graph in which
+                    // was selected.
+                    float distance = Vector2.Distance(selectionCenter, pastedNode.position);
+                
+                    // Use distance and direction to correctly position the copied node inside the current graph.
+                    // after having placed it, create a node view for it.
+                    nodePosition = currentMousePosition + dirFromCenter * distance;
+                }
+                else
+                {
+                    // If the user is trying to copy only one node then 
+                    // position it where the mouse pointer is currently
+                    // positioned inside the graph.
+                    nodePosition = currentMousePosition;
+                }
+                
+                // Finally, copy the node.
+                CreateNode(pastedNode.GetType(), nodePosition);
             }
             
             // Once we finished pasting nodes, clear the copy cache
@@ -110,7 +174,8 @@ namespace BT
             {
                 if (element is BT_ParentNodeView parentNodeToCopy)
                 {
-                    copyCache.Add(parentNodeToCopy);
+                    NodeSelectionInfo nodeInfo = new NodeSelectionInfo(parentNodeToCopy.node, rectangleSelection);
+                    copyCache.Add(nodeInfo);
                 }
             }
             return copyCache.ToString();
@@ -145,6 +210,7 @@ namespace BT
         ///</summary>
         private void OnUndoRedo()
         {
+            tree = Selection.activeObject as BehaviorTree;
             AssetDatabase.SaveAssets();
             PopulateView();
         }
@@ -247,7 +313,7 @@ namespace BT
             }
             base.AddToSelection(selectable);
         }
-
+        
         ///<summary>
         /// Display contextual menu to track mouse position, display and handle nodes creation.
         ///</summary>
@@ -256,8 +322,8 @@ namespace BT
             // Has the user selected a node view object?
             if (BehaviorTreeManager.selectedObject == null)
             {
-                // Compute mouse position(evt.mousePosition returns strange position).
-                mousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
+                // Compute mouse position(evt.originalMousePosition returns strange position).
+                currentMousePosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
                 
                 // Get all parent nodes types in the project.
                 TypeCache.TypeCollection parentTypes = TypeCache.GetTypesDerivedFrom<BT_ParentNode>();
@@ -270,14 +336,14 @@ namespace BT
                     {
                         string baseTypeName = nodeType.BaseType.Name.Remove(0, 3);
                         string actionName = baseTypeName + "/" + nodeType.Name;
-                        evt.menu.AppendAction(actionName, (a) => CreateNode(nodeType, mousePosition));
+                        evt.menu.AppendAction(actionName, (a) => CreateNode(nodeType, currentMousePosition));
                     }
                 }
             
                 // If there's no root node in the graph allow user to create it.
                 if (tree.rootNode == null)
                 {
-                    evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
+                    evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), currentMousePosition));
                 }
             }
         }
@@ -384,12 +450,24 @@ namespace BT
         ///<summary>
         /// Create a node and display it in the graph
         ///</summary>
-        ///<param name="type"> The type of the node you want to create</param>
-        ///<param name="nodePosition"> The position of the node in the graph</param>
+        ///<param name="type"> The type of the node you want to create </param>
+        ///<param name="nodePosition"> The position of the node in the graph </param>
         private void CreateNode(Type type, Vector2 nodePosition)
         {
+            // Create a new node of the supplied type.
             BT_Node node = NodeFactory.CreateNode(type, tree);
             node.position = nodePosition;
+            
+            // Wrap created node inside a node view.
+            CreateNodeView(node);
+        }
+        
+        /// <summary>
+        /// Create a node view for the supplied behavior tree node.
+        /// </summary>
+        /// <param name="node"> Teh node which will be wrapped inside the node view.</param>
+        private void CreateNodeView(BT_Node node)
+        {
             BT_ParentNodeView parentNodeView = NodeFactory.CreateNodeView(node, this);
             
             // Setup selection callback on the node view to be the same

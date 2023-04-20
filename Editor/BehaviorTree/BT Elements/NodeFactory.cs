@@ -215,8 +215,9 @@ namespace BT
             if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
                 && !nodeType.IsSubclassOf(typeof(BT_Service)))
             {
+                Debug.Log("record add");
                 // Record created node for undoing actions and add it to the behavior tree node list
-                Undo.RecordObject(tree, "Undo add nodes");
+                Undo.RegisterCompleteObjectUndo(tree, "Undo add nodes");
                 tree.nodes.Add(node);
             }
             
