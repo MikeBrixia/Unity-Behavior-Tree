@@ -6,7 +6,7 @@ namespace BT.Runtime
 {
     ///<summary>
     /// This composite node it's gonna loop a given number of times
-    /// through it's childrens before returning success. If all loops are 
+    /// through it's children before returning success. If all loops are 
     /// successfull this node is going to succed, if even one loop fails
     /// this node it's going to fail.
     ///</summary>
@@ -32,14 +32,14 @@ namespace BT.Runtime
 
         protected override EBehaviorTreeState Execute()
         {
-            BT_Node child = childrens[executedChildrenIndex];
+            BT_Node child = children[executedChildrenIndex];
             switch (child.ExecuteNode())
             {
                 case EBehaviorTreeState.Success:
                     executedChildrenIndex++;
                     state = EBehaviorTreeState.Running;
-                    // If we executed all the loop childrens 
-                    if (executedChildrenIndex == childrens.Count)
+                    // If we executed all the loop children 
+                    if (executedChildrenIndex == children.Count)
                     {
                         currentLoop++;
                         executedChildrenIndex = 0;

@@ -40,7 +40,7 @@ namespace BT.Runtime
         ///</summary>
         [HideInInspector] public Vector2 position;
         
-        public Blackboard blackboard { get; set; }
+        protected Blackboard blackboard { get; set; }
 
         [HideInInspector]
         public bool isStarted;
@@ -50,7 +50,7 @@ namespace BT.Runtime
         ///</summary>
         protected EBehaviorTreeState state = EBehaviorTreeState.Running;
 
-        public BT_Node()
+        protected BT_Node()
         {
             nodeTypeName = "(" + GetType() + ")";
         }
@@ -135,7 +135,7 @@ namespace BT.Runtime
         /// Try to stop the execution of this node, returns true
         /// if the execution was stopped, false otherwise.
         ///</summary>
-        internal bool StopExecution()
+        private bool StopExecution()
         {
             // If the node logic returned a success or failure notify that
             // the execution of this node has stopped

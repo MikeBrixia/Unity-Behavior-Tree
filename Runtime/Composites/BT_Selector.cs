@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BT.Runtime
 {
     ///<summary>
-    /// This composite node will execute all childrens nodes from left to right
+    /// This composite node will execute all children nodes from left to right
     /// and stop when one of them succeds.
     /// if all children fails, this node also fails.
     ///</summary>
@@ -14,12 +14,12 @@ namespace BT.Runtime
         public BT_Selector() : base()
         {
             nodeTypeName = "Selector";
-            description = "Execute all it's childrens in order and stops when one of them succeds";
+            description = "Execute all it's children in order and stops when one of them succeds";
         }
 
         protected override EBehaviorTreeState Execute()
         {
-            BT_Node child = childrens[executedChildrenIndex];
+            BT_Node child = children[executedChildrenIndex];
             switch (child.ExecuteNode())
             {
                 case EBehaviorTreeState.Success:
@@ -33,7 +33,7 @@ namespace BT.Runtime
                     return EBehaviorTreeState.Running;
             }
 
-            return executedChildrenIndex == childrens.Count ? EBehaviorTreeState.Failed : EBehaviorTreeState.Running;
+            return executedChildrenIndex == children.Count ? EBehaviorTreeState.Failed : EBehaviorTreeState.Running;
         }
 
         protected override void OnStart()

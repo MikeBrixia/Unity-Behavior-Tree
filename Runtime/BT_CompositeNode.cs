@@ -7,15 +7,15 @@ namespace BT.Runtime
     ///<summary>
     /// Composites nodes are the roots of branches in the tree and define how a specific branch
     /// should execute and what rules should it follow.
-    /// This node have 1 input and multiple outputs(Childrens)
+    /// This node have 1 input and multiple outputs(Children)
     ///</summary>
     public abstract class BT_CompositeNode : BT_ParentNode
     {
 
         ///<summary>
-        /// The childrens this composite should try to execute.
+        /// The children this composite should try to execute.
         ///</summary>
-        [HideInInspector] public List<BT_Node> childrens = new List<BT_Node>();
+        [HideInInspector] public List<BT_Node> children = new List<BT_Node>();
 
         ///<summary>
         /// Decorators attached to this composite
@@ -109,7 +109,7 @@ namespace BT.Runtime
         {
             BT_CompositeNode composite = Instantiate(this);
             composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            composite.childrens = composite.childrens.ConvertAll(child => child.Clone());
+            composite.children = composite.children.ConvertAll(child => child.Clone());
             composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
@@ -124,7 +124,7 @@ namespace BT.Runtime
             base.SetBlackboard(blackboard);
             decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
             services.ForEach(service => service.SetBlackboard(blackboard));
-            childrens.ForEach(children => children.SetBlackboard(blackboard));
+            children.ForEach(children => children.SetBlackboard(blackboard));
         }
 
         public override List<T> GetChildNodes<T>()
@@ -141,7 +141,7 @@ namespace BT.Runtime
 
         public override List<BT_Node> GetConnectedNodes()
         {
-            return childrens;
+            return children;
         }
 
         public override void AddChildNode<T>(T childNode)
@@ -158,14 +158,14 @@ namespace BT.Runtime
 
         public override void ConnectNode(BT_ParentNode child)
         {
-            childrens.Add(child);
+            children.Add(child);
         }
 
         public override void DisconnectNode(BT_ParentNode child)
         {
             if (child.GetType().IsSubclassOf(typeof(BT_ParentNode)))
             {
-                childrens.Remove(child);
+                children.Remove(child);
             }
         }
 

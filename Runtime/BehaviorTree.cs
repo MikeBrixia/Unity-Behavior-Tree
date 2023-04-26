@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace BT.Runtime
         /// if true, the beavior tree is going to update each frame, otherwise
         /// it will use a user defined update interval(updateInterval).
         ///</summary>
-        public bool canTick = false;
+        public bool canTick;
 
         ///<summary>
         /// The rate at which the behavior tree it's going
@@ -49,6 +50,28 @@ namespace BT.Runtime
         /// All the Behavior Tree nodes
         ///</summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
+
+        public void AddNode(BT_Node node)
+        {
+            
+        }
+
+        public void InsertNode(BT_Node node)
+        {
+            
+        }
+
+        public bool RemoveNode(BT_Node node)
+        {
+            return true;
+        }
+        
+        public System.Collections.Generic.IEnumerator<ElementType> GetEnumerator()
+        {
+            throw new NotImplementedException();
+            yield return default(ElementType);
+
+        }
         
         ///<summary>
         /// Clone this behavior tree asset

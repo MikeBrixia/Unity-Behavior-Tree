@@ -211,7 +211,7 @@ namespace BT.Editor
             BT_CompositeNode compositeNode = node as BT_CompositeNode;
             if (compositeNode != null)
             {
-                compositeNode.childrens.Sort(SortByPosition);
+                compositeNode.children.Sort(SortByPosition);
             }
         }
         

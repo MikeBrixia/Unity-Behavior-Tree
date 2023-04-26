@@ -120,7 +120,9 @@ namespace BT
         ///</summary>
         private void OnPaste(string operationName, string data)
         {
-            // Paste copied node views 
+            List<BT_ParentNodeView> views = new List<BT_ParentNodeView>();
+            
+            // Paste copied nodes.
             foreach (NodeSelectionInfo copiedData in copyCache)
             {
                 // The node we're trying to copy.
@@ -154,8 +156,13 @@ namespace BT
                     nodePosition = currentMousePosition;
                 }
                 
-                // Finally, copy the node.
-                CreateNode(pastedNode.GetType(), nodePosition);
+                // Finally, create a copy of this node.
+                pastedNode = NodeFactory.CloneNode(pastedNode, tree);
+                
+                // Initialize copy/pasted node
+                pastedNode.position = nodePosition;
+                BT_ParentNodeView nodeView = CreateNodeView(pastedNode);
+                views.Add(nodeView);
             }
             
             // Once we finished pasting nodes, clear the copy cache
@@ -174,6 +181,7 @@ namespace BT
             {
                 if (element is BT_ParentNodeView parentNodeToCopy)
                 {
+                    parentNodeToCopy.node.GetConnectedNodes();
                     NodeSelectionInfo nodeInfo = new NodeSelectionInfo(parentNodeToCopy.node, rectangleSelection);
                     copyCache.Add(nodeInfo);
                 }
@@ -452,7 +460,7 @@ namespace BT
         ///</summary>
         ///<param name="type"> The type of the node you want to create </param>
         ///<param name="nodePosition"> The position of the node in the graph </param>
-        private void CreateNode(Type type, Vector2 nodePosition)
+        private BT_Node CreateNode(Type type, Vector2 nodePosition)
         {
             // Create a new node of the supplied type.
             BT_Node node = NodeFactory.CreateNode(type, tree);
@@ -460,19 +468,23 @@ namespace BT
             
             // Wrap created node inside a node view.
             CreateNodeView(node);
+            
+            return node;
         }
         
         /// <summary>
         /// Create a node view for the supplied behavior tree node.
         /// </summary>
         /// <param name="node"> Teh node which will be wrapped inside the node view.</param>
-        private void CreateNodeView(BT_Node node)
+        private BT_ParentNodeView CreateNodeView(BT_Node node)
         {
             BT_ParentNodeView parentNodeView = NodeFactory.CreateNodeView(node, this);
             
             // Setup selection callback on the node view to be the same
             parentNodeView.onNodeSelected += onNodeSelected;
             AddElement(parentNodeView);
+
+            return parentNodeView;
         }
         
         /// <summary>
@@ -480,13 +492,15 @@ namespace BT
         /// </summary>
         /// <param name="nodeType"> The type of the child node to create. </param>
         /// <param name="btParentNode"> The parent to which the new child will be attached. </param>
-        public void CreateChildNode(Type nodeType, BT_ParentNodeView btParentNode)
+        public BT_ChildNodeView CreateChildNode(Type nodeType, BT_ParentNodeView btParentNode)
         {
             BT_ChildNode childNode = NodeFactory.CreateChildNode(nodeType, btParentNode.node, tree) as BT_ChildNode;
             BT_ChildNodeView nodeView = NodeFactory.CreateChildNodeView(btParentNode, childNode, this);
             
             // Setup selection callback on the node view to be the same
             nodeView.selectedCallback += onChildNodeSelected;
+
+            return nodeView;
         }
     }
 }

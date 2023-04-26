@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
@@ -184,7 +185,30 @@ namespace BT
             // Save operations to disk.
             AssetDatabase.SaveAssets();
         }
-
+        
+        public static BT_Node CloneNode(BT_Node node, BehaviorTree tree)
+        {
+            BT_Node copiedNode = node.Clone();
+            copiedNode.name = "";
+            
+            // Register node
+            RegisterNode(copiedNode, tree);
+            List<BT_Node> connectedNodes = ((BT_ParentNode) copiedNode).GetConnectedNodes();
+            
+            // Does the node have children?
+            if (connectedNodes != null)
+            {
+                // Register all children of this node.
+                foreach (BT_Node child in connectedNodes)
+                {
+                    child.name = "";
+                    RegisterNode(child, tree);
+                }
+            }
+            
+            return copiedNode;
+        }
+        
         public static void DestroyChildNode(BT_ParentNode parent, BT_ChildNode child, BehaviorTree tree)
         {
             // Remove node from the tree.
@@ -215,21 +239,21 @@ namespace BT
             if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
                 && !nodeType.IsSubclassOf(typeof(BT_Service)))
             {
-                Debug.Log("record add");
                 // Record created node for undoing actions and add it to the behavior tree node list
                 Undo.RegisterCompleteObjectUndo(tree, "Undo add nodes");
                 tree.nodes.Add(node);
+                EditorUtility.SetDirty(tree);
             }
             
             // Save the node asset on the disk
             AssetDatabase.SaveAssets();
         }
-
+        
         private static void RegisterChildNode(BT_ChildNode child, BT_ParentNode parent)
         {
             if (parent != null)
             {
-                Undo.RecordObject(parent, "Undo decorator creation");
+                Undo.RegisterCompleteObjectUndo(parent, "Undo add nodes");
                 parent.AddChildNode(child);
                 EditorUtility.SetDirty(parent);
             }
