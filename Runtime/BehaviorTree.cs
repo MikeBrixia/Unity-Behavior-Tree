@@ -19,17 +19,17 @@ namespace BT.Runtime
     {
 
         ///<summary>
-        /// The blackboard used by this behavior tree
+        /// The blackboard attached to the behavior tree.
         ///</summary>
         public Blackboard blackboard;
 
         ///<summary>
-        /// The root node of this behavior tree
+        /// The entry point node of the behavior tree.
         ///</summary>
         [HideInInspector] public BT_RootNode rootNode;
         
         ///<summary>
-        /// if true, the beavior tree is going to update each frame, otherwise
+        /// if true, the behavior tree is going to update each frame, otherwise
         /// it will use a user defined update interval(updateInterval).
         ///</summary>
         public bool canTick;
@@ -61,16 +61,20 @@ namespace BT.Runtime
             
         }
 
-        public bool RemoveNode(BT_Node node)
+        public void RemoveNode(BT_Node node)
         {
-            return true;
+            
         }
         
-        public System.Collections.Generic.IEnumerator<ElementType> GetEnumerator()
+        // Behavior tree custom iterator.
+        public IEnumerator<BT_Node> GetEnumerator()
         {
-            throw new NotImplementedException();
-            yield return default(ElementType);
-
+            BT_ParentNode currentNode = (BT_ParentNode) rootNode.childNode;
+            while (true)
+            {
+                //TODO implement behavior tree iterator.
+                yield return currentNode;
+            }
         }
         
         ///<summary>
