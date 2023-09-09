@@ -1,6 +1,7 @@
 
 using UnityEditor;
 using BT.Runtime;
+using UnityEngine;
 
 namespace BT.Editor
 {
@@ -9,13 +10,9 @@ namespace BT.Editor
     /// Custom inspector which handles nodes value changes and reflect them in
     /// to the displayed node
     ///</summary>
-    [CustomEditor(typeof(BT_Node))]
+    [CustomEditor(typeof(BT_Node), true)]
     public class NodeInspector : UnityEditor.Editor
     {
-        
-        private SerializedProperty serializedNodeName;
-        private SerializedProperty serializedNodeDescription;
-
         private delegate void onValueChange<in TPropertyType>(TPropertyType propertyChanged);
         
         private onValueChange<string> onNodeNameChange;
@@ -24,9 +21,9 @@ namespace BT.Editor
         public override void OnInspectorGUI()
         {
             // Load properties
-            serializedNodeName = serializedObject.FindProperty("nodeName");
+            SerializedProperty serializedNodeName = serializedObject.FindProperty("nodeName");
             string previousNodeName = serializedNodeName.stringValue;
-            serializedNodeDescription = serializedObject.FindProperty("description");
+            SerializedProperty serializedNodeDescription = serializedObject.FindProperty("description");
             string previousDescription = serializedNodeDescription.stringValue;
             
             base.OnInspectorGUI();

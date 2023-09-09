@@ -7,30 +7,12 @@ using BT.Runtime;
 
 namespace BT.Editor
 {
-    public class BlackboardInspector : VisualElement
+    [CustomEditor(typeof(Blackboard))]
+    public class BlackboardInspector : UnityEditor.Editor
     {
-        public new class UxmlFactory : UxmlFactory<BlackboardInspector, UxmlTraits> { }
-        
-        ///<summary>
-        /// The blackboard inspector which is going to inspect the blackboard
-        ///</summary>
-        private UnityEditor.Editor blackboardInspector;
-        
-        ///<summary>
-        /// Update inspector view
-        ///</summary>
-        public void UpdateInspector(BehaviorTree blackboardToInspect)
+        public override void OnInspectorGUI()
         {
-            Clear();
-            UnityEngine.Object.DestroyImmediate(blackboardInspector);
-            blackboardInspector = UnityEditor.Editor.CreateEditorWithContext(new Object[] { blackboardToInspect }, null, typeof(BehaviorTree));
-            IMGUIContainer container = new IMGUIContainer(() =>
-            {
-                if (blackboardInspector.target != null)
-                {
-                    blackboardInspector.OnInspectorGUI();
-                }
-            });
+            base.OnInspectorGUI();
         }
     }
 }

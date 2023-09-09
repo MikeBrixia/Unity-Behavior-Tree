@@ -69,8 +69,8 @@ namespace BT.Runtime
                 {
                     // When there is a new behavior tree cancel all the updates to the previous tree
                     // and clone the new tree
-                    CancelInvoke("ExecuteBehaviorTree");
-                    InvokeRepeating("ExecuteBehaviorTree", 0f, this.behaviorTree.updateInterval);
+                    CancelInvoke(nameof(ExecuteBehaviorTree));
+                    InvokeRepeating(nameof(ExecuteBehaviorTree), 0f, this.behaviorTree.updateInterval);
                 }
             }
         }

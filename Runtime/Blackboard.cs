@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BT.Runtime
@@ -69,6 +70,13 @@ namespace BT.Runtime
         {
             return Instantiate(this);
         }
+
+#if UNITY_EDITOR
+        public string[] GetVariablesNames()
+        {
+            return blackboardDict.Keys.ToArray();;
+        }
+#endif
     }
 }
 

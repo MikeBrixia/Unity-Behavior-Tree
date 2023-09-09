@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,38 +46,12 @@ namespace BT.Runtime
         /// The current state of this Behavior Tree.
         ///</summary>
         [HideInInspector] public EBehaviorTreeState treeState;
-
+        
         ///<summary>
         /// All the Behavior Tree nodes
         ///</summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
 
-        public void AddNode(BT_Node node)
-        {
-            
-        }
-
-        public void InsertNode(BT_Node node)
-        {
-            
-        }
-
-        public void RemoveNode(BT_Node node)
-        {
-            
-        }
-        
-        // Behavior tree custom iterator.
-        public IEnumerator<BT_Node> GetEnumerator()
-        {
-            BT_ParentNode currentNode = (BT_ParentNode) rootNode.childNode;
-            while (true)
-            {
-                //TODO implement behavior tree iterator.
-                yield return currentNode;
-            }
-        }
-        
         ///<summary>
         /// Clone this behavior tree asset
         ///</summary>

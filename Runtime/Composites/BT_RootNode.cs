@@ -11,7 +11,7 @@ namespace BT.Runtime
         /// The root of the Behavior Tree, execution will start
         /// with this node
         ///</summary>
-        [HideInInspector] public BT_Node childNode;
+        [HideInInspector] public BT_ParentNode childNode;
 
         public BT_RootNode() : base()
         {
@@ -30,7 +30,7 @@ namespace BT.Runtime
         public override BT_Node Clone()
         {
             BT_RootNode node = Instantiate(this);
-            node.childNode = node.childNode.Clone();
+            node.childNode = node.childNode.Clone() as BT_ParentNode;
             return node;
         }
 
@@ -38,11 +38,11 @@ namespace BT.Runtime
         /// Set the blackboard component which is used by the tree who owns
         /// this root node.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this root node</param>
-        internal override void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this root node</param>
+        public override void SetBlackboard(Blackboard treeBlackboard)
         {
-            base.SetBlackboard(blackboard);
-            childNode.SetBlackboard(blackboard);
+            base.SetBlackboard(treeBlackboard);
+            childNode.SetBlackboard(treeBlackboard);
         }
 
         protected override void OnStart()
@@ -60,9 +60,9 @@ namespace BT.Runtime
             return null;
         }
 
-        public override List<BT_Node> GetConnectedNodes()
+        public override List<BT_ParentNode> GetConnectedNodes()
         {
-            return new List<BT_Node> {childNode};
+            return new List<BT_ParentNode> {childNode};
         }
 
         public override void AddChildNode<T>(T childNode)

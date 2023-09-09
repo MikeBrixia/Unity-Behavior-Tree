@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BT.Runtime
 {
@@ -53,15 +54,15 @@ namespace BT.Runtime
         Color 
     }
 
-    public enum BlackboardVariableType
+    public enum BlackboardObjectType
     {
-        Variable,
-        CStyleArray,
-        List,
+        Object,
+        StaticArray,
+        DynamicArray,
         HashSet
     }
     
-    [System.Serializable]
+    [Serializable]
     public class BlackboardPropertyBase
     {
         ///<summary>
@@ -79,8 +80,8 @@ namespace BT.Runtime
         ///<summary>
         /// The value type of this property
         ///</summary>
-        [SerializeField]
-        public BlackboardVariableType variableType = BlackboardVariableType.Variable;
+        [FormerlySerializedAs("variableType")] [SerializeField]
+        public BlackboardObjectType objectType = BlackboardObjectType.Object;
         
         ///<summary>
         /// Initialize this property with the given type default value.
@@ -137,21 +138,21 @@ namespace BT.Runtime
         private BlackboardPropertyBase InitializeProperty<T>(T value)
         {
             BlackboardPropertyBase property = null;
-            switch (variableType)
+            switch (objectType)
             {
-                case BlackboardVariableType.CStyleArray:
+                case BlackboardObjectType.StaticArray:
                     property = new BlackboardProperty<T[]>(name, valueType, Array.Empty<T>());
                     break;
                 
-                case BlackboardVariableType.List:
+                case BlackboardObjectType.DynamicArray:
                     property = new BlackboardProperty<List<T>>(name, valueType, null);
                     break;
                 
-                case BlackboardVariableType.HashSet:
+                case BlackboardObjectType.HashSet:
                     property = new BlackboardProperty<HashSet<T>>(name, valueType, null);
                     break;
                 
-                case BlackboardVariableType.Variable:
+                case BlackboardObjectType.Object:
                     property = new BlackboardProperty<T>(name, valueType, value);
                     break;
             }

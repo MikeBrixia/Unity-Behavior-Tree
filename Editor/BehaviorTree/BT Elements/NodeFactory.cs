@@ -21,7 +21,8 @@ namespace BT
             {
                 node.nodeTypeName = nodeType.Name;
                 node.guid = GUID.Generate();
-            
+                node.SetBlackboard(tree.blackboard);
+                
                 // If the new node is a root node, override
                 // the old root node with the new one.
                 if(nodeType == typeof(BT_RootNode))
@@ -39,21 +40,9 @@ namespace BT
         {
             // The type of the node we want to create.
             Type nodeType = typeof(T);
-                
+            
             // Create node and generate GUID
-            T node = ScriptableObject.CreateInstance<T>();
-            node.nodeTypeName = nodeType.Name;
-            node.guid = GUID.Generate();
-            
-            // If the new node is a root node, override
-            // the old root node with the new one.
-            if(nodeType == typeof(BT_RootNode))
-            {
-                tree.rootNode = node as BT_RootNode;
-            }
-            
-            // Register the node in the behavior tree.
-            RegisterNode(node, tree);
+            T node = CreateNode(nodeType, tree) as T;
             return node;
         }
 
@@ -63,9 +52,11 @@ namespace BT
             BT_ChildNode node = ScriptableObject.CreateInstance(nodeType) as BT_ChildNode;
             if (node != null)
             {
+                // Initialize node parameters.
                 node.nodeTypeName = nodeType.Name;
                 node.guid = GUID.Generate();
-            
+                node.SetBlackboard(tree.blackboard);
+                
                 // Register the node in the behavior tree.
                 RegisterNode(node, tree);
                 
@@ -86,17 +77,9 @@ namespace BT
         private static TChildType CreateChildNode<TChildType, TParentType>(TParentType parent, BehaviorTree tree) where TChildType : BT_ChildNode
                                                                                                                   where TParentType : BT_ParentNode
         {
-            // Create node and generate GUID
-            TChildType node = ScriptableObject.CreateInstance<TChildType>();
-            node.nodeTypeName = typeof(TChildType).Name;
-            node.guid = GUID.Generate();
-            
-            // Register the node in the behavior tree.
-            RegisterNode(node, tree);
-            
-            // Register child node inside parent node
-            RegisterChildNode(node, parent);
-
+            // Create a node of TChildType.
+            Type nodeType = typeof(TChildType);
+            TChildType node = CreateChildNode(nodeType, parent, tree) as TChildType;
             return node;
         }
         
@@ -193,7 +176,7 @@ namespace BT
             
             // Register node
             RegisterNode(copiedNode, tree);
-            List<BT_Node> connectedNodes = ((BT_ParentNode) copiedNode).GetConnectedNodes();
+            List<BT_ParentNode> connectedNodes = ((BT_ParentNode) copiedNode).GetConnectedNodes();
             
             // Does the node have children?
             if (connectedNodes != null)

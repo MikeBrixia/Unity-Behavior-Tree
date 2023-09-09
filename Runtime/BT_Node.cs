@@ -33,14 +33,17 @@ namespace BT.Runtime
         /// <summary>
         /// Editable description of what this node does.
         /// </summary>
-        public string description;
+        [SerializeField] protected string description;
         
         ///<summary>
         /// The position of this node in the graph
         ///</summary>
         [HideInInspector] public Vector2 position;
         
-        protected Blackboard blackboard { get; set; }
+        /**
+         * Reference to the tree blackboard.
+         */
+        protected Blackboard blackboard;
 
         [HideInInspector]
         public bool isStarted;
@@ -109,8 +112,10 @@ namespace BT.Runtime
         {
             // If not already started, starts the execution
             StartExecution();
+            
             // Execute the node logic
             state = Execute();
+            
             // Once we've finished executing our instructions, determine 
             // if it's the case of stopping the execution
             StopExecution();
@@ -152,15 +157,20 @@ namespace BT.Runtime
         /// Set the blackboard component which is used by the tree who owns
         /// this node.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this node</param>
-        internal virtual void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this node</param>
+        public virtual void SetBlackboard(Blackboard treeBlackboard)
         {
-            this.blackboard = blackboard;
+            this.blackboard = treeBlackboard;
         }
 
         public Type GetNodeParentType()
         {
             return GetType().BaseType;
+        }
+
+        public Blackboard GetBlackboard()
+        {
+            return blackboard;
         }
     }
 }

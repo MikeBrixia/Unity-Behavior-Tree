@@ -16,12 +16,13 @@ namespace BT.Runtime
         /// will return true if boolean value is false, when set to true will return
         /// true if the boolean value is true.
         ///</summary>
-        private enum BlackboardDecoratorCondition { IsSetToFalse,  IsSetToTrue }
+        public enum BlackboardDecoratorCondition { IsSetToFalse,  IsSetToTrue }
         
         ///<summary>
         /// The blackboard key those value is needed to evaluate the condition.
         ///</summary>
-        public string blackboardKey;
+        [HideInInspector] [SerializeField]
+        private string blackboardKey;
         
         ///<summary>
         /// The condition mode for this node.

@@ -117,12 +117,12 @@ namespace BT.Runtime
         /// Set the blackboard component which is used by the tree who owns
         /// this action.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this action</param>
-        internal override void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this action</param>
+        public override void SetBlackboard(Blackboard treeBlackboard)
         {
-            base.SetBlackboard(blackboard);
-            decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
-            services.ForEach(service => service.SetBlackboard(blackboard));
+            base.SetBlackboard(treeBlackboard);
+            decorators.ForEach(decorator => decorator.SetBlackboard(treeBlackboard));
+            services.ForEach(service => service.SetBlackboard(treeBlackboard));
         }
         
 #if UNITY_EDITOR
@@ -139,7 +139,7 @@ namespace BT.Runtime
             return resultList;
         }
 
-        public override List<BT_Node> GetConnectedNodes()
+        public override List<BT_ParentNode> GetConnectedNodes()
         {
             return null;
         }

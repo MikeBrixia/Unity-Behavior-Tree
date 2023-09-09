@@ -15,7 +15,7 @@ namespace BT.Runtime
         ///<summary>
         /// The children this composite should try to execute.
         ///</summary>
-        [HideInInspector] public List<BT_Node> children = new List<BT_Node>();
+        [HideInInspector] public List<BT_ParentNode> children = new List<BT_ParentNode>();
 
         ///<summary>
         /// Decorators attached to this composite
@@ -52,8 +52,10 @@ namespace BT.Runtime
         ///</summary>
         internal override void OnStop_internal()
         {
-            // When this node has done running disable all the service nodes updates
+            // When this node has done running disable all the service nodes updates.
             services.ForEach(service => service.OnStop_internal());
+            // And also reset the execute children index.
+            executedChildrenIndex = 0;
             base.OnStop_internal();
         }
         
@@ -84,7 +86,7 @@ namespace BT.Runtime
         /// Execute all decorators attached to this composite
         ///</summary>
         ///<returns> true if all decorators are successfull, false otherwise</returns>
-        private bool ExecuteDecorators()
+        internal bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
             // Execute all decorators attached to composite node
@@ -109,7 +111,7 @@ namespace BT.Runtime
         {
             BT_CompositeNode composite = Instantiate(this);
             composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            composite.children = composite.children.ConvertAll(child => child.Clone());
+            composite.children = composite.children.ConvertAll(child => child.Clone() as BT_ParentNode);
             composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
@@ -118,13 +120,13 @@ namespace BT.Runtime
         /// Set the blackboard component which is used by the tree who owns
         /// this composite.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this composite</param>
-        internal override void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this composite</param>
+        public override void SetBlackboard(Blackboard treeBlackboard)
         {
-            base.SetBlackboard(blackboard);
-            decorators.ForEach(decorator => decorator.SetBlackboard(blackboard));
-            services.ForEach(service => service.SetBlackboard(blackboard));
-            children.ForEach(children => children.SetBlackboard(blackboard));
+            base.SetBlackboard(treeBlackboard);
+            decorators.ForEach(decorator => decorator.SetBlackboard(treeBlackboard));
+            services.ForEach(service => service.SetBlackboard(treeBlackboard));
+            children.ForEach(children => children.SetBlackboard(treeBlackboard));
         }
 
         public override List<T> GetChildNodes<T>()
@@ -139,7 +141,7 @@ namespace BT.Runtime
             return resultList;
         }
 
-        public override List<BT_Node> GetConnectedNodes()
+        public override List<BT_ParentNode> GetConnectedNodes()
         {
             return children;
         }

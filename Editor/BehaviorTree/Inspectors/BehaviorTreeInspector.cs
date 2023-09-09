@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -15,7 +16,7 @@ namespace BT
         ///<summary>
         /// The editor which is going to inspect the node.
         ///</summary>
-        private NodeInspector inspectorEditor;
+        private UnityEditor.Editor inspectorEditor;
         
         ///<summary>
         /// Update the inspector view.
@@ -26,9 +27,11 @@ namespace BT
             // Clear Inspector view and reference before creating a new editor
             Clear();
             Object.DestroyImmediate(inspectorEditor);
-            // Initialize new editor
-            inspectorEditor = UnityEditor.Editor.CreateEditorWithContext(new Object[] { nodeToInspect }, null, typeof(NodeInspector)) 
-                              as NodeInspector;
+            UnityEditor.Editor.CreateEditor(new Object[] {nodeToInspect});
+            
+            // Initialize new node inspector editor.
+            inspectorEditor = UnityEditor.Editor.CreateEditor(new Object[] {nodeToInspect});
+            
             if (inspectorEditor != null)
             {
                 inspectorEditor.UseDefaultMargins();

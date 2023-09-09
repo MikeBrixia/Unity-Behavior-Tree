@@ -288,12 +288,12 @@ namespace BT
                 }
                 else if(node is BT_ParentNode parentNode and not BT_RootNode)
                 {
-                    List<BT_Node> children = parentNode.GetConnectedNodes();
+                    List<BT_ParentNode> children = parentNode.GetConnectedNodes();
                     
                     if (children != null)
                     {
                         // Connect all other nodes.
-                        foreach (BT_Node childrenNode in children)
+                        foreach (BT_ParentNode childrenNode in children)
                         {
                             BT_ParentNodeView childView = FindNodeView(childrenNode);
                             CreateEdge(parentView, childView);
@@ -340,7 +340,7 @@ namespace BT
                 // parent nodes in the graph at mouse position.
                 foreach (Type nodeType in parentTypes)
                 {
-                    if (nodeType.BaseType != null)
+                    if (nodeType.BaseType != null && nodeType.BaseType != typeof(BT_ParentNode))
                     {
                         string baseTypeName = nodeType.BaseType.Name.Remove(0, 3);
                         string actionName = baseTypeName + "/" + nodeType.Name;

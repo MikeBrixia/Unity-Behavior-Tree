@@ -24,7 +24,7 @@ namespace BT.Runtime
         /// Get a list of all the nodes connected to this parent node.
         /// </summary>
         /// <returns> All the nodes connected to this node. </returns>
-        public abstract List<BT_Node> GetConnectedNodes();
+        public abstract List<BT_ParentNode> GetConnectedNodes();
         
         /// <summary>
         /// Add a child node to this parent node.
