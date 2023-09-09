@@ -57,8 +57,12 @@ namespace BT.Runtime
             blackboardDict = new Dictionary<string, BlackboardPropertyBase>();
             foreach(BlackboardPropertyBase property in blackboardProperties)
             {
-                BlackboardPropertyBase newProperty = property.CreateProperty();
-                blackboardDict.TryAdd(property.name, newProperty);
+                // Ignores properties without a type.
+                if (property.valueType != BlackboardSupportedTypes.None)
+                {
+                    BlackboardPropertyBase newProperty = property.CreateProperty();
+                    blackboardDict.TryAdd(property.name, newProperty);
+                }
             }
         }
         
@@ -75,6 +79,22 @@ namespace BT.Runtime
         public string[] GetVariablesNames()
         {
             return blackboardDict.Keys.ToArray();;
+        }
+
+        public string[] GetVariableNamesOfType(BlackboardSupportedTypes type)
+        {
+            List<string> names = new List<string>();
+            // Iterate over all blackboard properties and select only the ones which
+            // matches the requested type.
+            foreach (KeyValuePair<string, BlackboardPropertyBase> pair in blackboardDict)
+            {
+                if (pair.Value.valueType == type)
+                {
+                    names.Add(pair.Key);
+                }
+            }
+
+            return names.ToArray();
         }
 #endif
     }

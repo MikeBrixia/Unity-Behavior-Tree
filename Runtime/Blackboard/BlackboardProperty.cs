@@ -13,45 +13,49 @@ namespace BT.Runtime
     public enum BlackboardSupportedTypes 
     { 
         /// <summary>
+        /// None means "no type".
+        /// </summary>
+        None = 0,
+        /// <summary>
         /// Primitive bool type.
         /// </summary>
-        Boolean, 
+        Boolean = 1, 
         /// <summary>
         /// Primitive float type.
         /// </summary>
-        Float, 
+        Float = 2, 
         /// <summary>
         /// Unity GameObject type.
         /// </summary>
-        GameObject, 
+        GameObject = 3, 
         /// <summary>
         /// Unity Vector2 type.
         /// </summary>
-        Vector2, 
+        Vector2 = 4, 
         /// <summary>
         /// Unity Vector3 type.
         /// </summary>
-        Vector3,
+        Vector3 = 5,
         ///<summary>
         /// Unity Quaternion type
         /// </summary>
-        Quaternion,
+        Quaternion = 6,
         /// <summary>
         /// Primitive string type.
         /// </summary>
-        String, 
+        String = 7, 
         /// <summary>
         /// Primitive double type.
         /// </summary>
-        Double, 
+        Double = 8, 
         /// <summary>
         /// Primitive int type.
         /// </summary>
-        Integer, 
+        Integer = 9, 
         /// <summary>
         /// Unity Color type.
         /// </summary>
-        Color 
+        Color = 10
     }
 
     public enum BlackboardObjectType
