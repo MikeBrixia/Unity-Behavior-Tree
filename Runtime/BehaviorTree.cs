@@ -52,6 +52,21 @@ namespace BT.Runtime
         ///</summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
 
+#if UNITY_EDITOR
+        // delegate used to listen for blackboard changes.
+        public delegate void OnBlackboardChange(Blackboard blackboard);
+        
+        /// <summary>
+        /// Called when the user changes or invalidates the tree blackboard.
+        /// </summary>
+        public OnBlackboardChange onBlackboardChange;
+        
+        public void OnValidate()
+        {
+            onBlackboardChange?.Invoke(blackboard);
+        }
+#endif
+        
         ///<summary>
         /// Clone this behavior tree asset
         ///</summary>
@@ -62,7 +77,11 @@ namespace BT.Runtime
             tree.rootNode = tree.rootNode.Clone() as BT_RootNode;
             tree.blackboard = tree.blackboard.Clone();
             // Initialize behavior tree and blackboard references on each node of the tree
-            tree.rootNode.SetBlackboard(tree.blackboard);
+            if (tree.rootNode != null)
+            {
+                tree.rootNode.SetBlackboard(tree.blackboard);
+            }
+                
             return tree;
         }
     }

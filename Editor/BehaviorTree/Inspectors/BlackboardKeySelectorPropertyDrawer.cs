@@ -34,6 +34,7 @@ namespace BT.Editor
             {
                 // If true, then find the blackboard who owns the inspected decorator node.
                 Blackboard blackboard =  propertyOwner.GetBlackboard();
+                
                 if (blackboard != null)
                 {
                     BlackboardSupportedTypes constrain = (BlackboardSupportedTypes) typeConstrain.enumValueFlag;
@@ -43,20 +44,18 @@ namespace BT.Editor
                                     blackboard.GetVariablesNames() : blackboard.GetVariableNamesOfType(constrain);
                     selectedIndex = Array.IndexOf(variableNames, blackboardKey.stringValue);
                     
-                    Debug.Log(selectedIndex);
+                    // Draw property editor layout elements.
+                    isVisible = EditorGUILayout.Foldout(isVisible, "Key selector", true);
+                    if (isVisible)
+                    {
+                        selectedIndex = EditorGUILayout.Popup("Blackboard Key", selectedIndex, variableNames);
+                        // If selection index is not invalid(e.g. the user has selected an option),
+                        // update the property.
+                        blackboardKey.stringValue = selectedIndex != -1 ? variableNames?[selectedIndex] : "None";
+                        // If user want to edit advanced settings, this section will be shown to him.
+                        EditorGUILayout.PropertyField(typeConstrain);
+                    }
                 }
-            }
-            
-            // Draw property editor layout elements.
-            isVisible = EditorGUILayout.Foldout(isVisible, "Key selector", true);
-            if (isVisible)
-            {
-                selectedIndex = EditorGUILayout.Popup("Blackboard Key", selectedIndex, variableNames);
-                // If selection index is not invalid(e.g. the user has selected an option),
-                // update the property.
-                blackboardKey.stringValue = selectedIndex != -1 ? variableNames?[selectedIndex] : "None";
-                // If user want to edit advanced settings, this section will be shown to him.
-                EditorGUILayout.PropertyField(typeConstrain);
             }
         }
     }

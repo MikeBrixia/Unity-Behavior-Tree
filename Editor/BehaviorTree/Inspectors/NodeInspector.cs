@@ -1,7 +1,6 @@
 
 using UnityEditor;
 using BT.Runtime;
-using UnityEngine;
 
 namespace BT.Editor
 {

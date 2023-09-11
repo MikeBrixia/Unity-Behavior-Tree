@@ -11,16 +11,15 @@ namespace BT.Editor
     [SerializeField]
     public class BehaviorTreeEditor : EditorWindow
     {
-       
-        private BehaviorTreeGraphView behaviorTreeView;
-        private BehaviorTreeInspector nodeInspectorView;
-        private IMGUIContainer blackboardInspectorView;
+        private BehaviorTree behaviorTree;
+        private BehaviorTreeGraphView graphView;
+        private NodeInspectorView nodeInspectorView;
+        private BlackboardInspectorView blackboardInspectorView;
         private Label treeViewLabel;
         private ToolbarButton saveButton;
         private ToolbarButton refreshButton;
         private SerializedObject serializedBlackboard;
-        private SerializedProperty blackboardProperty;
-        
+
         ///<summary>
         /// Open the behavior tree editor window.
         ///</summary>
@@ -37,12 +36,12 @@ namespace BT.Editor
         [OnOpenAsset]
         public static bool OpenEditor(int instanceID, int line)
         {
-            if (Selection.activeObject is BehaviorTree)
+            bool canOpen = Selection.activeObject is BehaviorTree;
+            if (canOpen)
             {
                 OpenWindow();
-                return true;
             }
-            return false;
+            return canOpen;
         }
         
         ///<summary>
@@ -50,67 +49,66 @@ namespace BT.Editor
         ///</summary>
         public void CreateGUI()
         {
-            // Load UXML
+            // The currently selected behavior tree.
+            behaviorTree = Selection.activeObject as BehaviorTree;
+            
+            // Load behavior tree UXML file and make a copy of it.
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
             visualTree.CloneTree(rootVisualElement);
             
-            behaviorTreeView = rootVisualElement.Q<BehaviorTreeGraphView>();
-            nodeInspectorView = rootVisualElement.Q<BehaviorTreeInspector>();
+            // Initialize all the behavior tree editor views.
+            graphView = rootVisualElement.Q<BehaviorTreeGraphView>();
+            
             saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
             refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
             
-            // Initialize toolbar buttons click event
+            // Initialize toolbar buttons click events.
             saveButton.clicked += AssetDatabase.SaveAssets;
             refreshButton.clicked += AssetDatabase.Refresh;
-
-            // Initialize blackboard inspector view in behavior tree editor
-            blackboardInspectorView = rootVisualElement.Q<IMGUIContainer>("BlackboardInspector");
-            blackboardInspectorView.onGUIHandler = () =>
+            refreshButton.clicked += RefreshEditorAndAssets;
+            
+            // Handle blackboard inspector GUI events.
+            blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
+            nodeInspectorView = rootVisualElement.Q<NodeInspectorView>();
+            if (behaviorTree != null)
             {
-                // Inspect blackboard asset in behavior tree editor window
-                if(serializedBlackboard != null && serializedBlackboard.targetObject == behaviorTreeView.tree.blackboard)
-                {
-                    serializedBlackboard.Update();
-                    EditorGUILayout.PropertyField(blackboardProperty);
-                    serializedBlackboard.ApplyModifiedProperties();
-                }
-                else
-                {
-                    EditorGUILayout.LabelField("No blackboard assigned");
-                }
-            };
+                behaviorTree.onBlackboardChange += blackboard => blackboardInspectorView.InspectBlackboard(blackboard);
+                blackboardInspectorView.InspectBlackboard(behaviorTree.blackboard);
+                nodeInspectorView.InspectNode(behaviorTree.rootNode);
+            }
+            
             treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
 
             // Initialize Callback for when the node selection changes from a node to another node
-            behaviorTreeView.onNodeSelected = OnNodeSelectionChange;
-            behaviorTreeView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
+            graphView.onNodeSelected = OnNodeSelectionChange;
+            graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
 
             OnSelectionChange();
         }
         
+        /**
+         * Refresh the behavior tree editor and
+         * the asset it's currently editing.
+         */
+        private void RefreshEditorAndAssets()
+        {
+        }
+
         ///<summary>
         /// Called when the behavior tree editor selection change.
         ///</summary>
         private void OnSelectionChange()
         {
             // The currently selected behavior tree.
-            BehaviorTree tree = Selection.activeObject as BehaviorTree;
-            if (tree != null)
+            behaviorTree = Selection.activeObject as BehaviorTree;
+            if (behaviorTree != null)
             {
-                treeViewLabel.text = " Tree View: " + tree.name;
-                behaviorTreeView.tree = tree;
-                
-                // serialized properties used for inspecting blackboard asset in the 
-                // behavior tree editor view.
-                if(tree.blackboard != null)
-                {
-                    serializedBlackboard = new SerializedObject(tree.blackboard);
-                    blackboardProperty = serializedBlackboard.FindProperty("blackboardProperties");
-                }
+                treeViewLabel.text = " Tree View: " + behaviorTree.name;
+                graphView.tree = behaviorTree;
                 
                 // When the user selects a behavior tree we need to populate
                 // the graph view with the tree asset data.
-                behaviorTreeView.PopulateView();
+                graphView.PopulateView();
             }
         }
 
@@ -122,29 +120,19 @@ namespace BT.Editor
             BehaviorTreeManager.selectedObject = parentNodeView;
             if (nodeInspectorView != null)
             {
-                nodeInspectorView.UpdateInspector(parentNodeView.node);
+                nodeInspectorView.InspectNode(parentNodeView.node);
             }
         }
         
         ///<summary>
-        /// Called when node visual elemenet changes.
+        /// Called when node visual element changes.
         ///</summary>
         private void OnNodeVisualElementSelectionChange(BT_ChildNodeView childNodeView)
         {
             BehaviorTreeManager.selectedObject = childNodeView;
             if (nodeInspectorView != null)
             {
-                BT_DecoratorView decoratorView = childNodeView as BT_DecoratorView;
-                if(decoratorView != null)
-                {
-                    nodeInspectorView.UpdateInspector(decoratorView.node);
-                }
-
-                BT_ServiceView serviceView = childNodeView as BT_ServiceView;
-                if(serviceView != null)
-                {
-                    nodeInspectorView.UpdateInspector(serviceView.node);
-                }
+                nodeInspectorView.InspectNode(childNodeView.node);
             }
         }
     }

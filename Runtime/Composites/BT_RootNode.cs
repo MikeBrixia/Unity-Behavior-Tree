@@ -42,7 +42,10 @@ namespace BT.Runtime
         public override void SetBlackboard(Blackboard treeBlackboard)
         {
             base.SetBlackboard(treeBlackboard);
-            childNode.SetBlackboard(treeBlackboard);
+            if (childNode != null)
+            {
+                childNode.SetBlackboard(treeBlackboard);
+            }
         }
 
         protected override void OnStart()
