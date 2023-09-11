@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UIElements;
-using BT.Editor;
 using BT.Runtime;
 
 namespace BT.Editor
 {
-    public class NodeInspectorView : IMGUIContainer
+    /// <summary>
+    /// Class responsible for displaying selected node inspector
+    /// inside the behavior tree editor nodes inspector window.
+    /// </summary>
+    public sealed class NodeInspectorView : IMGUIContainer
     {
         public new class UxmlFactory : UxmlFactory<NodeInspectorView, UxmlTraits> { }
         
@@ -20,12 +19,39 @@ namespace BT.Editor
         
         public void InspectNode(BT_Node node)
         {
+            // Remove any previous UI elements to make room for new ones.
+            Clear();
+            
+            VisualElement inspectorGUI;
+            // Is the inspected node valid?
             if (node != null)
             {
-                // Create the blackboard inspector editor with a target object to inspect.
+                // If true, then create the node inspector editor with a target node to inspect.
                 this.nodeInspector = UnityEditor.Editor.CreateEditorWithContext(new Object[]{node}, null, typeof(BlackboardInspector));
-                onGUIHandler = nodeInspector.OnInspectorGUI;
+                inspectorGUI = nodeInspector.CreateInspectorGUI();
             }
+            else
+            {
+                // Otherwise, create and invalid node GUI replacement.
+                inspectorGUI = CreateInvalidNodeGUI();
+            }
+            
+            // Display the correct inspector GUI.
+            Add(inspectorGUI);
+        }
+
+        private VisualElement CreateInvalidNodeGUI()
+        {
+            Label invalidNodeLabel = new Label("No nodes selected")
+            {
+                  style =
+                  {
+                      alignItems = Align.Center,
+                      top = 100
+                  }
+            };
+
+            return invalidNodeLabel;
         }
     }
 }

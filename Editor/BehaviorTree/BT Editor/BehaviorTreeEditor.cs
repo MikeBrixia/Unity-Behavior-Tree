@@ -1,25 +1,65 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Callbacks;
-using System;
 using UnityEditor.UIElements;
 using BT.Runtime;
 
 namespace BT.Editor
 {
-    [SerializeField]
+    /// <summary>
+    /// The Behavior Tree Editor is the class responsible for
+    /// coordinating all the different components of the
+    /// user editor, like graphs, inspectors, toolbar, selections ecc...
+    /// </summary>
     public class BehaviorTreeEditor : EditorWindow
     {
+        /// <summary>
+        /// The tree currently being edited by this editor.
+        /// </summary>
         private BehaviorTree behaviorTree;
+        
+        /// <summary>
+        /// The graph view used to interact with tree nodes.
+        /// </summary>
         private BehaviorTreeGraphView graphView;
+        
+        /// <summary>
+        /// The inspector view used to inspect graph nodes.
+        /// </summary>
         private NodeInspectorView nodeInspectorView;
+        
+        /// <summary>
+        /// The inspector view used to inspect the assigned blackboard.
+        /// </summary>
         private BlackboardInspectorView blackboardInspectorView;
+        
+        /// <summary>
+        /// The label displaying the name of the currently edited tree.
+        /// </summary>
         private Label treeViewLabel;
+        
+        /// <summary>
+        /// Button which users can press when they want to save the edited asset.
+        /// </summary>
         private ToolbarButton saveButton;
+        
+        /// <summary>
+        /// Button which users can press when they want to restore data or fix some
+        /// unknown issues. 
+        /// </summary>
         private ToolbarButton refreshButton;
-        private SerializedObject serializedBlackboard;
-
+        
+        /// <summary>
+        /// The save cache is where the behavior tree editor
+        /// temporarily stores saved assets, after the user has pressed the
+        /// save button. It can be used to keep track of the
+        /// latest saved version of a tree in case there was
+        /// a fatal error which caused irreversible data corruption.
+        /// </summary>
+        private readonly Queue<BehaviorTree> saveCache = new Queue<BehaviorTree>();
+        
         ///<summary>
         /// Open the behavior tree editor window.
         ///</summary>
@@ -53,7 +93,7 @@ namespace BT.Editor
             behaviorTree = Selection.activeObject as BehaviorTree;
             
             // Load behavior tree UXML file and make a copy of it.
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
             visualTree.CloneTree(rootVisualElement);
             
             // Initialize all the behavior tree editor views.
@@ -63,8 +103,8 @@ namespace BT.Editor
             refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
             
             // Initialize toolbar buttons click events.
-            saveButton.clicked += AssetDatabase.SaveAssets;
-            refreshButton.clicked += RefreshEditorAndAssets;
+            saveButton.clicked += SaveAsset;
+            refreshButton.clicked += RefreshEditorAndAsset;
             
             // Handle blackboard inspector GUI events.
             blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
@@ -86,13 +126,27 @@ namespace BT.Editor
         }
         
         /// <summary>
+        /// Save command for saving edited behavior tree assets and
+        /// pushing the to the save cache. This event will also trigger
+        /// a full asset database save as a precaution step.
+        /// </summary>
+        private void SaveAsset()
+        {
+            // Push the behavior tree to the save cache.
+            saveCache.Enqueue(behaviorTree);
+            
+            // Finally, save all the asset database for precaution.
+            AssetDatabase.SaveAssets();
+        }
+        
+        /// <summary>
         /// Refresh command for the behavior tree editor.
         /// Use it when you want to ensure the data consistency
         /// of the editor.
         /// Users can also call this command from the toolbar
         /// when some issues occurs.
         /// </summary>
-        private void RefreshEditorAndAssets()
+        private void RefreshEditorAndAsset()
         {
             if (behaviorTree != null)
             {

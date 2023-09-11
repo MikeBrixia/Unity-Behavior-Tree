@@ -1,6 +1,8 @@
 
 using UnityEditor;
 using BT.Runtime;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace BT.Editor
 {
@@ -45,7 +47,13 @@ namespace BT.Editor
             
             serializedObject.ApplyModifiedProperties();
         }
-        
+
+        public override VisualElement CreateInspectorGUI()
+        {
+            VisualElement root = new VisualElement();
+            InspectorElement.FillDefaultInspector(root, serializedObject, this);
+            return root;
+        }
     }
 }
 

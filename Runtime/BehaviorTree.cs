@@ -64,6 +64,10 @@ namespace BT.Runtime
         public void OnValidate()
         {
             onBlackboardChange?.Invoke(blackboard);
+            
+            // Update the blackboard on this tree and
+            // all it's nodes
+            SetBlackboard(blackboard);
         }
 #endif
 

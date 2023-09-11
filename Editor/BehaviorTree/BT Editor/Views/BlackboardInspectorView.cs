@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
 using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
-using UnityEditor.Overlays;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
@@ -41,14 +38,13 @@ namespace BT
              }
              else
              {
-                 Debug.Log("invalid blackboard GUI");
                  inspectorGUI = CreateInvalidBlackboardGUI();
              }
              
              // Display inspector GUI inside the editor blackboard view
              Add(inspectorGUI);
              // For some reason, saving assets is the only way to make the 
-             // scroll view work; Otherwise it could not show up in the view.
+             // scroll view work; Otherwise it could not work.
              // My only guess is it has something to do with the OnValidate()
              // method which fires the event inside the BehaviorTree asset.
              AssetDatabase.SaveAssets();
