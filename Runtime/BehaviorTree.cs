@@ -66,6 +66,15 @@ namespace BT.Runtime
             onBlackboardChange?.Invoke(blackboard);
         }
 #endif
+
+        public void SetBlackboard(Blackboard blackboard)
+        {
+            this.blackboard = blackboard;
+            foreach (BT_Node node in nodes)
+            {
+                node.SetBlackboard(blackboard);
+            }
+        }
         
         ///<summary>
         /// Clone this behavior tree asset

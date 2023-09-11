@@ -64,7 +64,6 @@ namespace BT.Editor
             
             // Initialize toolbar buttons click events.
             saveButton.clicked += AssetDatabase.SaveAssets;
-            refreshButton.clicked += AssetDatabase.Refresh;
             refreshButton.clicked += RefreshEditorAndAssets;
             
             // Handle blackboard inspector GUI events.
@@ -86,14 +85,39 @@ namespace BT.Editor
             OnSelectionChange();
         }
         
-        /**
-         * Refresh the behavior tree editor and
-         * the asset it's currently editing.
-         */
+        /// <summary>
+        /// Refresh command for the behavior tree editor.
+        /// Use it when you want to ensure the data consistency
+        /// of the editor.
+        /// Users can also call this command from the toolbar
+        /// when some issues occurs.
+        /// </summary>
         private void RefreshEditorAndAssets()
         {
+            if (behaviorTree != null)
+            {
+                // Make sure the blackboard is not a missing value or reference.
+                ValidateBlackboard(behaviorTree.blackboard);
+            }
+            
+            // Finally, perform an asset database full refresh.
+            AssetDatabase.Refresh();
         }
-
+        
+        private void ValidateBlackboard(Blackboard blackboard)
+        {
+            bool isMissing = !ReferenceEquals(blackboard, null) && (!blackboard);
+            // Is the blackboard value missing(not null but also not valid)?
+            if (isMissing)
+            {
+                // If it is missing, then set the blackboard as null
+                // in all tree nodes.
+                behaviorTree.SetBlackboard(null);
+                // and finally update the blackboard inspector view
+                blackboardInspectorView.InspectBlackboard(null);
+            }
+        }
+        
         ///<summary>
         /// Called when the behavior tree editor selection change.
         ///</summary>
@@ -103,11 +127,12 @@ namespace BT.Editor
             behaviorTree = Selection.activeObject as BehaviorTree;
             if (behaviorTree != null)
             {
+                // Update the editor tree label depending on the selected tree.
                 treeViewLabel.text = " Tree View: " + behaviorTree.name;
                 graphView.tree = behaviorTree;
                 
                 // When the user selects a behavior tree we need to populate
-                // the graph view with the tree asset data.
+                // the graph view with the tree nodes.
                 graphView.PopulateView();
             }
         }

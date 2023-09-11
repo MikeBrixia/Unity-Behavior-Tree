@@ -1,9 +1,13 @@
-﻿using BT.Editor;
+﻿using System;
+using System.IO;
+using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
+using UnityEditor.Overlays;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace BT
 {
@@ -16,11 +20,7 @@ namespace BT
          */
         private BlackboardInspector blackboardInspector;
 
-        public BlackboardInspectorView()
-        {
-        }
-        
-         /// <summary>
+        /// <summary>
          /// Initialize the blackboard inspector view. This operation
          /// will create an inspector editor to inspect the target blackboard
          /// and will add it to this IMGUI container.
@@ -41,6 +41,7 @@ namespace BT
              }
              else
              {
+                 Debug.Log("invalid blackboard GUI");
                  inspectorGUI = CreateInvalidBlackboardGUI();
              }
              
@@ -104,7 +105,41 @@ namespace BT
          
          private void OnCreateBlackboard()
          {
-             Debug.Log("Create blackboard!");
+             BehaviorTree tree = Selection.activeObject as BehaviorTree;
+             if (tree != null)
+             {
+                 // Build asset path for new blackboard relative to the Behavior Tree asset path.
+                 string filepath = AssetDatabase.GetAssetPath(tree);
+                 int startIndex = filepath.LastIndexOf("/", StringComparison.Ordinal);
+                 filepath = filepath.Remove(startIndex);
+                 // The name of the new blackboard asset will be: {BehaviorTreeAssetName}_Blackboard.
+                 string newBlackboardFilename = tree.name + "_Blackboard";
+                 
+                 // The path of the blackboard wll be: {BehaviorTreeAssetPath}/{BehaviorTreeAssetName}_Blackboard.asset
+                 string assetPath = filepath + "/" + newBlackboardFilename + ".asset";
+                 string[] assets = AssetDatabase.FindAssets(newBlackboardFilename);
+                 
+                 // Is there another blackboard with the same filename?
+                 if (assets.Length > 0)
+                 {
+                     // If true, then blackboard filename will be: {BehaviorTreeAssetName}_Blackboard_{CopyCount}
+                     newBlackboardFilename = newBlackboardFilename + "_" + assets.Length;
+                     // And asset path will be: {BehaviorTreeAssetPath}/{BehaviorTreeAssetName}_Blackboard_{CopyCount}.asset
+                     assetPath = filepath + "/" + newBlackboardFilename + ".asset";
+                 }
+                 
+                 // Finally, create the asset.
+                 Blackboard newBlackboard = ScriptableObject.CreateInstance<Blackboard>();
+                 AssetDatabase.CreateAsset(newBlackboard, assetPath);
+                 
+                 // Set this blackboard as the new tree blackboard and inspect it.
+                 tree.SetBlackboard(newBlackboard);
+                 InspectBlackboard(newBlackboard);
+                 
+                 // Once we've finished creating the blackboard asset, save
+                 // all assets just for precaution.
+                 AssetDatabase.SaveAssets();
+             }
          }
     }
 }
