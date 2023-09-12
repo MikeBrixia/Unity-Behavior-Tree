@@ -28,11 +28,6 @@ namespace BT.Editor
         ///</summary>
         public Action<BT_ParentNodeView> onNodeSelected;
         
-        /// <summary>
-        /// Unique GUID identifier for this node.
-        /// </summary>
-        private GUID guid;
-
         ///<summary>
         /// The graph which owns this node
         ///</summary>
@@ -55,7 +50,7 @@ namespace BT.Editor
         
         protected BT_ParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph, string path) : base(path)
         {
-            this.viewDataKey = node.guid.ToString();
+            ((VisualElement) this).viewDataKey = node.guid.ToString();
             this.node = node;
             this.graph = graph;
             

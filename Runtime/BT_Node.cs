@@ -19,7 +19,6 @@ namespace BT.Runtime
         ///</summary>
         [HideInInspector] public GUID guid;
 #endif
-        
         /// <summary>
         /// Custom node name which can be defined by the user.
         /// </summary>
@@ -51,7 +50,7 @@ namespace BT.Runtime
         ///<summary>
         /// The current state of this specific node
         ///</summary>
-        protected EBehaviorTreeState state = EBehaviorTreeState.Running;
+        public EBehaviorTreeState state { get; protected set; }
 
         protected BT_Node()
         {
@@ -60,7 +59,9 @@ namespace BT.Runtime
 
         public virtual BT_Node Clone()
         {
-            return Instantiate(this);
+            BT_Node clonedNode = Instantiate(this);
+            clonedNode.guid = guid;
+            return clonedNode;
         }
 
         ///<summary>
@@ -126,7 +127,7 @@ namespace BT.Runtime
         ///<summary>
         /// If this node has not started yet it will call OnStart_Internal().
         ///</summary>
-        internal void StartExecution()
+        private void StartExecution()
         {
             // Notify that the node has started executing
             if (!isStarted)

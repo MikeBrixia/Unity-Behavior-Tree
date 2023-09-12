@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using BT.Runtime;
+using Object = System.Object;
 
 namespace BT.Editor
 {
@@ -98,14 +100,10 @@ namespace BT.Editor
             
             // Initialize all the behavior tree editor views.
             graphView = rootVisualElement.Q<BehaviorTreeGraphView>();
+            graphView.tree = behaviorTree;
             
-            saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
-            refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
-            
-            // Initialize toolbar buttons click events.
-            saveButton.clicked += SaveAsset;
-            refreshButton.clicked += RefreshEditorAndAsset;
-            
+            InitializeToolbar();
+
             // Handle blackboard inspector GUI events.
             blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
             nodeInspectorView = rootVisualElement.Q<NodeInspectorView>();
@@ -121,8 +119,50 @@ namespace BT.Editor
             // Initialize Callback for when the node selection changes from a node to another node
             graphView.onNodeSelected = OnNodeSelectionChange;
             graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
-
+            
             OnSelectionChange();
+        }
+
+        private void OnGUI()
+        {
+            HandlePlayMode();
+        }
+        
+        private void HandlePlayMode()
+        {
+            // Find the tree popup selection element inside the toolbar.
+            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
+            PopupField<BehaviorTreeComponent> treePopup = (PopupField<BehaviorTreeComponent>) toolbar.ElementAt(2);
+            
+            bool isPlaying = EditorApplication.isPlaying;
+            // Is the editor currently in play mode?
+            if (isPlaying)
+            {
+                BehaviorTreeComponent selectedComponent = treePopup.value;
+                // If true, then highlight all the executed edges.
+                graphView.UpdateGraphLiveDebug(selectedComponent.tree);
+            }
+
+            treePopup.visible = isPlaying;
+            treePopup.SetEnabled(isPlaying);
+        }
+
+        private void InitializeToolbar()
+        {
+            // Initialize toolbar UI elements.
+            saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
+            refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
+            
+            // Initialize toolbar events.
+            saveButton.clicked += SaveAsset;
+            refreshButton.clicked += RefreshEditorAndAsset;
+            
+            // All the tree components currently loaded inside the game scene.
+            BehaviorTreeComponent[] treeComponents = FindObjectsOfType<BehaviorTreeComponent>();
+            
+            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
+            PopupField<BehaviorTreeComponent> loadedComponents = new PopupField<BehaviorTreeComponent>("Target GameObject:", new List<BehaviorTreeComponent>(treeComponents), treeComponents[0]);
+            toolbar.Add(loadedComponents);
         }
         
         /// <summary>

@@ -107,7 +107,7 @@ namespace BT.Runtime
         ///<returns> A copy of this action asset</returns>
         public override BT_Node Clone()
         {
-            BT_ActionNode action = Instantiate(this);
+            BT_ActionNode action = (BT_ActionNode) base.Clone();
             action.decorators = action.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
             action.services = action.services.ConvertAll(service => service.Clone() as BT_Service);
             return action;
@@ -141,7 +141,7 @@ namespace BT.Runtime
 
         public override List<BT_ParentNode> GetConnectedNodes()
         {
-            return null;
+            return new List<BT_ParentNode>();
         }
 
         public override void AddChildNode<T>(T childNode)

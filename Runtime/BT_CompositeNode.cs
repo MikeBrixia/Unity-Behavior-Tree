@@ -86,7 +86,7 @@ namespace BT.Runtime
         /// Execute all decorators attached to this composite
         ///</summary>
         ///<returns> true if all decorators are successfull, false otherwise</returns>
-        internal bool ExecuteDecorators()
+        private bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
             // Execute all decorators attached to composite node
@@ -109,7 +109,7 @@ namespace BT.Runtime
         ///<returns> A copy of this composite asset.</returns>
         public override BT_Node Clone()
         {
-            BT_CompositeNode composite = Instantiate(this);
+            BT_CompositeNode composite = (BT_CompositeNode) base.Clone();
             composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
             composite.children = composite.children.ConvertAll(child => child.Clone() as BT_ParentNode);
             composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
@@ -126,7 +126,7 @@ namespace BT.Runtime
             base.SetBlackboard(treeBlackboard);
             decorators.ForEach(decorator => decorator.SetBlackboard(treeBlackboard));
             services.ForEach(service => service.SetBlackboard(treeBlackboard));
-            children.ForEach(children => children.SetBlackboard(treeBlackboard));
+            children.ForEach(child => child.SetBlackboard(treeBlackboard));
         }
 
         public override List<T> GetChildNodes<T>()

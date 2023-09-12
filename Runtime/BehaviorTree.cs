@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace BT.Runtime
@@ -60,7 +61,17 @@ namespace BT.Runtime
         /// Called when the user changes or invalidates the tree blackboard.
         /// </summary>
         public OnBlackboardChange onBlackboardChange;
-        
+
+        /// <summary>
+        /// Unique identifier of the behavior tree asset.
+        /// </summary>
+        public GUID guid;
+
+        public void OnEnable()
+        {
+            guid = GUID.Generate();
+        }
+
         public void OnValidate()
         {
             onBlackboardChange?.Invoke(blackboard);
@@ -69,6 +80,17 @@ namespace BT.Runtime
             // all it's nodes
             SetBlackboard(blackboard);
         }
+        
+        /// <summary>
+        /// Check if this asset is a clone of the given tree asset.
+        /// </summary>
+        /// <param name="tree"> The tree from which this asset has been cloned.</param>
+        /// <returns> True if this tree is a clone of input tree, false otherwise.</returns>
+        public bool IsCloneOf(BehaviorTree tree)
+        {
+            return guid.Equals(tree.guid);
+        }
+        
 #endif
 
         public void SetBlackboard(Blackboard blackboard)
@@ -87,6 +109,7 @@ namespace BT.Runtime
         public BehaviorTree Clone()
         {
             BehaviorTree tree = Instantiate(this);
+            tree.guid = guid;
             tree.rootNode = tree.rootNode.Clone() as BT_RootNode;
             tree.blackboard = tree.blackboard.Clone();
             // Initialize behavior tree and blackboard references on each node of the tree

@@ -14,17 +14,16 @@ namespace BT.Runtime
         ///</summary>
         [SerializeField] private BehaviorTree behaviorTree;
         
+        /// <summary>
+        /// Behavior tree managed by the component.
+        /// </summary>
+        public BehaviorTree tree => behaviorTree;
+
         ///<summary>
         /// The blackboard component used by currently assigned Behavior Tree
         ///</summary>
-        public Blackboard blackboard
-        {
-            get
-            {
-                return behaviorTree.blackboard;
-            }
-        }
-        
+        public Blackboard blackboard => behaviorTree.blackboard;
+
         ///<summary>
         /// The state of the currently running Behavior Tree
         ///</summary>

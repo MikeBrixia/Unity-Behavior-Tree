@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
 using System.Linq;
+using System.Web.UI;
 using BT.Runtime;
 using BT.Editor;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
@@ -226,7 +227,7 @@ namespace BT
         ///<summary>
         /// Find a node view by it's node.
         ///</summary>
-        ///<param name="node"> The node contained in the node view you want to search</param>
+        ///<param name="node"> The node contained inside the view you want to search</param>
         ///<returns> Return the node view of the given node </returns>
         private BT_ParentNodeView FindNodeView(BT_Node node)
         {
@@ -242,9 +243,7 @@ namespace BT
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-            
-            // N.B. When copy pasting and undoing tree is null for some reason.
-            
+
             // If not already present, create the root node
             if (tree.rootNode == null && AssetDatabase.Contains(tree))
             {
@@ -259,8 +258,7 @@ namespace BT
                 // Is the node a parent node?
                 if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
                 {
-                    BT_ParentNodeView view = NodeFactory.CreateNodeView(node, this);
-                    AddElement(view);
+                    CreateNodeView(node);
                 }
             }
             
@@ -502,6 +500,75 @@ namespace BT
 
             return nodeView;
         }
+        
+        /// <summary>
+        /// Update live debugging for the behavior tree editor.
+        /// </summary>
+        /// <param name="behaviorTree"> The behavior tree instance to debug. </param>
+        public void UpdateGraphLiveDebug(BehaviorTree behaviorTree)
+        {
+            // Reset edges appearance.
+            foreach (Edge edge in edges)
+            {
+                edge.edgeControl.edgeWidth = 2;
+                edge.edgeControl.inputColor = Color.white;
+            }
+            
+            // Highlight all the edges connecting nodes which
+            // are been executed.
+            HighlightTreeExecutionEdges(behaviorTree);
+        }
+
+        private void HighlightTreeExecutionEdges(BehaviorTree behaviorTree)
+        {
+            // Ensure that the selected behavior tree asset is a clone of the currently
+            // inspected behavior tree.
+            if (behaviorTree.IsCloneOf(tree) && behaviorTree.rootNode != null)
+            {
+                // Initialize visit queue with the root node as the first node to visit.
+                var toVisit = new Queue<BT_ParentNode>();
+                toVisit.Enqueue(behaviorTree.rootNode);
+                
+                // Keep iterating as long as there are nodes to visit.
+                while (toVisit.Count != 0)
+                {
+                    BT_ParentNode currentNode = toVisit.Dequeue();
+                    foreach (BT_ParentNode child in currentNode.GetConnectedNodes())
+                    {
+                        // Is the current visited node a successful node?
+                        if (child.state == EBehaviorTreeState.Success)
+                        {
+                            // If true, add it to the queue of nodes to visit.
+                            toVisit.Enqueue(child);
+                            
+                            // And highlight the edge connecting the node to it's parent.
+                            BT_ParentNodeView currentNodeView = FindNodeView(child);
+                            Edge connectionEdge = currentNodeView.input.connections.First();
+                            connectionEdge.edgeControl.edgeWidth = 5;
+                            connectionEdge.edgeControl.inputColor = Color.yellow;
+                            
+                            break;
+                        }
+                        else if (child.state == EBehaviorTreeState.Running)
+                        {
+                            // And highlight the edge connecting the node to it's parent.
+                            BT_ParentNodeView currentNodeView = FindNodeView(child);
+                            Edge connectionEdge = currentNodeView.input.connections.First();
+                            connectionEdge.edgeControl.edgeWidth = 5;
+                            connectionEdge.edgeControl.inputColor = Color.yellow;
+                            
+                            // Jump out of the loops, if the node is currently running
+                            // we've reached the destination.
+                            goto exit_loop;
+                        }
+                        
+                    }
+                }
+
+                exit_loop :;
+            }
+        }
     }
+    
 }
 

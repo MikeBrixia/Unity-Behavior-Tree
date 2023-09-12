@@ -29,7 +29,7 @@ namespace BT.Runtime
         ///</summary>
         public override BT_Node Clone()
         {
-            BT_RootNode node = Instantiate(this);
+            BT_RootNode node = (BT_RootNode) base.Clone();
             node.childNode = node.childNode.Clone() as BT_ParentNode;
             return node;
         }
