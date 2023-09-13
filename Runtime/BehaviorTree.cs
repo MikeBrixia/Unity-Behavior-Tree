@@ -6,11 +6,7 @@ using UnityEngine;
 
 namespace BT.Runtime
 {
-    ///<summary>
-    /// Behavior Tree possible states.
-    ///</summary>
-    public enum EBehaviorTreeState { Running, Success, Failed, Waiting }
-    
+
     ///<summary>
     /// Behavior Tree asset which contains all the data needed from the BehaviorTreeComponent
     /// to make it run.
@@ -46,7 +42,7 @@ namespace BT.Runtime
         ///<summary>
         /// The current state of this Behavior Tree.
         ///</summary>
-        [HideInInspector] public EBehaviorTreeState treeState;
+        [HideInInspector] public ENodeState treeState;
         
         ///<summary>
         /// All the Behavior Tree nodes

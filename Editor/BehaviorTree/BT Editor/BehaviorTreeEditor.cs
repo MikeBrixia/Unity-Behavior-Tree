@@ -28,6 +28,11 @@ namespace BT.Editor
         private BehaviorTreeGraphView graphView;
         
         /// <summary>
+        /// The editor debugger, used to debug the behavior tree editor.
+        /// </summary>
+        private BehaviorTreeDebugger debugger;
+        
+        /// <summary>
         /// The inspector view used to inspect graph nodes.
         /// </summary>
         private NodeInspectorView nodeInspectorView;
@@ -93,6 +98,7 @@ namespace BT.Editor
         {
             // The currently selected behavior tree.
             behaviorTree = Selection.activeObject as BehaviorTree;
+            debugger = new BehaviorTreeDebugger(this);
             
             // Load behavior tree UXML file and make a copy of it.
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
@@ -120,14 +126,15 @@ namespace BT.Editor
             graphView.onNodeSelected = OnNodeSelectionChange;
             graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
             
+            Focus();
             OnSelectionChange();
         }
 
-        private void OnGUI()
+        private void Update()
         {
             HandlePlayMode();
         }
-        
+
         private void HandlePlayMode()
         {
             // Find the tree popup selection element inside the toolbar.
@@ -138,9 +145,9 @@ namespace BT.Editor
             // Is the editor currently in play mode?
             if (isPlaying)
             {
+                // Debug the selected behavior tree asset.
                 BehaviorTreeComponent selectedComponent = treePopup.value;
-                // If true, then highlight all the executed edges.
-                graphView.UpdateGraphLiveDebug(selectedComponent.tree);
+                debugger.DebugGraphEditor(graphView, selectedComponent.tree);
             }
 
             treePopup.visible = isPlaying;

@@ -17,7 +17,7 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this decorator has been executed successfully, RUNNING if is still executing
         /// and FAILED if the action has failed to execute it's tasks.</returns>
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             return state;
         }

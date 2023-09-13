@@ -17,23 +17,23 @@ namespace BT.Runtime
             description = "Execute all it's children in order and stops when one of them succeds";
         }
 
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            BT_Node child = children[executedChildrenIndex];
+            BT_Node child = children[executionIndex];
             switch (child.ExecuteNode())
             {
-                case EBehaviorTreeState.Success:
-                    return EBehaviorTreeState.Success;
+                case ENodeState.Success:
+                    return ENodeState.Success;
 
-                case EBehaviorTreeState.Failed:
-                    executedChildrenIndex++;
+                case ENodeState.Failed:
+                    executionIndex++;
                     break;
 
-                case EBehaviorTreeState.Running:
-                    return EBehaviorTreeState.Running;
+                case ENodeState.Running:
+                    return ENodeState.Running;
             }
 
-            return executedChildrenIndex == children.Count ? EBehaviorTreeState.Failed : EBehaviorTreeState.Running;
+            return executionIndex == children.Count ? ENodeState.Failed : ENodeState.Running;
         }
 
         protected override void OnStart()

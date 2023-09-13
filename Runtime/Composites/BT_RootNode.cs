@@ -19,7 +19,7 @@ namespace BT.Runtime
             description = "Entry point of behavior tree";
         }
 
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             return childNode.ExecuteNode();
         }

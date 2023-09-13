@@ -37,16 +37,16 @@ namespace BT.Runtime
             key.typeFilter = BlackboardSupportedTypes.Boolean;
         }
 
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             bool conditionResult = blackboard.GetBlackboardValueByKey<bool>(key.blackboardKey);
             if(condition == BlackboardDecoratorCondition.IsSetToTrue)
             {
-                return conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed; 
+                return conditionResult? ENodeState.Success : ENodeState.Failed; 
             }
             else
             {
-                return !conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed;
+                return !conditionResult? ENodeState.Success : ENodeState.Failed;
             }
         }
 

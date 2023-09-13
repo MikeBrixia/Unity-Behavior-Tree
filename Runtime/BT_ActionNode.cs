@@ -32,9 +32,9 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this action has been executed successfully, RUNNING if is still executing
         /// and FAILED if the action has failed to execute it's tasks.</returns>
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            return EBehaviorTreeState.Success;
+            return ENodeState.Success;
         }
         
         ///<summary>
@@ -43,9 +43,9 @@ namespace BT.Runtime
         /// it will continue by executing first all services and then this action.
         ///</summary>
         ///<returns> The result of this action </returns>
-        public override EBehaviorTreeState ExecuteNode()
+        public override ENodeState ExecuteNode()
         {
-            // If all the decorators are successfull go ahead and execute 
+            // If all the decorators are successful go ahead and execute 
             // all services and then the composite node
             if(ExecuteDecorators())
             {
@@ -55,7 +55,7 @@ namespace BT.Runtime
             }
             else
             {
-                state = EBehaviorTreeState.Failed;
+                state = ENodeState.Failed;
             }
             return state;
         }
@@ -71,8 +71,8 @@ namespace BT.Runtime
             foreach(BT_Decorator decorator in decorators)
             {
                 state = decorator.ExecuteNode();
-                if(state == EBehaviorTreeState.Failed
-                   || state == EBehaviorTreeState.Running)
+                if(state == ENodeState.Failed
+                   || state == ENodeState.Running)
                 {
                     decoratorsResult = false;
                     break;
@@ -87,7 +87,7 @@ namespace BT.Runtime
         ///</summary>
         internal override void OnStart_internal()
         {
-            state = EBehaviorTreeState.Running;
+            state = ENodeState.Running;
             base.OnStart_internal();
         }
         

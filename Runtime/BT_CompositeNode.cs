@@ -28,20 +28,13 @@ namespace BT.Runtime
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
         
         ///<summary>
-        /// Execution index which keeps track of which
-        /// node this composite should try to execute during
-        /// a tree update.
-        ///</summary>
-        protected int executedChildrenIndex = 0;
-        
-        ///<summary>
         /// Internal version of OnStart(), used to perform
         /// initialization.
         ///</summary>
         internal override void OnStart_internal()
         {
             // Each time this node begins executing reset current executed children index
-            executedChildrenIndex = 0;
+            executionIndex = 0;
             base.OnStart_internal();
         }
         
@@ -55,19 +48,19 @@ namespace BT.Runtime
             // When this node has done running disable all the service nodes updates.
             services.ForEach(service => service.OnStop_internal());
             // And also reset the execute children index.
-            executedChildrenIndex = 0;
+            executionIndex = 0;
             base.OnStop_internal();
         }
         
         ///<summary>
         /// Called when the Behavior Tree wants to execute this composite, 
-        /// This method will execute all decorators and if the result is successfull
+        /// This method will execute all decorators and if the result is successful
         /// it will continue by executing first all services and then this composite.
         ///</summary>
         ///<returns> The result of this composite </returns>
-        public override EBehaviorTreeState ExecuteNode()
+        public override ENodeState ExecuteNode()
         {
-            // If all the decorators are successfull go ahead and execute 
+            // If all the decorators are successful go ahead and execute 
             // all services and then the composite node
             if(ExecuteDecorators())
             {
@@ -77,7 +70,7 @@ namespace BT.Runtime
             } 
             else
             {
-                state = EBehaviorTreeState.Failed;
+                state = ENodeState.Failed;
             }
             return state;
         }
@@ -85,7 +78,7 @@ namespace BT.Runtime
         ///<summary>
         /// Execute all decorators attached to this composite
         ///</summary>
-        ///<returns> true if all decorators are successfull, false otherwise</returns>
+        ///<returns> true if all decorators are successful, false otherwise</returns>
         private bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
@@ -93,8 +86,8 @@ namespace BT.Runtime
             foreach(BT_Decorator decorator in decorators)
             {
                 state = decorator.ExecuteNode();
-                if(state == EBehaviorTreeState.Failed
-                   || state == EBehaviorTreeState.Running)
+                if(state == ENodeState.Failed
+                   || state == ENodeState.Running)
                 {
                     decoratorsResult = false;
                     break;

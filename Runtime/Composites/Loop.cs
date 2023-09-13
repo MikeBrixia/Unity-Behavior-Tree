@@ -30,33 +30,33 @@ namespace BT.Runtime
                            " if even one loop fails this node it's going to fail";
         }
 
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            BT_Node child = children[executedChildrenIndex];
+            BT_Node child = children[executionIndex];
             switch (child.ExecuteNode())
             {
-                case EBehaviorTreeState.Success:
-                    executedChildrenIndex++;
-                    state = EBehaviorTreeState.Running;
+                case ENodeState.Success:
+                    executionIndex++;
+                    state = ENodeState.Running;
                     // If we executed all the loop children 
-                    if (executedChildrenIndex == children.Count)
+                    if (executionIndex == children.Count)
                     {
                         currentLoop++;
-                        executedChildrenIndex = 0;
+                        executionIndex = 0;
                         if (currentLoop == loopNumber)
                         {
-                            state = EBehaviorTreeState.Success;
+                            state = ENodeState.Success;
                             currentLoop = 0;
                         }
                     }
                     break;
 
-                case EBehaviorTreeState.Running:
-                    state = EBehaviorTreeState.Running;
+                case ENodeState.Running:
+                    state = ENodeState.Running;
                     break;
 
-                case EBehaviorTreeState.Failed:
-                    state = EBehaviorTreeState.Failed;
+                case ENodeState.Failed:
+                    state = ENodeState.Failed;
                     break;     
             }
             return state;

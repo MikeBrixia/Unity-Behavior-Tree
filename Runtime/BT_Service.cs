@@ -34,18 +34,18 @@ namespace BT.Runtime
         /// Put here all the code you want this service to execute.
         ///</summary>
         ///<returns> The return value of service nodes doesn't matter.</returns>
-        protected override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             float elapsedTime = Time.time - startTime;
             if(elapsedTime >= updateInterval)
             {
                 startTime = Time.time;
                 OnUpdate();
-                state = EBehaviorTreeState.Success;
+                state = ENodeState.Success;
             }
             else
             {
-                state = EBehaviorTreeState.Running;
+                state = ENodeState.Running;
             }
             // service nodes doesn't need to care about Success or failure,
             // for this reason we are always gonna return success
@@ -82,7 +82,7 @@ namespace BT.Runtime
         /// and then it will update this service.
         ///</summary>
         ///<returns> The result of this service(service results doesn't matter) </returns>
-        public override EBehaviorTreeState ExecuteNode()
+        public override ENodeState ExecuteNode()
         {
             if (!isStarted)
             {

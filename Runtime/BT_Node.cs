@@ -1,10 +1,15 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
 namespace BT.Runtime
 {
+    
+    ///<summary>
+    /// Nodes possible states.
+    ///</summary>
+    public enum ENodeState { Running, Success, Failed, Waiting }
+    
     ///<summary>
     /// Base class for all behavior tree nodes which
     /// contains the base logic for how a behavior tree
@@ -18,6 +23,11 @@ namespace BT.Runtime
         /// Unique identifier for the node
         ///</summary>
         [HideInInspector] public GUID guid;
+        
+        /// <summary>
+        /// True if the node has been completed successfully during a tree update.
+        /// </summary>
+        public bool completed { get; protected set; }
 #endif
         /// <summary>
         /// Custom node name which can be defined by the user.
@@ -39,18 +49,29 @@ namespace BT.Runtime
         ///</summary>
         [HideInInspector] public Vector2 position;
         
-        /**
-         * Reference to the tree blackboard.
-         */
+        /// <summary>
+        /// Reference to behavior tree blackboard.
+        /// </summary>
         protected Blackboard blackboard;
-
+        
+        /// <summary>
+        /// True if the node has started execution and not yet finished,
+        /// false otherwise.
+        /// </summary>
         [HideInInspector]
         public bool isStarted;
         
         ///<summary>
+        /// Execution index which keeps track of which
+        /// node this composite should try to execute during
+        /// a tree update.
+        ///</summary>
+        public int executionIndex { get; protected set;  }
+        
+        ///<summary>
         /// The current state of this specific node
         ///</summary>
-        public EBehaviorTreeState state { get; protected set; }
+        public ENodeState state { get; protected set; }
 
         protected BT_Node()
         {
@@ -75,7 +96,7 @@ namespace BT.Runtime
         }
 
         ///<summary>
-        /// Called when this node has succeded or failed it's execution.
+        /// Called when this node has succeeded or failed it's execution.
         /// that's the internal version and you should not override this
         /// for your game logic, use OnStop instead.
         ///</summary>
@@ -100,7 +121,7 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this node has been executed successfully, RUNNING if is still executing
         /// and FAILED if the node has failed to execute it's tasks.</returns>
-        protected abstract EBehaviorTreeState Execute();
+        protected abstract ENodeState Execute();
 
         ///<summary>
         /// Called when the Behavior Tree wants to execute this node, 
@@ -109,7 +130,7 @@ namespace BT.Runtime
         /// if the result was Success or Failed it will call OnStop_Internal().
         ///</summary>
         ///<returns> The result of this node </returns>
-        public virtual EBehaviorTreeState ExecuteNode()
+        public virtual ENodeState ExecuteNode()
         {
             // If not already started, starts the execution
             StartExecution();
@@ -120,8 +141,9 @@ namespace BT.Runtime
             // Once we've finished executing our instructions, determine 
             // if it's the case of stopping the execution
             StopExecution();
-
-            return state;
+            
+            // If this node state is "Running", tell all it's parent nodes to wait for him to finish work.
+            return state == ENodeState.Running? ENodeState.Waiting : state;
         }
         
         ///<summary>
@@ -134,6 +156,7 @@ namespace BT.Runtime
             {
                 OnStart_internal();
                 isStarted = true;
+                completed = false;
             }
         }
         
@@ -141,17 +164,17 @@ namespace BT.Runtime
         /// Try to stop the execution of this node, returns true
         /// if the execution was stopped, false otherwise.
         ///</summary>
-        private bool StopExecution()
+        private void StopExecution()
         {
             // If the node logic returned a success or failure notify that
             // the execution of this node has stopped
-            if (state == EBehaviorTreeState.Success
-                || state == EBehaviorTreeState.Failed)
+            if (state == ENodeState.Success
+                || state == ENodeState.Failed)
             {
                 OnStop_internal();
                 isStarted = false;
+                completed = true;
             }
-            return !isStarted;
         }
         
         ///<summary>

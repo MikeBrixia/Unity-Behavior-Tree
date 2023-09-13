@@ -27,13 +27,13 @@ namespace BT.Runtime
         ///<summary>
         /// The state of the currently running Behavior Tree
         ///</summary>
-        public EBehaviorTreeState behaviorTreeState => behaviorTree.treeState;
+        public ENodeState NodeState => behaviorTree.treeState;
 
         void Awake()
         {
             // Clone behavior tree
             behaviorTree = behaviorTree.Clone();
-            behaviorTree.treeState = EBehaviorTreeState.Waiting;
+            behaviorTree.treeState = ENodeState.Waiting;
         }
 
         // Start is called before the first frame update

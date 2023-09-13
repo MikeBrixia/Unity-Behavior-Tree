@@ -173,6 +173,7 @@ namespace BT
         {
             BT_Node copiedNode = node.Clone();
             copiedNode.name = "";
+            copiedNode.guid = GUID.Generate();
             
             // Register node
             RegisterNode(copiedNode, tree);

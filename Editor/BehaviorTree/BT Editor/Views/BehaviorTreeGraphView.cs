@@ -229,7 +229,7 @@ namespace BT
         ///</summary>
         ///<param name="node"> The node contained inside the view you want to search</param>
         ///<returns> Return the node view of the given node </returns>
-        private BT_ParentNodeView FindNodeView(BT_Node node)
+        public BT_ParentNodeView FindNodeView(BT_Node node)
         {
             return GetNodeByGuid(node.guid.ToString()) as BT_ParentNodeView;
         }
@@ -536,7 +536,7 @@ namespace BT
                     foreach (BT_ParentNode child in currentNode.GetConnectedNodes())
                     {
                         // Is the current visited node a successful node?
-                        if (child.state == EBehaviorTreeState.Success)
+                        if (child.state == ENodeState.Success)
                         {
                             // If true, add it to the queue of nodes to visit.
                             toVisit.Enqueue(child);
@@ -549,7 +549,7 @@ namespace BT
                             
                             break;
                         }
-                        else if (child.state == EBehaviorTreeState.Running)
+                        else if (child.state == ENodeState.Running)
                         {
                             // And highlight the edge connecting the node to it's parent.
                             BT_ParentNodeView currentNodeView = FindNodeView(child);
