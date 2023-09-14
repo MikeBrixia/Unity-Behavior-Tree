@@ -23,11 +23,7 @@ namespace BT.Runtime
         /// Unique identifier for the node
         ///</summary>
         [HideInInspector] public GUID guid;
-        
-        /// <summary>
-        /// True if the node has been completed successfully during a tree update.
-        /// </summary>
-        public bool completed { get; protected set; }
+
 #endif
         /// <summary>
         /// Custom node name which can be defined by the user.
@@ -156,7 +152,6 @@ namespace BT.Runtime
             {
                 OnStart_internal();
                 isStarted = true;
-                completed = false;
             }
         }
         
@@ -173,7 +168,6 @@ namespace BT.Runtime
             {
                 OnStop_internal();
                 isStarted = false;
-                completed = true;
             }
         }
         

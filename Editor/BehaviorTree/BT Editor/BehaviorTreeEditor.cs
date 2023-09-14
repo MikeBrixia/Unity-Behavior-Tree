@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using BT.Runtime;
-using Object = System.Object;
 
 namespace BT.Editor
 {
@@ -20,12 +19,12 @@ namespace BT.Editor
         /// <summary>
         /// The tree currently being edited by this editor.
         /// </summary>
-        private BehaviorTree behaviorTree;
+        public BehaviorTree behaviorTree { protected set; get; }
         
         /// <summary>
         /// The graph view used to interact with tree nodes.
         /// </summary>
-        private BehaviorTreeGraphView graphView;
+        public BehaviorTreeGraphView graphView { protected set; get; }
         
         /// <summary>
         /// The editor debugger, used to debug the behavior tree editor.
@@ -91,87 +90,51 @@ namespace BT.Editor
             return canOpen;
         }
         
-        ///<summary>
-        /// Create behavior tree editor GUI.
-        ///</summary>
-        public void CreateGUI()
+        private void OnEnable()
         {
             // The currently selected behavior tree.
             behaviorTree = Selection.activeObject as BehaviorTree;
-            debugger = new BehaviorTreeDebugger(this);
             
-            // Load behavior tree UXML file and make a copy of it.
-            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
-            visualTree.CloneTree(rootVisualElement);
-            
-            // Initialize all the behavior tree editor views.
-            graphView = rootVisualElement.Q<BehaviorTreeGraphView>();
-            graphView.tree = behaviorTree;
-            
-            InitializeToolbar();
-
-            // Handle blackboard inspector GUI events.
-            blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
-            nodeInspectorView = rootVisualElement.Q<NodeInspectorView>();
-            if (behaviorTree != null)
+            // If there's not debugger, create one.
+            if (debugger == null)
             {
-                behaviorTree.onBlackboardChange += blackboard => blackboardInspectorView.InspectBlackboard(blackboard);
-                blackboardInspectorView.InspectBlackboard(behaviorTree.blackboard);
-                nodeInspectorView.InspectNode(behaviorTree.rootNode);
+                debugger = new BehaviorTreeDebugger(this);
             }
             
-            treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
-
-            // Initialize Callback for when the node selection changes from a node to another node
-            graphView.onNodeSelected = OnNodeSelectionChange;
-            graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
-            
-            Focus();
-            OnSelectionChange();
+            // Listen for play mode callbacks.
+            EditorApplication.playModeStateChanged += EditorApplicationOnplayModeStateChanged;
         }
 
         private void Update()
         {
-            HandlePlayMode();
+            // Updated when user is in editor play mode.
+            if (EditorApplication.isPlaying)
+            {
+                DebugUpdate();
+            }
         }
-
-        private void HandlePlayMode()
+        
+        private void DebugUpdate()
         {
             // Find the tree popup selection element inside the toolbar.
             Toolbar toolbar = rootVisualElement.Q<Toolbar>();
-            PopupField<BehaviorTreeComponent> treePopup = (PopupField<BehaviorTreeComponent>) toolbar.ElementAt(2);
-            
-            bool isPlaying = EditorApplication.isPlaying;
-            // Is the editor currently in play mode?
-            if (isPlaying)
-            {
-                // Debug the selected behavior tree asset.
-                BehaviorTreeComponent selectedComponent = treePopup.value;
-                debugger.DebugGraphEditor(graphView, selectedComponent.tree);
-            }
+            PopupField<BehaviorTreeComponent> instancePopupSelector = (PopupField<BehaviorTreeComponent>) toolbar.ElementAt(2);
 
-            treePopup.visible = isPlaying;
-            treePopup.SetEnabled(isPlaying);
+            // Debug the selected behavior tree asset.
+            BehaviorTreeComponent selectedComponent = instancePopupSelector.value;
+            debugger.DebugGraphEditor(selectedComponent.tree);
         }
-
-        private void InitializeToolbar()
+         
+        private void EditorApplicationOnplayModeStateChanged(PlayModeStateChange obj)
         {
-            // Initialize toolbar UI elements.
-            saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
-            refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
+            if (obj == PlayModeStateChange.ExitingPlayMode)
+            {
+                // Release the tree from the debug state.
+                debugger.ResetDebugEditor();
+            }
             
-            // Initialize toolbar events.
-            saveButton.clicked += SaveAsset;
-            refreshButton.clicked += RefreshEditorAndAsset;
-            
-            // All the tree components currently loaded inside the game scene.
-            BehaviorTreeComponent[] treeComponents = FindObjectsOfType<BehaviorTreeComponent>();
-            
-            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
-            PopupField<BehaviorTreeComponent> loadedComponents = new PopupField<BehaviorTreeComponent>("Target GameObject:", new List<BehaviorTreeComponent>(treeComponents), treeComponents[0]);
-            toolbar.Add(loadedComponents);
         }
-        
+
         /// <summary>
         /// Save command for saving edited behavior tree assets and
         /// pushing the to the save cache. This event will also trigger
@@ -190,8 +153,7 @@ namespace BT.Editor
         /// Refresh command for the behavior tree editor.
         /// Use it when you want to ensure the data consistency
         /// of the editor.
-        /// Users can also call this command from the toolbar
-        /// when some issues occurs.
+        /// Users can also call this command from the toolbar.
         /// </summary>
         private void RefreshEditorAndAsset()
         {
@@ -219,6 +181,82 @@ namespace BT.Editor
             }
         }
         
+        ///<summary>
+        /// Create behavior tree editor GUI.
+        ///</summary>
+        public void CreateGUI()
+        {
+            // Load behavior tree UXML file and make a copy of it.
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
+            visualTree.CloneTree(rootVisualElement);
+            
+            // Initialize graph view.
+            graphView = rootVisualElement.Q<BehaviorTreeGraphView>();
+            graphView.tree = behaviorTree;
+            graphView.onNodeSelected = OnNodeSelectionChange;
+            graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
+            
+            CreateToolbarGUI();
+            CreateInspectorGUI();
+            treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
+            
+            // Trigger a selection event.
+            OnSelectionChange();
+        }
+        
+        private void CreateToolbarGUI()
+        {
+            // Initialize toolbar UI elements.
+            saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
+            refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
+            
+            // Initialize toolbar events.
+            saveButton.clicked += SaveAsset;
+            refreshButton.clicked += RefreshEditorAndAsset;
+            
+            // All the tree components currently loaded inside the game scene.
+            BehaviorTreeComponent[] treeComponents = FindObjectsOfType<BehaviorTreeComponent>();
+            
+            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
+            PopupField<BehaviorTreeComponent> loadedComponents = new PopupField<BehaviorTreeComponent>("Target GameObject:", new List<BehaviorTreeComponent>(treeComponents), treeComponents[0]);
+            toolbar.Add(loadedComponents);
+        }
+
+        private void CreateInspectorGUI()
+        {
+            // Handle blackboard inspector GUI events.
+            blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
+            nodeInspectorView = rootVisualElement.Q<NodeInspectorView>();
+            if (behaviorTree != null)
+            {
+                if (blackboardInspectorView != null)
+                {
+                    behaviorTree.onBlackboardChange += blackboard => blackboardInspectorView.InspectBlackboard(blackboard);
+                    blackboardInspectorView.InspectBlackboard(behaviorTree.blackboard);
+                }
+
+                if (nodeInspectorView != null)
+                {
+                    nodeInspectorView.InspectNode(behaviorTree.rootNode);
+                }
+            }
+        }
+        
+        private void OnGUI()
+        {
+            // Find the tree popup selection element inside the toolbar.
+            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
+            if (toolbar != null)
+            {
+                PopupField<BehaviorTreeComponent> instancePopupSelector = (PopupField<BehaviorTreeComponent>) toolbar.ElementAt(2);
+            
+                // Enable instance selector.
+                bool isPlaying = EditorApplication.isPlaying;
+                instancePopupSelector.visible = isPlaying;
+                instancePopupSelector.SetEnabled(isPlaying);
+            }
+        }
+
         ///<summary>
         /// Called when the behavior tree editor selection change.
         ///</summary>

@@ -15,30 +15,43 @@ namespace BT.Editor
         /// <summary>
         /// Reference to the behavior tree editor who owns this debugger.
         /// </summary>
-        private BehaviorTreeEditor editor;
-
+        private readonly BehaviorTreeEditor editor;
+        
         public BehaviorTreeDebugger(BehaviorTreeEditor editor)
         {
             this.editor = editor;
         }
         
         /// <summary>
-        /// Debug the whole behavior tree graph editor.
+        /// Debug a behavior tree asset instance inside the editor.
         /// </summary>
-        /// <param name="graph"> The behavior tree graph </param>
         /// <param name="tree">The tree asset to debug. </param>
-        public void DebugGraphEditor(BehaviorTreeGraphView graph, BehaviorTree tree)
+        public void DebugGraphEditor(BehaviorTree tree)
         {
+            // Debug only if the tree source asset reference is not missing.;
+            if (editor.behaviorTree != null)
+            {
+                // Reset editor appearance.
+                ResetDebugEditor();
+            
+                // Highlight all the edges connecting nodes which
+                // are been executed.
+                DebugExecutionPath(tree);
+            }
+        }
+        
+        /// <summary>
+        /// Reset the behavior tree editor from the debug state.
+        /// </summary>
+        public void ResetDebugEditor()
+        {
+            BehaviorTreeGraphView graph = editor.graphView;
             // Reset edges appearance.
             foreach (Edge edge in graph.edges)
             {
                 edge.edgeControl.edgeWidth = 2;
                 edge.edgeControl.inputColor = Color.white;
             }
-            
-            // Highlight all the edges connecting nodes which
-            // are been executed.
-            DebugExecutionPath(graph, tree);
         }
         
         /// <summary>
@@ -47,19 +60,18 @@ namespace BT.Editor
         /// <param name="nodeView"> The node view to debug. </param>
         private void DebugExecutedNodes(BT_ParentNodeView nodeView)
         {
-            
         }
         
         /// <summary>
         /// Debug the current behavior tree execution path by highlighting the path edges from
         /// root to the executed nodes
         /// </summary>
-        /// <param name="graph"> The graph in which we're going to debug. </param>
         /// <param name="behaviorTree"> The behavior tree asset to debug. </param>
-        /// <remarks> Time complexity of debugging execution paths is Big O(h), where
+        /// <remarks> Time complexity of debugging execution paths is Big O(h) in the worst case, where
         ///           "h" is the height of the behavior tree. </remarks>
-        private void DebugExecutionPath(BehaviorTreeGraphView graph, BehaviorTree behaviorTree)
+        private void DebugExecutionPath(BehaviorTree behaviorTree)
         {
+            BehaviorTreeGraphView graph = editor.graphView;
             // Ensure that the selected behavior tree asset is a clone of the currently
             // inspected behavior tree.
             if (behaviorTree.IsCloneOf(graph.tree) && behaviorTree.rootNode != null)
@@ -97,7 +109,7 @@ namespace BT.Editor
                 }
             }
         }
-
+        
         private void HighlightEdge(Edge edge)
         {
             edge.edgeControl.edgeWidth = 10;
