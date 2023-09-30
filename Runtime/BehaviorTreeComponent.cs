@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BT;
 
-namespace BT
+namespace BT.Runtime
 {
+    ///<summary>
+    /// The component responsible of running the behavior tree.
+    ///</summary>
     public class BehaviorTreeComponent : MonoBehaviour
     {
         ///<summary>
@@ -12,11 +14,8 @@ namespace BT
         ///</summary>
         [SerializeField] private BehaviorTree behaviorTree;
         
-        [Tooltip("The interval at which the Behavior tree it's going to execute")]
-        public float UpdateInterval = 0.1f;
-
         ///<summary>
-        /// The blackboard component used by the current behavior tree
+        /// The blackboard component used by currently assigned Behavior Tree
         ///</summary>
         public Blackboard blackboard
         {
@@ -26,6 +25,9 @@ namespace BT
             }
         }
         
+        ///<summary>
+        /// The state of the currently running Behavior Tree
+        ///</summary>
         public EBehaviorTreeState behaviorTreeState
         {
             get
@@ -55,7 +57,11 @@ namespace BT
                 ExecuteBehaviorTree();
             }
         }
-
+        
+        ///<summary>
+        /// Start running a behavior tree
+        ///</summary>
+        ///<param name="behaviorTree"> The behavior tree you want to run.</param>
         public void RunBehaviorTree(BehaviorTree behaviorTree)
         {
             if(behaviorTree != null)
@@ -75,6 +81,9 @@ namespace BT
             }
         }
         
+        ///<summary>
+        /// Execute behavior tree root node
+        ///</summary>
         private void ExecuteBehaviorTree()
         {
             behaviorTree.treeState = behaviorTree.rootNode.ExecuteNode();

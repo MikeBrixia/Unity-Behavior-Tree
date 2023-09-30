@@ -4,11 +4,18 @@ using UnityEngine;
 using System;
 using UnityEditor;
 
-namespace BT
+namespace BT.Runtime
 {
-    
+    ///<summary>
+    /// Behavior Tree possible states.
+    ///</summary>
     public enum EBehaviorTreeState { Running, Success, Failed, Waiting }
-
+    
+    ///<summary>
+    /// Behavior Tree asset which contains all the data needed from the BehaviorTreeComponent
+    /// to make it run.
+    /// Behavior Tree execute from left to right and from top to bottom
+    ///</summary>
     [CreateAssetMenu(fileName = "New Behavior Tree", menuName = "AI/Behavior Tree")]
     public sealed class BehaviorTree : ScriptableObject
     {
@@ -25,26 +32,31 @@ namespace BT
         
         ///<summary>
         /// if true, the beavior tree is going to update each frame, otherwise
-        /// it will follow UpdateInterval defined by the user
+        /// it will use a user defined update interval(updateInterval).
         ///</summary>
         public bool canTick = false;
 
         ///<summary>
         /// The rate at which the behavior tree it's going
-        /// to be updated
+        /// to be updated. If canTick is set to true this value will
+        /// be ignored.
         ///</summary>
         public float updateInterval = 0.1f;
         
         ///<summary>
-        /// The current state of this tree
+        /// The current state of this Behavior Tree.
         ///</summary>
         [HideInInspector] public EBehaviorTreeState treeState;
 
         ///<summary>
-        /// All the nodes contained inside this behavior 
+        /// All the Behavior Tree nodes
         ///</summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
-
+        
+        ///<summary>
+        /// Clone this behavior tree asset
+        ///</summary>
+        ///<returns> A copy of this Behavior Tree asset</returns>
         public BehaviorTree Clone()
         {
             BehaviorTree tree = Instantiate(this);
@@ -54,17 +66,15 @@ namespace BT
             tree.rootNode.SetBlackboard(tree.blackboard);
             return tree;
         }
-
-// Editor only functionality
-#if UNITY_EDITOR
-
+    
+    #if (UNITY_EDITOR == true)
+        
         public BT_Node CreateNode(Type nodeType)
         {
             // Create node and generate GUID
             BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
-            node.nodeName = nodeType.Name;
+            node.nodeTypeName = nodeType.Name;
             node.guid = GUID.Generate();
-            
             
             if(nodeType == typeof(BT_RootNode))
             {
@@ -75,7 +85,7 @@ namespace BT
             AssetDatabase.AddObjectToAsset(node, this);
  
             // If undoing after creation, this node will be destroyed
-            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undos");
+            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undo");
             
             if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
                 && !nodeType.IsSubclassOf(typeof(BT_Service)))
@@ -95,23 +105,31 @@ namespace BT
             Undo.RegisterCompleteObjectUndo(this, "Behavior tree node removed");
             nodes.Remove(Node);
 
+            List<BT_Decorator> decorators = new List<BT_Decorator>();
+            List<BT_Service> services = new List<BT_Service>();
+            
             // When destroying composite nodes also destroys their decorators and services
             BT_CompositeNode compositeNode = Node as BT_CompositeNode;
             if (compositeNode != null)
             {
-                compositeNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
-                compositeNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+                decorators = compositeNode.decorators;
+                services = compositeNode.services;
             }
 
             // When destroying action nodes also destroys their decorators and services
             BT_ActionNode actionNode = Node as BT_ActionNode;
             if (actionNode != null)
             {
-                actionNode.decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
-                actionNode.services.ForEach(service => Undo.DestroyObjectImmediate(service));
+                decorators = actionNode.decorators;
+                services = actionNode.services;
             }
             
+            // Save node state by registering an undo/redo action and then destroy it.
             Undo.DestroyObjectImmediate(Node);
+            
+            // Destroy all the decorator and service children references.
+            decorators.ForEach(decorator => Undo.DestroyObjectImmediate(decorator));
+            services.ForEach(service => Undo.DestroyObjectImmediate(service));
             AssetDatabase.SaveAssets();
         }
 
@@ -162,7 +180,8 @@ namespace BT
             }
             return ChildrenNodes;
         }
+    #endif
+    
     }
-#endif
 }
 

@@ -6,29 +6,49 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
 using System.Linq;
-using UnityEngine.EventSystems;
+using BT.Runtime;
+using BT.Editor;
 
 namespace BT
 {
+    ///<summary>
+    /// The behavior tree graph view in which the user is going to
+    /// Create, move and delete behavior tree nodes
+    ///</summary>
     public class BehaviorTreeGraphView : GraphView
     {
 
         public new class UxmlFactory : UxmlFactory<BehaviorTreeGraphView, UxmlTraits> { }
-
-        public BehaviorTree Tree;
+        
+        ///<summary>
+        /// The tree the graph is currently focusing on
+        ///</summary>
+        public BehaviorTree tree;
 
         ///<summary>
         /// the position of the mouse in the graph
         ///</summary>
         private Vector2 mousePosition;
-
+        
+        ///<summary>
+        /// Called when the user select a node inside the graph
+        ///</summary>
         public Action<BT_NodeView> OnNodeSelected;
-        public Action<BT_NodeVisualElement> onNodeVisualElementSelected;
 
+        ///<summary>
+        /// Called when the user select a node visual element inside the graph.
+        /// Node visual element are all the nodes which can be attached to other nodes.
+        ///</summary>
+        public Action<BT_NodeVisualElement> onNodeVisualElementSelected;
+        
+        ///<summary>
+        /// Called when the user press a mouse button while it's cursor is inside
+        /// the graph window.
+        ///</summary>
         private EventCallback<MouseDownEvent> mousePressedEvent;
 
         ///<summary>
-        /// all the data which we want to copy
+        /// all the data which we want to copy with CTRL-C
         ///</summary>
         private List<BT_NodeView> copyCache = new List<BT_NodeView>();
 
@@ -63,22 +83,26 @@ namespace BT
             unserializeAndPaste += OnPaste;
         }
 
-        // Called when the user presses CTRL-V to paste a copied item
+        ///<summary>
+        /// Called when the user express the intention to paste some nodes(ctrl-v)
+        ///</summary>
         private void OnPaste(string operationName, string data)
         {
             // Paste copied node views 
             foreach (BT_NodeView copiedNode in copyCache)
             {
-                BT_Node newNode = Tree.CreateNode(copiedNode.node.GetType());
+                BT_Node newNode = tree.CreateNode(copiedNode.node.GetType());
                 newNode = copiedNode.node;
             }
             // Once we finished pasting nodes, clear the copy cache
             // and repopulate the view
             copyCache.Clear();
-            PopulateView(Tree);
+            PopulateView(tree);
         }
 
-        // Called when the user presses CTRL-C to copy the selected items
+        ///<summary>
+        /// Called when the user express the intention to copy some nodes(ctrl-c)
+        ///</summary>
         private string OnCopy(IEnumerable<GraphElement> elements)
         {
             copyCache.Clear();
@@ -93,7 +117,9 @@ namespace BT
             return copyCache.ToString();
         }
 
-        // Handles decorator node and view destruction correctly
+        ///<summary>
+        /// Called each time there is a keyboard event inside the graph.
+        ///</summary>
         private void OnKeyboardPressed(KeyDownEvent evt)
         {
             if (evt.keyCode == KeyCode.Delete)
@@ -119,8 +145,8 @@ namespace BT
                         EditorUtility.SetDirty(compositeNode);
                     }
                     // Remove decorator from behavior tree
-                    Tree.DestroyNode(decoratorView.node);
-                    PopulateView(Tree);
+                    tree.DestroyNode(decoratorView.node);
+                    PopulateView(tree);
                 }
 
                 BT_ServiceView serviceView = BehaviorTreeSelectionManager.selectedObject as BT_ServiceView;
@@ -144,13 +170,16 @@ namespace BT
                         EditorUtility.SetDirty(compositeNode);
                     }
                     // Remove service from behavior tree
-                    Tree.DestroyNode(serviceView.node);
-                    PopulateView(Tree);
+                    tree.DestroyNode(serviceView.node);
+                    PopulateView(tree);
                 }
 
             }
         }
-
+        
+        ///<summary>
+        /// Called when the graph gets selected by the user.
+        ///</summary>
         private void OnGraphSelected(MouseDownEvent evt)
         {
             BT_NodeVisualElement btVisualElement = BehaviorTreeSelectionManager.selectedObject
@@ -160,18 +189,31 @@ namespace BT
                 btVisualElement.OnUnselected();
             }
         }
-
+        
+        ///<summary>
+        /// Called when there is an undo/redo event.
+        ///</summary>
         private void OnUndoRedo()
         {
             AssetDatabase.SaveAssets();
-            PopulateView(Tree);
+            PopulateView(tree);
         }
-
+        
+        ///<summary>
+        /// Find a node view by it's node.
+        ///</summary>
+        ///<param name="node"> The node contained in the node view you want to search<param>
+        ///<returns> Return the node view of the given node </returns>
         public BT_NodeView FindNodeView(BT_Node Node)
         {
             return GetNodeByGuid(Node.guid.ToString()) as BT_NodeView;
         }
-
+        
+        ///<summary>
+        /// Populate the graph by drawing all the nodes and links
+        /// between them.
+        ///</summary>
+        ///<param name="tree"> The Behavior Tree you want to display in the graph </param>
         public void PopulateView(BehaviorTree tree)
         {
             graphViewChanged -= OnGraphViewChanged;
@@ -206,14 +248,18 @@ namespace BT
             }
         }
 
-        // Create an edge
+        ///<summary>
+        /// Create edge between to two nodes
+        ///</summary>
         private void CreateEdge(BT_NodeView parentView, BT_NodeView childView)
         {
             Edge edge = parentView.output.ConnectTo(childView.input);
             AddElement(edge);
         }
 
-        // Handle nodes selection in the graph
+        ///<summary>
+        /// Handle node and node visual element selection
+        ///</summary>
         public override void AddToSelection(ISelectable selectable)
         {
             if (BehaviorTreeSelectionManager.hoverObject == null
@@ -224,7 +270,9 @@ namespace BT
             }
         }
 
-        // Called when the user want to open the Contextual menu in the behavior tree graph
+        ///<summary>
+        /// Display contextual menu to track mouse position, display and handle nodes creation.
+        ///</summary>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             // Workaround to find the mouse position in the graph space because evt.originalMousePosition doesn't work
@@ -248,12 +296,15 @@ namespace BT
                 evt.menu.AppendAction("Action/" + type.Name, (a) => CreateNode(type, mousePosition));
             }
 
-            if (Tree.rootNode == null)
+            if (tree.rootNode == null)
             {
                 evt.menu.AppendAction("Root", (a) => CreateNode(typeof(BT_RootNode), mousePosition));
             }
         }
-
+        
+        ///<summary>
+        /// Called each time the behavior tree view changes to update it.
+        ///</summary>
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
             // Updates nodes by removing from the graph view the deleted nodes
@@ -265,18 +316,18 @@ namespace BT
                     if (NodeView != null)
                     {
                         // Perform node destruction process
-                        Tree.DestroyNode(NodeView.node);
+                        tree.DestroyNode(NodeView.node);
                     }
 
                     Edge edge = Element as Edge;
                     if (edge != null)
                     {
-                        // The parent node it's node which is trying to connect to another node
+                        // The parent node is the node which is trying to connect to another node
                         BT_NodeView ParentNode = edge.output.node as BT_NodeView;
-                        // The child node it's the target node for the connection
+                        // The child node is the target node for the connection
                         BT_NodeView ChildNode = edge.input.node as BT_NodeView;
                         ChildNode.parentView = null;
-                        Tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
+                        tree.RemoveChildFromParent(ChildNode.node, ParentNode.node);
                         ParentNode.SortChildrenNodes();
                     }
                 }
@@ -291,7 +342,7 @@ namespace BT
                     BT_NodeView ParentNode = edge.output.node as BT_NodeView;
                     // The child node it's the target node for the connection
                     BT_NodeView ChildNode = edge.input.node as BT_NodeView;
-                    Tree.AddChildToParentNode(ChildNode.node, ParentNode.node);
+                    tree.AddChildToParentNode(ChildNode.node, ParentNode.node);
                     ParentNode.SortChildrenNodes();
                 }
             }
@@ -307,17 +358,25 @@ namespace BT
             return graphViewChange;
         }
 
-        // Handle input/output linkage for nodes
+        ///<summary>
+        /// Get a list of compatible ports.
+        ///</summary>
+        ///<returns> A list of compatible ports</returns>
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             return ports.ToList().Where(endPort =>
             endPort.direction != startPort.direction
             && endPort.node != startPort.node).ToList();
         }
-
+        
+        ///<summary>
+        /// Create a node and display it in the graph
+        ///</summary>
+        ///<param name="type"> The type of the node you want to create</param>
+        ///<param name="nodePosition"> The position of the node in the graph</param>
         public void CreateNode(Type type, Vector2 nodePosition)
         {
-            BT_Node Node = Tree.CreateNode(type);
+            BT_Node Node = tree.CreateNode(type);
             Node.position = nodePosition;
             CreateNodeView(Node);
         }
@@ -325,9 +384,11 @@ namespace BT
         ///<summary>
         /// Create a brand new node and attach it to a parent node
         ///</summary>
+        ///<param name="nodeType"> The type of the node visual element you want to create and attach</param>
+        ///<param name="parentNode"> The Parent node to which the created node will be attached</param>
         public void CreateAttachedNode(Type nodeType, BT_NodeView parentNode)
         {
-            BT_Node node = Tree.CreateNode(nodeType);
+            BT_Node node = tree.CreateNode(nodeType);
 
             BT_Decorator decoratorNode = node as BT_Decorator;
             if (decoratorNode != null)
@@ -343,7 +404,12 @@ namespace BT
                 CreateServiceViewAttached(serviceNode, parentNode);
             }
         }
-
+        
+        ///<summary>
+        /// Attach a decorator node to a parent view
+        ///</summary>
+        ///<param name="decorator"> The decorator node you want to attach</param>
+        ///<param name="parentNode"> The view to which the decorators will be attached</param>
         private void AttachDecoratorToParent(BT_Decorator decorator, BT_NodeView parentNode)
         {
             BT_CompositeNode compositeNode = parentNode.node as BT_CompositeNode;
@@ -362,7 +428,12 @@ namespace BT
                 EditorUtility.SetDirty(actionNode);
             }
         }
-
+        
+        ///<summary>
+        /// Attach a service node to a parent view
+        ///</summary>
+        ///<param name="service"> The service node you want to attach</param>
+        ///<param name="parentNode"> The view to which the service will be attached</param>
         private void AttachServiceToParent(BT_Service service, BT_NodeView parentNode)
         {
             BT_CompositeNode compositeNode = parentNode.node as BT_CompositeNode;
@@ -385,6 +456,9 @@ namespace BT
         ///<summary>
         /// Create a decorator view and attach it to a parent node view
         ///</summary>
+        ///<param name="decorator"> The decorator node to attach</param>
+        ///<param name="parentNodeView"> The view to which the decorator it's going to be attacched</param>
+        ///<param name="filepath"> The filepath of the decorator view uxml to render on screen.</param>
         public void CreateDecoratorViewAttached(BT_Decorator decorator, BT_NodeView parentNodeView,
                                                 string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/DecoratorView.uxml")
         {
@@ -395,13 +469,20 @@ namespace BT
         ///<summary>
         /// Create a service view and attach it to a parent node view
         ///</summary>
+        ///<param name="service"> The decorator node to attach</param>
+        ///<param name="parentNodeView"> The view to which the service it's going to be attacched</param>
+        ///<param name="filepath"> The filepath of the service view uxml to render on screen.</param>
         public void CreateServiceViewAttached(BT_Service service, BT_NodeView parentNodeView,
                                               string filepath = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ServiceView.uxml")
         {
             BT_ServiceView serviceView = new BT_ServiceView(parentNodeView, service, filepath);
             serviceView.selectedCallback += onNodeVisualElementSelected;
         }
-
+        
+        ///<summary>
+        /// Create a brand new node view
+        ///</summary>
+        ///<param name="node"> The node from which the node view will be created </param>
         private void CreateNodeView(BT_Node node)
         {
             // When guid is invalid, generate a brand new one

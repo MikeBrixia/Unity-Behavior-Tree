@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using BT.Runtime;
+
+public class #SCRIPTNAME# : BT_Decorator
+{
+
+    // Called when the behavior tree wants to execute this decorator.
+    // Modify the 'state' as you need, return SUCCESS when you want this node
+    // to succeed, RUNNING when you want to notify the tree that this node is still running
+    // and has not finished yet and FAILED when you want this node to fail
+    public override EBehaviorTreeState Execute()
+    {
+        return state;
+    }
+    
+    // Called when the behavior tree starts executing this decorator
+    protected override void OnStart()
+    {
+        #NOTRIM#
+    }
+    
+    // Called when the behavior tree stops executing this decorator
+    protected override void OnStop()
+    {
+        #NOTRIM#
+    }
+    
+    // Put here editor only logic
+    #if UNITY_EDITOR
+    
+    // for BT nodes the constructor is a editor only method, do not use it at runtime!
+    public #SCRIPTNAME#() : base()
+    {
+        description = "Node description";
+    }
+
+    #endif
+}

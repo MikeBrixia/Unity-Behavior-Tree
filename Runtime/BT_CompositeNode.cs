@@ -2,42 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
+    ///<summary>
+    /// Composites nodes are the roots of branches in the tree and define how a specific branch
+    /// should execute and what rules should it follow.
+    /// This node have 1 input and multiple outputs(Childrens)
+    ///</summary>
     public abstract class BT_CompositeNode : BT_Node
     {
 
         ///<summary>
-        /// The children nodes this composite should try to execute
+        /// The childrens this composite should try to execute.
         ///</summary>
         [HideInInspector] public List<BT_Node> childrens = new List<BT_Node>();
 
         ///<summary>
-        /// all the decorators attached to this node
+        /// Decorators attached to this composite
         ///</summary>
         [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
 
         ///<summary>
-        /// all the services attached to this node
+        /// Services attacehd to this composite
         ///</summary>
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
-
+        
+        ///<summary>
+        /// Execution index which keeps track of which
+        /// node this composite should try to execute during
+        /// a tree update.
+        ///</summary>
         protected int executedChildrenIndex = 0;
-
+        
+        ///<summary>
+        /// Internal version of OnStart(), used to perform
+        /// initialization.
+        ///</summary>
         internal override void OnStart_internal()
         {
             // Each time this node begins executing reset current executed children index
             executedChildrenIndex = 0;
             base.OnStart_internal();
         }
-
+        
+        ///<summary>
+        /// Internal version of OnStop(), used to notify
+        /// attached services that this composite has finished
+        /// executing.
+        ///</summary>
         internal override void OnStop_internal()
         {
             // When this node has done running disable all the service nodes updates
             services.ForEach(service => service.OnStop_internal());
             base.OnStop_internal();
         }
-
+        
+        ///<summary>
+        /// Called when the Behavior Tree wants to execute this composite, 
+        /// This method will execute all decorators and if the result is successfull
+        /// it will continue by executing first all services and then this composite.
+        ///</summary>
+        ///<returns> The result of this composite </returns>
         public override EBehaviorTreeState ExecuteNode()
         {
             // If all the decorators are successfull go ahead and execute 
@@ -55,6 +80,10 @@ namespace BT
             return state;
         }
         
+        ///<summary>
+        /// Execute all decorators attached to this composite
+        ///</summary>
+        ///<returns> true if all decorators are successfull, false otherwise</returns>
         private bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
@@ -71,7 +100,11 @@ namespace BT
             }
             return decoratorsResult;
         }
-
+        
+        ///<summary>
+        /// Make a copy of this composite asset
+        ///</summary>
+        ///<returns> A copy of this composite asset.</returns>
         public override NodeBase Clone()
         {
             BT_CompositeNode composite = Instantiate(this);
@@ -80,7 +113,12 @@ namespace BT
             composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
-
+        
+        ///<summary>
+        /// Set the blackboard component which is used by the tree who owns
+        /// this composite.
+        ///</summary>
+        ///<param name="blackboard">the blackboard used by the owner of this composite</param>
         internal override void SetBlackboard(Blackboard blackboard)
         {
             base.SetBlackboard(blackboard);

@@ -2,20 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace BT
+namespace BT.Runtime
 {
 
     public abstract class NodeBase : ScriptableObject
     {
-       
+        
+    #if (UNITY_EDITOR == true)
        ///<summary>
        /// Unique identifier for the node
        ///</summary>
        [HideInInspector] public GUID guid;
+    #endif
+        
+        /// <summary>
+        /// Custom node name which can be defined by the user.
+        /// </summary>
+        [FormerlySerializedAs("userDefinedName")] public string nodeName;
+        
+        /// <summary>
+        /// The name type name of the node.
+        /// </summary>
+       [FormerlySerializedAs("nodeName")] [HideInInspector] public string nodeTypeName;
        
-       public string nodeName;
-       
+       /// <summary>
+       /// Editable description of what this node does.
+       /// </summary>
        public string description;
         
        ///<summary>
@@ -30,7 +44,7 @@ namespace BT
 
        public NodeBase()
        {
-           nodeName = GetType().ToString();
+           nodeTypeName = "(" + GetType() + ")";
        }
 
        public virtual NodeBase Clone()

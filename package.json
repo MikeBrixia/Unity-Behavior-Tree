@@ -6,9 +6,11 @@
   "displayName": "Behavior Tree",
   "unity": "2021.2",
   "source": "UnityBehaviorTree",
+  
   "author": {
     "name": "Michael Guida",
     "email": "michael.guida@outlook.com"
   },
-  "type": "tool"
+  "type": "tool",
+  "documentationUrl": "https://mikebrixia.github.io/articles/intro.html"
 }

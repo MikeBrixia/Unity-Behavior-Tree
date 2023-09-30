@@ -2,20 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BT
+namespace BT.Runtime
 {
+    ///<summary>
+    /// Behavior Tree action node.
+    /// Actions are nodes with one input and no outputs, which are responsible
+    /// of executing different tasks such as making the AI wait for a given amount
+    /// of time or chasing the player.
+    /// Actions can have decorators and services nodes attached to them and will execute 
+    /// both before executing their own logic.
+    ///</summary>
     public abstract class BT_ActionNode : BT_Node
     {
-
+        
+        ///<summary>
+        /// The decorators attached to this action
+        ///</summary>
         [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
         
+        ///<summary>
+        /// The services attached to this action
+        ///</summary>
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
-
+        
+        ///<summary>
+        /// Called when the behavior tree wants to execute this action. 
+        /// Put here all the code you want this action to execute.
+        ///</summary>
+        ///<returns> SUCCESS if this action has been executed successfully, RUNNING if is still executing
+        /// and FAILED if the action has failed to execute it's tasks.</returns>
         public override EBehaviorTreeState Execute()
         {
             return EBehaviorTreeState.Success;
         }
-
+        
+        ///<summary>
+        /// Called when the Behavior Tree wants to start executing this action.
+        /// This method will execute all decorators and if the result is successfull
+        /// it will continue by executing first all services and then this action.
+        ///</summary>
+        ///<returns> The result of this action </returns>
         public override EBehaviorTreeState ExecuteNode()
         {
             // If all the decorators are successfull go ahead and execute 
@@ -33,6 +59,10 @@ namespace BT
             return state;
         }
         
+        ///<summary>
+        /// Executes all decorators attached to this action
+        ///</summary>
+        ///<returns> True if all decorators are successfull, false otherwise</returns>
         private bool ExecuteDecorators()
         {
             bool decoratorsResult = true;
@@ -49,19 +79,31 @@ namespace BT
             }
             return decoratorsResult;
         }
-
+        
+        ///<summary>
+        /// Internal version of OnStart() used to perform
+        /// initialization.
+        ///</summary>
         internal override void OnStart_internal()
         {
             state = EBehaviorTreeState.Running;
             base.OnStart_internal();
         }
-
+        
+        ///<summary>
+        /// Internal version of OnStop() used to notify
+        /// all services that this node has stopped executing.
+        ///</summary>
         internal override void OnStop_internal()
         {
             services.ForEach(service => service.OnStop_internal());
             base.OnStop_internal();
         }
-
+        
+        ///<summary>
+        /// Make a copy of this action asset
+        ///</summary>
+        ///<returns> A copy of this action asset</returns>
         public override NodeBase Clone()
         {
             BT_ActionNode action = Instantiate(this);
@@ -69,7 +111,12 @@ namespace BT
             action.services = action.services.ConvertAll(service => service.Clone() as BT_Service);
             return action;
         }
-
+        
+        ///<summary>
+        /// Set the blackboard component which is used by the tree who owns
+        /// this action.
+        ///</summary>
+        ///<param name="blackboard">the blackboard used by the owner of this action</param>
         internal override void SetBlackboard(Blackboard blackboard)
         {
             base.SetBlackboard(blackboard);

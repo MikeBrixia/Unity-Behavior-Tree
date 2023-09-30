@@ -7,10 +7,13 @@ using UnityEngine.UIElements;
 using System;
 using UnityEngine.EventSystems;
 using UnityEditor.UIElements;
+using BT.Runtime;
 
-namespace BT
+namespace BT.Editor
 {
-
+    ///<summary>
+    /// Base class for node views.
+    ///</summary>
     public class BT_NodeView : Node
     {
 
@@ -50,8 +53,15 @@ namespace BT
         /// Input port of the node
         ///</summary>
         public Port input { get; private set; }
-
+        
+        ///<summary>
+        /// Container for decorator nodes
+        ///</summary>
         public VisualElement decoratorsContainer { get; private set; }
+
+        ///<summary>
+        /// Container service containers
+        ///</summary>
         public VisualElement serviceContainer { get; private set; }
 
         private GUID guid;
@@ -60,13 +70,29 @@ namespace BT
         /// The graph which owns this node
         ///</summary>
         public BehaviorTreeGraphView behaviorTreeGraph { get; private set; }
-        private Vector2 mousePosition;
 
+        ///<summary>
+        /// The position of the mouse.
+        ///</summary>
+        private Vector2 mousePosition;
+        
+        ///<summary>
+        /// The displayed node name
+        ///</summary>
         private Label nodeNameLabel;
+        
+        /// <summary>
+        /// The displayed node type name.
+        /// </summary>
+        private Label nodeTypeNameLabel;
+        
+        ///<summary>
+        /// The displayed node description
+        ///</summary>
         private Label nodeDescriptionLabel;
         private VisualElement titleElement;
         private VisualElement nodeBorder;
-
+     
         public BT_NodeView(BT_Node node, BehaviorTreeGraphView graph) : base("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/NodeView.uxml")
         {
             this.viewDataKey = node.guid.ToString();
@@ -87,20 +113,33 @@ namespace BT
             // Finally draw the node on screen
             Draw();
         }
-
+        
+        ///<summary>
+        /// Called when the mouse cursor enter this node view.
+        ///</summary>
         private void OnMouseEnter(MouseEnterEvent evt)
         {
             BehaviorTreeSelectionManager.hoverObject = this;
         }
-
+        
+        ///<summary>
+        /// Called when we initialize visual element.
+        ///</summary>
         private void InitializeUIElements()
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
+            nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
             SerializedObject serializedNode = new SerializedObject(node);
-        
+            
+            // Bind node name value to label
             nodeNameLabel.bindingPath = "nodeName";
             nodeNameLabel.Bind(serializedNode);
-
+            
+            // Bind node type name value to label
+            nodeTypeNameLabel.bindingPath = "nodeTypeName";
+            nodeTypeNameLabel.Bind(serializedNode);
+            
+            // Bind description value to description label.
             nodeDescriptionLabel = mainContainer.parent.Q<Label>("NodeDescription");
             nodeDescriptionLabel.bindingPath = "description";
             nodeDescriptionLabel.Bind(serializedNode);
@@ -123,7 +162,10 @@ namespace BT
             CreateOutputPort();
             RefreshExpandedState();
         }
-
+        
+        ///<summary>
+        /// Create input port for this node view
+        ///</summary>
         private void CreateInputPort()
         {
             if (node.GetType() != typeof(BT_RootNode))
@@ -135,7 +177,10 @@ namespace BT
                 inputContainer.Add(input);
             }
         }
-
+        
+        ///<summary>
+        /// Create output port for this node view
+        ///</summary>
         private void CreateOutputPort()
         {
             if (!node.GetType().IsSubclassOf(typeof(BT_ActionNode)))
@@ -148,7 +193,10 @@ namespace BT
                 outputContainer.Add(output);
             }
         }
-
+        
+        ///<summary>
+        /// Set the position of this node view.
+        ///</summary>
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
@@ -157,20 +205,28 @@ namespace BT
             node.position.y = newPos.yMin;
             EditorUtility.SetDirty(node);
         }
-
+        
+        ///<summary>
+        /// Called when this node view gets selected.
+        ///</summary>
         public override void OnSelected()
         {
             BehaviorTreeSelectionManager.selectedObject = this;
             ShowSelectionBorder(5f);
             OnNodeSelected.Invoke(this);
         }
-
+        
+        ///<summary>
+        /// Called when this node view gets unselected.
+        ///</summary>
         public override void OnUnselected()
         {
             ShowSelectionBorder(0f);
         }
 
-        // Called when the user wants to open the contextual menu while having selected this node view
+        ///<summary>
+        /// Create contextual menu to handle node visual element creation.
+        ///</summary>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -191,7 +247,11 @@ namespace BT
                 }
             }
         }
-
+        
+        ///<summary>
+        /// Show or hide node border.
+        ///</summary>
+        ///<param name="width">the width of node border</param>
         public void ShowSelectionBorder(float width)
         {
             nodeBorder.style.color = Color.blue;
@@ -200,7 +260,10 @@ namespace BT
             nodeBorder.style.borderTopWidth = width;
             nodeBorder.style.borderBottomWidth = width;
         }
-
+        
+        ///<summary>
+        /// Show or hide node border.
+        ///</summary>
         public void SortChildrenNodes()
         {
             BT_CompositeNode compositeNode = node as BT_CompositeNode;
@@ -210,7 +273,6 @@ namespace BT
             }
         }
 
-        // Sort behavior tree nodes by horizontal position in the graph
         private int SortByPosition(BT_Node left, BT_Node right)
         {
             return left.position.x < right.position.x ? -1 : 1;

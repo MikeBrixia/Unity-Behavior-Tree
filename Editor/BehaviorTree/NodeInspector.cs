@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using BT.Runtime;
 
-namespace BT
+namespace BT.Editor
 {
 
     ///<summary>
@@ -12,14 +13,14 @@ namespace BT
     /// to the displayed node
     ///</summary>
     [CustomEditor(typeof(BT_Node))]
-    public class NodeInspector : Editor
+    public class NodeInspector : UnityEditor.Editor
     {
         
         private SerializedProperty serializedNodeName;
         private SerializedProperty serializedNodeDescription;
 
         public delegate void OnValueChange<PropertyType>(PropertyType PropertyChanged);
-
+        
         public OnValueChange<string> onNodeNameChange;
         public OnValueChange<string> onNodeDescriptionChange;
 

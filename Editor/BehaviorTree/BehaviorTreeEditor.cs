@@ -4,12 +4,14 @@ using UnityEngine.UIElements;
 using UnityEditor.Callbacks;
 using System;
 using UnityEditor.UIElements;
+using BT.Runtime;
 
-namespace BT
+namespace BT.Editor
 {
     [SerializeField]
     public class BehaviorTreeEditor : EditorWindow
     {
+       
         private BehaviorTreeGraphView behaviorTreeView;
         private BehaviorTreeInspector nodeInspectorView;
         private IMGUIContainer blackboardInspectorView;
@@ -18,14 +20,20 @@ namespace BT
         private ToolbarButton refreshButton;
         private SerializedObject serializedBlackboard;
         private SerializedProperty blackboardProperty;
-
+        
+        ///<summary>
+        /// Open the behavior tree editor window.
+        ///</summary>
         [MenuItem("Window/AI/Behavior Tree Editor")]
         public static void OpenWindow()
         {
             BehaviorTreeEditor wnd = GetWindow<BehaviorTreeEditor>();
             wnd.titleContent = new GUIContent("Behavior Tree Editor");
         }
-
+        
+        ///<summary>
+        /// Open the behavior tree editor.
+        ///</summary>
         [OnOpenAsset]
         public static bool OpenEditor(int instanceID, int line)
         {
@@ -36,7 +44,10 @@ namespace BT
             }
             return false;
         }
-
+        
+        ///<summary>
+        /// Create behavior tree editor GUI.
+        ///</summary>
         public void CreateGUI()
         {
             // Load UXML
@@ -57,7 +68,7 @@ namespace BT
             blackboardInspectorView.onGUIHandler = () =>
             {
                 // Inspect blackboard asset in behavior tree editor window
-                if(serializedBlackboard != null && serializedBlackboard.targetObject == behaviorTreeView.Tree.blackboard)
+                if(serializedBlackboard != null && serializedBlackboard.targetObject == behaviorTreeView.tree.blackboard)
                 {
                     serializedBlackboard.Update();
                     EditorGUILayout.PropertyField(blackboardProperty);
@@ -77,13 +88,16 @@ namespace BT
             OnSelectionChange();
         }
         
+        ///<summary>
+        /// Called when the behavior tree editor selection change.
+        ///</summary>
         private void OnSelectionChange()
         {
             BehaviorTree tree = Selection.activeObject as BehaviorTree;
             if (tree != null)
             {
                 treeViewLabel.text = " Tree View: " + tree.name;
-                behaviorTreeView.Tree = tree;
+                behaviorTreeView.tree = tree;
 
                 // serialized properties used for inspecting blackboard asset in the 
                 // behavior tree editor view.
@@ -96,7 +110,9 @@ namespace BT
             }
         }
 
-        // Called when the node selection changes
+        ///<summary>
+        /// Called when the behavior tree editor selected node changes.
+        ///</summary>
         private void OnNodeSelectionChange(BT_NodeView nodeView)
         {
             BehaviorTreeSelectionManager.selectedObject = nodeView;
@@ -105,7 +121,10 @@ namespace BT
                 nodeInspectorView.UpdateInspector(nodeView.node);
             }
         }
-
+        
+        ///<summary>
+        /// Called when node visual elemenet changes.
+        ///</summary>
         private void OnNodeVisualElementSelectionChange(BT_NodeVisualElement nodeVisualElement)
         {
             BehaviorTreeSelectionManager.selectedObject = nodeVisualElement;
