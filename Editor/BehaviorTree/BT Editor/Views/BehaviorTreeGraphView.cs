@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
 using System.Linq;
-using System.Web.UI;
 using BT.Runtime;
 using BT.Editor;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
@@ -52,14 +51,6 @@ namespace BT
         /// The rectangle used for rectangle selection inside the graph.
         /// </summary>
         private Rect rectangleSelection;
-        
-        ///<summary>
-        /// all the data which we want to copy with CTRL-C-CTRL-V.
-        /// copied data will be temporarily stored and will be the same
-        /// across al behavior tree graphs, allowing users to copy nodes from one graph
-        /// and pasting them inside another graph.
-        ///</summary>
-        private static readonly List<NodeSelectionInfo> copyCache = new List<NodeSelectionInfo>();
         
         public BehaviorTreeGraphView()
         {
@@ -121,8 +112,8 @@ namespace BT
         ///</summary>
         private void OnPaste(string operationName, string data)
         {
-            List<BT_ParentNodeView> views = new List<BT_ParentNodeView>();
-            
+            List<NodeSelectionInfo> copyCache = JsonUtility.FromJson<List<NodeSelectionInfo>>(data);
+            Debug.Log(data);
             // Paste copied nodes.
             foreach (NodeSelectionInfo copiedData in copyCache)
             {
@@ -159,16 +150,10 @@ namespace BT
                 
                 // Finally, create a copy of this node.
                 pastedNode = NodeFactory.CloneNode(pastedNode, tree);
-                
-                // Initialize copy/pasted node
                 pastedNode.position = nodePosition;
-                BT_ParentNodeView nodeView = CreateNodeView(pastedNode);
-                views.Add(nodeView);
             }
             
-            // Once we finished pasting nodes, clear the copy cache
-            // and repopulate the view.
-            copyCache.Clear();
+            // Once we finished pasting nodes, repopulate the view.
             PopulateView();
         }
 
@@ -177,17 +162,17 @@ namespace BT
         ///</summary>
         private string OnCopy(IEnumerable<GraphElement> elements)
         {
-            copyCache.Clear();
+            var copyCache = new List<KeyValuePair<BT_ParentNodeView, Rect>>();
             foreach (GraphElement element in elements)
             {
                 if (element is BT_ParentNodeView parentNodeToCopy)
                 {
-                    parentNodeToCopy.node.GetConnectedNodes();
-                    NodeSelectionInfo nodeInfo = new NodeSelectionInfo(parentNodeToCopy.node, rectangleSelection);
-                    copyCache.Add(nodeInfo);
+                    var nodeRectanglePair = new KeyValuePair<BT_ParentNodeView, Rect>(parentNodeToCopy, rectangleSelection);
+                    copyCache.Add(nodeRectanglePair);
                 }
             }
-            return copyCache.ToString();
+            Debug.Log(EditorJsonUtility.ToJson(copyCache, true));
+            return JsonUtility.ToJson(copyCache, true);
         }
 
         ///<summary>
@@ -286,17 +271,12 @@ namespace BT
                 }
                 else if(node is BT_ParentNode parentNode and not BT_RootNode)
                 {
-                    List<BT_ParentNode> children = parentNode.GetConnectedNodes();
-                    
-                    if (children != null)
+                    // Connect all other nodes.
+                    foreach (BT_ParentNode childrenNode in parentNode.GetConnectedNodes())
                     {
-                        // Connect all other nodes.
-                        foreach (BT_ParentNode childrenNode in children)
-                        {
-                            BT_ParentNodeView childView = FindNodeView(childrenNode);
-                            CreateEdge(parentView, childView);
-                            childView.parentView = parentView;
-                        }
+                        BT_ParentNodeView childView = FindNodeView(childrenNode);
+                        CreateEdge(parentView, childView);
+                        childView.parentView = parentView;
                     }
                 }
             }

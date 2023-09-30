@@ -183,7 +183,7 @@ namespace BT
             if (connectedNodes != null)
             {
                 // Register all children of this node.
-                foreach (BT_Node child in connectedNodes)
+                foreach (BT_ParentNode child in connectedNodes)
                 {
                     child.name = "";
                     RegisterNode(child, tree);

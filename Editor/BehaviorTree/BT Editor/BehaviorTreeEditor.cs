@@ -198,6 +198,7 @@ namespace BT.Editor
             
             CreateToolbarGUI();
             CreateInspectorGUI();
+            
             treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
             
             // Trigger a selection event.
