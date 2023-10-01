@@ -1,6 +1,12 @@
 {
   "metadata": [
     {
+      "globalMetadata": // Edit your documentation website info, see: https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html#322-reserved-metadata
+      {
+        "_appTitle": "Behavior Tree Editor Documentation",
+        "_appFooter": "Behavior Tree Editor by Michael Guida",
+        "_enableSearch": true
+      },
       "src": [
         {
           "files": [
