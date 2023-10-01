@@ -23,4 +23,4 @@ jobs:
         # generate API documentation
          - name: Generated docfx documentation
            run: docfx docfx.json
-           continue-on-error: true
+           continue-on-error: false
