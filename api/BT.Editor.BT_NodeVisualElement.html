@@ -1,0 +1,613 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BT_NodeVisualElement
+ | Behavior Tree | 0.0.1 </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BT_NodeVisualElement
+ | Behavior Tree | 0.0.1 ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      <meta name="docfx:disablenewtab" content="true">
+      
+      <meta name="docfx:docurl" content="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Editor_BT_NodeVisualElement.md&amp;value=---%0Auid%3A%20BT.Editor.BT_NodeVisualElement%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="BT.Editor.BT_NodeVisualElement">
+
+
+
+  <h1 id="BT_Editor_BT_NodeVisualElement" data-uid="BT.Editor.BT_NodeVisualElement" class="text-break">
+    Class BT_NodeVisualElement
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="BT.html">BT</a>.<a class="xref" href="BT.Editor.html">Editor</a></dd></dl>
+  
+  </div>
+
+  <div class="markdown summary"><p>A visual element which can be attached to a BT node</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BT_NodeVisualElement : VisualElement</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">BT_NodeVisualElement</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="BT.Editor.BT_DecoratorView.html">BT_DecoratorView</a></div>
+      <div><a class="xref" href="BT.Editor.BT_ServiceView.html">BT_ServiceView</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="BT_Editor_BT_NodeVisualElement__ctor_" data-uid="BT.Editor.BT_NodeVisualElement.#ctor*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement__ctor_BT_Editor_BT_NodeView_BT_Runtime_BT_Node_System_String_" data-uid="BT.Editor.BT_NodeVisualElement.#ctor(BT.Editor.BT_NodeView,BT.Runtime.BT_Node,System.String)">
+  BT_NodeVisualElement(BT_NodeView, BT_Node, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BT_NodeVisualElement(BT_NodeView parentView, BT_Node node, string filepath)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parentView</code> <a class="xref" href="BT.Editor.BT_NodeView.html">BT_NodeView</a></dt>
+    <dd></dd>
+    <dt><code>node</code> <a class="xref" href="BT.Runtime.BT_Node.html">BT_Node</a></dt>
+    <dd></dd>
+    <dt><code>filepath</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_displayedDescription" data-uid="BT.Editor.BT_NodeVisualElement.displayedDescription">
+  displayedDescription
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string displayedDescription</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_displayedName" data-uid="BT.Editor.BT_NodeVisualElement.displayedName">
+  displayedName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string displayedName</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_filepath" data-uid="BT.Editor.BT_NodeVisualElement.filepath">
+  filepath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>the filepath of the visual element uxml.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string filepath</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_node" data-uid="BT.Editor.BT_NodeVisualElement.node">
+  node
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The node contained inside this behavior tree visual element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BT_Node node</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BT.Runtime.BT_Node.html">BT_Node</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_parentView" data-uid="BT.Editor.BT_NodeVisualElement.parentView">
+  parentView
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The parent view of this visual element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BT_NodeView parentView</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BT.Editor.BT_NodeView.html">BT_NodeView</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_selectedCallback" data-uid="BT.Editor.BT_NodeVisualElement.selectedCallback">
+  selectedCallback
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Callback which is called when the decorator view gets selected.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;BT_NodeVisualElement&gt; selectedCallback</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="BT.Editor.BT_NodeVisualElement.html">BT_NodeVisualElement</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_InitializeUIElements_" data-uid="BT.Editor.BT_NodeVisualElement.InitializeUIElements*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_InitializeUIElements" data-uid="BT.Editor.BT_NodeVisualElement.InitializeUIElements">
+  InitializeUIElements()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called on node view creation and used to initialize UI elements
+for this node view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InitializeUIElements()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_InitializeViewInputOutput_" data-uid="BT.Editor.BT_NodeVisualElement.InitializeViewInputOutput*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_InitializeViewInputOutput" data-uid="BT.Editor.BT_NodeVisualElement.InitializeViewInputOutput">
+  InitializeViewInputOutput()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called on node view creation and used to initialize custom input events for this
+visual element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InitializeViewInputOutput()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_OnMouseEnter_" data-uid="BT.Editor.BT_NodeVisualElement.OnMouseEnter*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_OnMouseEnter_MouseEnterEvent_" data-uid="BT.Editor.BT_NodeVisualElement.OnMouseEnter(MouseEnterEvent)">
+  OnMouseEnter(MouseEnterEvent)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the mouse cursor enters the visual element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnMouseEnter(MouseEnterEvent evt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>evt</code> <span class="xref">MouseEnterEvent</span></dt>
+    <dd><p>Mouse event</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_OnMouseLeave_" data-uid="BT.Editor.BT_NodeVisualElement.OnMouseLeave*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_OnMouseLeave_MouseLeaveEvent_" data-uid="BT.Editor.BT_NodeVisualElement.OnMouseLeave(MouseLeaveEvent)">
+  OnMouseLeave(MouseLeaveEvent)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the mouse cursor leaves the visual element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnMouseLeave(MouseLeaveEvent evt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>evt</code> <span class="xref">MouseLeaveEvent</span></dt>
+    <dd><p>Mouse event</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_OnSelected_" data-uid="BT.Editor.BT_NodeVisualElement.OnSelected*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_OnSelected_MouseDownEvent_" data-uid="BT.Editor.BT_NodeVisualElement.OnSelected(MouseDownEvent)">
+  OnSelected(MouseDownEvent)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when this visual element gets selected.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnSelected(MouseDownEvent evt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>evt</code> <span class="xref">MouseDownEvent</span></dt>
+    <dd><p>Mouse event</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_OnUnselected_" data-uid="BT.Editor.BT_NodeVisualElement.OnUnselected*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_OnUnselected" data-uid="BT.Editor.BT_NodeVisualElement.OnUnselected">
+  OnUnselected()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when this visual element gets unselected.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void OnUnselected()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BT_Editor_BT_NodeVisualElement_ShowSelectionBorder_" data-uid="BT.Editor.BT_NodeVisualElement.ShowSelectionBorder*"></a>
+
+  <h3 id="BT_Editor_BT_NodeVisualElement_ShowSelectionBorder_VisualElement_System_Single_Color_" data-uid="BT.Editor.BT_NodeVisualElement.ShowSelectionBorder(VisualElement,System.Single,Color)">
+  ShowSelectionBorder(VisualElement, float, Color)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Editor/BehaviorTree/BT Elements/BT_NodeVisualElement.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Modify selection border display.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void ShowSelectionBorder(VisualElement element, float width, Color borderColor)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">VisualElement</span></dt>
+    <dd><p>the element you want to modify it's border</p>
+</dd>
+    <dt><code>width</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>the width of the border</p>
+</dd>
+    <dt><code>borderColor</code> <span class="xref">Color</span></dt>
+    <dd><p>the color of the border</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made by <a href="https://github.com/MikeBrixia" target="_blank">MikeBrixia</a> using <a href="https://dotnet.github.io/docfx" target="_blank">DocFX</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
