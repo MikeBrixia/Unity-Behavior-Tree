@@ -13,18 +13,14 @@ jobs:
         # Install dotnet
          - name: Checkout
            uses: actions/checkout@v4
-         - name: Compile C# code
+         - name: Install dotnet
            uses: actions/setup-dotnet@v3
            with:
             dotnet-version: 7.x
         # Install and intialize docfx
          - name: Install docfx
            run: dotnet tool install -g docfx
-         - name: Check for updates
-           run: dotnet tool update -g docfx
-         - name: Initialize docfx
-           run: init docfx --quiet
         # generate API documentation
-         - name: Generated docfx documentation
+         - name: Build documentation
            run: docfx docfx.json
            continue-on-error: false
