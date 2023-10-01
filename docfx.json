@@ -14,11 +14,12 @@
           ]
         }
       ],
-      "dest": "obj/api"
+      "dest": "obj/api",
+      "filter": "filterConfig.yml"
     }
   ],
   "build": {
-    "globalMetadata": // Edit your documentation website info, see: https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html#322-reserved-metadata
+    "globalMetadata":
       {
         "_appTitle": "Behavior Tree Editor documentation",
         "_appFooter": "Behavior Tree Editor by Michael Guida",
