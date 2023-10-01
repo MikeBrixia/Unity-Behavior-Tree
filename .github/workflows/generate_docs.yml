@@ -20,7 +20,9 @@ jobs:
         # Install and intialize docfx
          - name: Install docfx
            run: dotnet tool install -g docfx
-         - name: init docfx
+         - name: Check for updates
+           run: dotnet tool update -g docfx
+         - name: init docfx --quiet
            run: docfx init
         # generate API documentation
          - name: Generated docfx documentation
