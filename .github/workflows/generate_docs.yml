@@ -19,4 +19,4 @@ jobs:
          - name: Install docfx
            run: dotnet tool install -g docfx
          - name: Generated docfx documentation
-           run: docfx Docs/ --serve
+           run: docfx Docs/docfx.json --serve
