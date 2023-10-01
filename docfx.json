@@ -4,9 +4,9 @@
       "src": [
         {
           "files": [
-            "runtime/*cs",
+            "Runtime/*cs",
           ],
-          "src": "packages/Behavior Tree/"
+          "src": ""
         }
       ],
       "dest": "api"
