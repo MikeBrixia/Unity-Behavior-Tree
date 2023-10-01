@@ -1,9 +1,9 @@
 apiRules:
   - include:
-      uidRegex: ^com.ai.behavior-tree/.Runtime/.BT
+      uidRegex: .Runtime/.BT
       type: Namespace
   - include:
-      uidRegex: ^com.ai.behavior-tree/.Runtime/.BT.Runtime
+      uidRegex: .Runtime/.BT.Runtime
       type: Namespace
   - exclude:
       uidRegex: .*
