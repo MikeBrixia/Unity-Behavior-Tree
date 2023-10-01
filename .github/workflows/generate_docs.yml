@@ -26,6 +26,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: _site
-           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: Docs/_site
