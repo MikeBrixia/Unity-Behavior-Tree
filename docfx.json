@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "runtime/*.csproj",
+            "runtime/*.asmdef",
           ],
           "src": "runtime/"
         }
