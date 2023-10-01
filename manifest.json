@@ -1,0 +1,537 @@
+{
+  "sitemap": {
+    "baseUrl": "https://mikebrixia.github.io/Unity-Behavior-Tree/"
+  },
+  "source_base_path": "/home/runner/work/Unity-Behavior-Tree/Unity-Behavior-Tree/Documentation~",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.BehaviorTreeGraphView.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeGraphView.UxmlFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.BehaviorTreeGraphView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeGraphView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.BehaviorTreeInspector.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeInspector.UxmlFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.BehaviorTreeInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeInspector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BT_DecoratorView.OnDecoratorSelected.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_DecoratorView.OnDecoratorSelected.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BT_DecoratorView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_DecoratorView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BT_NodeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_NodeView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BT_NodeVisualElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_NodeVisualElement.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BT_ServiceView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_ServiceView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BehaviorTreeEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BehaviorTreeEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BehaviorTreeSelectionManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BehaviorTreeSelectionManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BlackboardInspector.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BlackboardInspector.UxmlFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.BlackboardInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BlackboardInspector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.NodeInspector.OnValueChange-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeInspector.OnValueChange-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.NodeInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeInspector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.NodeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_ActionNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_ActionNode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_CompositeNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_CompositeNode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_Decorator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Decorator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_Node.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Node.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_RootNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_RootNode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_Selector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Selector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BT_Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Service.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BehaviorTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BehaviorTree.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BehaviorTreeComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BehaviorTreeComponent.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.Blackboard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Blackboard.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BlackboardDecorator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardDecorator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BlackboardProperty-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardProperty-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BlackboardPropertyBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardPropertyBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BlackboardSupportedTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardSupportedTypes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.BlackboardVariableType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardVariableType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.EBehaviorTreeState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.EBehaviorTreeState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.Log.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Log.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.Loop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Loop.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.NodeBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.NodeBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.SequenceNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.SequenceNode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.Wait.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Wait.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.Runtime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BT.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Global.BTInstaller.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.BTInstaller.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Global.SplitView.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.SplitView.UxmlFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Global.SplitView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.SplitView.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Global.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "license/LICENSE.md",
+      "output": {
+        ".html": {
+          "relative_path": "license/LICENSE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "license/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "license/toc.html"
+        },
+        ".json": {
+          "relative_path": "license/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
