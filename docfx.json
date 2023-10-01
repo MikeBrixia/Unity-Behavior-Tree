@@ -1,22 +1,68 @@
 {
   "metadata": [
     {
-      "globalMetadata": // Edit your documentation website info, see: https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html#322-reserved-metadata
-      {
-        "_appTitle": "Behavior Tree Editor Documentation",
-        "_appFooter": "Behavior Tree Editor by Michael Guida",
-        "_enableSearch": true
-      },
       "src": [
         {
           "files": [
-            "Runtime/*cs",
+            "*.cs"
           ],
-          "src": ""
+          "cwd": ".",
+          "exclude": [
+            "**/obj/**",
+            "**/bin/**",
+            "_site/**"
+          ]
         }
       ],
-      "dest": "api"
+      "dest": "obj/api"
     }
   ],
-  //...
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml"
+        ],
+        "cwd": "obj"
+      },
+      {
+        "files": [
+          "api/*.md",
+          "articles/**.md",
+          "toc.yml",
+          "*.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "apidoc/**.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      }
+    ],
+    "dest": "_site",
+    "template": [
+      "default"
+    ]
+  }
 }
