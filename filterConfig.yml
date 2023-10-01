@@ -1,1 +1,7 @@
-
+apiRules:
+  - include:
+      uidRegex: ^com.ai.behavior-tree/.Runtime/.BT
+      type: namespace
+  - include:
+      uidRegex: ^com.ai.behavior-tree/.Runtime/.BT.Runtime
+      type: namespace
