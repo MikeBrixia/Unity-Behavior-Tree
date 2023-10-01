@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "runtime/*.dll",
+            "runtime/*csproj",
           ],
           "src": "runtime/"
         }
