@@ -16,5 +16,7 @@ jobs:
            uses: actions/setup-dotnet@v3
            with:
             dotnet-version: 7.x
+         - name: Install docfx
+           run: dotnet tool install -g docfx
          - name: Generated docfx documentation
            run: docfx Docs/ --serve
