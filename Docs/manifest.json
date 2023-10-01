@@ -1,0 +1,594 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/BehaviorTree/Unity-Behavior-Tree-System/New-Unity-Project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "efZS+4ojCo7lh7bOTnzKTqs6YEwabyWpzmkwhWP3oGI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "6Ga4h2moHjy2O4yxwJxF2FO8KM2ZmNqw8+VtIJ5GBr0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "VppMFMFpV1CxY0Zfg+cwpjAFBZPAvchx2+sPEua5w8g="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.BehaviorTreeGraphView.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeGraphView.UxmlFactory.html",
+          "hash": "KnBjo/61+LQT3ew0+wYiAHLune+ZAtVRaPtVxFYd2Go="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.BehaviorTreeGraphView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeGraphView.html",
+          "hash": "voRik6t15ChJBv27j4k2Us88CYTxzVWO3Z399TEX4aQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.BehaviorTreeInspector.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeInspector.UxmlFactory.html",
+          "hash": "jlUjRHO3k48tTb/xN+130YvodJaE6ii56bdiljQAJsE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.BehaviorTreeInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.BehaviorTreeInspector.html",
+          "hash": "pF2xkK+jD45Ie27Y2CpuhgS1t/+pa3AnmEEJDQsELnE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BT_DecoratorView.OnDecoratorSelected.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_DecoratorView.OnDecoratorSelected.html",
+          "hash": "er7GPk2jxaR9EEl7Q9OVtLU6IcQ9YYIsAfjz1yig9cY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BT_DecoratorView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_DecoratorView.html",
+          "hash": "3sp53a2BS9jQNByCvOC147N7mqFYZu9BftbGC2hkr7Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BT_NodeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_NodeView.html",
+          "hash": "PsRw1nl6og7yl9W/mnkXo0Xdw4659L8vbRFR+z/W7jM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BT_NodeVisualElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_NodeVisualElement.html",
+          "hash": "PEqaJ5NIogRPL2Ru+WgwlhvUC3tiw/XPoOIWhxsQ9Nc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BT_ServiceView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BT_ServiceView.html",
+          "hash": "MYK21gW6u5YrJXknX0/BX7DwOKfwTom/qutA3wb7jWY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BehaviorTreeEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BehaviorTreeEditor.html",
+          "hash": "g6xYgeQ11b/dWsEjGf7Cq3FROzF2pmn9RsKQr5WFWT8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BehaviorTreeSelectionManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BehaviorTreeSelectionManager.html",
+          "hash": "8EdmYpnJm7nHfk7INC6LRPuhqPALkrdZHUanUC6J7Ao="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BlackboardInspector.UxmlFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BlackboardInspector.UxmlFactory.html",
+          "hash": "9paOPnWpcw2zxeiMC7L5udWwDu5c6zvRCHUZ+HK/s+o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.BlackboardInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.BlackboardInspector.html",
+          "hash": "43JLY4g3RyaibF2Lrz9JOmlMDKg/yADoz5RKuBwCLUg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.NodeInspector.OnValueChange-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeInspector.OnValueChange-1.html",
+          "hash": "x9Ga5ZCWZkSlxg07B14TwdoVPiFW1GNG6dRSqIe+3V4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.NodeInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeInspector.html",
+          "hash": "uROMJnUu3pr9vyXq04JGpwjkuQbZ+PGpTik7pTzD0Kw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.NodeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.NodeView.html",
+          "hash": "qCrFVbdEimVcVt1eADpXSCx1RgY0qpZcfIai/aXaRlk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Editor.html",
+          "hash": "HNfn2NZzBePxcx/4ef7XyNlm+GBcv6x2EykMGnYKooM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_ActionNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_ActionNode.html",
+          "hash": "tPHslV8dZK7w1oAfz9W4tx6mbRyoXY8/ziFC13jSK9U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_CompositeNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_CompositeNode.html",
+          "hash": "ePbF2/bopYNoAnBWX/MbbH+VV80/aa8zttcnoWkJQ7w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_Decorator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Decorator.html",
+          "hash": "2nlovx4Yzx/bOYwm/wX6viHe0crLOEgxEN77YwMaNQU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_Node.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Node.html",
+          "hash": "VzLo5MH8R6Kc6viHcFLMI4jDEJYQdlkzP6dLa0079ko="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_RootNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_RootNode.html",
+          "hash": "YMkDW1Ewrkxxll7LImFAxcMSP/txSBNSW1gsV34NKC8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_Selector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Selector.html",
+          "hash": "ur8OjmsDnnuaHee3HDVZmdheeM9gDhX3QYgQG3pT9T8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BT_Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BT_Service.html",
+          "hash": "lr729zTDkQb93PFvjXZlndEOu0O8NVpXfPmEYcEUFWo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BehaviorTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BehaviorTree.html",
+          "hash": "ojGGzuC0MtbBSFRiakPZiAh2L0w8kGxkRfvGHKYYLTA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BehaviorTreeComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BehaviorTreeComponent.html",
+          "hash": "jTahHhdewC9kymONNljsicsnPOgPun0s3liRchPnQfc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.Blackboard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Blackboard.html",
+          "hash": "622+72ghfW1iO70d26VFKfsZ/CvSSEjOmI8pmf2K5Ck="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BlackboardDecorator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardDecorator.html",
+          "hash": "VZ0zkKgcTN4IQjlsX69RhTMOPyEpIlaX9OYiPFqIMxQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BlackboardProperty-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardProperty-1.html",
+          "hash": "PJpxmqMLjDhVEAFNhjF8A93FqSkQNUP2kz7YHT9fJvM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BlackboardPropertyBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardPropertyBase.html",
+          "hash": "scgIt4QoZWM5wpfM+Y+VIlG1QpNnY3evf8SDAuuWDDA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.BlackboardSupportedTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.BlackboardSupportedTypes.html",
+          "hash": "qzI52hkWat6XTWj3Sdy4YvJp04oV6ZRwpw2QDPUKVo4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.EBehaviorTreeState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.EBehaviorTreeState.html",
+          "hash": "g6XnDk99yZZySnANXDit2LB8udYbTenuYmT6ZhIugO4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.Log.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Log.html",
+          "hash": "RrM9QUhm2DPLMMr2PsvCFcwC35gHVtRNuwXaUvoSLMs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.Loop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Loop.html",
+          "hash": "Tn5q9L8YmPj3o6ro4yJLgiHZdlfbsmfdp90EHdc47GE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.NodeBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.NodeBase.html",
+          "hash": "SLMdmJU2N9WXb3fjOCUrkzbd/hoMLG2RqaU8kLN81iU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.SequenceNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.SequenceNode.html",
+          "hash": "cWQDfr3bv45vtFMNsoCxWwfVknA7+fclNwreK6lKrEw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.Wait.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.Wait.html",
+          "hash": "dPIFUhHO/2wbw3DcFJWCstFQdVxguSDh8+ZJACabo/s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.Runtime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.Runtime.html",
+          "hash": "YjJE+pSqObXF0VlOdC3SjO2nzeQ7mBq38nphmxmmyXs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BT.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BT.html",
+          "hash": "HO46PzqMbjYrDLoUrytqte8D74R58nK+H01r7xbeP/8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "obj/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "wkJdU+VULedR6j1gWKqP8y0zFCsnNhMV5yqkr6zeTnI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "Oa9PuD4E1hvZnCkVjUgzNBX6S00Zo5YilamTERTZo54="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 39,
+          "skipped_file_count": 9
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
