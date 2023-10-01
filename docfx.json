@@ -6,7 +6,7 @@
           "files": [
             "runtime/*cs",
           ],
-          "src": "runtime/"
+          "src": "packages/Behavior Tree/"
         }
       ],
       "dest": "api"
