@@ -1,0 +1,16 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "runtime/*.csproj",
+          ],
+          "src": "runtime/"
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  //...
+}
