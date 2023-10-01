@@ -16,7 +16,8 @@
         }
       ],
       "dest": "obj/api",
-      "filter": "filterConfig.yml"
+      "filter": "filterConfig.yml",
+      "allowCompilationErrors": true
     }
   ],
   "build": {
