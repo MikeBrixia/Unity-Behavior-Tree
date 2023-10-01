@@ -4,7 +4,8 @@
       "src": [
         {
           "files": [
-            "Runtime/*.cs, Runtime/*.dll"
+            "Runtime/*.cs", 
+             "Runtime/*.dll"
           ],
           "cwd": ".",
           "exclude": [
