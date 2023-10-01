@@ -1,8 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="ServiceBorder" style="border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; background-color: rgb(52, 166, 94); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); max-width: none; min-height: 50px;">
-        <ui:Label text="Service Name" display-tooltip-when-elided="true" name="ServiceName" style="white-space: normal; -unity-text-align: upper-center; font-size: 18px;" />
-        <ui:Label text="Service Type Name" display-tooltip-when-elided="true" name="ServiceTypeName" style="white-space: normal; -unity-text-align: upper-center; font-size: 18px;" />
-        <ui:Label text="Service update frequency information" display-tooltip-when-elided="true" name="ServiceUpdateFrequencyLabel" style="-unity-text-align: upper-center; white-space: nowrap;" />
-        <ui:Label text="Service description" display-tooltip-when-elided="true" name="ServiceDescription" style="-unity-text-align: upper-center; white-space: normal; -unity-font-style: bold;" />
-    </ui:VisualElement>
-</ui:UXML>
