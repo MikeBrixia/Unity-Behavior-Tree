@@ -15,7 +15,7 @@
           ]
         }
       ],
-      "dest": "output/",
+      "dest": "Docs/",
       "filter": "filterConfig.yml",
       "allowCompilationErrors": true
     }
