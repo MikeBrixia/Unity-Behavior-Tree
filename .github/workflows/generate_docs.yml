@@ -1,29 +1,32 @@
+
 name: Geneate Docfx documentation
 
 on:
     push:
-        branches: ["main"]
+      branches: ["main"]
 
     workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
+        publish-docs:
+          runs-on: ubuntu-latest
+          steps:
+          # Install/update dotnet.
+          - name: Checkout
+            uses: actions/checkout@v3
+          - name: Dotnet Setup
+            uses: actions/setup-dotnet@v3
+            with:
+              dotnet-version: 7.x
+          # Generate documentation.
+          - run: dotnet tool update -g docfx
+          - run: docfx Documentation/docfx.json
 
-      - name: Build
-        uses: CaseyHofland/docfx-unitypackage@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          - name: push documentation
+            run: git add Documentation/_site/*
+                git commit -m "Updated website documentation"
+                git push origin main:gh-pages
+
       
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: _site
+          
 
