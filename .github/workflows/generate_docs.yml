@@ -26,10 +26,8 @@ jobs:
             run: |
               git config --global user.name 'Bot'
               git config --global user.email 'Bot@users.noreply.github.com'
-              git status
               git add Documentation/_site/*
-              git commit -a -m "Updated website documentation"
-              git checkout -b 'gh-pages'
+              git commit -am "Automated documentation update"
               git push origin main:gh-pages
 
       
