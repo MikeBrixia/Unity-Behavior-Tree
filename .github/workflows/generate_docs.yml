@@ -27,7 +27,7 @@ jobs:
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch
-              git checkout main -- Documentation/_site/*
+              git checkout origin/main -- Documentation/_site/*
               git checkout origin/gh-pages
               git add Documentation/_site/*
               git commit -m 'Automated documentation update'
