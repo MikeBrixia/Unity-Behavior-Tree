@@ -19,7 +19,7 @@ jobs:
             with:
               dotnet-version: 7.x
           # Generate documentation.
-          - run: rm -rf Documentation/_site
+          #- run: rm -rf Documentation/_site
           - run: dotnet tool update -g docfx
           - run: docfx Documentation/docfx.json
           # Push documentation to github page.
