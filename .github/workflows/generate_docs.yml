@@ -27,7 +27,8 @@ jobs:
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git status
-              git stash Documentation/_site/*
+              git add Documentation/_site/*
+              git stash
               git checkout gh-pages
               git stash pop
               git commit -m "Automated documentation update"
