@@ -23,6 +23,7 @@ jobs:
           - run: docfx Documentation/docfx.json
 
           # Push documentation to github page.
+          - run: git config --global user.email "bot.github@github.io"
           - run: git add Documentation/_site/*
           - run: git commit -m "Updated website documentation"
           - run: git push origin main:gh-pages
