@@ -30,8 +30,8 @@ jobs:
               git add Documentation/_site/*
               git commit -a -m "Updated website documentation"
               git checkout -b 'gh-pages'
-              git fetch origin
-              git pull origin/main
+              git fetch origin main:gh-pages
+              git pull origin main:gh-pages
               git push origin main:gh-pages
 
       
