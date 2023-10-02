@@ -22,10 +22,10 @@ jobs:
           - run: dotnet tool update -g docfx
           - run: docfx Documentation/docfx.json
 
-          - name: push documentation
-            run: git add Documentation/_site/*
-                git commit -m "Updated website documentation"
-                git push origin main:gh-pages
+          # Push documentation to github page.
+          - run: git add Documentation/_site/*
+          - run: git commit -m "Updated website documentation"
+          - run: git push origin main:gh-pages
 
       
           
