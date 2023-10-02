@@ -2,283 +2,283 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.BehaviorTreeGraphView.UxmlFactory.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.BehaviorTreeGraphView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.BehaviorTreeInspector.UxmlFactory.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.BehaviorTreeInspector.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BT_DecoratorView.OnDecoratorSelected.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BT_DecoratorView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BT_NodeView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BT_NodeVisualElement.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BT_ServiceView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BehaviorTreeEditor.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BehaviorTreeSelectionManager.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BlackboardInspector.UxmlFactory.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.BlackboardInspector.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.NodeInspector.OnValueChange-1.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.NodeInspector.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.NodeView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Editor.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_ActionNode.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_CompositeNode.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_Decorator.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_Node.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_RootNode.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_Selector.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BT_Service.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BehaviorTree.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BehaviorTreeComponent.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.Blackboard.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BlackboardDecorator.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BlackboardProperty-1.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BlackboardPropertyBase.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BlackboardSupportedTypes.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.BlackboardVariableType.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.EBehaviorTreeState.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.Log.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.Loop.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.NodeBase.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.SequenceNode.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.Wait.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.Runtime.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/BT.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/Global.BTInstaller.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/Global.SplitView.UxmlFactory.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/Global.SplitView.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/Global.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/api/index.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/index.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://mikebrixia.github.io/Unity-Behavior-Tree/license/LICENSE.html</loc>
-    <lastmod>2023-10-01T07:08:01+00:00</lastmod>
+    <lastmod>2023-10-02T08:14:24+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
