@@ -30,6 +30,10 @@ jobs:
               git add Documentation/_site/*
               git commit -m "Automated report"
               git push --force origin main:gh-pages
+              git checkout gh-pages
+              git fetch 
+              git pull
+              git push
               
 
       
