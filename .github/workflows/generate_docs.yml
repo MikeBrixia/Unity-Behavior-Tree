@@ -24,6 +24,8 @@ jobs:
           # Push documentation to github page.
           - name: Update documentation
             run: |
+              git fetch origin main
+              git pull origin main
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git status
