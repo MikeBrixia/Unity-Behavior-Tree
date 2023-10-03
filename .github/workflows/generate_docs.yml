@@ -33,7 +33,8 @@ jobs:
               git checkout gh-pages
               git push origin gh-pages
               git config pull.rebase true
-              git pull
+              git fetch origin gh-pages
+              git pull orirgin gh-pages
               
 
       
