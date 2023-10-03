@@ -1,2 +1,5 @@
-- name: Homepage
-  href: index.md
+- name: Manual
+  href: articles/
+- name: Scripting API
+  href: api/
+  homepage: api/index.md
