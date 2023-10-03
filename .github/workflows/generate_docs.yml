@@ -28,9 +28,9 @@ jobs:
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
               git add Documentation/_site/*
-              git checkout gh-pages
               git mv -fk Documentation/_site/* .
               git rm Documentation/
+              git checkout gh-pages
               git add --all
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
