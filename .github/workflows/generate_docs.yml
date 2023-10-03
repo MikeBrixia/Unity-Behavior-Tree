@@ -34,7 +34,6 @@ jobs:
               git pull --rebase origin gh-pages
               git push origin gh-pages
               git mv example/* .
-              git commit -am "automatically move documentiation to repo root"
 
               
               
