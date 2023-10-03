@@ -29,6 +29,7 @@ jobs:
               git fetch origin gh-pages
               git mv -fk Documentation/_site/* .
               git add --all
+              git diff --staged --name-only
               git checkout gh-pages
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
