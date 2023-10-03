@@ -27,7 +27,6 @@ jobs:
               git status -b
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
-              git fetch origin gh-pages
               git add --all
               git stash save --all
               git checkout gh-pages
