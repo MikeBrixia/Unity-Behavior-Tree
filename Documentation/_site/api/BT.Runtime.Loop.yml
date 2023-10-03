@@ -1,0 +1,468 @@
+### YamlMime:ManagedReference
+items:
+- uid: BT.Runtime.Loop
+  commentId: T:BT.Runtime.Loop
+  id: Loop
+  parent: BT.Runtime
+  children:
+  - BT.Runtime.Loop.#ctor
+  - BT.Runtime.Loop.Execute
+  - BT.Runtime.Loop.OnStart
+  - BT.Runtime.Loop.OnStop
+  - BT.Runtime.Loop.loopNumber
+  langs:
+  - csharp
+  - vb
+  name: Loop
+  nameWithType: Loop
+  fullName: BT.Runtime.Loop
+  type: Class
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: Loop
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 12
+  namespace: BT.Runtime
+  summary: >-
+    This composite node it's gonna loop a given number of times
+
+    through it's childrens before returning success. If all loops are 
+
+    successfull this node is going to succed, if even one loop fails
+
+    this node it's going to fail.
+  example: []
+  syntax:
+    content: 'public sealed class Loop : BT_CompositeNode'
+    content.vb: Public NotInheritable Class [Loop] Inherits BT_CompositeNode
+  inheritance:
+  - System.Object
+  - BT.Runtime.NodeBase
+  - BT.Runtime.BT_Node
+  - BT.Runtime.BT_CompositeNode
+  inheritedMembers:
+  - BT.Runtime.BT_CompositeNode.childrens
+  - BT.Runtime.BT_CompositeNode.decorators
+  - BT.Runtime.BT_CompositeNode.services
+  - BT.Runtime.BT_CompositeNode.ExecuteNode
+  - BT.Runtime.BT_CompositeNode.Clone
+  - BT.Runtime.BT_Node.blackboard
+  - BT.Runtime.BT_Node.isStarted
+  - BT.Runtime.NodeBase.nodeName
+  - BT.Runtime.NodeBase.nodeTypeName
+  - BT.Runtime.NodeBase.description
+  - BT.Runtime.NodeBase.position
+- uid: BT.Runtime.Loop.loopNumber
+  commentId: F:BT.Runtime.Loop.loopNumber
+  id: loopNumber
+  parent: BT.Runtime.Loop
+  langs:
+  - csharp
+  - vb
+  name: loopNumber
+  nameWithType: Loop.loopNumber
+  fullName: BT.Runtime.Loop.loopNumber
+  type: Field
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: loopNumber
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 19
+  namespace: BT.Runtime
+  summary: >-
+    The number of loops you want this composite
+
+    to perform.
+  example: []
+  syntax:
+    content: public int loopNumber
+    return:
+      type: System.Int32
+    content.vb: Public loopNumber As Integer
+- uid: BT.Runtime.Loop.#ctor
+  commentId: M:BT.Runtime.Loop.#ctor
+  id: '#ctor'
+  parent: BT.Runtime.Loop
+  langs:
+  - csharp
+  - vb
+  name: Loop()
+  nameWithType: Loop.Loop()
+  fullName: BT.Runtime.Loop.Loop()
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: .ctor
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 26
+  namespace: BT.Runtime
+  syntax:
+    content: public Loop()
+    content.vb: Public Sub New()
+  overload: BT.Runtime.Loop.#ctor*
+  nameWithType.vb: Loop.New()
+  fullName.vb: BT.Runtime.Loop.New()
+  name.vb: New()
+- uid: BT.Runtime.Loop.Execute
+  commentId: M:BT.Runtime.Loop.Execute
+  id: Execute
+  parent: BT.Runtime.Loop
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: Loop.Execute()
+  fullName: BT.Runtime.Loop.Execute()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: Execute
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 32
+  namespace: BT.Runtime
+  summary: >-
+    Called when the behavior tree wants to execute this node. 
+
+    Put here all the code you want this node to execute.
+  example: []
+  syntax:
+    content: public override EBehaviorTreeState Execute()
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+      description: >-
+        SUCCESS if this node has been executed successfully, RUNNING if is still executing
+            and FAILED if the node has failed to execute it's tasks.
+    content.vb: Public Overrides Function Execute() As EBehaviorTreeState
+  overridden: BT.Runtime.BT_Node.Execute
+  overload: BT.Runtime.Loop.Execute*
+- uid: BT.Runtime.Loop.OnStart
+  commentId: M:BT.Runtime.Loop.OnStart
+  id: OnStart
+  parent: BT.Runtime.Loop
+  langs:
+  - csharp
+  - vb
+  name: OnStart()
+  nameWithType: Loop.OnStart()
+  fullName: BT.Runtime.Loop.OnStart()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: OnStart
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 64
+  namespace: BT.Runtime
+  summary: Called when this node has started it's execution
+  example: []
+  syntax:
+    content: protected override void OnStart()
+    content.vb: Protected Overrides Sub OnStart()
+  overridden: BT.Runtime.BT_Node.OnStart
+  overload: BT.Runtime.Loop.OnStart*
+- uid: BT.Runtime.Loop.OnStop
+  commentId: M:BT.Runtime.Loop.OnStop
+  id: OnStop
+  parent: BT.Runtime.Loop
+  langs:
+  - csharp
+  - vb
+  name: OnStop()
+  nameWithType: Loop.OnStop()
+  fullName: BT.Runtime.Loop.OnStop()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Composites/Loop.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: OnStop
+    path: ../Runtime/Composites/Loop.cs
+    startLine: 69
+  namespace: BT.Runtime
+  summary: Called when this node has succeded or failed it's execution
+  example: []
+  syntax:
+    content: protected override void OnStop()
+    content.vb: Protected Overrides Sub OnStop()
+  overridden: BT.Runtime.BT_Node.OnStop
+  overload: BT.Runtime.Loop.OnStop*
+references:
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  href: BT.html
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  spec.csharp:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+  spec.vb:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: BT.Runtime.NodeBase
+  commentId: T:BT.Runtime.NodeBase
+  parent: BT.Runtime
+  href: BT.Runtime.NodeBase.html
+  name: NodeBase
+  nameWithType: NodeBase
+  fullName: BT.Runtime.NodeBase
+- uid: BT.Runtime.BT_Node
+  commentId: T:BT.Runtime.BT_Node
+  parent: BT.Runtime
+  href: BT.Runtime.BT_Node.html
+  name: BT_Node
+  nameWithType: BT_Node
+  fullName: BT.Runtime.BT_Node
+- uid: BT.Runtime.BT_CompositeNode
+  commentId: T:BT.Runtime.BT_CompositeNode
+  parent: BT.Runtime
+  href: BT.Runtime.BT_CompositeNode.html
+  name: BT_CompositeNode
+  nameWithType: BT_CompositeNode
+  fullName: BT.Runtime.BT_CompositeNode
+- uid: BT.Runtime.BT_CompositeNode.childrens
+  commentId: F:BT.Runtime.BT_CompositeNode.childrens
+  parent: BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_childrens
+  name: childrens
+  nameWithType: BT_CompositeNode.childrens
+  fullName: BT.Runtime.BT_CompositeNode.childrens
+- uid: BT.Runtime.BT_CompositeNode.decorators
+  commentId: F:BT.Runtime.BT_CompositeNode.decorators
+  parent: BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_decorators
+  name: decorators
+  nameWithType: BT_CompositeNode.decorators
+  fullName: BT.Runtime.BT_CompositeNode.decorators
+- uid: BT.Runtime.BT_CompositeNode.services
+  commentId: F:BT.Runtime.BT_CompositeNode.services
+  parent: BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_services
+  name: services
+  nameWithType: BT_CompositeNode.services
+  fullName: BT.Runtime.BT_CompositeNode.services
+- uid: BT.Runtime.BT_CompositeNode.ExecuteNode
+  commentId: M:BT.Runtime.BT_CompositeNode.ExecuteNode
+  parent: BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_ExecuteNode
+  name: ExecuteNode()
+  nameWithType: BT_CompositeNode.ExecuteNode()
+  fullName: BT.Runtime.BT_CompositeNode.ExecuteNode()
+  spec.csharp:
+  - uid: BT.Runtime.BT_CompositeNode.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_ExecuteNode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_CompositeNode.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_ExecuteNode
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_CompositeNode.Clone
+  commentId: M:BT.Runtime.BT_CompositeNode.Clone
+  parent: BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_Clone
+  name: Clone()
+  nameWithType: BT_CompositeNode.Clone()
+  fullName: BT.Runtime.BT_CompositeNode.Clone()
+  spec.csharp:
+  - uid: BT.Runtime.BT_CompositeNode.Clone
+    name: Clone
+    href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_Clone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_CompositeNode.Clone
+    name: Clone
+    href: BT.Runtime.BT_CompositeNode.html#BT_Runtime_BT_CompositeNode_Clone
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_Node.blackboard
+  commentId: P:BT.Runtime.BT_Node.blackboard
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_blackboard
+  name: blackboard
+  nameWithType: BT_Node.blackboard
+  fullName: BT.Runtime.BT_Node.blackboard
+- uid: BT.Runtime.BT_Node.isStarted
+  commentId: F:BT.Runtime.BT_Node.isStarted
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_isStarted
+  name: isStarted
+  nameWithType: BT_Node.isStarted
+  fullName: BT.Runtime.BT_Node.isStarted
+- uid: BT.Runtime.NodeBase.nodeName
+  commentId: F:BT.Runtime.NodeBase.nodeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeName
+  name: nodeName
+  nameWithType: NodeBase.nodeName
+  fullName: BT.Runtime.NodeBase.nodeName
+- uid: BT.Runtime.NodeBase.nodeTypeName
+  commentId: F:BT.Runtime.NodeBase.nodeTypeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeTypeName
+  name: nodeTypeName
+  nameWithType: NodeBase.nodeTypeName
+  fullName: BT.Runtime.NodeBase.nodeTypeName
+- uid: BT.Runtime.NodeBase.description
+  commentId: F:BT.Runtime.NodeBase.description
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_description
+  name: description
+  nameWithType: NodeBase.description
+  fullName: BT.Runtime.NodeBase.description
+- uid: BT.Runtime.NodeBase.position
+  commentId: F:BT.Runtime.NodeBase.position
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_position
+  name: position
+  nameWithType: NodeBase.position
+  fullName: BT.Runtime.NodeBase.position
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: BT.Runtime.Loop.#ctor*
+  commentId: Overload:BT.Runtime.Loop.#ctor
+  href: BT.Runtime.Loop.html#BT_Runtime_Loop__ctor
+  name: Loop
+  nameWithType: Loop.Loop
+  fullName: BT.Runtime.Loop.Loop
+  nameWithType.vb: Loop.New
+  fullName.vb: BT.Runtime.Loop.New
+  name.vb: New
+- uid: BT.Runtime.BT_Node.Execute
+  commentId: M:BT.Runtime.BT_Node.Execute
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  name: Execute()
+  nameWithType: BT_Node.Execute()
+  fullName: BT.Runtime.BT_Node.Execute()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.Execute
+    name: Execute
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.Execute
+    name: Execute
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  - name: (
+  - name: )
+- uid: BT.Runtime.Loop.Execute*
+  commentId: Overload:BT.Runtime.Loop.Execute
+  href: BT.Runtime.Loop.html#BT_Runtime_Loop_Execute
+  name: Execute
+  nameWithType: Loop.Execute
+  fullName: BT.Runtime.Loop.Execute
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  parent: BT.Runtime
+  href: BT.Runtime.EBehaviorTreeState.html
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.BT_Node.OnStart
+  commentId: M:BT.Runtime.BT_Node.OnStart
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  name: OnStart()
+  nameWithType: BT_Node.OnStart()
+  fullName: BT.Runtime.BT_Node.OnStart()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+- uid: BT.Runtime.Loop.OnStart*
+  commentId: Overload:BT.Runtime.Loop.OnStart
+  href: BT.Runtime.Loop.html#BT_Runtime_Loop_OnStart
+  name: OnStart
+  nameWithType: Loop.OnStart
+  fullName: BT.Runtime.Loop.OnStart
+- uid: BT.Runtime.BT_Node.OnStop
+  commentId: M:BT.Runtime.BT_Node.OnStop
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  name: OnStop()
+  nameWithType: BT_Node.OnStop()
+  fullName: BT.Runtime.BT_Node.OnStop()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+- uid: BT.Runtime.Loop.OnStop*
+  commentId: Overload:BT.Runtime.Loop.OnStop
+  href: BT.Runtime.Loop.html#BT_Runtime_Loop_OnStop
+  name: OnStop
+  nameWithType: Loop.OnStop
+  fullName: BT.Runtime.Loop.OnStop
