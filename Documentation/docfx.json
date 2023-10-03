@@ -9,7 +9,7 @@
             ]
           }
         ],
-        "dest": "_site/test",
+        "dest": "test",
         "disableGitFeatures": false,
         "disableDefaultFilter": false,
         "allowCompilationErrors": true
