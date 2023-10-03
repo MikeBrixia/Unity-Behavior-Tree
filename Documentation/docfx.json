@@ -9,7 +9,7 @@
             ]
           }
         ],
-        "dest": "obj/api",
+        "dest": "api",
         "disableGitFeatures": false,
         "disableDefaultFilter": false,
         "allowCompilationErrors": true
