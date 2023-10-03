@@ -31,8 +31,8 @@ jobs:
               git fetch origin gh-pages
               git pull origin gh-pages
               git checkout gh-pages
-              git pull --rebase origin gh-pages
-              git push origin gh-pages
+              
+              
               
 
       
