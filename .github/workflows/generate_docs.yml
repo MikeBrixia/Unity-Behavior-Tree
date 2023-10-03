@@ -33,10 +33,8 @@ jobs:
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
-              mv Documentation/_site* ''
-              git status
-              git add -A
-              git commit -m 'Automatically move generated files to repo root'
+              git mv example/* .
+              git commit -m "automatically move documentiation to repo root"
               git push origin gh-pages
 
               
