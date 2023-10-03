@@ -32,6 +32,6 @@ jobs:
               git rm -r Documentation/
               git add --all
               git checkout gh-pages
-              git commit -m 'Automated documentation update'
+              git commit -am 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
