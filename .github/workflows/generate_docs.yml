@@ -27,9 +27,11 @@ jobs:
             run: |
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
-              cd Documentation/
-              git add _site/*
-              git push origin --force main:gh-pages
+              git add Documentation/_site/*
+              git checkout gh-pages
+              git fetch origin gh-pages
+              git pull origin gh-pages
+              git push origin gh-pages
               
 
       
