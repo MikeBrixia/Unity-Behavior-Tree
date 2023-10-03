@@ -28,9 +28,16 @@ jobs:
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
+<<<<<<< Updated upstream
               git checkout gh-pages
               git pull --rebase origin gh-pages
               git add Documentation/_site/*
+=======
+              git add Documentation/_site/*
+              git checkout gh-pages
+              git pull --rebase origin gh-pages
+              git commit -m 'Automated documentation update'
+>>>>>>> Stashed changes
               git push origin gh-pages
               
               
