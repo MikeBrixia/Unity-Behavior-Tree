@@ -27,7 +27,7 @@ jobs:
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
-              git mv -fk Documentation/_site/* .
+              git mv -f Documentation/_site/* .
               git rm -r Documentation/
               git add --all
               git checkout gh-pages
