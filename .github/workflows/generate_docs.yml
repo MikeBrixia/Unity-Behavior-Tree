@@ -29,8 +29,6 @@ jobs:
               git fetch origin gh-pages
               git add Documentation/_site/*
               git mv -fk Documentation/_site/* .
-              git rm -r Documentation/
-              git add --all
               git checkout gh-pages
               git commit -am 'Automated documentation update'
               git pull --rebase origin gh-pages
