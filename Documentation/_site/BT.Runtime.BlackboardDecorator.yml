@@ -1,0 +1,439 @@
+### YamlMime:ManagedReference
+items:
+- uid: BT.Runtime.BlackboardDecorator
+  commentId: T:BT.Runtime.BlackboardDecorator
+  id: BlackboardDecorator
+  parent: BT.Runtime
+  children:
+  - BT.Runtime.BlackboardDecorator.#ctor
+  - BT.Runtime.BlackboardDecorator.Execute
+  - BT.Runtime.BlackboardDecorator.OnStart
+  - BT.Runtime.BlackboardDecorator.OnStop
+  - BT.Runtime.BlackboardDecorator.blackboardKey
+  langs:
+  - csharp
+  - vb
+  name: BlackboardDecorator
+  nameWithType: BlackboardDecorator
+  fullName: BT.Runtime.BlackboardDecorator
+  type: Class
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: BlackboardDecorator
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 11
+  namespace: BT.Runtime
+  summary: >-
+    This decorator it's going to check a blackboard
+
+    Boolean value and return Success if the bool value is true, 
+
+    false otherwise.
+  example: []
+  syntax:
+    content: 'public sealed class BlackboardDecorator : BT_Decorator'
+    content.vb: Public NotInheritable Class BlackboardDecorator Inherits BT_Decorator
+  inheritance:
+  - System.Object
+  - BT.Runtime.NodeBase
+  - BT.Runtime.BT_Node
+  - BT.Runtime.BT_Decorator
+  inheritedMembers:
+  - BT.Runtime.BT_Decorator.Clone
+  - BT.Runtime.BT_Node.blackboard
+  - BT.Runtime.BT_Node.isStarted
+  - BT.Runtime.BT_Node.ExecuteNode
+  - BT.Runtime.NodeBase.nodeName
+  - BT.Runtime.NodeBase.nodeTypeName
+  - BT.Runtime.NodeBase.description
+  - BT.Runtime.NodeBase.position
+- uid: BT.Runtime.BlackboardDecorator.blackboardKey
+  commentId: F:BT.Runtime.BlackboardDecorator.blackboardKey
+  id: blackboardKey
+  parent: BT.Runtime.BlackboardDecorator
+  langs:
+  - csharp
+  - vb
+  name: blackboardKey
+  nameWithType: BlackboardDecorator.blackboardKey
+  fullName: BT.Runtime.BlackboardDecorator.blackboardKey
+  type: Field
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: blackboardKey
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 23
+  namespace: BT.Runtime
+  summary: The blackboard key those value is needed to evaluate the condition.
+  example: []
+  syntax:
+    content: public string blackboardKey
+    return:
+      type: System.String
+    content.vb: Public blackboardKey As String
+- uid: BT.Runtime.BlackboardDecorator.#ctor
+  commentId: M:BT.Runtime.BlackboardDecorator.#ctor
+  id: '#ctor'
+  parent: BT.Runtime.BlackboardDecorator
+  langs:
+  - csharp
+  - vb
+  name: BlackboardDecorator()
+  nameWithType: BlackboardDecorator.BlackboardDecorator()
+  fullName: BT.Runtime.BlackboardDecorator.BlackboardDecorator()
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: .ctor
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 31
+  namespace: BT.Runtime
+  syntax:
+    content: public BlackboardDecorator()
+    content.vb: Public Sub New()
+  overload: BT.Runtime.BlackboardDecorator.#ctor*
+  nameWithType.vb: BlackboardDecorator.New()
+  fullName.vb: BT.Runtime.BlackboardDecorator.New()
+  name.vb: New()
+- uid: BT.Runtime.BlackboardDecorator.Execute
+  commentId: M:BT.Runtime.BlackboardDecorator.Execute
+  id: Execute
+  parent: BT.Runtime.BlackboardDecorator
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: BlackboardDecorator.Execute()
+  fullName: BT.Runtime.BlackboardDecorator.Execute()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: Execute
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 36
+  namespace: BT.Runtime
+  summary: >-
+    Called when the behavior tree wants to execute this decorator. 
+
+    Put here all the code you want this action to execute.
+  example: []
+  syntax:
+    content: public override EBehaviorTreeState Execute()
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+      description: >-
+        SUCCESS if this decorator has been executed successfully, RUNNING if is still executing
+            and FAILED if the action has failed to execute it's tasks.
+    content.vb: Public Overrides Function Execute() As EBehaviorTreeState
+  overridden: BT.Runtime.BT_Decorator.Execute
+  overload: BT.Runtime.BlackboardDecorator.Execute*
+- uid: BT.Runtime.BlackboardDecorator.OnStart
+  commentId: M:BT.Runtime.BlackboardDecorator.OnStart
+  id: OnStart
+  parent: BT.Runtime.BlackboardDecorator
+  langs:
+  - csharp
+  - vb
+  name: OnStart()
+  nameWithType: BlackboardDecorator.OnStart()
+  fullName: BT.Runtime.BlackboardDecorator.OnStart()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: OnStart
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 49
+  namespace: BT.Runtime
+  summary: Called when this node has started it's execution
+  example: []
+  syntax:
+    content: protected override void OnStart()
+    content.vb: Protected Overrides Sub OnStart()
+  overridden: BT.Runtime.BT_Node.OnStart
+  overload: BT.Runtime.BlackboardDecorator.OnStart*
+- uid: BT.Runtime.BlackboardDecorator.OnStop
+  commentId: M:BT.Runtime.BlackboardDecorator.OnStop
+  id: OnStop
+  parent: BT.Runtime.BlackboardDecorator
+  langs:
+  - csharp
+  - vb
+  name: OnStop()
+  nameWithType: BlackboardDecorator.OnStop()
+  fullName: BT.Runtime.BlackboardDecorator.OnStop()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Decorators/BlackboardDecorator.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: OnStop
+    path: ../Runtime/Decorators/BlackboardDecorator.cs
+    startLine: 54
+  namespace: BT.Runtime
+  summary: Called when this node has succeded or failed it's execution
+  example: []
+  syntax:
+    content: protected override void OnStop()
+    content.vb: Protected Overrides Sub OnStop()
+  overridden: BT.Runtime.BT_Node.OnStop
+  overload: BT.Runtime.BlackboardDecorator.OnStop*
+references:
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  href: BT.html
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  spec.csharp:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+  spec.vb:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: BT.Runtime.NodeBase
+  commentId: T:BT.Runtime.NodeBase
+  parent: BT.Runtime
+  href: BT.Runtime.NodeBase.html
+  name: NodeBase
+  nameWithType: NodeBase
+  fullName: BT.Runtime.NodeBase
+- uid: BT.Runtime.BT_Node
+  commentId: T:BT.Runtime.BT_Node
+  parent: BT.Runtime
+  href: BT.Runtime.BT_Node.html
+  name: BT_Node
+  nameWithType: BT_Node
+  fullName: BT.Runtime.BT_Node
+- uid: BT.Runtime.BT_Decorator
+  commentId: T:BT.Runtime.BT_Decorator
+  parent: BT.Runtime
+  href: BT.Runtime.BT_Decorator.html
+  name: BT_Decorator
+  nameWithType: BT_Decorator
+  fullName: BT.Runtime.BT_Decorator
+- uid: BT.Runtime.BT_Decorator.Clone
+  commentId: M:BT.Runtime.BT_Decorator.Clone
+  parent: BT.Runtime.BT_Decorator
+  href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Clone
+  name: Clone()
+  nameWithType: BT_Decorator.Clone()
+  fullName: BT.Runtime.BT_Decorator.Clone()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Decorator.Clone
+    name: Clone
+    href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Clone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Decorator.Clone
+    name: Clone
+    href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Clone
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_Node.blackboard
+  commentId: P:BT.Runtime.BT_Node.blackboard
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_blackboard
+  name: blackboard
+  nameWithType: BT_Node.blackboard
+  fullName: BT.Runtime.BT_Node.blackboard
+- uid: BT.Runtime.BT_Node.isStarted
+  commentId: F:BT.Runtime.BT_Node.isStarted
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_isStarted
+  name: isStarted
+  nameWithType: BT_Node.isStarted
+  fullName: BT.Runtime.BT_Node.isStarted
+- uid: BT.Runtime.BT_Node.ExecuteNode
+  commentId: M:BT.Runtime.BT_Node.ExecuteNode
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  name: ExecuteNode()
+  nameWithType: BT_Node.ExecuteNode()
+  fullName: BT.Runtime.BT_Node.ExecuteNode()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  - name: (
+  - name: )
+- uid: BT.Runtime.NodeBase.nodeName
+  commentId: F:BT.Runtime.NodeBase.nodeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeName
+  name: nodeName
+  nameWithType: NodeBase.nodeName
+  fullName: BT.Runtime.NodeBase.nodeName
+- uid: BT.Runtime.NodeBase.nodeTypeName
+  commentId: F:BT.Runtime.NodeBase.nodeTypeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeTypeName
+  name: nodeTypeName
+  nameWithType: NodeBase.nodeTypeName
+  fullName: BT.Runtime.NodeBase.nodeTypeName
+- uid: BT.Runtime.NodeBase.description
+  commentId: F:BT.Runtime.NodeBase.description
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_description
+  name: description
+  nameWithType: NodeBase.description
+  fullName: BT.Runtime.NodeBase.description
+- uid: BT.Runtime.NodeBase.position
+  commentId: F:BT.Runtime.NodeBase.position
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_position
+  name: position
+  nameWithType: NodeBase.position
+  fullName: BT.Runtime.NodeBase.position
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: BT.Runtime.BlackboardDecorator.#ctor*
+  commentId: Overload:BT.Runtime.BlackboardDecorator.#ctor
+  href: BT.Runtime.BlackboardDecorator.html#BT_Runtime_BlackboardDecorator__ctor
+  name: BlackboardDecorator
+  nameWithType: BlackboardDecorator.BlackboardDecorator
+  fullName: BT.Runtime.BlackboardDecorator.BlackboardDecorator
+  nameWithType.vb: BlackboardDecorator.New
+  fullName.vb: BT.Runtime.BlackboardDecorator.New
+  name.vb: New
+- uid: BT.Runtime.BT_Decorator.Execute
+  commentId: M:BT.Runtime.BT_Decorator.Execute
+  parent: BT.Runtime.BT_Decorator
+  href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Execute
+  name: Execute()
+  nameWithType: BT_Decorator.Execute()
+  fullName: BT.Runtime.BT_Decorator.Execute()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Decorator.Execute
+    name: Execute
+    href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Execute
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Decorator.Execute
+    name: Execute
+    href: BT.Runtime.BT_Decorator.html#BT_Runtime_BT_Decorator_Execute
+  - name: (
+  - name: )
+- uid: BT.Runtime.BlackboardDecorator.Execute*
+  commentId: Overload:BT.Runtime.BlackboardDecorator.Execute
+  href: BT.Runtime.BlackboardDecorator.html#BT_Runtime_BlackboardDecorator_Execute
+  name: Execute
+  nameWithType: BlackboardDecorator.Execute
+  fullName: BT.Runtime.BlackboardDecorator.Execute
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  parent: BT.Runtime
+  href: BT.Runtime.EBehaviorTreeState.html
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.BT_Node.OnStart
+  commentId: M:BT.Runtime.BT_Node.OnStart
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  name: OnStart()
+  nameWithType: BT_Node.OnStart()
+  fullName: BT.Runtime.BT_Node.OnStart()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+- uid: BT.Runtime.BlackboardDecorator.OnStart*
+  commentId: Overload:BT.Runtime.BlackboardDecorator.OnStart
+  href: BT.Runtime.BlackboardDecorator.html#BT_Runtime_BlackboardDecorator_OnStart
+  name: OnStart
+  nameWithType: BlackboardDecorator.OnStart
+  fullName: BT.Runtime.BlackboardDecorator.OnStart
+- uid: BT.Runtime.BT_Node.OnStop
+  commentId: M:BT.Runtime.BT_Node.OnStop
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  name: OnStop()
+  nameWithType: BT_Node.OnStop()
+  fullName: BT.Runtime.BT_Node.OnStop()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+- uid: BT.Runtime.BlackboardDecorator.OnStop*
+  commentId: Overload:BT.Runtime.BlackboardDecorator.OnStop
+  href: BT.Runtime.BlackboardDecorator.html#BT_Runtime_BlackboardDecorator_OnStop
+  name: OnStop
+  nameWithType: BlackboardDecorator.OnStop
+  fullName: BT.Runtime.BlackboardDecorator.OnStop
