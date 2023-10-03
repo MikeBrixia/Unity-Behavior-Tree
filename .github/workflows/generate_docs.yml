@@ -33,7 +33,7 @@ jobs:
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
-              git mv Documentation/_site/* .
+              git mv --force Documentation/_site/* .
 
               
               
