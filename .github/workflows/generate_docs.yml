@@ -11,9 +11,9 @@ jobs:
         publish-docs:
           runs-on: ubuntu-latest
           steps:
-          # Install/update dotnet.
           - name: Checkout
             uses: actions/checkout@v3
+          # Install/update dotnet.
           - name: Dotnet Setup
             uses: actions/setup-dotnet@v3
             with:
@@ -33,6 +33,11 @@ jobs:
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
+              mv Documentation/_site* ''
+              git add --all
+              git commit -m 'Automatically move generated files to repo root'
+              git push origin gh-pages
+
               
               
 
