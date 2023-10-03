@@ -34,7 +34,7 @@ jobs:
               git pull --rebase origin gh-pages
               git push origin gh-pages
               mv Documentation/_site* ''
-              git add 
+              git add -A
               git commit -m 'Automatically move generated files to repo root'
               git push origin gh-pages
 
