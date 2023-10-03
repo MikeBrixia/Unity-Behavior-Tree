@@ -1,4 +1,3 @@
-
 name: Geneate Docfx documentation
 
 on:
@@ -29,15 +28,8 @@ jobs:
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
               git add Documentation/_site/*
-              git mv Documentation/_site/* .
               git checkout gh-pages
+              git mv Documentation/_site/* .
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
-
-              
-              
-
-      
-          
-
