@@ -35,7 +35,6 @@ jobs:
               git push origin gh-pages
               git mv example/* .
               git commit -m "automatically move documentiation to repo root"
-              git push origin gh-pages
 
               
               
