@@ -30,8 +30,8 @@ jobs:
               git add --all
               git stash save --all
               git checkout gh-pages
+              git stash pop
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
-              git checkout main
-              git stash pop
+              
