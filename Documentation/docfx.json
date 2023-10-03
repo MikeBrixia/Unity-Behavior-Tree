@@ -9,7 +9,7 @@
             ]
           }
         ],
-        "dest": "_site/api/",
+        "dest": "_site",
         "disableGitFeatures": false,
         "disableDefaultFilter": false,
         "allowCompilationErrors": true
