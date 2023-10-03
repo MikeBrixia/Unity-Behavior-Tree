@@ -1,0 +1,448 @@
+### YamlMime:ManagedReference
+items:
+- uid: BT.Runtime.BT_Service
+  commentId: T:BT.Runtime.BT_Service
+  id: BT_Service
+  parent: BT.Runtime
+  children:
+  - BT.Runtime.BT_Service.Execute
+  - BT.Runtime.BT_Service.ExecuteNode
+  - BT.Runtime.BT_Service.OnUpdate
+  - BT.Runtime.BT_Service.updateInterval
+  - BT.Runtime.BT_Service.updateOnStart
+  langs:
+  - csharp
+  - vb
+  name: BT_Service
+  nameWithType: BT_Service
+  fullName: BT.Runtime.BT_Service
+  type: Class
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: BT_Service
+    path: ../Runtime/BT_Service.cs
+    startLine: 11
+  namespace: BT.Runtime
+  summary: >-
+    Services are parallel nodes which can be attached to composites and actions and will be executed at their defined frequency 
+
+    as long as their branch is being executed. 
+
+    at the moment Services are NOT multithreaded by default!
+  example: []
+  syntax:
+    content: 'public abstract class BT_Service : BT_Node'
+    content.vb: Public MustInherit Class BT_Service Inherits BT_Node
+  inheritance:
+  - System.Object
+  - BT.Runtime.NodeBase
+  - BT.Runtime.BT_Node
+  inheritedMembers:
+  - BT.Runtime.BT_Node.blackboard
+  - BT.Runtime.BT_Node.isStarted
+  - BT.Runtime.BT_Node.OnStart
+  - BT.Runtime.BT_Node.OnStop
+  - BT.Runtime.NodeBase.nodeName
+  - BT.Runtime.NodeBase.nodeTypeName
+  - BT.Runtime.NodeBase.description
+  - BT.Runtime.NodeBase.position
+  - BT.Runtime.NodeBase.state
+  - BT.Runtime.NodeBase.Clone
+- uid: BT.Runtime.BT_Service.updateInterval
+  commentId: F:BT.Runtime.BT_Service.updateInterval
+  id: updateInterval
+  parent: BT.Runtime.BT_Service
+  langs:
+  - csharp
+  - vb
+  name: updateInterval
+  nameWithType: BT_Service.updateInterval
+  fullName: BT.Runtime.BT_Service.updateInterval
+  type: Field
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: updateInterval
+    path: ../Runtime/BT_Service.cs
+    startLine: 20
+  namespace: BT.Runtime
+  syntax:
+    content: public float updateInterval
+    return:
+      type: System.Single
+    content.vb: Public updateInterval As Single
+- uid: BT.Runtime.BT_Service.updateOnStart
+  commentId: F:BT.Runtime.BT_Service.updateOnStart
+  id: updateOnStart
+  parent: BT.Runtime.BT_Service
+  langs:
+  - csharp
+  - vb
+  name: updateOnStart
+  nameWithType: BT_Service.updateOnStart
+  fullName: BT.Runtime.BT_Service.updateOnStart
+  type: Field
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: updateOnStart
+    path: ../Runtime/BT_Service.cs
+    startLine: 27
+  namespace: BT.Runtime
+  summary: >-
+    If true this service will update when started, if false it will
+
+    wait for the update interval to perform the first update.
+  example: []
+  syntax:
+    content: public bool updateOnStart
+    return:
+      type: System.Boolean
+    content.vb: Public updateOnStart As Boolean
+- uid: BT.Runtime.BT_Service.Execute
+  commentId: M:BT.Runtime.BT_Service.Execute
+  id: Execute
+  parent: BT.Runtime.BT_Service
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: BT_Service.Execute()
+  fullName: BT.Runtime.BT_Service.Execute()
+  type: Method
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: Execute
+    path: ../Runtime/BT_Service.cs
+    startLine: 36
+  namespace: BT.Runtime
+  summary: >-
+    Called when the behavior tree wants to execute this service. 
+
+    Put here all the code you want this service to execute.
+  example: []
+  syntax:
+    content: public override EBehaviorTreeState Execute()
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+      description: The return value of service nodes doesn't matter.
+    content.vb: Public Overrides Function Execute() As EBehaviorTreeState
+  overridden: BT.Runtime.BT_Node.Execute
+  overload: BT.Runtime.BT_Service.Execute*
+- uid: BT.Runtime.BT_Service.ExecuteNode
+  commentId: M:BT.Runtime.BT_Service.ExecuteNode
+  id: ExecuteNode
+  parent: BT.Runtime.BT_Service
+  langs:
+  - csharp
+  - vb
+  name: ExecuteNode()
+  nameWithType: BT_Service.ExecuteNode()
+  fullName: BT.Runtime.BT_Service.ExecuteNode()
+  type: Method
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: ExecuteNode
+    path: ../Runtime/BT_Service.cs
+    startLine: 84
+  namespace: BT.Runtime
+  summary: >-
+    Called when the Behavior Tree wants to execute this service, 
+
+    This method will call OnStart_Internal if the service has not already started
+
+    and then it will update this service.
+  example: []
+  syntax:
+    content: public override EBehaviorTreeState ExecuteNode()
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+      description: The result of this service(service results doesn't matter)
+    content.vb: Public Overrides Function ExecuteNode() As EBehaviorTreeState
+  overridden: BT.Runtime.BT_Node.ExecuteNode
+  overload: BT.Runtime.BT_Service.ExecuteNode*
+- uid: BT.Runtime.BT_Service.OnUpdate
+  commentId: M:BT.Runtime.BT_Service.OnUpdate
+  id: OnUpdate
+  parent: BT.Runtime.BT_Service
+  langs:
+  - csharp
+  - vb
+  name: OnUpdate()
+  nameWithType: BT_Service.OnUpdate()
+  fullName: BT.Runtime.BT_Service.OnUpdate()
+  type: Method
+  source:
+    remote:
+      path: Runtime/BT_Service.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree
+    id: OnUpdate
+    path: ../Runtime/BT_Service.cs
+    startLine: 98
+  namespace: BT.Runtime
+  summary: Called each update at UpdateInterval time
+  example: []
+  syntax:
+    content: protected abstract void OnUpdate()
+    content.vb: Protected MustOverride Sub OnUpdate()
+  overload: BT.Runtime.BT_Service.OnUpdate*
+references:
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  href: BT.html
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  spec.csharp:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+  spec.vb:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: BT.Runtime.NodeBase
+  commentId: T:BT.Runtime.NodeBase
+  parent: BT.Runtime
+  href: BT.Runtime.NodeBase.html
+  name: NodeBase
+  nameWithType: NodeBase
+  fullName: BT.Runtime.NodeBase
+- uid: BT.Runtime.BT_Node
+  commentId: T:BT.Runtime.BT_Node
+  parent: BT.Runtime
+  href: BT.Runtime.BT_Node.html
+  name: BT_Node
+  nameWithType: BT_Node
+  fullName: BT.Runtime.BT_Node
+- uid: BT.Runtime.BT_Node.blackboard
+  commentId: P:BT.Runtime.BT_Node.blackboard
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_blackboard
+  name: blackboard
+  nameWithType: BT_Node.blackboard
+  fullName: BT.Runtime.BT_Node.blackboard
+- uid: BT.Runtime.BT_Node.isStarted
+  commentId: F:BT.Runtime.BT_Node.isStarted
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_isStarted
+  name: isStarted
+  nameWithType: BT_Node.isStarted
+  fullName: BT.Runtime.BT_Node.isStarted
+- uid: BT.Runtime.BT_Node.OnStart
+  commentId: M:BT.Runtime.BT_Node.OnStart
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  name: OnStart()
+  nameWithType: BT_Node.OnStart()
+  fullName: BT.Runtime.BT_Node.OnStart()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStart
+    name: OnStart
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_Node.OnStop
+  commentId: M:BT.Runtime.BT_Node.OnStop
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  name: OnStop()
+  nameWithType: BT_Node.OnStop()
+  fullName: BT.Runtime.BT_Node.OnStop()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.OnStop
+    name: OnStop
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop
+  - name: (
+  - name: )
+- uid: BT.Runtime.NodeBase.nodeName
+  commentId: F:BT.Runtime.NodeBase.nodeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeName
+  name: nodeName
+  nameWithType: NodeBase.nodeName
+  fullName: BT.Runtime.NodeBase.nodeName
+- uid: BT.Runtime.NodeBase.nodeTypeName
+  commentId: F:BT.Runtime.NodeBase.nodeTypeName
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_nodeTypeName
+  name: nodeTypeName
+  nameWithType: NodeBase.nodeTypeName
+  fullName: BT.Runtime.NodeBase.nodeTypeName
+- uid: BT.Runtime.NodeBase.description
+  commentId: F:BT.Runtime.NodeBase.description
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_description
+  name: description
+  nameWithType: NodeBase.description
+  fullName: BT.Runtime.NodeBase.description
+- uid: BT.Runtime.NodeBase.position
+  commentId: F:BT.Runtime.NodeBase.position
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_position
+  name: position
+  nameWithType: NodeBase.position
+  fullName: BT.Runtime.NodeBase.position
+- uid: BT.Runtime.NodeBase.state
+  commentId: F:BT.Runtime.NodeBase.state
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_state
+  name: state
+  nameWithType: NodeBase.state
+  fullName: BT.Runtime.NodeBase.state
+- uid: BT.Runtime.NodeBase.Clone
+  commentId: M:BT.Runtime.NodeBase.Clone
+  parent: BT.Runtime.NodeBase
+  href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_Clone
+  name: Clone()
+  nameWithType: NodeBase.Clone()
+  fullName: BT.Runtime.NodeBase.Clone()
+  spec.csharp:
+  - uid: BT.Runtime.NodeBase.Clone
+    name: Clone
+    href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_Clone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.NodeBase.Clone
+    name: Clone
+    href: BT.Runtime.NodeBase.html#BT_Runtime_NodeBase_Clone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: BT.Runtime.BT_Node.Execute
+  commentId: M:BT.Runtime.BT_Node.Execute
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  name: Execute()
+  nameWithType: BT_Node.Execute()
+  fullName: BT.Runtime.BT_Node.Execute()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.Execute
+    name: Execute
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.Execute
+    name: Execute
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_Service.Execute*
+  commentId: Overload:BT.Runtime.BT_Service.Execute
+  href: BT.Runtime.BT_Service.html#BT_Runtime_BT_Service_Execute
+  name: Execute
+  nameWithType: BT_Service.Execute
+  fullName: BT.Runtime.BT_Service.Execute
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  parent: BT.Runtime
+  href: BT.Runtime.EBehaviorTreeState.html
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.BT_Node.ExecuteNode
+  commentId: M:BT.Runtime.BT_Node.ExecuteNode
+  parent: BT.Runtime.BT_Node
+  href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  name: ExecuteNode()
+  nameWithType: BT_Node.ExecuteNode()
+  fullName: BT.Runtime.BT_Node.ExecuteNode()
+  spec.csharp:
+  - uid: BT.Runtime.BT_Node.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: BT.Runtime.BT_Node.ExecuteNode
+    name: ExecuteNode
+    href: BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode
+  - name: (
+  - name: )
+- uid: BT.Runtime.BT_Service.ExecuteNode*
+  commentId: Overload:BT.Runtime.BT_Service.ExecuteNode
+  href: BT.Runtime.BT_Service.html#BT_Runtime_BT_Service_ExecuteNode
+  name: ExecuteNode
+  nameWithType: BT_Service.ExecuteNode
+  fullName: BT.Runtime.BT_Service.ExecuteNode
+- uid: BT.Runtime.BT_Service.OnUpdate*
+  commentId: Overload:BT.Runtime.BT_Service.OnUpdate
+  href: BT.Runtime.BT_Service.html#BT_Runtime_BT_Service_OnUpdate
+  name: OnUpdate
+  nameWithType: BT_Service.OnUpdate
+  fullName: BT.Runtime.BT_Service.OnUpdate
