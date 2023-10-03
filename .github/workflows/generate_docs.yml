@@ -1,0 +1,34 @@
+name: Geneate Docfx documentation
+
+on:
+    push:
+      branches: ["main"]
+
+    workflow_dispatch:
+
+jobs:
+        publish-docs:
+          runs-on: ubuntu-latest
+          steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+          # Install/update dotnet.
+          - name: Dotnet Setup
+            uses: actions/setup-dotnet@v3
+            with:
+              dotnet-version: 7.x
+          # Generate documentation.
+          #- run: rm -rf Documentation/_site
+          - run: dotnet tool update -g docfx
+          - run: docfx Documentation/docfx.json
+          # Push documentation to gh-pages branch.
+          - name: Update documentation
+            run: |
+              git config --global user.name 'MikeBrixia'
+              git config --global user.email 'MikeBrixia@users.noreply.github.com'
+              git fetch origin gh-pages
+              git add Documentation/_site/*
+              git checkout gh-pages
+              git commit -m 'Automated documentation update'
+              git pull --rebase origin gh-pages
+              git push origin gh-pages
