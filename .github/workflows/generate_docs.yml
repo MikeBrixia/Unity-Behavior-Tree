@@ -10,7 +10,21 @@ jobs:
           steps:
           - name: Checkout
             uses: actions/checkout@v3
-
+          
+          - name: Setup user config
+            run: |
+              git config --global user.name 'MikeBrixia'
+              git config --global user.email 'MikeBrixia@users.noreply.github.com'
+          
+          # Clean documentation folder to free space for updated docs.
+          - name: Clean previously generated documentation
+            run: |
+              git fetch origin gh-pages
+              git checkout gh-pages
+              git rm -r --ignore-unmatch Documentation/
+              git add --all
+              git push origin gh-pages
+              
           # Install/update dotnet.
           - name: Dotnet Setup
             uses: actions/setup-dotnet@v3
@@ -21,18 +35,7 @@ jobs:
           - run: dotnet tool update -g docfx
           - run: docfx Documentation/docfx.json
            
-          # Push documentation to github page.
-          - name: Setup user config
-            run: |
-              git config --global user.name 'MikeBrixia'
-              git config --global user.email 'MikeBrixia@users.noreply.github.com'
-          - name: Clean previously generated documentation
-            run: |
-              git fetch origin gh-pages
-              git checkout gh-pages
-              git rm -r --ignore-unmatch Documentation/
-              git add --all
-              git push origin gh-pages
+          # Update the documentation.
           - name: Update documentation
             run: |
               git checkout main 
