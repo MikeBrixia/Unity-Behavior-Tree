@@ -36,10 +36,8 @@ jobs:
 
           # Generate documentation.
           - run: dotnet tool update -g docfx
-          - run: |
-              cd Documentation/
-              docfx docfx.json
-              cd ../
+          - run: docfx Documentation/docfx.json
+              
            
           # Update the documentation.
           - name: Update documentation
