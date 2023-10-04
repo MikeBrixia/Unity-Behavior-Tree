@@ -28,6 +28,7 @@ jobs:
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
               git add --all
+              git diff --staged --name-only
               git commit -m 'Automated documentation update'
               git push --force origin main:gh-pages
               
