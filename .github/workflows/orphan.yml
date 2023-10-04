@@ -1,9 +1,7 @@
-name: Geneate Docfx documentation
+name: Create an orphan g-pages branch
 
 on:
-    push:
-      branches: ["main"]
-
+    
     workflow_dispatch:
 
 jobs:
@@ -22,15 +20,14 @@ jobs:
           # Generate documentation.
           - run: dotnet tool update -g docfx
           - run: docfx Documentation/docfx.json
-           
+          
           # Push documentation to github page.
           - name: Update documentation
             run: |
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
-              git checkout gh-pages
+              git checkout --orphan gh-pages
               git add Documentation/_site/*
               git commit -m 'Automated documentation update'
-              git pull --rebase origin gh-pages
+              git rm -rf .
               git push origin gh-pages
-              
