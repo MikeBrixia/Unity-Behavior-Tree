@@ -1,0 +1,34 @@
+name: Create an orphan g-pages branch
+
+on:
+    
+    workflow_dispatch:
+
+jobs:
+        generate-docs:
+          runs-on: ubuntu-latest
+          steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+
+          # Install/update dotnet.
+          - name: Dotnet Setup
+            uses: actions/setup-dotnet@v3
+            with:
+              dotnet-version: 7.x
+
+          # Generate documentation.
+          - run: dotnet tool update -g docfx
+          - run: docfx Documentation/docfx.json
+          
+          # Push documentation to github page.
+          - name: Update documentation
+            run: |
+              git config --global user.name 'MikeBrixia'
+              git config --global user.email 'MikeBrixia@users.noreply.github.com'
+              git checkout --orphan gh-pages
+              git reset HEAD -- .
+              git add Documentation/_site/*
+              git commit -m 'Automated documentation update'
+              git rm -rf .
+              git push origin gh-pages
