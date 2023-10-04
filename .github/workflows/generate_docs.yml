@@ -44,7 +44,6 @@ jobs:
             run: |
               git fetch origin gh-pages
               git ls-tree -r --name-only main
-              git mv Documentation/_site/* .
               git add --all
               git status
               git checkout gh-pages
