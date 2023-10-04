@@ -21,9 +21,10 @@ jobs:
             run: |
               git fetch origin gh-pages
               git checkout gh-pages
-              git rm -r --ignore-unmatch Documentation/_site/
+              git rm -r --ignore-unmatch Documentation/
               git add --all
               git push origin gh-pages
+              git checkout main 
               
           # Install/update dotnet.
           - name: Dotnet Setup
@@ -38,7 +39,6 @@ jobs:
           # Update the documentation.
           - name: Update documentation
             run: |
-              git checkout main 
               git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
