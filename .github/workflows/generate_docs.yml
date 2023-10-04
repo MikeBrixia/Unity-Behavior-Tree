@@ -22,15 +22,22 @@ jobs:
           - run: docfx Documentation/docfx.json
            
           # Push documentation to github page.
-          - name: Update documentation
+          - name: Setup user config
             run: |
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
-              git fetch origin gh-pages
+          - name: Clean previously generated documentation
+            run: |
+              git checkout gh-pages
+              git rm -r Documentation/
               git add --all
-              git checkout --patch gh-pages
-              git diff --staged --name-only
+              git push origin gh-pages
+          - name: Update documentation
+            run: |
+              git checkout main 
+              git add Documentation/_site/*
+              git checkout gh-pages
               git commit -m 'Automated documentation update'
-              git pull --rebase origin gh-pages
+              git pull origin gh-pages
               git push origin gh-pages
               
