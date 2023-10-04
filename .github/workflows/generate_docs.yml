@@ -21,7 +21,7 @@ jobs:
             run: |
               git fetch origin gh-pages
               git checkout gh-pages
-              git rm -r --ignore-unmatch Documentation/
+              git rm -r --ignore-unmatch Documentation/_site/
               git add --all
               git push origin gh-pages
               
