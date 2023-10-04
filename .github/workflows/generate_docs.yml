@@ -50,4 +50,11 @@ jobs:
               git status
               git commit -m 'Automated documentation update'
               git push origin gh-pages
-              
+          
+          # Move the generated repository to the root.
+          - name: Move site to repository root
+            run: |
+              git fetch origin gh-pages
+              git mv Documentation/_site/* .
+              git commit -m 'Automated documentation update - move to repo root'
+              git push origin gh-pages             
