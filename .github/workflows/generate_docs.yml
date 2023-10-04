@@ -41,6 +41,7 @@ jobs:
           # Update the documentation.
           - name: Update documentation
             run: |
+              git status
               git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
