@@ -27,6 +27,7 @@ jobs:
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git checkout --orphan gh-pages
+              git reset HEAD .
               git add Documentation/_site/*
               git commit -m 'Automated documentation update'
               git rm -rf .
