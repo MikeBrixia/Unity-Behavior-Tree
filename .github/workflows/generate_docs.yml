@@ -43,10 +43,10 @@ jobs:
           - name: Update documentation
             run: |
               git status
+              git fetch origin gh-pages
               git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
-              git fetch origin gh-pages
               git pull --rebase origin gh-pages
               git push origin gh-pages
               
