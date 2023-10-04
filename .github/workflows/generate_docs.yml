@@ -26,9 +26,10 @@ jobs:
             run: |
               git config --global user.name 'MikeBrixia'
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
-              git commit -am "Save local changes"
-              git checkout -B gh-pages
-              git add -f Documentation/_site/*
-              git commit -am "Rebuild website"
-              git filter-branch -f --prune-empty --subdirectory-filter Documentation/_site/ && git push -f origin gh-pages && git checkout main
+              git fetch origin gh-pages
+              git add --all
+              git checkout --theirs gh-pages
+              git commit -m 'Automated documentation update'
+              git pull --rebase origin gh-pages
+              git push origin gh-pages
               
