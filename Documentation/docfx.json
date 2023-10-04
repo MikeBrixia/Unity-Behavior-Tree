@@ -6,7 +6,7 @@
           "files": [
             "*.cs"
           ],
-          "cwd": ".",
+          "cwd": "../Runtime/",
           "exclude": [
             "**/obj/**",
             "**/bin/**",
