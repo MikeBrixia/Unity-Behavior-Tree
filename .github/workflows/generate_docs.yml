@@ -24,7 +24,7 @@ jobs:
               git rm -r --ignore-unmatch Documentation/
               git add --all
               git push origin gh-pages
-              git ls-tree -r --name-only
+              git ls-tree -r --name-only gh-pages
               git checkout main 
               
           # Install/update dotnet.
