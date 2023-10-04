@@ -23,7 +23,7 @@ jobs:
               git checkout gh-pages
               git rm -r --ignore-unmatch Documentation/
               git add --all
-              git commit -m --allow-empty 'Clean outdated documentation'
+              git commit -m 'Clean outdated documentation' --allow-empty
               git push origin gh-pages
               git ls-tree -r --name-only gh-pages
               git checkout main 
