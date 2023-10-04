@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT%20Elements/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=adb66c31a13ca4541aa6f776b5f847d8&amp;type=3#NodeViewStyle" />
+    <ui:VisualElement name="node-border" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: rgb(91, 91, 91); border-left-width: 10px; border-right-width: 10px; border-top-width: 10px; border-bottom-width: 10px; border-left-color: rgb(91, 91, 91); border-right-color: rgb(91, 91, 91); border-top-color: rgb(91, 91, 91); border-bottom-color: rgb(91, 91, 91); min-width: 300px;">
+        <ui:VisualElement name="contents" style="max-width: none; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; min-width: auto; width: 280px;">
+            <ui:VisualElement name="divider" class="horizontal" />
+            <ui:VisualElement name="top" style="width: auto; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+                <ui:VisualElement name="input" style="background-color: rgb(91, 91, 91); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; max-width: 150px; translate: 80px 0; padding-top: 0;" />
+                <ui:VisualElement name="DecoratorsContainer" style="translate: 10px 0; width: 255px; height: auto; border-top-left-radius: 30px; border-bottom-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; max-height: none; min-width: auto;" />
+                <ui:VisualElement name="title" style="background-color: rgb(113, 52, 104); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; max-width: none; translate: 0 0;">
+                    <ui:Label text="Generic Node" usage-hints="None" enable-rich-text="true" name="NodeTitle" class="unity-text-element unity-label" style="align-items: center; justify-content: center; min-width: auto; min-height: auto; max-width: none; white-space: normal; padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; -unity-text-align: upper-center;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="NodeTypeName" />
+                    <ui:Label text="Node description" display-tooltip-when-elided="true" name="NodeDescription" style="-unity-font-style: normal; font-size: 14px; min-height: 30px; white-space: normal;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="divider" class="vertical" />
+                <ui:VisualElement name="ServiceContainer" style="height: auto; width: 255px; translate: 10px 0;" />
+                <ui:VisualElement name="output" style="background-color: rgb(91, 91, 91); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; width: auto; translate: 80px 0; max-width: 150px; padding-bottom: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+</ui:UXML>
