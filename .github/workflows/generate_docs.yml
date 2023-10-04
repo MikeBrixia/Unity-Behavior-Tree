@@ -41,7 +41,7 @@ jobs:
           - name: Update documentation
             run: |
               git fetch origin gh-pages
-              git pull origin gh-pages
+              git pull --rebase origin gh-pages
               git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
