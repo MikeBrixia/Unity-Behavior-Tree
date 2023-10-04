@@ -36,7 +36,7 @@ jobs:
           - name: Update documentation
             run: |
               git checkout main 
-              git add Documentation/_site/*
+              git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
               git pull origin gh-pages
