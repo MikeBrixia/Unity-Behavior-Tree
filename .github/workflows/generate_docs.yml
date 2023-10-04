@@ -28,7 +28,7 @@ jobs:
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
               git fetch origin gh-pages
               git add --all
-              git checkout --theirs gh-pages
+              git checkout -f --recurse-submodules gh-pages
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
