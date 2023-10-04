@@ -1,7 +1,10 @@
-name: Geneate Docfx documentation
+name: Generate Docfx documentation
 
 on:
-    
+    push:
+      branches:
+        - main
+
     workflow_dispatch:
 
 jobs:
@@ -11,6 +14,7 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v3
           
+            # Setup git user config.
           - name: Setup user config
             run: |
               git config --global user.name 'MikeBrixia'
@@ -38,7 +42,6 @@ jobs:
           - run: dotnet tool update -g docfx
           - run: docfx Documentation/docfx.json
               
-           
           # Update the documentation.
           - name: Update documentation
             run: |
