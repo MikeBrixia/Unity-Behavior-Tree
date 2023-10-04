@@ -3,18 +3,15 @@
     {
       "src": [
         {
-          "files": [
-            "*.cs"
-          ],
           "cwd": "../Runtime/",
-          "exclude": [
-            "**/obj/**",
-            "**/bin/**",
-            "_site/**"
+          "files": [
+            "**.cs"
           ]
         }
       ],
       "dest": "api",
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
       "allowCompilationErrors": true
     }
   ],
@@ -22,19 +19,16 @@
     "content": [
       {
         "files": [
-          "api/**.yml"
+          "api/**.yml",
+          "api/index.md"
         ]
       },
       {
         "files": [
-          "api/*.md",
           "articles/**.md",
+          "articles/**/toc.yml",
           "toc.yml",
           "*.md"
-        ],
-        "exclude": [
-          "obj/**",
-          "_site/**"
         ]
       }
     ],
@@ -42,10 +36,6 @@
       {
         "files": [
           "images/**"
-        ],
-        "exclude": [
-          "obj/**",
-          "_site/**"
         ]
       }
     ],
@@ -61,8 +51,14 @@
       }
     ],
     "dest": "_site",
-    "template": [
-      "default", "templates/unity"
-    ]
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": [ "default", "templates/unity" ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false
   }
 }

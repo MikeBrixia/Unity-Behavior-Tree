@@ -1,6 +1,5 @@
-
-- name: Articles
+- name: Manual
   href: articles/
-- name: API Documentation
-  href: _site/
+- name: Scripting API
+  href: api/
   homepage: api/index.md
