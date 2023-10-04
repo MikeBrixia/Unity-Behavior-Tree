@@ -14,7 +14,7 @@
           ]
         }
       ],
-      "dest": "api",
+      "dest": "obj/api",
       "allowCompilationErrors": true
     }
   ],
