@@ -29,6 +29,7 @@ jobs:
               git fetch origin gh-pages
               git add --all
               git checkout -f --recurse-submodules gh-pages
+              git diff --staged --name-only
               git commit -m 'Automated documentation update'
               git pull --rebase origin gh-pages
               git push origin gh-pages
