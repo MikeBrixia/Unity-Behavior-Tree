@@ -28,6 +28,7 @@ jobs:
               git config --global user.email 'MikeBrixia@users.noreply.github.com'
           - name: Clean previously generated documentation
             run: |
+              git fetch origin gh-pages
               git checkout gh-pages
               git rm -r Documentation/
               git add --all
