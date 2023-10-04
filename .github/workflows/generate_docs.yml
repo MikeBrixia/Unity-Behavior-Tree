@@ -30,5 +30,6 @@ jobs:
               git add --all
               git diff --staged --name-only
               git commit -m 'Automated documentation update'
+              git pull --rebase origin gh-pages
               git push --force origin main:gh-pages
               
