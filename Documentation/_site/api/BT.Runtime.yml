@@ -1,0 +1,161 @@
+### YamlMime:ManagedReference
+items:
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  id: BT.Runtime
+  children:
+  - BT.Runtime.BT_ActionNode
+  - BT.Runtime.BT_CompositeNode
+  - BT.Runtime.BT_Decorator
+  - BT.Runtime.BT_Node
+  - BT.Runtime.BT_Service
+  - BT.Runtime.BehaviorTree
+  - BT.Runtime.BehaviorTreeComponent
+  - BT.Runtime.Blackboard
+  - BT.Runtime.BlackboardPropertyBase
+  - BT.Runtime.BlackboardProperty`1
+  - BT.Runtime.BlackboardSupportedTypes
+  - BT.Runtime.BlackboardVariableType
+  - BT.Runtime.EBehaviorTreeState
+  - BT.Runtime.NodeBase
+  langs:
+  - csharp
+  - vb
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  type: Namespace
+references:
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  parent: BT.Runtime
+  href: BT.Runtime.EBehaviorTreeState.html
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.BehaviorTree
+  commentId: T:BT.Runtime.BehaviorTree
+  parent: BT.Runtime
+  href: BT.Runtime.BehaviorTree.html
+  name: BehaviorTree
+  nameWithType: BehaviorTree
+  fullName: BT.Runtime.BehaviorTree
+- uid: BT.Runtime.BehaviorTreeComponent
+  commentId: T:BT.Runtime.BehaviorTreeComponent
+  href: BT.Runtime.BehaviorTreeComponent.html
+  name: BehaviorTreeComponent
+  nameWithType: BehaviorTreeComponent
+  fullName: BT.Runtime.BehaviorTreeComponent
+- uid: BT.Runtime.Blackboard
+  commentId: T:BT.Runtime.Blackboard
+  parent: BT.Runtime
+  href: BT.Runtime.Blackboard.html
+  name: Blackboard
+  nameWithType: Blackboard
+  fullName: BT.Runtime.Blackboard
+- uid: BT.Runtime.BlackboardSupportedTypes
+  commentId: T:BT.Runtime.BlackboardSupportedTypes
+  parent: BT.Runtime
+  href: BT.Runtime.BlackboardSupportedTypes.html
+  name: BlackboardSupportedTypes
+  nameWithType: BlackboardSupportedTypes
+  fullName: BT.Runtime.BlackboardSupportedTypes
+- uid: BT.Runtime.BlackboardVariableType
+  commentId: T:BT.Runtime.BlackboardVariableType
+  parent: BT.Runtime
+  href: BT.Runtime.BlackboardVariableType.html
+  name: BlackboardVariableType
+  nameWithType: BlackboardVariableType
+  fullName: BT.Runtime.BlackboardVariableType
+- uid: BT.Runtime.BlackboardPropertyBase
+  commentId: T:BT.Runtime.BlackboardPropertyBase
+  parent: BT.Runtime
+  href: BT.Runtime.BlackboardPropertyBase.html
+  name: BlackboardPropertyBase
+  nameWithType: BlackboardPropertyBase
+  fullName: BT.Runtime.BlackboardPropertyBase
+- uid: BT.Runtime.BlackboardProperty`1
+  commentId: T:BT.Runtime.BlackboardProperty`1
+  href: BT.Runtime.BlackboardProperty-1.html
+  name: BlackboardProperty<TValueType>
+  nameWithType: BlackboardProperty<TValueType>
+  fullName: BT.Runtime.BlackboardProperty<TValueType>
+  nameWithType.vb: BlackboardProperty(Of TValueType)
+  fullName.vb: BT.Runtime.BlackboardProperty(Of TValueType)
+  name.vb: BlackboardProperty(Of TValueType)
+  spec.csharp:
+  - uid: BT.Runtime.BlackboardProperty`1
+    name: BlackboardProperty
+    href: BT.Runtime.BlackboardProperty-1.html
+  - name: <
+  - name: TValueType
+  - name: '>'
+  spec.vb:
+  - uid: BT.Runtime.BlackboardProperty`1
+    name: BlackboardProperty
+    href: BT.Runtime.BlackboardProperty-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TValueType
+  - name: )
+- uid: BT.Runtime.BT_ActionNode
+  commentId: T:BT.Runtime.BT_ActionNode
+  href: BT.Runtime.BT_ActionNode.html
+  name: BT_ActionNode
+  nameWithType: BT_ActionNode
+  fullName: BT.Runtime.BT_ActionNode
+- uid: BT.Runtime.BT_CompositeNode
+  commentId: T:BT.Runtime.BT_CompositeNode
+  href: BT.Runtime.BT_CompositeNode.html
+  name: BT_CompositeNode
+  nameWithType: BT_CompositeNode
+  fullName: BT.Runtime.BT_CompositeNode
+- uid: BT.Runtime.BT_Decorator
+  commentId: T:BT.Runtime.BT_Decorator
+  href: BT.Runtime.BT_Decorator.html
+  name: BT_Decorator
+  nameWithType: BT_Decorator
+  fullName: BT.Runtime.BT_Decorator
+- uid: BT.Runtime.BT_Node
+  commentId: T:BT.Runtime.BT_Node
+  parent: BT.Runtime
+  href: BT.Runtime.BT_Node.html
+  name: BT_Node
+  nameWithType: BT_Node
+  fullName: BT.Runtime.BT_Node
+- uid: BT.Runtime.BT_Service
+  commentId: T:BT.Runtime.BT_Service
+  href: BT.Runtime.BT_Service.html
+  name: BT_Service
+  nameWithType: BT_Service
+  fullName: BT.Runtime.BT_Service
+- uid: BT.Runtime.NodeBase
+  commentId: T:BT.Runtime.NodeBase
+  parent: BT.Runtime
+  href: BT.Runtime.NodeBase.html
+  name: NodeBase
+  nameWithType: NodeBase
+  fullName: BT.Runtime.NodeBase
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  href: BT.html
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  spec.csharp:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+  spec.vb:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html

@@ -1,0 +1,158 @@
+### YamlMime:ManagedReference
+items:
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  id: EBehaviorTreeState
+  parent: BT.Runtime
+  children:
+  - BT.Runtime.EBehaviorTreeState.Failed
+  - BT.Runtime.EBehaviorTreeState.Running
+  - BT.Runtime.EBehaviorTreeState.Success
+  - BT.Runtime.EBehaviorTreeState.Waiting
+  langs:
+  - csharp
+  - vb
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
+  type: Enum
+  source:
+    remote:
+      path: Runtime/BehaviorTree.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree.git
+    id: EBehaviorTreeState
+    path: ../Runtime/BehaviorTree.cs
+    startLine: 11
+  namespace: BT.Runtime
+  summary: Behavior Tree possible states.
+  example: []
+  syntax:
+    content: public enum EBehaviorTreeState
+    content.vb: Public Enum EBehaviorTreeState
+- uid: BT.Runtime.EBehaviorTreeState.Running
+  commentId: F:BT.Runtime.EBehaviorTreeState.Running
+  id: Running
+  parent: BT.Runtime.EBehaviorTreeState
+  langs:
+  - csharp
+  - vb
+  name: Running
+  nameWithType: EBehaviorTreeState.Running
+  fullName: BT.Runtime.EBehaviorTreeState.Running
+  type: Field
+  source:
+    remote:
+      path: Runtime/BehaviorTree.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree.git
+    id: Running
+    path: ../Runtime/BehaviorTree.cs
+    startLine: 11
+  namespace: BT.Runtime
+  syntax:
+    content: Running = 0
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.EBehaviorTreeState.Success
+  commentId: F:BT.Runtime.EBehaviorTreeState.Success
+  id: Success
+  parent: BT.Runtime.EBehaviorTreeState
+  langs:
+  - csharp
+  - vb
+  name: Success
+  nameWithType: EBehaviorTreeState.Success
+  fullName: BT.Runtime.EBehaviorTreeState.Success
+  type: Field
+  source:
+    remote:
+      path: Runtime/BehaviorTree.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree.git
+    id: Success
+    path: ../Runtime/BehaviorTree.cs
+    startLine: 11
+  namespace: BT.Runtime
+  syntax:
+    content: Success = 1
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.EBehaviorTreeState.Failed
+  commentId: F:BT.Runtime.EBehaviorTreeState.Failed
+  id: Failed
+  parent: BT.Runtime.EBehaviorTreeState
+  langs:
+  - csharp
+  - vb
+  name: Failed
+  nameWithType: EBehaviorTreeState.Failed
+  fullName: BT.Runtime.EBehaviorTreeState.Failed
+  type: Field
+  source:
+    remote:
+      path: Runtime/BehaviorTree.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree.git
+    id: Failed
+    path: ../Runtime/BehaviorTree.cs
+    startLine: 11
+  namespace: BT.Runtime
+  syntax:
+    content: Failed = 2
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+- uid: BT.Runtime.EBehaviorTreeState.Waiting
+  commentId: F:BT.Runtime.EBehaviorTreeState.Waiting
+  id: Waiting
+  parent: BT.Runtime.EBehaviorTreeState
+  langs:
+  - csharp
+  - vb
+  name: Waiting
+  nameWithType: EBehaviorTreeState.Waiting
+  fullName: BT.Runtime.EBehaviorTreeState.Waiting
+  type: Field
+  source:
+    remote:
+      path: Runtime/BehaviorTree.cs
+      branch: main
+      repo: https://github.com/MikeBrixia/Unity-Behavior-Tree.git
+    id: Waiting
+    path: ../Runtime/BehaviorTree.cs
+    startLine: 11
+  namespace: BT.Runtime
+  syntax:
+    content: Waiting = 3
+    return:
+      type: BT.Runtime.EBehaviorTreeState
+references:
+- uid: BT.Runtime
+  commentId: N:BT.Runtime
+  href: BT.html
+  name: BT.Runtime
+  nameWithType: BT.Runtime
+  fullName: BT.Runtime
+  spec.csharp:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+  spec.vb:
+  - uid: BT
+    name: BT
+    href: BT.html
+  - name: .
+  - uid: BT.Runtime
+    name: Runtime
+    href: BT.Runtime.html
+- uid: BT.Runtime.EBehaviorTreeState
+  commentId: T:BT.Runtime.EBehaviorTreeState
+  parent: BT.Runtime
+  href: BT.Runtime.EBehaviorTreeState.html
+  name: EBehaviorTreeState
+  nameWithType: EBehaviorTreeState
+  fullName: BT.Runtime.EBehaviorTreeState
