@@ -24,6 +24,7 @@ jobs:
               git rm -r --ignore-unmatch Documentation/
               git add --all
               git push origin gh-pages
+              git pull --rebase origin gh-pages
               git ls-tree -r --name-only gh-pages
               git checkout main 
               
@@ -41,9 +42,9 @@ jobs:
           - name: Update documentation
             run: |
               git fetch origin gh-pages
-              git pull --rebase origin gh-pages
               git add --all
               git checkout gh-pages
               git commit -m 'Automated documentation update'
+              git pull --rebase origin gh-pages
               git push origin gh-pages
               
