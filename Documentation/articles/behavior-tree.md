@@ -3,8 +3,11 @@
 ## What is a Behavior Tree?
 
 The Behavior Tree it's a tree data structure which updates at a defined frequency. The tree execute from top-left to bottom-right and has 4 types of nodes: <b>Action, Decorator, Composite and Service</b>.
-On each update, depending on the frequency, the tree will advance it's execution from where it had left last update; This means that one tree traversal could execute nodes on different updates, thus implying
-that <b>traversing all the Behavior Tree could require more than one update</b>.
+On each update, depending on the frequency, the tree will advance it's execution from where it had left last update; This means that one tree traversal could execute nodes on different updates.
+
+> [!NOTE]
+> The fact that behavior tree traversal could take different updates, implies
+  that <b>traversing all the Behavior Tree could require more than one update</b>.
 
 ## Default nodes types
 
@@ -39,7 +42,7 @@ Children are nodes which can only be attached to other parent nodes, meaning tha
 
 Decorators are also known as conditional nodes, and are used to control the flow of the tree, determining which branch or action should be executed or skipped. When attached to action nodes the decorator will decide whether or not that given action and it's attached services should execute, otherwise if placed on a composite it will decide whether or not that given branch and it's attached services should execute or not.
 
-> [!TIPS]
+> [!TIP]
 > You can use decorators, for example, to evaluate complex boolean expressions or check given blackboard values and return true or false depending on the condition(like in BlackboardDecorator built-in node).
 
 #### Service
@@ -53,10 +56,10 @@ You can use service nodes to keep track of a value and update it at a defined fr
 > [!CAUTION]
 > Service nodes are NOT multithread nodes by default!
 
-> [!TIPS]
+> [!TIP]
 > A common use would be to to do some processing in a service node to update a blackboard key or other kind of value which will be needed by action nodes down in the execution.
 
-> [!TIPS]
+> [!TIP]
 > If you need it, you can also define a custom tree-independent frequency update for each service node. The only constrain you have is
 > that custom frequency cannot be lesser than tree frequency.
 
