@@ -1,7 +1,9 @@
-# DocFx Unity Template Kitchen Sink
+# Behavior Tree manual
 
-Checkout the [sandbox branch](https://github.com/code-beans/UnityFX/tree/sandbox) in the template repository
-
+Welcome to the Behavior Tree manual page!
+In this section you can find informations and guides which will help you get started with the tool.
+Manual covers from the general design philosphy to pratical and in depth, step-by-step tutorials on
+how to get started.
 
 ## Features
 

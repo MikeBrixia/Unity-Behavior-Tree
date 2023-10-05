@@ -1,2 +1,19 @@
 - name: articles
   href: intro.md
+  items:
+    - name: Behavior Tree overview
+      href: overview.md
+      items:
+        - name: Behavior Tree
+          href: behavior-tree.md
+        - name: Blackboard
+          href: blackboard.md
+    - name: User guide
+      href: guide.md
+      items:
+        - name: Behavior Tree
+          href: behavior-tree-guide.md
+        - name: Blackboard
+          href: blackboard-guide.md
+
+
