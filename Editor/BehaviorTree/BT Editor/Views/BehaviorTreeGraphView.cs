@@ -232,7 +232,9 @@ namespace BT
             // If not already present, create the root node
             if (tree.rootNode == null && AssetDatabase.Contains(tree))
             {
-                CreateNode(typeof(BT_RootNode), Vector2.zero);
+                // Use node factory to create the missing root node.
+                BT_RootNode rootNode = NodeFactory.CreateNode<BT_RootNode>(tree);
+                rootNode.position = Vector2.zero;
             }
             
             // Create node views for all parent nodes.

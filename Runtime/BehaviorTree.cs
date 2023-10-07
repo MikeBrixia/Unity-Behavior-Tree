@@ -57,7 +57,7 @@ namespace BT.Runtime
         /// Called when the user changes or invalidates the tree blackboard.
         /// </summary>
         public OnBlackboardChange onBlackboardChange;
-
+        
         /// <summary>
         /// Unique identifier of the behavior tree asset.
         /// </summary>

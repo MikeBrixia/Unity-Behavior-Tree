@@ -14,17 +14,17 @@ namespace BT.Editor
     /// coordinating all the different components of the
     /// user editor, like graphs, inspectors, toolbar, selections ecc...
     /// </summary>
-    public class BehaviorTreeEditor : EditorWindow
+    public sealed class BehaviorTreeEditor : EditorWindow
     {
         /// <summary>
         /// The tree currently being edited by this editor.
         /// </summary>
-        public BehaviorTree behaviorTree { protected set; get; }
+        public BehaviorTree behaviorTree { private set; get; }
         
         /// <summary>
         /// The graph view used to interact with tree nodes.
         /// </summary>
-        public BehaviorTreeGraphView graphView { protected set; get; }
+        public BehaviorTreeGraphView graphView { private set; get; }
         
         /// <summary>
         /// The editor debugger, used to debug the behavior tree editor.
@@ -132,7 +132,6 @@ namespace BT.Editor
                 // Release the tree from the debug state.
                 debugger.ResetDebugEditor();
             }
-            
         }
 
         /// <summary>
@@ -265,11 +264,18 @@ namespace BT.Editor
         {
             // The currently selected behavior tree.
             behaviorTree = Selection.activeObject as BehaviorTree;
+
+            // A valid behavior tree has been selected?
             if (behaviorTree != null)
             {
                 // Update the editor tree label depending on the selected tree.
                 treeViewLabel.text = " Tree View: " + behaviorTree.name;
                 graphView.tree = behaviorTree;
+                
+                // When opening/updating asset editor, force a refresh.
+                // this is done to ensure data consistency when an asset gets 
+                // selected and inspected.
+                RefreshEditorAndAsset();
                 
                 // When the user selects a behavior tree we need to populate
                 // the graph view with the tree nodes.
