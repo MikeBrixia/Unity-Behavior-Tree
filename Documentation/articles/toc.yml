@@ -10,5 +10,20 @@
   items:
     - name: Behavior Tree guide
       href: behavior-tree-guide.md
+      items:
+        - name: Creating custom nodes
+          href: custom-nodes.md
+          items:
+            - name: actions
+              href: action.md
+            - name: decorators
+              href: decorator.md
+            - name: services
+              href: service.md
+            - name: composites
+              href: composite.md
+        - name: Behavior Tree Component
+          href: behavior-tree-component.md
     - name: Blackboard guide
       href: blackboard-guide.md
+  

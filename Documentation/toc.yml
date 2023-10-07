@@ -1,5 +1,5 @@
 - name: Manual
-  href: articles/
+  href: articles/intro.md
 - name: Scripting API
   href: api/
   homepage: api/index.md

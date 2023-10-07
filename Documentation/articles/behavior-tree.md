@@ -1,4 +1,4 @@
-# Behavior Tree overview
+# Behavior Tree
 
 ## What is a Behavior Tree?
 
@@ -19,7 +19,7 @@ Parents are nodes which can be placed, dragged inside the editor graph and, most
 
 Actions, also called leaf nodes, are nodes with one input and no outputs, which are responsible of executing different tasks such as making the AI wait for a given amount of time or chasing the player. Actions can have decorators and services attached to them which will <b>always</b> execute before their own logic. The action execution rules are the following:
 
-1.  First execute all attached decorators, if they are all successfull, then go ahead with step 2 and 3.
+1.  First execute all attached decorators, if they are all successful, then go ahead with step 2 and 3.
 2.  Execute all attached services.
 3.  Finally, execute the action node logic.
 
@@ -57,9 +57,7 @@ You can use service nodes to keep track of a value and update it at a defined fr
 > Service nodes are NOT multithread nodes by default!
 
 > [!TIP]
-> A common use would be to to do some processing in a service node to update a blackboard key or other kind of value which will be needed by action nodes down in the execution.
-
-> [!TIP]
-> If you need it, you can also define a custom tree-independent frequency update for each service node. The only constrain you have is
-> that custom frequency cannot be lesser than tree frequency.
+> 1. A common use would be to to do some processing in a service node to update a blackboard key or other kind of value which will be needed by action nodes down in the execution.
+> 2. If you need it, you can also define a custom tree-independent frequency update for each service node. The only constrain you have is
+>    that custom frequency cannot be lesser than tree frequency.
 
