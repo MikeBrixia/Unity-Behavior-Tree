@@ -42,12 +42,7 @@ namespace BT
              }
              
              // Display inspector GUI inside the editor blackboard view
-             Add(inspectorGUI);
-             // For some reason, saving assets is the only way to make the 
-             // scroll view work; Otherwise it could not work.
-             // My only guess is it has something to do with the OnValidate()
-             // method which fires the event inside the BehaviorTree asset.
-             AssetDatabase.SaveAssets();
+             Add(inspectorGUI); ;
          }
 
          private VisualElement CreateInvalidBlackboardGUI()

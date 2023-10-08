@@ -172,6 +172,7 @@ namespace BT.Editor
             // Is the blackboard value missing(not null but also not valid)?
             if (isMissing)
             {
+                Debug.Log("Missing blackboard");
                 // If it is missing, then set the blackboard as null
                 // in all tree nodes.
                 behaviorTree.SetBlackboard(null);
@@ -195,11 +196,10 @@ namespace BT.Editor
             graphView.onNodeSelected = OnNodeSelectionChange;
             graphView.onChildNodeSelected = OnNodeVisualElementSelectionChange;
             
+            // Initialize GUI
             CreateToolbarGUI();
             CreateInspectorGUI();
-            
-            treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
-            
+
             // Trigger a selection event.
             OnSelectionChange();
         }
@@ -224,6 +224,7 @@ namespace BT.Editor
 
         private void CreateInspectorGUI()
         {
+            treeViewLabel = rootVisualElement.Q<Label>("Tree_View_Label");
             // Handle blackboard inspector GUI events.
             blackboardInspectorView = rootVisualElement.Q<BlackboardInspectorView>("BlackboardInspector");
             nodeInspectorView = rootVisualElement.Q<NodeInspectorView>();

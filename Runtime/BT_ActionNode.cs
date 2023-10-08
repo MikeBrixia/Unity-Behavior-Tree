@@ -108,8 +108,8 @@ namespace BT.Runtime
         public override BT_Node Clone()
         {
             BT_ActionNode action = (BT_ActionNode) base.Clone();
-            action.decorators = action.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            action.services = action.services.ConvertAll(service => service.Clone() as BT_Service);
+            action.decorators = decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
+            action.services = services.ConvertAll(service => service.Clone() as BT_Service);
             return action;
         }
         

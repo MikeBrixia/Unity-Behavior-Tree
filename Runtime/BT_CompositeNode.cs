@@ -15,7 +15,7 @@ namespace BT.Runtime
         ///<summary>
         /// The children this composite should try to execute.
         ///</summary>
-        [HideInInspector] public List<BT_ParentNode> children = new List<BT_ParentNode>();
+        public List<BT_ParentNode> children = new List<BT_ParentNode>();
 
         ///<summary>
         /// Decorators attached to this composite
@@ -103,9 +103,9 @@ namespace BT.Runtime
         public override BT_Node Clone()
         {
             BT_CompositeNode composite = (BT_CompositeNode) base.Clone();
-            composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            composite.children = composite.children.ConvertAll(child => child.Clone() as BT_ParentNode);
-            composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
+            composite.decorators = decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
+            composite.children = children.ConvertAll(child => child.Clone() as BT_ParentNode);
+            composite.services = services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
         
@@ -117,9 +117,9 @@ namespace BT.Runtime
         public override void SetBlackboard(Blackboard treeBlackboard)
         {
             base.SetBlackboard(treeBlackboard);
-            decorators.ForEach(decorator => decorator.SetBlackboard(treeBlackboard));
-            services.ForEach(service => service.SetBlackboard(treeBlackboard));
-            children.ForEach(child => child.SetBlackboard(treeBlackboard));
+            decorators.ForEach(decorator => decorator?.SetBlackboard(treeBlackboard));
+            services.ForEach(service => service?.SetBlackboard(treeBlackboard));
+            children.ForEach(child => child?.SetBlackboard(treeBlackboard));
         }
 
         public override List<T> GetChildNodes<T>()
@@ -153,6 +153,7 @@ namespace BT.Runtime
 
         public override void ConnectNode(BT_ParentNode child)
         {
+            child.level = level + 1;
             children.Add(child);
         }
 
@@ -160,6 +161,7 @@ namespace BT.Runtime
         {
             if (child.GetType().IsSubclassOf(typeof(BT_ParentNode)))
             {
+                child.level = -1;
                 children.Remove(child);
             }
         }

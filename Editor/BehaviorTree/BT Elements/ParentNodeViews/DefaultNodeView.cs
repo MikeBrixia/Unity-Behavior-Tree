@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using BT;
-using BT.Editor;
 using BT.Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.BehaviorTree.BT_Elements
+namespace BT.Editor
 {
-    public class BT_ActionView : BT_ParentNodeView
+    /// <summary>
+    /// This is the default node view used by the Behavior Tree Editor
+    /// for parent nodes. If you want to add or modify elements of the
+    /// default parent node view, to fit your own needs, then you should
+    /// extend this class.
+    /// </summary>
+    [Serializable]
+    public class BT_DefaultParentNodeView : BT_ParentNodeView
     {
         ///<summary>
         /// decorator views contained inside this node view
@@ -23,9 +27,9 @@ namespace Editor.BehaviorTree.BT_Elements
         private readonly List<BT_ServiceView> serviceViews;
         
         /// <summary>
-        /// The filepath of the action element UXML file.
+        /// The filepath of the node GUI element on disk.
         /// </summary>
-        private const string ACTION_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml";
+        protected const string NODE_GUI_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml";
         
         ///<summary>
         /// The displayed node description
@@ -57,13 +61,13 @@ namespace Editor.BehaviorTree.BT_Elements
         ///</summary>
         private VisualElement serviceContainer;
         
-        public BT_ActionView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, ACTION_PATH)
+        public BT_DefaultParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, NODE_GUI_PATH)
         {
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();
         }
 
-        protected override void InitializeUIElements()
+        protected override void CreateGUIElements()
         {
             nodeNameLabel = mainContainer.parent.Q<Label>("NodeTitle");
             nodeTypeNameLabel = mainContainer.parent.Q<Label>("NodeTypeName");
@@ -98,7 +102,7 @@ namespace Editor.BehaviorTree.BT_Elements
             base.OnUnselected();
             ShowSelectionBorder(nodeBorder, 0f);
         }
-
+        
         public override List<T> GetChildViews<T>()
         {
             List<T> resultList = null;

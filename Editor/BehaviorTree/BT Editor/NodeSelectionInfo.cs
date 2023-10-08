@@ -1,25 +1,31 @@
-﻿using BT.Runtime;
+﻿using System;
+using System.Collections.Generic;
+using BT.Runtime;
 using UnityEngine;
 
 namespace BT.Editor
 {
-    public struct NodeSelectionInfo
+    [Serializable]
+    public struct CopyCache : IComparable<CopyCache>
     {
         /// <summary>
-        /// The selected node.
+        /// The nodes we want to copy.
         /// </summary>
-        public BT_Node node;
+        public BT_ParentNodeView view;
         
         /// <summary>
-        /// Selection rectangle which has been used to select
-        /// the graph element.
+        /// The direction from the selection center.
         /// </summary>
-        public Rect selectionRectangle;
-
-        public NodeSelectionInfo(BT_Node node, Rect selectionRectangle)
+        public Vector2 direction;
+        
+        /// <summary>
+        /// Distance between the node and the selection center.
+        /// </summary>
+        public float distance;
+        
+        public int CompareTo(CopyCache other)
         {
-            this.node = node;
-            this.selectionRectangle = selectionRectangle;
+            return view.node.level < other.view.node.level ? -1 : 1;
         }
     }
 }

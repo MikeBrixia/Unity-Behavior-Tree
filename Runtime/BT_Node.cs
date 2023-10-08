@@ -23,7 +23,11 @@ namespace BT.Runtime
         /// Unique identifier for the node
         ///</summary>
         [HideInInspector] public GUID guid;
-
+        
+        ///<summary>
+        /// The position of this node in the graph
+        ///</summary>
+        [HideInInspector] public Vector2 position;
 #endif
         /// <summary>
         /// Custom node name which can be defined by the user.
@@ -39,12 +43,7 @@ namespace BT.Runtime
         /// Editable description of what this node does.
         /// </summary>
         [SerializeField] protected string description;
-        
-        ///<summary>
-        /// The position of this node in the graph
-        ///</summary>
-        [HideInInspector] public Vector2 position;
-        
+
         /// <summary>
         /// Reference to behavior tree blackboard.
         /// </summary>
@@ -54,8 +53,7 @@ namespace BT.Runtime
         /// True if the node has started execution and not yet finished,
         /// false otherwise.
         /// </summary>
-        [HideInInspector]
-        public bool isStarted;
+        [HideInInspector] public bool isStarted;
         
         ///<summary>
         /// Execution index which keeps track of which
@@ -77,7 +75,7 @@ namespace BT.Runtime
         public virtual BT_Node Clone()
         {
             BT_Node clonedNode = Instantiate(this);
-            clonedNode.guid = guid;
+            clonedNode.guid = GUID.Generate();
             return clonedNode;
         }
 

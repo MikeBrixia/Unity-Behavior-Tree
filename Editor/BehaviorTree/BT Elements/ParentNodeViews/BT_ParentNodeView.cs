@@ -8,20 +8,14 @@ using UnityEngine.UIElements;
 
 namespace BT.Editor
 {
-    public abstract class BT_ParentNodeView : Node
+    [Serializable]
+    public abstract class BT_ParentNodeView : Node, IComparable<BT_ParentNodeView>, IComparable
     {
-        
+
         ///<summary>
-        /// Reference to the node encapsulated inside this node view, this value is going
-        /// to contain the actual instructions of the node
+        /// Reference to the node encapsulated inside this node view.
         ///</summary>
-        public BT_ParentNode node { get; }
-        
-        ///<summary>
-        /// The parent view at which this node view is connected with
-        /// it's input port.
-        ///</summary>
-        public BT_ParentNodeView parentView;
+        public BT_ParentNode node;
         
         ///<summary>
         /// Called when this node view gets selected by the user
@@ -67,10 +61,10 @@ namespace BT.Editor
             OnCreateGUI();
         }
 
-        protected void OnCreateGUI()
+        private void OnCreateGUI()
         {
             // Initialize all UI elements.
-            InitializeUIElements();
+            CreateGUIElements();
             
             // CreateNodePorts parent node ports.
             CreateNodePorts();
@@ -87,9 +81,9 @@ namespace BT.Editor
         }
         
         ///<summary>
-        /// Called when we initialize visual element.
+        /// Called when the node needs to create/initialize it's visual elements.
         ///</summary>
-        protected abstract void InitializeUIElements();
+        protected abstract void CreateGUIElements();
         
         /// <summary>
         /// Get all the child views of the parent
@@ -198,21 +192,36 @@ namespace BT.Editor
             RefreshExpandedState();
         }
 
-        ///<summary>
-        /// Sort children nodes from left to right.
-        ///</summary>
-        public void SortChildrenNodes()
+        /// <summary>
+        /// Sort all the children of this composite node view.
+        /// </summary>
+        public void SortChildrenNodesByHorizontalPosition()
         {
-            BT_CompositeNode compositeNode = node as BT_CompositeNode;
-            if (compositeNode != null)
+            // Does the parent node view have an output port?
+            if (output?.node is BT_ParentNodeView nodeView)
             {
-                compositeNode.children.Sort(SortByPosition);
+                List<BT_ParentNode> children = nodeView.node.GetConnectedNodes();
+                // Sort only when there are at least 2 children
+                if (children.Count >= 2)
+                {
+                    children.Sort(CompareX);
+                }
             }
         }
         
-        private int SortByPosition(BT_Node left, BT_Node right)
+        public int CompareTo(object obj)
         {
-            return left.position.x < right.position.x ? -1 : 1;
+            return CompareTo(obj as BT_ParentNodeView);
+        }
+        
+        public int CompareTo(BT_ParentNodeView other)
+        {
+            return node.position.x < other.node.position.x ? -1 : 1;
+        }
+        
+        public int CompareX(BT_ParentNode x, BT_ParentNode y)
+        {
+            return x.position.x < y.position.x ? -1 : 1;
         }
         
         ///<summary>

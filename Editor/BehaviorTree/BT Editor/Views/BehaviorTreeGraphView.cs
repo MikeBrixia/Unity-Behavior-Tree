@@ -4,9 +4,12 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
+using System.Collections;
 using System.Linq;
 using BT.Runtime;
 using BT.Editor;
+using Unity.Plastic.Antlr3.Runtime.Misc;
+using Unity.Plastic.Newtonsoft.Json;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
 using Node = UnityEditor.Experimental.GraphView.Node;
 
@@ -43,14 +46,9 @@ namespace BT
         private Vector2 currentMousePosition;
         
         /// <summary>
-        /// The last position in the graph where the user clicked it's mouse.
+        /// Used by the behavior tree graph to copy/paste nodes
         /// </summary>
-        private Vector2 lastClickPosition;
-        
-        /// <summary>
-        /// The rectangle used for rectangle selection inside the graph.
-        /// </summary>
-        private Rect rectangleSelection;
+        private readonly BehaviorTreeCopyPaster copyPaster;
         
         public BehaviorTreeGraphView()
         {
@@ -74,22 +72,15 @@ namespace BT
             RegisterCallback<KeyDownEvent>(OnKeyboardPressed, TrickleDown.TrickleDown);
             
             // Mouse callbacks
-            RegisterCallback<MouseDownEvent>(OnClick);
             RegisterCallback<PointerMoveEvent>(OnPointerMove);
             
             // Copy/paste callbacks
             serializeGraphElements += OnCopy;
             unserializeAndPaste += OnPaste;
-            
-            // Initialize rectangle selection.
-            rectangleSelection = new Rect();
+
+            copyPaster = new BehaviorTreeCopyPaster(this);
         }
 
-        private void OnClick(MouseDownEvent evt)
-        {
-            lastClickPosition = (evt.localMousePosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
-        }
-        
         /// <summary>
         /// Called when the mouse pointer moves inside the behavior tree graph.
         /// </summary>
@@ -98,13 +89,6 @@ namespace BT
         {
             // Update mouse position.
             currentMousePosition = ((Vector2)evt.localPosition - new Vector2(viewTransform.position.x, viewTransform.position.y)) / scale;
-            
-            // Update rectangle selection with the new min and max positions.
-            // min position will be equal to the last point of the graph on which the user clicked.
-            rectangleSelection.min = lastClickPosition;
-            
-            // Max position will be equal to the current mouse pointer position in the graph.
-            rectangleSelection.max = currentMousePosition;
         }
         
         ///<summary>
@@ -112,48 +96,10 @@ namespace BT
         ///</summary>
         private void OnPaste(string operationName, string data)
         {
-            List<NodeSelectionInfo> copyCache = JsonUtility.FromJson<List<NodeSelectionInfo>>(data);
-            Debug.Log(data);
-            // Paste copied nodes.
-            foreach (NodeSelectionInfo copiedData in copyCache)
-            {
-                // The node we're trying to copy.
-                BT_Node pastedNode = copiedData.node;
-                
-                // The position at which we want to create the node.
-                Vector2 nodePosition;
-                
-                // Is the user trying to copy more than one node?
-                if (copyCache.Count > 1)
-                {
-                    // Get the center of the selection in which the copied node was selected and use it
-                    // to compute the direction from the selection center to the node position in the graph
-                    // where the node was selected.
-                    Vector2 selectionCenter = copiedData.selectionRectangle.center;
-                    Vector2 dirFromCenter = (pastedNode.position - copiedData.selectionRectangle.center).normalized;
-                
-                    // Compute distance between the selection center and node position in the graph in which
-                    // was selected.
-                    float distance = Vector2.Distance(selectionCenter, pastedNode.position);
-                
-                    // Use distance and direction to correctly position the copied node inside the current graph.
-                    // after having placed it, create a node view for it.
-                    nodePosition = currentMousePosition + dirFromCenter * distance;
-                }
-                else
-                {
-                    // If the user is trying to copy only one node then 
-                    // position it where the mouse pointer is currently
-                    // positioned inside the graph.
-                    nodePosition = currentMousePosition;
-                }
-                
-                // Finally, create a copy of this node.
-                pastedNode = NodeFactory.CloneNode(pastedNode, tree);
-                pastedNode.position = nodePosition;
-            }
+            // Remove all copied node in favor of the new selected elements.
+            copyPaster.PasteNodes(currentMousePosition);
             
-            // Once we finished pasting nodes, repopulate the view.
+            // Repopulate view with new pasted nodes.
             PopulateView();
         }
 
@@ -162,17 +108,19 @@ namespace BT
         ///</summary>
         private string OnCopy(IEnumerable<GraphElement> elements)
         {
-            var copyCache = new List<KeyValuePair<BT_ParentNodeView, Rect>>();
+            var nodeViews = new List<BT_ParentNodeView>();
             foreach (GraphElement element in elements)
             {
-                if (element is BT_ParentNodeView parentNodeToCopy)
+                if (element is BT_ParentNodeView view)
                 {
-                    var nodeRectanglePair = new KeyValuePair<BT_ParentNodeView, Rect>(parentNodeToCopy, rectangleSelection);
-                    copyCache.Add(nodeRectanglePair);
+                    nodeViews.Add(view);
                 }
             }
-            Debug.Log(EditorJsonUtility.ToJson(copyCache, true));
-            return JsonUtility.ToJson(copyCache, true);
+            
+            // Copy the nodes.
+            copyPaster.CopyNodes(nodeViews);
+            
+            return "None";
         }
 
         ///<summary>
@@ -246,6 +194,7 @@ namespace BT
                 if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
                 {
                     CreateNodeView(node);
+                    Debug.Log(node);
                 }
             }
             
@@ -269,7 +218,6 @@ namespace BT
                     // Connect root node to it's child.
                     BT_ParentNodeView childView = FindNodeView(rootNode.childNode);
                     CreateEdge(parentView, childView);
-                    childView.parentView = parentView;
                 }
                 else if(node is BT_ParentNode parentNode and not BT_RootNode)
                 {
@@ -278,7 +226,6 @@ namespace BT
                     {
                         BT_ParentNodeView childView = FindNodeView(childrenNode);
                         CreateEdge(parentView, childView);
-                        childView.parentView = parentView;
                     }
                 }
             }
@@ -353,7 +300,7 @@ namespace BT
                 foreach (Node node in nodes)
                 {
                     if(node is BT_ParentNodeView nodeView)
-                        nodeView.SortChildrenNodes();
+                        nodeView.SortChildrenNodesByHorizontalPosition();
                 }
             }
             return graphViewChange;
@@ -381,8 +328,7 @@ namespace BT
                         BT_ParentNodeView parentNode = (BT_ParentNodeView) edge.output.node;
                         // The child node is the target node for the connection
                         BT_ParentNodeView childNode = (BT_ParentNodeView) edge.input.node;
-                        childNode.parentView = null;
-                        
+
                         // Remove connected child from parent and register and undo/redo action for it.
                         Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node remove child");
                         parentNode.node.DisconnectNode(childNode.node);
@@ -390,7 +336,7 @@ namespace BT
                         
                         // Once an element has been removed, re-sort all child nodes
                         // to determine the correct order of execution
-                        parentNode.SortChildrenNodes();
+                        parentNode.SortChildrenNodesByHorizontalPosition();
                     }
                 }
             }
@@ -415,11 +361,10 @@ namespace BT
                     // Add child parent node to parent.
                     Undo.RecordObject(parentNode.node, "Behavior Tree Composite Node add child");
                     parentNode.node.ConnectNode(childNode.node);
-                    childNode.parentView = parentNode;
                     EditorUtility.SetDirty(parentNode.node);
                     
                     // Once added, sort all the parent children.
-                    parentNode.SortChildrenNodes();
+                    parentNode.SortChildrenNodesByHorizontalPosition();
                 }
             }
         }

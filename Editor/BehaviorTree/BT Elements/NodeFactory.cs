@@ -57,9 +57,6 @@ namespace BT
                 node.guid = GUID.Generate();
                 node.SetBlackboard(tree.blackboard);
                 
-                // Register the node in the behavior tree.
-                RegisterNode(node, tree);
-                
                 // Register child node inside parent node
                 RegisterChildNode(node, parent);
             }
@@ -169,27 +166,29 @@ namespace BT
             AssetDatabase.SaveAssets();
         }
         
-        public static BT_Node CloneNode(BT_Node node, BehaviorTree tree)
+        public static BT_Node CloneNode(BT_Node node, BehaviorTree tree, bool recursive = true)
         {
-            BT_Node copiedNode = node.Clone();
+            BT_Node copiedNode = recursive? node.Clone() : ScriptableObject.Instantiate(node);
             copiedNode.name = "";
             copiedNode.guid = GUID.Generate();
-            
-            // Register node
-            RegisterNode(copiedNode, tree);
-            List<BT_ParentNode> connectedNodes = ((BT_ParentNode) copiedNode).GetConnectedNodes();
-            
-            // Does the node have children?
-            if (connectedNodes != null)
+
+            if (recursive)
             {
-                // Register all children of this node.
-                foreach (BT_ParentNode child in connectedNodes)
+                Stack<BT_Node> toVisit = new Stack<BT_Node>();
+                toVisit.Push(copiedNode);
+                
+                RegisterNode(copiedNode, tree);
+                while (toVisit.Count > 0)
                 {
-                    child.name = "";
-                    RegisterNode(child, tree);
+                    BT_ParentNode currentNode = (BT_ParentNode) toVisit.Pop();
+                    List<BT_ParentNode> children = currentNode.GetConnectedNodes();
+                    
+                    foreach(var a in children)
+                        Debug.Log(a);
+                    children.ForEach(child => RegisterNode(child, tree));
                 }
             }
-            
+
             return copiedNode;
         }
         

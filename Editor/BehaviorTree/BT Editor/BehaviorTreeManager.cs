@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using BT.Runtime;
-using Editor.BehaviorTree.BT_Elements;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace BT.Editor
 {
@@ -23,9 +18,9 @@ namespace BT.Editor
         /// </summary>
         public static readonly Dictionary<Type, Type> nodeViewMap = new Dictionary<Type, Type>()
         {
-            [typeof(BT_RootNode)] = typeof(BT_ActionView),
-            [typeof(BT_ActionNode)] = typeof(BT_ActionView),
-            [typeof(BT_CompositeNode)] = typeof(BT_ActionView),
+            [typeof(BT_RootNode)] = typeof(BT_DefaultParentNodeView),
+            [typeof(BT_ActionNode)] = typeof(BT_DefaultParentNodeView),
+            [typeof(BT_CompositeNode)] = typeof(BT_DefaultParentNodeView),
             [typeof(BT_Decorator)] = typeof(BT_DecoratorView),
             [typeof(BT_Service)] = typeof(BT_ServiceView)
         };
