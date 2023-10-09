@@ -88,6 +88,10 @@ namespace BT.Editor
                     // Update the node position.
                     Vector2 nodePosition = position + direction * distance;
                     node.position = nodePosition;
+                    
+                    // Register the pasted node inside the tree.
+                    NodeFactory.RegisterNode(node, graph.tree);
+                    
                     // Push children inside the to visit stack.
                     children.ForEach(child => toVisit.Push(child));
                 }

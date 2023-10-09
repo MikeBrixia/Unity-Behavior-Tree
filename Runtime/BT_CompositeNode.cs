@@ -15,7 +15,7 @@ namespace BT.Runtime
         ///<summary>
         /// The children this composite should try to execute.
         ///</summary>
-        public List<BT_ParentNode> children = new List<BT_ParentNode>();
+        [HideInInspector] public List<BT_ParentNode> children = new List<BT_ParentNode>();
 
         ///<summary>
         /// Decorators attached to this composite

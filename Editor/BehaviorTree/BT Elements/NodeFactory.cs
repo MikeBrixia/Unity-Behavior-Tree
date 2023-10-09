@@ -171,24 +171,7 @@ namespace BT
             BT_Node copiedNode = recursive? node.Clone() : ScriptableObject.Instantiate(node);
             copiedNode.name = "";
             copiedNode.guid = GUID.Generate();
-
-            if (recursive)
-            {
-                Stack<BT_Node> toVisit = new Stack<BT_Node>();
-                toVisit.Push(copiedNode);
-                
-                RegisterNode(copiedNode, tree);
-                while (toVisit.Count > 0)
-                {
-                    BT_ParentNode currentNode = (BT_ParentNode) toVisit.Pop();
-                    List<BT_ParentNode> children = currentNode.GetConnectedNodes();
-                    
-                    foreach(var a in children)
-                        Debug.Log(a);
-                    children.ForEach(child => RegisterNode(child, tree));
-                }
-            }
-
+            
             return copiedNode;
         }
         
@@ -209,7 +192,7 @@ namespace BT
             AssetDatabase.SaveAssets();
         }
         
-        private static void RegisterNode(BT_Node node, BehaviorTree tree)
+        public static void RegisterNode(BT_Node node, BehaviorTree tree)
         {
             Type nodeType = node.GetType();
             
@@ -232,7 +215,7 @@ namespace BT
             AssetDatabase.SaveAssets();
         }
         
-        private static void RegisterChildNode(BT_ChildNode child, BT_ParentNode parent)
+        public static void RegisterChildNode(BT_ChildNode child, BT_ParentNode parent)
         {
             if (parent != null)
             {

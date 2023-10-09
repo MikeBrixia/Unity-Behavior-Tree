@@ -43,15 +43,15 @@ namespace BT.Runtime
         /// The current state of this Behavior Tree.
         ///</summary>
         [HideInInspector] public ENodeState treeState;
-        
-        ///<summary>
-        /// All the Behavior Tree nodes
-        ///</summary>
-        [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
 
 #if UNITY_EDITOR
         // delegate used to listen for blackboard changes.
         public delegate void OnBlackboardChange(Blackboard blackboard);
+        
+        ///<summary>
+        /// All the Behavior Tree nodes. This is an editor only property
+        /// used by the graph to draw all nodes. </summary>
+        [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
         
         /// <summary>
         /// Called when the user changes or invalidates the tree blackboard.
@@ -61,7 +61,7 @@ namespace BT.Runtime
         /// <summary>
         /// Unique identifier of the behavior tree asset.
         /// </summary>
-        public GUID guid;
+        [HideInInspector] public GUID guid;
 
         public void OnEnable()
         {

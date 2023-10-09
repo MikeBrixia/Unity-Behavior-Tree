@@ -194,7 +194,6 @@ namespace BT
                 if (node.GetType().IsSubclassOf(typeof(BT_ParentNode)))
                 {
                     CreateNodeView(node);
-                    Debug.Log(node);
                 }
             }
             
