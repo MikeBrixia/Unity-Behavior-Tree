@@ -6,6 +6,22 @@ using UnityEngine;
 
 namespace BT.Runtime
 {
+    
+    /// <summary>
+    /// Only used to expose data useful for creating
+    /// blackboard properties defined by the user when
+    /// the game starts.
+    /// </summary>
+    [Serializable]
+    public struct PropertySelector
+    {
+        [Tooltip("The name of the property, must be unique")]
+        public string name;
+            
+        [Tooltip("The type of the property")]
+        public BlackboardSupportedTypes type;
+    }
+    
     /// <summary>
     /// The blackboard is the "brain" of the Behavior Tree, responsible of storing
     /// relevant data, used to make it's own decision.
@@ -23,7 +39,7 @@ namespace BT.Runtime
         ///<summary>
         /// All the properties stored in this blackboard.
         ///</summary>
-        [SerializeField] private List<BlackboardPropertyBase> blackboardProperties = new List<BlackboardPropertyBase>();
+        [SerializeField] private List<PropertySelector> blackboardProperties = new List<PropertySelector>();
         
         ///<summary>
         /// Get a blackboard value of type T by it's key.
@@ -32,8 +48,8 @@ namespace BT.Runtime
         ///<returns> The value of type T associated with the given blackboard key.</returns>
         public T GetBlackboardValueByKey<T>(string key)
         {
-            BlackboardProperty<T> property = (BlackboardProperty<T>) blackboardDict[key];
-            return property.value;
+            BlackboardPropertyBase property = blackboardDict[key];
+            return (T) property.GetValue();
         }
         
         ///<summary>
@@ -43,25 +59,24 @@ namespace BT.Runtime
         ///<param name="newValue"> the new property value of type T</param>
         public void SetBlackboardValue<T>(string key, T newValue)
         {
-            BlackboardProperty<T> property = (BlackboardProperty<T>) blackboardDict[key];
-            property.value = newValue;
+            BlackboardPropertyBase property = blackboardDict[key];
+            property.SetValue(newValue);
         }
         
         public void OnBeforeSerialize()
         {
-            
         }
         
         public void OnAfterDeserialize()
         {
             blackboardDict = new Dictionary<string, BlackboardPropertyBase>();
-            foreach(BlackboardPropertyBase property in blackboardProperties)
+            foreach(PropertySelector propertySelector in blackboardProperties)
             {
                 // Ignores properties without a type.
-                if (property.valueType != BlackboardSupportedTypes.None)
+                if (propertySelector.type != BlackboardSupportedTypes.None)
                 {
-                    BlackboardPropertyBase newProperty = property.CreateProperty();
-                    blackboardDict.TryAdd(property.name, newProperty);
+                    BlackboardPropertyBase property = BlackboardPropertyBase.CreateProperty(propertySelector);
+                    blackboardDict.TryAdd(property.name, property);
                 }
             }
         }
@@ -76,6 +91,7 @@ namespace BT.Runtime
         }
 
 #if UNITY_EDITOR
+
         public string[] GetVariablesNames()
         {
             return blackboardDict.Keys.ToArray();;

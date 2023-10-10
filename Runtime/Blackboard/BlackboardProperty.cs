@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 namespace BT.Runtime
 {
     ///<summary>
-    /// The blackboard supported value types
+    /// The blackboard supported propertyValue types
     ///</summary>
     public enum BlackboardSupportedTypes 
     { 
@@ -44,66 +44,97 @@ namespace BT.Runtime
     }
     
     [Serializable]
-    public class BlackboardPropertyBase
+    public abstract class BlackboardPropertyBase
     {
         ///<summary>
         /// The name of this blackboard property
         ///</summary>
-        [SerializeField]
-        public string name = "NewVar";
+        [SerializeField] public string name = "NewVar";
 
         ///<summary>
-        /// The value type of this property
+        /// The propertyValue type of this property
         ///</summary>
-        [SerializeField]
-        public BlackboardSupportedTypes valueType = BlackboardSupportedTypes.Boolean;
+        [SerializeField] public BlackboardSupportedTypes valueType = BlackboardSupportedTypes.Boolean;
+        
+        /// <summary>
+        /// Set the value of this property.
+        /// </summary>
+        /// <param name="propertyValue"> The new value of the property. </param>
+        public abstract void SetValue(object propertyValue);
+        
+        /// <summary>
+        /// Get the value of this property.
+        /// </summary>
+        /// <returns> The value of the property. </returns>
+        public abstract object GetValue();
+
+        protected BlackboardPropertyBase(string name, BlackboardSupportedTypes valueType)
+        {
+            this.name = name;
+            this.valueType = valueType;
+        }
         
         ///<summary>
-        /// Initialize this property with the given type default value.
+        /// Create a new property with the name and type specified in the selector.
         ///</summary>
-        ///<returns> A copy of this property initialized with it's value type</returns>
-        public BlackboardPropertyBase CreateProperty()
+        ///<returns> A blackboard property of selected type and name. </returns>
+        public static BlackboardPropertyBase CreateProperty(PropertySelector selector)
         {
             BlackboardPropertyBase property = null;
-            switch (valueType)
+            switch (selector.type)
             {
                 case BlackboardSupportedTypes.Boolean:
-                    property = new BlackboardProperty<bool>(name, BlackboardSupportedTypes.Boolean, false);
+                    property = new BlackboardProperty<bool>(selector.name, BlackboardSupportedTypes.Boolean, false);
                     break;
 
                 case BlackboardSupportedTypes.Float:
-                    property = new BlackboardProperty<float>(name, BlackboardSupportedTypes.Float, 0f);
+                    property = new BlackboardProperty<float>(selector.name, BlackboardSupportedTypes.Float, 0f);
                     break;
                 
                 case BlackboardSupportedTypes.Double:
-                    property = new BlackboardProperty<double>(name, BlackboardSupportedTypes.Double, 0f);
+                    property = new BlackboardProperty<double>(selector.name, BlackboardSupportedTypes.Double, 0f);
                     break;
 
                 case BlackboardSupportedTypes.Integer:
-                    property = new BlackboardProperty<int>(name, BlackboardSupportedTypes.Integer, 0);
+                    property = new BlackboardProperty<int>(selector.name, BlackboardSupportedTypes.Integer, 0);
                     break;
 
                 case BlackboardSupportedTypes.String:
-                    property = new BlackboardProperty<string>(name, BlackboardSupportedTypes.String, "None");
+                    property = new BlackboardProperty<string>(selector.name, BlackboardSupportedTypes.String, "None");
                     break;
                 
                 case BlackboardSupportedTypes.Object:
-                    property = new BlackboardProperty<object>(name, BlackboardSupportedTypes.Object, null);
+                    property = new BlackboardProperty<object>(selector.name, BlackboardSupportedTypes.Object, null);
                     break;
             }
             return property;
         }
     }
-
-    public class BlackboardProperty<TValueType> : BlackboardPropertyBase
+    
+    /// <summary>
+    /// Class used for creating blackboard properties of type T
+    /// </summary>
+    /// <typeparam name="T"> The type of the blackboard property. </typeparam>
+    public class BlackboardProperty<T> : BlackboardPropertyBase
     {
-        public TValueType value;
+        /// <summary>
+        /// The value of this property
+        /// </summary>
+        public T value;
 
-        public BlackboardProperty(string name, BlackboardSupportedTypes valueType, TValueType value)
+        public BlackboardProperty(string name, BlackboardSupportedTypes valueType, T value) : base(name, valueType)
         {
-            this.name = name;
-            this.valueType = valueType;
             this.value = value;
+        }
+
+        public override void SetValue(object propertyValue)
+        {
+            this.value = (T) propertyValue;
+        }
+
+        public override object GetValue()
+        {
+            return value;
         }
     }
 }

@@ -31,9 +31,6 @@ namespace BT.Editor
             // Debug only if the tree source asset reference is not missing.;
             if (editor.behaviorTree != null)
             {
-                // Reset editor appearance.
-                ResetDebugEditor();
-            
                 // Highlight all the edges connecting nodes which
                 // are been executed.
                 DebugExecutionPath(tree);

@@ -58,6 +58,11 @@ namespace BT.Editor
         private ToolbarButton refreshButton;
         
         /// <summary>
+        /// The toolbar of the behavior tree editor.
+        /// </summary>
+        private Toolbar toolbar;
+        
+        /// <summary>
         /// The save cache is where the behavior tree editor
         /// temporarily stores saved assets, after the user has pressed the
         /// save button. It can be used to keep track of the
@@ -100,13 +105,13 @@ namespace BT.Editor
             {
                 debugger = new BehaviorTreeDebugger(this);
             }
-            
-            // Listen for play mode callbacks.
-            EditorApplication.playModeStateChanged += EditorApplicationOnplayModeStateChanged;
         }
 
         private void Update()
         {
+            // Reset debug view to match the game update state.
+            debugger.ResetDebugEditor();
+            
             // Updated when user is in editor play mode.
             if (EditorApplication.isPlaying)
             {
@@ -114,6 +119,10 @@ namespace BT.Editor
             }
         }
         
+        /// <summary>
+        /// Called each update, when editor is in play mode, to debug
+        /// the running behavior tree instances.
+        /// </summary>
         private void DebugUpdate()
         {
             // Find the tree popup selection element inside the toolbar.
@@ -124,16 +133,7 @@ namespace BT.Editor
             BehaviorTreeComponent selectedComponent = instancePopupSelector.value;
             debugger.DebugGraphEditor(selectedComponent.tree);
         }
-         
-        private void EditorApplicationOnplayModeStateChanged(PlayModeStateChange obj)
-        {
-            if (obj == PlayModeStateChange.ExitingPlayMode)
-            {
-                // Release the tree from the debug state.
-                debugger.ResetDebugEditor();
-            }
-        }
-
+        
         /// <summary>
         /// Save command for saving edited behavior tree assets and
         /// pushing the to the save cache. This event will also trigger
@@ -172,12 +172,16 @@ namespace BT.Editor
             // Is the blackboard value missing(not null but also not valid)?
             if (isMissing)
             {
-                Debug.Log("Missing blackboard");
                 // If it is missing, then set the blackboard as null
                 // in all tree nodes.
                 behaviorTree.SetBlackboard(null);
                 // and finally update the blackboard inspector view
                 blackboardInspectorView.InspectBlackboard(null);
+            }
+            else
+            {
+                // Otherwise, force blackboard inspection just to be sure.
+                blackboardInspectorView.InspectBlackboard(blackboard);
             }
         }
         
@@ -209,6 +213,7 @@ namespace BT.Editor
             // Initialize toolbar UI elements.
             saveButton = rootVisualElement.Q<ToolbarButton>("SaveButton");
             refreshButton = rootVisualElement.Q<ToolbarButton>("RefreshButton");
+            toolbar = rootVisualElement.Q<Toolbar>();
             
             // Initialize toolbar events.
             saveButton.clicked += SaveAsset;
@@ -217,9 +222,14 @@ namespace BT.Editor
             // All the tree components currently loaded inside the game scene.
             BehaviorTreeComponent[] treeComponents = FindObjectsOfType<BehaviorTreeComponent>();
             
-            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
-            PopupField<BehaviorTreeComponent> loadedComponents = new PopupField<BehaviorTreeComponent>("Target GameObject:", new List<BehaviorTreeComponent>(treeComponents), treeComponents[0]);
-            toolbar.Add(loadedComponents);
+            // Debug popup field should be created only if it exists a behavior tree component
+            // in the current game scene.
+            if (treeComponents.Length > 0)
+            {
+                // Initialize popup debug selector.
+                PopupField<BehaviorTreeComponent> loadedComponents = new PopupField<BehaviorTreeComponent>("Target GameObject:", new List<BehaviorTreeComponent>(treeComponents), treeComponents[0]);
+                toolbar.Add(loadedComponents);
+            }
         }
 
         private void CreateInspectorGUI()
@@ -245,16 +255,16 @@ namespace BT.Editor
         
         private void OnGUI()
         {
-            // Find the tree popup selection element inside the toolbar.
-            Toolbar toolbar = rootVisualElement.Q<Toolbar>();
-            if (toolbar != null)
+            PopupField<BehaviorTreeComponent> debugPopupSelector = toolbar?.Q<PopupField<BehaviorTreeComponent>>();
+            // Is the debug popup selector valid? Field could be
+            // invalid when in the game scene there are no 
+            // game objects with a behavior tree component.
+            if (debugPopupSelector != null)
             {
-                PopupField<BehaviorTreeComponent> instancePopupSelector = (PopupField<BehaviorTreeComponent>) toolbar.ElementAt(2);
-            
                 // Enable instance selector.
                 bool isPlaying = EditorApplication.isPlaying;
-                instancePopupSelector.visible = isPlaying;
-                instancePopupSelector.SetEnabled(isPlaying);
+                debugPopupSelector.visible = isPlaying;
+                debugPopupSelector.SetEnabled(isPlaying);
             }
         }
 
@@ -263,24 +273,32 @@ namespace BT.Editor
         ///</summary>
         private void OnSelectionChange()
         {
-            // The currently selected behavior tree.
-            behaviorTree = Selection.activeObject as BehaviorTree;
-
-            // A valid behavior tree has been selected?
-            if (behaviorTree != null)
+            
+            // Is the selected tree valid? If not we're not going
+            // to null the selection to avoid frustration for the user,
+            // by keeping the last selection.
+            BehaviorTree selectedTree = Selection.activeObject as BehaviorTree;
+            if (selectedTree != null)
             {
+                behaviorTree = selectedTree;
+                
                 // Update the editor tree label depending on the selected tree.
                 treeViewLabel.text = " Tree View: " + behaviorTree.name;
-                graphView.tree = behaviorTree;
                 
-                // When opening/updating asset editor, force a refresh.
-                // this is done to ensure data consistency when an asset gets 
-                // selected and inspected.
-                RefreshEditorAndAsset();
+                // Before drawing all the graph editor, ensure that a graph exists.
+                if (graphView != null)
+                {
+                    graphView.tree = behaviorTree;
                 
-                // When the user selects a behavior tree we need to populate
-                // the graph view with the tree nodes.
-                graphView.PopulateView();
+                    // When opening/updating asset editor, force a refresh.
+                    // this is done to ensure data consistency when an asset gets 
+                    // selected and inspected.
+                    RefreshEditorAndAsset();
+                
+                    // When the user selects a behavior tree we need to populate
+                    // the graph view with the tree nodes.
+                    graphView.PopulateView();
+                }
             }
         }
 
