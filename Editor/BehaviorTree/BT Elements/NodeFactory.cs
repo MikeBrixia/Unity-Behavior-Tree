@@ -57,6 +57,9 @@ namespace BT
                 node.guid = GUID.Generate();
                 node.SetBlackboard(tree.blackboard);
                 
+                // Register the child node inside the tree.
+                RegisterNode(node, tree);
+                
                 // Register child node inside parent node
                 RegisterChildNode(node, parent);
             }
@@ -166,12 +169,135 @@ namespace BT
             AssetDatabase.SaveAssets();
         }
         
-        public static BT_Node CloneNode(BT_Node node, BehaviorTree tree, bool recursive = true)
+        /// <summary>
+        /// Clone a subtree formed by the supplied root.
+        /// </summary>
+        /// <param name="root"> The root of the subtree we're going to clone. </param>
+        /// <param name="tree"> Reference to the behavior tree asset. </param>
+        /// <returns> The root of the cloned sub-tree. </returns>
+        public static BT_ParentNode CloneSubtree(BT_ParentNode root, BehaviorTree tree)
         {
-            BT_Node copiedNode = recursive? node.Clone() : ScriptableObject.Instantiate(node);
+            // Create a queue for all the nodes which needs to be cloned and push the subtree root
+            // inside it.
+            var toClone = new Queue<KeyValuePair<BT_ParentNode, BT_ParentNode>>();
+            var currentParentChildPair = new KeyValuePair<BT_ParentNode, BT_ParentNode>(null, root);
+            toClone.Enqueue(currentParentChildPair);
+            
+            BT_ParentNode clonedRoot = null;
+            int count = 0;
+            while (toClone.Count > 0)
+            {
+                // Get the first node of the queue and clone it.
+                currentParentChildPair = toClone.Dequeue();
+                BT_ParentNode node = currentParentChildPair.Value;
+                BT_ParentNode parent = currentParentChildPair.Key;
+                
+                // Clone the node.
+                node = CloneParentNode(node, tree);
+                
+                // does the node have parent?
+                if (parent != null)
+                {
+                    // If true, connect the parent node to the current cloned node.
+                    parent.ConnectNode(node);
+                }
+                
+                // Push the children to the clone queue, they need to be cloned.
+                List<BT_ParentNode> children = node.GetConnectedNodes();
+                foreach (BT_ParentNode child in children)
+                {
+                    var childParentPair = new KeyValuePair<BT_ParentNode, BT_ParentNode>(node, child);
+                    toClone.Enqueue(childParentPair);
+                }
+                
+                // Remove all references to source children. The behavior tree graph
+                // will automatically replace source children with the cloned ones.
+                children.Clear();
+                
+                // Keep track of the root of the subtree, it will be the
+                // return value of the function.
+                count++;
+                if (count == 1)
+                {
+                    clonedRoot = node;
+                }
+            }
+            return clonedRoot;
+        }
+       
+        /// <summary>
+        /// Clone a parent node with all the children attached to it.
+        /// </summary>
+        /// <param name="node"> The parent node to clone. </param>
+        /// <param name="tree"> Reference to the behavior tree asset. </param>
+        /// <returns> The cloned parent node with all it's attached children cloned as well. </returns>
+        public static BT_ParentNode CloneParentNode(BT_ParentNode node, BehaviorTree tree)
+        {
+            // Clone/copy the requested node.
+            BT_ParentNode copiedNode = (BT_ParentNode) CloneNode(node);
+            
+            // Register node inside the behavior tree asset.
+            RegisterNode(copiedNode, tree);
+            
+            List<BT_Decorator> decorators = copiedNode.GetChildNodes<BT_Decorator>();
+            int decoratorsCount = decorators.Count;
+            for (int i = 0; i < decoratorsCount; i++)
+            {
+                // Clone decorator node.
+                BT_Decorator decorator = decorators[0];
+                CloneChildNode(decorator, copiedNode, tree);
+                
+                // Remove source node.
+                decorators.RemoveAt(0);
+            }
+
+            List<BT_Service> services = copiedNode.GetChildNodes<BT_Service>();
+            int servicesCount = services.Count;
+            for (int i = 0; i < servicesCount; i++)
+            {
+                // Clone service node.
+                BT_Service service = services[0];
+                CloneChildNode(service, copiedNode, tree);
+                
+                // Remove source node.
+                services.RemoveAt(0);
+            }
+            
+            return copiedNode;
+        }
+        
+        /// <summary>
+        /// Clone the child node and register it upon is parent.
+        /// </summary>
+        /// <param name="node"> The child node to clone. </param>
+        /// <param name="parent"> The parent to which the child node should be attached. </param>
+        /// <param name="tree"> Reference to the behavior tree asset. </param>
+        /// <returns> The cloned child node. </returns>
+        public static BT_ChildNode CloneChildNode(BT_ChildNode node, BT_ParentNode parent, BehaviorTree tree)
+        {
+            // Clone/copy the requested node.
+            BT_ChildNode copiedNode = (BT_ChildNode) CloneNode(node);
+            
+            // Register node inside the behavior tree asset.
+            RegisterNode(copiedNode, tree);
+            
+            // Register node inside it's parent node.
+            RegisterChildNode(copiedNode, parent);
+
+            return copiedNode;
+        }
+        
+        /// <summary>
+        /// Clone a behavior tree node.
+        /// </summary>
+        /// <param name="node"> The behavior tree node to clone. </param>
+        /// <returns> The cloned behavior tree node. </returns>
+        private static BT_Node CloneNode(BT_Node node)
+        {
+            // Clone/copy the requested node.
+            BT_Node copiedNode = ScriptableObject.Instantiate(node);
             copiedNode.name = "";
             copiedNode.guid = GUID.Generate();
-            
             return copiedNode;
         }
         

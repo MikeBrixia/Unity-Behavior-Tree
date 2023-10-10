@@ -38,6 +38,8 @@ namespace BT.Editor
         /// when you want to cloned them and place them inside the graph editor.
         /// </summary>
         /// <param name="nodes"> The nodes to copy</param>
+        /// <remarks> Time complexity is mainly carried by .NET sort,
+        ///           which in worst case is Big O(n* log n)</remarks>
         public void CopyNodes(List<BT_ParentNodeView> nodes)
         {
             // Remove all copied node in favor of the new selected elements.
@@ -62,13 +64,16 @@ namespace BT.Editor
         /// Paste the copied nodes inside the graph at specified position.
         /// </summary>
         /// <param name="position"> The graph position where you want to paste nodes.</param>
+        /// <remarks> Time complexity is Big O(r*n*c) in the worst case, where r is the number of independent roots,
+        ///           n is the number of nodes which belongs to a root and c is the number of children of a node.</remarks>
         public void PasteNodes(Vector2 position)
         {
+            // Find all the independent roots from the selected nodes.
             var roots = FindRoots();
             foreach (BT_ParentNodeView root in roots)
             {
                 // Make a copy of the root.
-                BT_ParentNode clonedRoot = (BT_ParentNode) NodeFactory.CloneNode(root.node, graph.tree);
+                BT_ParentNode clonedRoot = NodeFactory.CloneSubtree(root.node, graph.tree);
                 
                 // Start visiting subtree from one of the root nodes.
                 Stack<BT_ParentNode> toVisit = new Stack<BT_ParentNode>();
@@ -85,13 +90,10 @@ namespace BT.Editor
                     // Distance from selection rect center to the node view.
                     float distance = Vector2.Distance(node.position, selectionRectangle.center);
                     
-                    // Update the node position.
+                    // Update the node position. Node will be placed relative to input position(usually mouse position).
                     Vector2 nodePosition = position + direction * distance;
                     node.position = nodePosition;
-                    
-                    // Register the pasted node inside the tree.
-                    NodeFactory.RegisterNode(node, graph.tree);
-                    
+
                     // Push children inside the to visit stack.
                     children.ForEach(child => toVisit.Push(child));
                 }

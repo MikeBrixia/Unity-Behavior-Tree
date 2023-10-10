@@ -75,7 +75,7 @@ namespace BT.Runtime
         public virtual BT_Node Clone()
         {
             BT_Node clonedNode = Instantiate(this);
-            clonedNode.guid = GUID.Generate();
+            clonedNode.guid = guid;
             return clonedNode;
         }
 

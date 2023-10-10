@@ -15,12 +15,12 @@ namespace BT.Runtime
         ///<summary>
         /// The children this composite should try to execute.
         ///</summary>
-        [HideInInspector] public List<BT_ParentNode> children = new List<BT_ParentNode>();
+        public List<BT_ParentNode> children = new List<BT_ParentNode>();
 
         ///<summary>
         /// Decorators attached to this composite
         ///</summary>
-        [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
+        public List<BT_Decorator> decorators = new List<BT_Decorator>();
 
         ///<summary>
         /// Services attacehd to this composite
@@ -103,9 +103,9 @@ namespace BT.Runtime
         public override BT_Node Clone()
         {
             BT_CompositeNode composite = (BT_CompositeNode) base.Clone();
-            composite.decorators = decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            composite.children = children.ConvertAll(child => child.Clone() as BT_ParentNode);
-            composite.services = services.ConvertAll(service => service.Clone() as BT_Service);
+            composite.decorators = composite.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
+            composite.children = composite.children.ConvertAll(child => child.Clone() as BT_ParentNode);
+            composite.services = composite.services.ConvertAll(service => service.Clone() as BT_Service);
             return composite;
         }
         
@@ -124,7 +124,7 @@ namespace BT.Runtime
 
         public override List<T> GetChildNodes<T>()
         {
-            List<T> resultList = null;
+            List<T> resultList = new List<T>();
             // Is T Decorator node type?
             if (typeof(T) == typeof(BT_Decorator))
                 resultList = decorators as List<T>;

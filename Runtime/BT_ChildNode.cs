@@ -1,4 +1,6 @@
-﻿namespace BT.Runtime
+﻿using UnityEditor;
+
+namespace BT.Runtime
 {
     /// <summary>
     /// Behavior Tree child nodes are nodes which can be

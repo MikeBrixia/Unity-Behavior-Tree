@@ -41,7 +41,7 @@ namespace BT.Runtime
         ///</summary>
         ///<param name="key"> the blackboard key used to search and set the blackboard property.</param>
         ///<param name="newValue"> the new property value of type T</param>
-        public void SetBlackbordValue<T>(string key, T newValue)
+        public void SetBlackboardValue<T>(string key, T newValue)
         {
             BlackboardProperty<T> property = (BlackboardProperty<T>) blackboardDict[key];
             property.value = newValue;

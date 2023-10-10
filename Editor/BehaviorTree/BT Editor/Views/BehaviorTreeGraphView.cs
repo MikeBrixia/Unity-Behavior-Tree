@@ -283,7 +283,7 @@ namespace BT
         }
         
         ///<summary>
-        /// Called each time the behavior tree view changes to update it.
+        /// Called each time the behavior tree view changes.
         ///</summary>
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {

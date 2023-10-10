@@ -108,8 +108,9 @@ namespace BT.Runtime
         public override BT_Node Clone()
         {
             BT_ActionNode action = (BT_ActionNode) base.Clone();
-            action.decorators = decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
-            action.services = services.ConvertAll(service => service.Clone() as BT_Service);
+            Debug.Log(action.decorators);
+            action.decorators = action.decorators.ConvertAll(decorator => decorator.Clone() as BT_Decorator);
+            action.services = action.services.ConvertAll(service => service.Clone() as BT_Service);
             return action;
         }
         
@@ -121,15 +122,15 @@ namespace BT.Runtime
         public override void SetBlackboard(Blackboard treeBlackboard)
         {
             base.SetBlackboard(treeBlackboard);
-            decorators.ForEach(decorator => decorator.SetBlackboard(treeBlackboard));
-            services.ForEach(service => service.SetBlackboard(treeBlackboard));
+            decorators.ForEach(decorator => decorator?.SetBlackboard(treeBlackboard));
+            services.ForEach(service => service?.SetBlackboard(treeBlackboard));
         }
         
 #if UNITY_EDITOR
         
         public override List<T> GetChildNodes<T>()
         {
-            List<T> resultList = null;
+            List<T> resultList = new List<T>();
             // Is T Decorator node type?
             if (typeof(T) == typeof(BT_Decorator))
                 resultList = decorators as List<T>;
