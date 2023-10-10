@@ -2,8 +2,9 @@
 using System.Linq;
 using BT.Runtime;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
+using UnityEditor.Graphs;
 using UnityEngine;
+using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 namespace BT.Editor
 {
@@ -24,9 +25,15 @@ namespace BT.Editor
         private readonly BehaviorTreeGraphView graph;
         
         /// <summary>
+        /// A cache for all the identified roots inside
+        /// the latest copy operation.
+        /// </summary>
+        private List<BT_ParentNode> copiedRoots;
+        
+        /// <summary>
         /// Nodes ready to be copied get stored here.
         /// </summary>
-        private static List<BT_ParentNodeView> copyCache = new List<BT_ParentNodeView>();
+        private static List<BT_ParentNode> copyCache = new List<BT_ParentNode>();
         
         public BehaviorTreeCopyPaster(BehaviorTreeGraphView graph)
         {
@@ -57,47 +64,40 @@ namespace BT.Editor
             
             // Create the selected nodes rectangle.
             selectionRectangle = Rect.MinMaxRect(xMin, yMin, xMax, yMax);
-            copyCache = nodes;
+            
+            // Find all the independent roots from the selected nodes.
+            copiedRoots = FindRoots(nodes);
+            foreach (BT_ParentNodeView nodeView in nodes)
+            {
+                copyCache.Add(nodeView.node);
+            }
         }
         
         /// <summary>
         /// Paste the copied nodes inside the graph at specified position.
         /// </summary>
         /// <param name="position"> The graph position where you want to paste nodes.</param>
-        /// <remarks> Time complexity is Big O(r*n*c) in the worst case, where r is the number of independent roots,
-        ///           n is the number of nodes which belongs to a root and c is the number of children of a node.</remarks>
         public void PasteNodes(Vector2 position)
         {
-            // Find all the independent roots from the selected nodes.
-            var roots = FindRoots();
-            foreach (BT_ParentNodeView root in roots)
+            // Begin cloning process for each root.
+            foreach (BT_ParentNode root in copiedRoots)
             {
-                // Make a copy of the root.
-                BT_ParentNode clonedRoot = NodeFactory.CloneSubtree(root.node, graph.tree);
-                
-                // Start visiting subtree from one of the root nodes.
-                Stack<BT_ParentNode> toVisit = new Stack<BT_ParentNode>();
-                toVisit.Push(clonedRoot);
-                
-                // As long as there are any children to visit, keep iterating.
-                while (toVisit.Count > 0)
+                // Is the root an action node?
+                if (root is BT_ActionNode actionNode)
                 {
-                    BT_ParentNode node = toVisit.Pop();
-                    List<BT_ParentNode> children = node.GetConnectedNodes();
-                    
-                    // Direction from selection rect center to the node view.
-                    Vector2 direction = (node.position - selectionRectangle.center).normalized;
-                    // Distance from selection rect center to the node view.
-                    float distance = Vector2.Distance(node.position, selectionRectangle.center);
-                    
-                    // Update the node position. Node will be placed relative to input position(usually mouse position).
-                    Vector2 nodePosition = position + direction * distance;
-                    Undo.RecordObject(node, "Paste node - Update position");
-                    node.position = nodePosition;
-                    EditorUtility.SetDirty(node);
-
-                    // Push children inside the to visit stack.
-                    children.ForEach(child => toVisit.Push(child));
+                    Debug.Log("What");
+                    // If true, then clone only the action node. Action nodes
+                    // cannot have any children, therefore cloning an entire
+                    // subtree would not make any sense.
+                    BT_ParentNode clonedAction = NodeFactory.CloneParentNode(actionNode, graph.tree);
+                    // Finally, move it to paste position.
+                    MoveAtPasteLocation(clonedAction, position);
+                }
+                else
+                {
+                    // Otherwise, starting from this root, clone the
+                    // entire subtree.
+                    CloneCopiedSubtree(root, position);
                 }
             }
         }
@@ -108,21 +108,92 @@ namespace BT.Editor
         /// <returns>All the identified roots.</returns>
         /// <remarks>Time complexity of finding roots is Big O(n^2) in the worst case,
         ///          where n is the number of copied nodes.</remarks>
-        private List<BT_ParentNodeView> FindRoots()
+        private List<BT_ParentNode> FindRoots(List<BT_ParentNodeView> nodes)
         {
-            var roots = new List<BT_ParentNodeView>();
+            var roots = new List<BT_ParentNode>();
             // Paste nodes relative to mouse position.
-            foreach (BT_ParentNodeView view in copyCache)
+            foreach (BT_ParentNodeView view in nodes)
             {
                 Edge connectionEdge = view.input.connections.FirstOrDefault();
-                // Is the node view a root node?
-                if ((connectionEdge == null || !copyCache.Contains(connectionEdge.output.node))
-                    && view.node.GetType().IsSubclassOf(typeof(BT_CompositeNode)))
+                // Is the node view a composite or action root?
+                if (connectionEdge == null || !nodes.Contains(connectionEdge.output.node))
                 {
-                    roots.Add(view);
+                    roots.Add(view.node);
                 }
             }
             return roots;
+        }
+        
+        private BT_ParentNode CloneCopiedSubtree(BT_ParentNode root, Vector2 position)
+        {
+            // Create a queue for all the nodes which needs to be cloned and push the subtree root
+            // inside it.
+            var toClone = new Queue<KeyValuePair<BT_ParentNode, BT_ParentNode>>();
+            var currentParentChildPair = new KeyValuePair<BT_ParentNode, BT_ParentNode>(null, root);
+            toClone.Enqueue(currentParentChildPair);
+            
+            BT_ParentNode clonedRoot = null;
+            int count = 0;
+            while (toClone.Count > 0)
+            {
+                // Get the first node of the queue and clone it.
+                currentParentChildPair = toClone.Dequeue();
+                BT_ParentNode node = currentParentChildPair.Value;
+                BT_ParentNode parent = currentParentChildPair.Key;
+                
+                // Clone the node and move it to the paste location.
+                node = NodeFactory.CloneParentNode(node, graph.tree);
+                MoveAtPasteLocation(node, position);
+                
+                // does the node have parent?
+                if (parent != null)
+                {
+                    // If true, connect the parent node to the current cloned node.
+                    Undo.RecordObject(parent, "Cloning - Record node connection");
+                    parent.ConnectNode(node);
+                    EditorUtility.SetDirty(parent);
+                }
+                
+                // Push all copied children inside the clone queue.
+                List<BT_ParentNode> children = node.GetConnectedNodes();
+                foreach (BT_ParentNode child in children)
+                {
+                    // Is the node been copied inside the copy cache?
+                    if (copyCache.Contains(child))
+                    {
+                        // If true, proceed and add it the clone queue.
+                        var childParentPair = new KeyValuePair<BT_ParentNode, BT_ParentNode>(node, child);
+                        toClone.Enqueue(childParentPair);
+                    }
+                }
+                
+                // Remove all references to source children. The behavior tree graph
+                // will automatically replace source children with the cloned ones.
+                children.Clear();
+                
+                // Keep track of the root of the subtree, it will be the
+                // return value of the function.
+                count++;
+                if (count == 1)
+                {
+                    clonedRoot = node;
+                }
+            }
+            return clonedRoot;
+        }
+
+        private void MoveAtPasteLocation(BT_ParentNode node, Vector2 position)
+        {
+            // Direction from selection rect center to the node view.
+            Vector2 direction = (node.position - selectionRectangle.center).normalized;
+            // Distance from selection rect center to the node view.
+            float distance = Vector2.Distance(node.position, selectionRectangle.center);
+                    
+            // Update the node position. Node will be placed relative to input position(usually mouse position).
+            Vector2 nodePosition = position + direction * distance;
+            Undo.RecordObject(node, "Paste node - Update position");
+            node.position = nodePosition;
+            EditorUtility.SetDirty(node);
         }
         
         private int CompareNodes(BT_ParentNodeView left, BT_ParentNodeView right)
