@@ -92,7 +92,9 @@ namespace BT.Editor
                     
                     // Update the node position. Node will be placed relative to input position(usually mouse position).
                     Vector2 nodePosition = position + direction * distance;
+                    Undo.RecordObject(node, "Paste node - Update position");
                     node.position = nodePosition;
+                    EditorUtility.SetDirty(node);
 
                     // Push children inside the to visit stack.
                     children.ForEach(child => toVisit.Push(child));

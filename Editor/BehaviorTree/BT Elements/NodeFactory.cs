@@ -8,8 +8,9 @@ using UnityEngine;
 namespace BT
 {
     /// <summary>
-    /// Factory responsible of creating and destroying BT nodes and
-    /// BT Nodes views.
+    /// Factory responsible of creating, destroying and cloning BT nodes and views.
+    /// When performing the operations listed above, inside the editor, this class
+    /// should be use to ensure data consistency inside the behavior tree.
     /// </summary>
     public static class NodeFactory
     {
@@ -199,7 +200,9 @@ namespace BT
                 if (parent != null)
                 {
                     // If true, connect the parent node to the current cloned node.
+                    Undo.RecordObject(parent, "Cloning - Record node connection");
                     parent.ConnectNode(node);
+                    EditorUtility.SetDirty(parent);
                 }
                 
                 // Push the children to the clone queue, they need to be cloned.
