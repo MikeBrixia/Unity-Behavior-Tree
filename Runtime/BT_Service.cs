@@ -5,19 +5,19 @@ using UnityEngine;
 namespace BT.Runtime
 {
     ///<summary>
-    ///Services are parallel nodes which can be attached to composites and actions and will be executed at their defined frequency 
-    ///as long as their branch is being executed. 
-    ///at the moment Services are NOT multithreaded by default!
+    ///Services are parallel nodes which can be attached to composites
+    /// and actions and will be executed at their defined frequency 
+    /// as long as their branch is being executed.
     ///</summary>
     public abstract class BT_Service : BT_ChildNode
     {
-        [Min(0)]
-        [Tooltip("Interval at which this service is going to update")]
         ///<summary>
         /// The update frequency of this service. For example
         /// a service with and update frequency of 1 will execute 
         /// every second.
         ///</summary>
+        [Min(0)]
+        [Tooltip("Interval at which this service is going to update")]
         public float updateInterval = 0.5f;
         
         ///<summary>
@@ -27,6 +27,9 @@ namespace BT.Runtime
         [Tooltip("Call OnUpdate when the service execution starts")]
         public bool updateOnStart = false;
 
+        /// <summary>
+        /// The time from which counting starts.
+        /// </summary>
         private float startTime = 0f;
         
         /// <summary>

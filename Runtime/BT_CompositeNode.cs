@@ -153,7 +153,6 @@ namespace BT.Runtime
 
         public override void ConnectNode(BT_ParentNode child)
         {
-            child.level = level + 1;
             children.Add(child);
         }
 
@@ -161,7 +160,6 @@ namespace BT.Runtime
         {
             if (child.GetType().IsSubclassOf(typeof(BT_ParentNode)))
             {
-                child.level = -1;
                 children.Remove(child);
             }
         }

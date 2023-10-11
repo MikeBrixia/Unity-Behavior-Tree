@@ -11,7 +11,7 @@ namespace BT.Editor
     ///<summary>
     /// Class used to display service views.
     ///</summary>
-    public sealed class BT_ServiceView : BT_ChildNodeView
+    public class BT_ServiceView : BT_ChildNodeView
     {
         private VisualElement serviceBorder;
         private Label serviceNameLabel;

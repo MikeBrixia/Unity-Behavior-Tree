@@ -25,20 +25,7 @@ namespace BT.Runtime
         /// The entry point node of the behavior tree.
         ///</summary>
         [HideInInspector] public BT_RootNode rootNode;
-        
-        ///<summary>
-        /// if true, the behavior tree is going to update each frame, otherwise
-        /// it will use a user defined update interval(updateInterval).
-        ///</summary>
-        public bool canTick;
 
-        ///<summary>
-        /// The rate at which the behavior tree it's going
-        /// to be updated. If canTick is set to true this value will
-        /// be ignored.
-        ///</summary>
-        public float updateInterval = 0.1f;
-        
         ///<summary>
         /// The current state of this Behavior Tree.
         ///</summary>

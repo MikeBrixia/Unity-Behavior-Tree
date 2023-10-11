@@ -13,13 +13,6 @@ namespace BT.Runtime
     /// </summary>
     public abstract class BT_ParentNode : BT_Node
     {
-
-#if true
-        /// <summary>
-        /// The tree top-down level of this node.
-        /// </summary>
-        public int level = -1;
-#endif
         /// <summary>
         /// Get all the child nodes of this parent node.
         /// </summary>

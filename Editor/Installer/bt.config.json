@@ -7,7 +7,7 @@
     "BT.Runtime.BT_ActionNode": "BT.Editor.BT_DefaultParentNodeView",
     "BT.Runtime.BT_CompositeNode": "BT.Editor.BT_DefaultParentNodeView",
     "BT.Runtime.BT_Decorator": "BT.Editor.BT_DecoratorView",
-    "BT.Runtime.BT.Service": "BT.Editor.BT_ServiceView",
+    "BT.Runtime.BT_Service": "BT.Editor.BT_ServiceView",
     "BT.Runtime.BT_RootNode": "BT.Editor.BT_DefaultParentNodeView"
   },
   

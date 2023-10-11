@@ -149,6 +149,7 @@ namespace BT
         
         private static T CreateNodeView<T>(BT_Node node, params object[] args)
         {
+            // The current behavior tree config.
             ConfigData config = BTInstaller.btConfig;
             
             // Check if this node type has an associated view.
@@ -157,6 +158,7 @@ namespace BT
             Type nodeBaseType = nodeType.BaseType;
             
             bool hasView = config.nodeViews.TryGetValue(nodeType.ToString(), out viewTypeName);
+            // If we don't find a type-specific view, fallback to base type node view.
             if (!hasView)
             {
                 config.defaultNodeViews.TryGetValue(nodeBaseType.ToString(), out viewTypeName);
