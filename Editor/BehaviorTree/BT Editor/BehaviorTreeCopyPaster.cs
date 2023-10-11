@@ -15,7 +15,7 @@ namespace BT.Editor
     {
         
         /// <summary>
-        /// The rectangle which covers all the selected nodes.
+        /// The 2D rectangle which contains all the copied nodes.
         /// </summary>
         private Rect selectionRectangle;
         
@@ -49,7 +49,7 @@ namespace BT.Editor
         ///           which in worst case is Big O(n* log n)</remarks>
         public void CopyNodes(List<BT_ParentNodeView> nodes)
         {
-            // Remove all copied node in favor of the new selected elements.
+            // Remove all copied node in favor of the new ones.
             copyCache.Clear();
             
             // Find the selected nodes which are the most left and right nodes in the graph.
@@ -85,7 +85,6 @@ namespace BT.Editor
                 // Is the root an action node?
                 if (root is BT_ActionNode actionNode)
                 {
-                    Debug.Log("What");
                     // If true, then clone only the action node. Action nodes
                     // cannot have any children, therefore cloning an entire
                     // subtree would not make any sense.

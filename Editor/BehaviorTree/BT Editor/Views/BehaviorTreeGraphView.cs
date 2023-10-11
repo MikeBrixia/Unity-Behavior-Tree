@@ -152,9 +152,12 @@ namespace BT
         ///</summary>
         private void OnUndoRedo()
         {
-            tree = Selection.activeObject as BehaviorTree;
-            AssetDatabase.SaveAssets();
-            PopulateView();
+            //tree = Selection.activeObject as BehaviorTree;
+            if (tree != null)
+            {
+                AssetDatabase.SaveAssets();
+                PopulateView();
+            }
         }
         
         ///<summary>
