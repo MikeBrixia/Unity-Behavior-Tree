@@ -57,7 +57,7 @@ namespace BT.Editor
         private VisualElement serviceContainer;
         
         public BT_DefaultParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, 
-            BTInstaller.btConfig.src +  "Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml")
+            BTInstaller.configSrc +  "Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml")
         {
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();

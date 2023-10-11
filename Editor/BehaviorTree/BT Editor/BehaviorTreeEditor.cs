@@ -195,7 +195,7 @@ namespace BT.Editor
         public void CreateGUI()
         {
             // Load behavior tree UXML file and make a copy of it.
-            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(BTInstaller.configSrc + "Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
             visualTree.CloneTree(rootVisualElement);
             
             // Initialize graph view.

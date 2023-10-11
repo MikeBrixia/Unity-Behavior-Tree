@@ -14,7 +14,7 @@ public static class BTInstaller
     /// <summary>
     /// Path to the source bt config file.
     /// </summary>
-    private static string configSrc;
+    public const string configSrc = "Packages/com.michael-guida.behavior-tree/";
 
     /// <summary>
     /// The destination path of the config file.
@@ -30,20 +30,17 @@ public static class BTInstaller
     [MenuItem("Window/AI/Update behavior tree config")]
     private static void InitPackage()
     {
-        // Read configuration data from bt.config.json
-        string jsonString = File.ReadAllText(configDest);
-        btConfig = JsonConvert.DeserializeObject<ConfigData>(jsonString);
-        
-        // Set config path.
-        configSrc = btConfig.src + "/Editor/Installer/bt.Config.json";
-        
         // If there's no config folder, create it.
         if (!AssetDatabase.IsValidFolder("Assets/BT.Config"))
             AssetDatabase.CreateFolder("Assets", "BT.Config");
         
-        // If there's not config file in asset folder, copy the default one and move it there.
+        // If there's not config file in asset folder, copy the default one and move it to asset folder.
         if (!File.Exists(configDest))
-            FileUtil.CopyFileOrDirectoryFollowSymlinks(configSrc, configDest);
+            FileUtil.CopyFileOrDirectoryFollowSymlinks(configSrc + "Editor/Installer/bt.config.json", configDest);
+        
+        // Read configuration data from bt.config.json
+        string jsonString = File.ReadAllText(configDest);
+        btConfig = JsonConvert.DeserializeObject<ConfigData>(jsonString);
 
         // Initialize and install script templates.
         InitScriptTemplates(btConfig.scriptTemplates);

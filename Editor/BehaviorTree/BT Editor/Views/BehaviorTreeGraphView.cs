@@ -56,7 +56,7 @@ namespace BT
             Insert(0, new GridBackground());
 
             // Load style sheet
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(BTInstaller.configSrc + "Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
             styleSheets.Add(styleSheet);
             
             // Add manipulators to this graph

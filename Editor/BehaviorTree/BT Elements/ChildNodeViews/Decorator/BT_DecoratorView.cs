@@ -38,7 +38,7 @@ namespace BT.Editor
         private Label descriptionLabel;
         
         public BT_DecoratorView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, 
-            BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Elements/ChildNodeViews/Decorator/DecoratorView.uxml")
+            BTInstaller.configSrc + "Editor/BehaviorTree/BT Elements/ChildNodeViews/Decorator/DecoratorView.uxml")
         {
         }
         
