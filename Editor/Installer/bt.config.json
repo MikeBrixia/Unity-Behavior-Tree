@@ -1,0 +1,26 @@
+﻿{
+  "nodeViews": {
+    "BT.Runtime.BT_RootNode": "BT.Editor.BT_DefaultParentNodeView"
+  },
+  
+  "defaultNodeViews": {
+    "BT.Runtime.BT_ActionNode": "BT.Editor.BT_DefaultParentNodeView",
+    "BT.Runtime.BT_CompositeNode": "BT.Editor.BT_DefaultParentNodeView",
+    "BT.Runtime.BT_Decorator": "BT.Editor.BT_DecoratorView",
+    "BT.Runtime.BT.Service": "BT.Editor.BT_ServiceView",
+    "BT.Runtime.BT_RootNode": "BT.Editor.BT_DefaultParentNodeView"
+  },
+  
+  "scriptTemplates":
+  [
+    {
+      "src": "Packages/com.ai.behavior-tree/Editor/Installer/ScriptTemplates",
+      "dest": "Assets/ScriptTemplates",
+      "templates": [
+        "01-C# Templates__AI__Action-NewAction.cs.txt",
+        "02-C# Templates__AI__Decorator-NewDecorator.cs.txt",
+        "03-C# Templates__AI__Service-NewService.cs.txt"
+      ]
+    }
+  ]
+}

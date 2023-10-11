@@ -121,13 +121,8 @@ namespace BT
                 node.guid = GUID.Generate();
             }
             
-            // TO CHANGE.
-            Type nodeType = node.GetType();
-            nodeType = nodeType == typeof(BT_RootNode) ? typeof(BT_RootNode) : nodeType.BaseType;
-            
             // Create a node view of the type associated with the node type.
-            Type viewType = BehaviorTreeManager.nodeViewMap[nodeType!];
-            BT_ParentNodeView parentNodeView = (BT_ParentNodeView)Activator.CreateInstance(viewType,node, graph);
+            BT_ParentNodeView parentNodeView = CreateNodeView<BT_ParentNodeView>(node, node, graph);
             
             // Create all attached and supported nodes for this parent node view.
             parentNodeView.CreateChildViews();
@@ -146,14 +141,32 @@ namespace BT
                 childNode.guid = GUID.Generate();
             }
             
-            // Create child node view.
-            Type viewType = BehaviorTreeManager.nodeViewMap[childNode.GetType().BaseType!];
-            BT_ChildNodeView childView = (BT_ChildNodeView)Activator.CreateInstance(viewType, parent, childNode, graph);
-            
+            // Create view using reflection and initialize it.
+            BT_ChildNodeView childView = CreateNodeView<BT_ChildNodeView>(childNode, parent, childNode, graph);
             childView.selectedCallback = graph.onChildNodeSelected;
             return childView;
         }
-
+        
+        private static T CreateNodeView<T>(BT_Node node, params object[] args)
+        {
+            ConfigData config = BTInstaller.btConfig;
+            
+            // Check if this node type has an associated view.
+            string viewTypeName;
+            Type nodeType = node.GetType();
+            Type nodeBaseType = nodeType.BaseType;
+            
+            bool hasView = config.nodeViews.TryGetValue(nodeType.ToString(), out viewTypeName);
+            if (!hasView)
+            {
+                config.defaultNodeViews.TryGetValue(nodeBaseType.ToString(), out viewTypeName);
+            }
+            
+            // Create view using reflection and initialize it.
+            T childView = (T) Activator.CreateInstance(Type.GetType(viewTypeName), args);
+            return childView;
+        }
+        
         public static void DestroyParentNode(BT_ParentNode node, BehaviorTree tree)
         {
             // Remove node from the tree.
