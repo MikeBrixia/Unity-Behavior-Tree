@@ -26,11 +26,6 @@ namespace BT.Editor
         ///</summary>
         private readonly List<BT_ServiceView> serviceViews;
         
-        /// <summary>
-        /// The filepath of the node GUI element on disk.
-        /// </summary>
-        protected const string NODE_GUI_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml";
-        
         ///<summary>
         /// The displayed node description
         ///</summary>
@@ -61,7 +56,8 @@ namespace BT.Editor
         ///</summary>
         private VisualElement serviceContainer;
         
-        public BT_DefaultParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, NODE_GUI_PATH)
+        public BT_DefaultParentNodeView(BT_ParentNode node, BehaviorTreeGraphView graph) : base(node, graph, 
+            BTInstaller.btConfig.src +  "Editor/BehaviorTree/BT Elements/ParentNodeViews/NodeView.uxml")
         {
             decoratorViews = new List<BT_DecoratorView>();
             serviceViews = new List<BT_ServiceView>();

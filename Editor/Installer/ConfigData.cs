@@ -10,6 +10,11 @@ namespace BT.Editor
     public struct ConfigData
     {
         /// <summary>
+        /// The src path of the behavior tree.
+        /// </summary>
+        public string src;
+        
+        /// <summary>
         /// All the nodes mapped to their respective views.
         /// </summary>
         public Dictionary<string, string> nodeViews;

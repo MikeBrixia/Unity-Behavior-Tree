@@ -109,8 +109,12 @@ namespace BT.Editor
 
         private void Update()
         {
-            // Reset debug view to match the game update state.
-            debugger.ResetDebugEditor();
+            // Debug only on valid graphs.
+            if (graphView != null)
+            {
+                // Reset debug view to match the game update state.
+                debugger.ResetDebugEditor();
+            }
             
             // Updated when user is in editor play mode.
             if (EditorApplication.isPlaying)
@@ -191,7 +195,7 @@ namespace BT.Editor
         public void CreateGUI()
         {
             // Load behavior tree UXML file and make a copy of it.
-            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
+            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Editor/BehaviorTreeEditor.uxml");
             visualTree.CloneTree(rootVisualElement);
             
             // Initialize graph view.

@@ -1,5 +1,5 @@
 {
-    "name": "com.ai.behavior-tree.Editor",
+    "name": "com.michael-guida.behavior-tree.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:d49f26839f7e07149a3a3d913ab263ef"

@@ -1,5 +1,4 @@
 
-using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -9,18 +8,41 @@ using BT.Runtime;
 namespace BT.Editor
 {
     ///<summary>
-    /// Class used to display service views.
+    /// Used to display service views.
     ///</summary>
     public class BT_ServiceView : BT_ChildNodeView
     {
+        /// <summary>
+        /// The border element of the service view.
+        /// Usually it is yellow when selected, black otherwise.
+        /// </summary>
+        /// 
         private VisualElement serviceBorder;
-        private Label serviceNameLabel;
-        private Label serviceTypeNameLabel;
-        private Label serviceFrequencyLabel;
-        private Label serviceDescriptionLabel;
-        private const string SERVICE_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/Service/ServiceView.uxml";
         
-        public BT_ServiceView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, SERVICE_PATH)
+        /// <summary>
+        /// The label on which there is written the specific
+        /// user-assigned node name.
+        /// </summary>
+        private Label serviceNameLabel;
+        
+        /// <summary>
+        /// The label which displays the type of the node.
+        /// </summary>
+        private Label serviceTypeNameLabel;
+        
+        /// <summary>
+        /// Label which displays the frequency update of the service.
+        /// </summary>
+        private Label serviceFrequencyLabel;
+        
+        /// <summary>
+        /// Label which displays the description of the node,
+        /// used as a comment to explain node functionality.
+        /// </summary>
+        private Label serviceDescriptionLabel;
+        
+        public BT_ServiceView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, 
+            BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Elements/ChildNodeViews/Service/ServiceView.uxml")
         {
         }
         

@@ -1,4 +1,5 @@
 ﻿{
+  "src": "Packages/com.michael-guida.behavior-tree/",
   "nodeViews": {
     "BT.Runtime.BT_RootNode": "BT.Editor.BT_DefaultParentNodeView"
   },
@@ -14,7 +15,7 @@
   "scriptTemplates":
   [
     {
-      "src": "Packages/com.ai.behavior-tree/Editor/Installer/ScriptTemplates",
+      "src": "Packages/com.michael-guida.behavior-tree/Editor/Installer/ScriptTemplates",
       "dest": "Assets/ScriptTemplates",
       "templates": [
         "01-C# Templates__AI__Action-NewAction.cs.txt",

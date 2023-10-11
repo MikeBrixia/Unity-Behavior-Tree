@@ -56,7 +56,7 @@ namespace BT
             Insert(0, new GridBackground());
 
             // Load style sheet
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Editor/GridBackgroundStyle.uss");
             styleSheets.Add(styleSheet);
             
             // Add manipulators to this graph
@@ -428,74 +428,6 @@ namespace BT
             nodeView.selectedCallback += onChildNodeSelected;
 
             return nodeView;
-        }
-        
-        /// <summary>
-        /// Update live debugging for the behavior tree editor.
-        /// </summary>
-        /// <param name="behaviorTree"> The behavior tree instance to debug. </param>
-        public void UpdateGraphLiveDebug(BehaviorTree behaviorTree)
-        {
-            // Reset edges appearance.
-            foreach (Edge edge in edges)
-            {
-                edge.edgeControl.edgeWidth = 2;
-                edge.edgeControl.inputColor = Color.white;
-            }
-            
-            // Highlight all the edges connecting nodes which
-            // are been executed.
-            HighlightTreeExecutionEdges(behaviorTree);
-        }
-
-        private void HighlightTreeExecutionEdges(BehaviorTree behaviorTree)
-        {
-            // Ensure that the selected behavior tree asset is a clone of the currently
-            // inspected behavior tree.
-            if (behaviorTree.IsCloneOf(tree) && behaviorTree.rootNode != null)
-            {
-                // Initialize visit queue with the root node as the first node to visit.
-                var toVisit = new Queue<BT_ParentNode>();
-                toVisit.Enqueue(behaviorTree.rootNode);
-                
-                // Keep iterating as long as there are nodes to visit.
-                while (toVisit.Count != 0)
-                {
-                    BT_ParentNode currentNode = toVisit.Dequeue();
-                    foreach (BT_ParentNode child in currentNode.GetConnectedNodes())
-                    {
-                        // Is the current visited node a successful node?
-                        if (child.state == ENodeState.Success)
-                        {
-                            // If true, add it to the queue of nodes to visit.
-                            toVisit.Enqueue(child);
-                            
-                            // And highlight the edge connecting the node to it's parent.
-                            BT_ParentNodeView currentNodeView = FindNodeView(child);
-                            Edge connectionEdge = currentNodeView.input.connections.First();
-                            connectionEdge.edgeControl.edgeWidth = 5;
-                            connectionEdge.edgeControl.inputColor = Color.yellow;
-                            
-                            break;
-                        }
-                        else if (child.state == ENodeState.Running)
-                        {
-                            // And highlight the edge connecting the node to it's parent.
-                            BT_ParentNodeView currentNodeView = FindNodeView(child);
-                            Edge connectionEdge = currentNodeView.input.connections.First();
-                            connectionEdge.edgeControl.edgeWidth = 5;
-                            connectionEdge.edgeControl.inputColor = Color.yellow;
-                            
-                            // Jump out of the loops, if the node is currently running
-                            // we've reached the destination.
-                            goto exit_loop;
-                        }
-                        
-                    }
-                }
-
-                exit_loop :;
-            }
         }
     }
     

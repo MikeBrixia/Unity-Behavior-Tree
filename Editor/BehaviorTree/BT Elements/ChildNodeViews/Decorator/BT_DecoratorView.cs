@@ -14,14 +14,31 @@ namespace BT.Editor
     ///</summary>
     public class BT_DecoratorView : BT_ChildNodeView
     {
+        /// <summary>
+        /// The border element of the decorator view.
+        /// Usually it is yellow when selected, black otherwise.
+        /// </summary>
         private VisualElement decoratorBorder;
-        private Label nameLabel;
-        private Label typeNameLabel;
-        private Label descriptionLabel;
-
-        private const string DECORATOR_PATH = "Packages/com.ai.behavior-tree/Editor/BehaviorTree/BT Elements/ChildNodeViews/Decorator/DecoratorView.uxml";
         
-        public BT_DecoratorView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, DECORATOR_PATH)
+        /// <summary>
+        /// The label on which there is written the specific
+        /// user-assigned node name.
+        /// </summary>
+        private Label nameLabel;
+        
+        /// <summary>
+        /// The label which displays the type of the node.
+        /// </summary>
+        private Label typeNameLabel;
+        
+        /// <summary>
+        /// Label which displays the description of the node,
+        /// used as a comment to explain node functionality.
+        /// </summary>
+        private Label descriptionLabel;
+        
+        public BT_DecoratorView(BT_ParentNodeView parentView, BT_ChildNode node, BehaviorTreeGraphView graph) : base(parentView, node, 
+            BTInstaller.btConfig.src + "Editor/BehaviorTree/BT Elements/ChildNodeViews/Decorator/DecoratorView.uxml")
         {
         }
         

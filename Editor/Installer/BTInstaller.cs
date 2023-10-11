@@ -14,8 +14,8 @@ public static class BTInstaller
     /// <summary>
     /// Path to the source bt config file.
     /// </summary>
-    private const string configSrc = "Packages/com.ai.behavior-tree/Editor/Installer/bt.Config.json";
-    
+    private static string configSrc;
+
     /// <summary>
     /// The destination path of the config file.
     /// </summary>
@@ -30,6 +30,13 @@ public static class BTInstaller
     [MenuItem("Window/AI/Update behavior tree config")]
     private static void InitPackage()
     {
+        // Read configuration data from bt.config.json
+        string jsonString = File.ReadAllText(configDest);
+        btConfig = JsonConvert.DeserializeObject<ConfigData>(jsonString);
+        
+        // Set config path.
+        configSrc = btConfig.src + "/Editor/Installer/bt.Config.json";
+        
         // If there's no config folder, create it.
         if (!AssetDatabase.IsValidFolder("Assets/BT.Config"))
             AssetDatabase.CreateFolder("Assets", "BT.Config");
@@ -37,11 +44,7 @@ public static class BTInstaller
         // If there's not config file in asset folder, copy the default one and move it there.
         if (!File.Exists(configDest))
             FileUtil.CopyFileOrDirectoryFollowSymlinks(configSrc, configDest);
-        
-        // Read configuration data from bt.config.json
-        string jsonString = File.ReadAllText(configDest);
-        btConfig = JsonConvert.DeserializeObject<ConfigData>(jsonString);
-        
+
         // Initialize and install script templates.
         InitScriptTemplates(btConfig.scriptTemplates);
     }
