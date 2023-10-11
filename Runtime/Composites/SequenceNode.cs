@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BT.Runtime
 {
     ///<summary>
-    /// This composite node it's going to execute all it's childrens from left to right
+    /// This composite node it's going to execute all it's children from left to right
     /// and stop when one fails, if all children nodes succeds this composite succeds, if even one
     /// Children fails this composite it's going to fail.
     ///</summary>
@@ -14,23 +14,23 @@ namespace BT.Runtime
         public SequenceNode() : base()
         {
             nodeTypeName = "Sequence";
-            description = "Execute all it's childrens in order and stops when one of them fails";
+            description = "Execute all it's children in order and stops when one of them fails";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            BT_Node child = childrens[executedChildrenIndex];
+            BT_Node child = children[executionIndex];
             switch (child.ExecuteNode())
             {
-                case EBehaviorTreeState.Success:
-                    executedChildrenIndex++;
+                case ENodeState.Success:
+                    executionIndex++;
                     break;
-                case EBehaviorTreeState.Running:
-                    return EBehaviorTreeState.Running;
-                case EBehaviorTreeState.Failed:
-                     return EBehaviorTreeState.Failed;
+                case ENodeState.Running:
+                    return ENodeState.Running;
+                case ENodeState.Failed:
+                     return ENodeState.Failed;
             }
-            return executedChildrenIndex == childrens.Count? EBehaviorTreeState.Success : EBehaviorTreeState.Running;
+            return executionIndex == children.Count? ENodeState.Success : ENodeState.Running;
         }
 
         protected override void OnStart()

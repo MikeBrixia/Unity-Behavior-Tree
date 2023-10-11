@@ -21,7 +21,7 @@ namespace BT.Runtime
         ///<summary>
         /// The blackboard key those value is needed to evaluate the condition.
         ///</summary>
-        public string blackboardKey;
+        [SerializeField] private BlackboardKeySelector key;
         
         ///<summary>
         /// The condition mode for this node.
@@ -32,18 +32,21 @@ namespace BT.Runtime
         public BlackboardDecorator() : base()
         {
             description = "Check the blackboard entry and returns success or fail based on the condition";
+            // By default, a blackboard decorator should only show boolean types keys
+            // since it is the only type it accepts.
+            key.typeFilter = BlackboardSupportedTypes.Boolean;
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            bool conditionResult = blackboard.GetBlackboardValueByKey<bool>(blackboardKey);
+            bool conditionResult = blackboard.GetBlackboardValueByKey<bool>(key.blackboardKey);
             if(condition == BlackboardDecoratorCondition.IsSetToTrue)
             {
-                return conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed; 
+                return conditionResult? ENodeState.Success : ENodeState.Failed; 
             }
             else
             {
-                return !conditionResult? EBehaviorTreeState.Success : EBehaviorTreeState.Failed;
+                return !conditionResult? ENodeState.Success : ENodeState.Failed;
             }
         }
 

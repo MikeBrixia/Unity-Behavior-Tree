@@ -1,20 +1,83 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 
 namespace BT.Runtime
 {
+    
+    ///<summary>
+    /// Nodes possible states.
+    ///</summary>
+    public enum ENodeState { Running, Success, Failed, Waiting }
+    
     ///<summary>
     /// Base class for all behavior tree nodes which
     /// contains the base logic for how a behavior tree
     /// node should behave.
     ///</summary>
-    public abstract class BT_Node : NodeBase
+    public abstract class BT_Node : ScriptableObject
     {
+        
+#if (UNITY_EDITOR == true)
+        ///<summary>
+        /// Unique identifier for the node
+        ///</summary>
+        [HideInInspector] public GUID guid;
+        
+        ///<summary>
+        /// The position of this node in the graph
+        ///</summary>
+        [HideInInspector] public Vector2 position;
+#endif
+        /// <summary>
+        /// Custom node name which can be defined by the user.
+        /// </summary>
+        public string nodeName;
+        
+        /// <summary>
+        /// The name type name of the node.
+        /// </summary>
+        [HideInInspector] public string nodeTypeName;
+        
+        /// <summary>
+        /// Editable description of what this node does.
+        /// </summary>
+        [SerializeField] protected string description;
 
-        public Blackboard blackboard { get; set; }
+        /// <summary>
+        /// Reference to behavior tree blackboard.
+        /// </summary>
+        protected Blackboard blackboard;
+        
+        /// <summary>
+        /// True if the node has started execution and not yet finished,
+        /// false otherwise.
+        /// </summary>
+        [HideInInspector] public bool isStarted;
+        
+        ///<summary>
+        /// Execution index which keeps track of which
+        /// node this composite should try to execute during
+        /// a tree update.
+        ///</summary>
+        public int executionIndex { get; protected set;  }
+        
+        ///<summary>
+        /// The current state of this specific node
+        ///</summary>
+        public ENodeState state { get; protected set; }
 
-        [HideInInspector]
-        public bool isStarted = false;
+        protected BT_Node()
+        {
+            nodeTypeName = "(" + GetType() + ")";
+        }
+
+        public virtual BT_Node Clone()
+        {
+            BT_Node clonedNode = Instantiate(this);
+            clonedNode.guid = guid;
+            return clonedNode;
+        }
 
         ///<summary>
         /// Called when this node has started executing it's instructions.
@@ -27,7 +90,7 @@ namespace BT.Runtime
         }
 
         ///<summary>
-        /// Called when this node has succeded or failed it's execution.
+        /// Called when this node has succeeded or failed it's execution.
         /// that's the internal version and you should not override this
         /// for your game logic, use OnStop instead.
         ///</summary>
@@ -35,7 +98,7 @@ namespace BT.Runtime
         {
             OnStop();
         }
-
+        
         ///<summary>
         /// Called when this node has started it's execution
         ///</summary>
@@ -52,7 +115,7 @@ namespace BT.Runtime
         ///</summary>
         ///<returns> SUCCESS if this node has been executed successfully, RUNNING if is still executing
         /// and FAILED if the node has failed to execute it's tasks.</returns>
-        public abstract EBehaviorTreeState Execute();
+        protected abstract ENodeState Execute();
 
         ///<summary>
         /// Called when the Behavior Tree wants to execute this node, 
@@ -61,23 +124,26 @@ namespace BT.Runtime
         /// if the result was Success or Failed it will call OnStop_Internal().
         ///</summary>
         ///<returns> The result of this node </returns>
-        public virtual EBehaviorTreeState ExecuteNode()
+        public virtual ENodeState ExecuteNode()
         {
             // If not already started, starts the execution
             StartExecution();
+            
             // Execute the node logic
             state = Execute();
+            
             // Once we've finished executing our instructions, determine 
             // if it's the case of stopping the execution
             StopExecution();
-
-            return state;
+            
+            // If this node state is "Running", tell all it's parent nodes to wait for him to finish work.
+            return state == ENodeState.Running? ENodeState.Waiting : state;
         }
         
         ///<summary>
         /// If this node has not started yet it will call OnStart_Internal().
         ///</summary>
-        internal void StartExecution()
+        private void StartExecution()
         {
             // Notify that the node has started executing
             if (!isStarted)
@@ -91,27 +157,36 @@ namespace BT.Runtime
         /// Try to stop the execution of this node, returns true
         /// if the execution was stopped, false otherwise.
         ///</summary>
-        internal bool StopExecution()
+        private void StopExecution()
         {
             // If the node logic returned a success or failure notify that
             // the execution of this node has stopped
-            if (state == EBehaviorTreeState.Success
-                || state == EBehaviorTreeState.Failed)
+            if (state == ENodeState.Success
+                || state == ENodeState.Failed)
             {
                 OnStop_internal();
                 isStarted = false;
             }
-            return !isStarted;
         }
         
         ///<summary>
         /// Set the blackboard component which is used by the tree who owns
         /// this node.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this node</param>
-        internal virtual void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this node</param>
+        public virtual void SetBlackboard(Blackboard treeBlackboard)
         {
-            this.blackboard = blackboard;
+            this.blackboard = treeBlackboard;
+        }
+
+        public Type GetNodeParentType()
+        {
+            return GetType().BaseType;
+        }
+
+        public Blackboard GetBlackboard()
+        {
+            return blackboard;
         }
     }
 }

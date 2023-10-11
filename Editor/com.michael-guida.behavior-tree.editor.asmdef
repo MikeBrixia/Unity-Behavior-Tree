@@ -1,0 +1,18 @@
+{
+    "name": "com.michael-guida.behavior-tree.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d49f26839f7e07149a3a3d913ab263ef"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

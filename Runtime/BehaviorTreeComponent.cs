@@ -10,37 +10,39 @@ namespace BT.Runtime
     public class BehaviorTreeComponent : MonoBehaviour
     {
         ///<summary>
-        /// The behavior tree this component is responsible to run
+        /// The behavior tree asset this component is responsible to run
         ///</summary>
         [SerializeField] private BehaviorTree behaviorTree;
+        
+        /// <summary>
+        /// Behavior tree managed by the component.
+        /// </summary>
+        public BehaviorTree tree => behaviorTree;
+        
+        ///<summary>
+        /// if true, the behavior tree is going to update each frame, otherwise
+        /// it will use a user defined update interval(updateInterval). By default
+        /// it is set to true.
+        ///</summary>
+        public bool canTick = true;
+
+        ///<summary>
+        /// The rate at which the behavior tree it's going
+        /// to be updated. If canTick is set to true this value will
+        /// be ignored.
+        ///</summary>
+        public float updateInterval = 0.1f;
         
         ///<summary>
         /// The blackboard component used by currently assigned Behavior Tree
         ///</summary>
-        public Blackboard blackboard
-        {
-            get
-            {
-                return behaviorTree.blackboard;
-            }
-        }
-        
-        ///<summary>
-        /// The state of the currently running Behavior Tree
-        ///</summary>
-        public EBehaviorTreeState behaviorTreeState
-        {
-            get
-            {
-                return behaviorTree.treeState;
-            }
-        }
+        public Blackboard blackboard => behaviorTree.blackboard;
         
         void Awake()
         {
             // Clone behavior tree
             behaviorTree = behaviorTree.Clone();
-            behaviorTree.treeState = EBehaviorTreeState.Waiting;
+            behaviorTree.treeState = ENodeState.Waiting;
         }
 
         // Start is called before the first frame update
@@ -52,7 +54,7 @@ namespace BT.Runtime
         // Update is called once per frame
         void Update()
         {
-            if(behaviorTree.canTick)
+            if(canTick)
             {
                 ExecuteBehaviorTree();
             }
@@ -71,12 +73,12 @@ namespace BT.Runtime
                     this.behaviorTree = behaviorTree.Clone();
                 }
 
-                if(!this.behaviorTree.canTick)
+                if(!canTick)
                 {
                     // When there is a new behavior tree cancel all the updates to the previous tree
                     // and clone the new tree
-                    CancelInvoke("ExecuteBehaviorTree");
-                    InvokeRepeating("ExecuteBehaviorTree", 0f, this.behaviorTree.updateInterval);
+                    CancelInvoke(nameof(ExecuteBehaviorTree));
+                    InvokeRepeating(nameof(ExecuteBehaviorTree), 0f, updateInterval);
                 }
             }
         }

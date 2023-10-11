@@ -1,16 +1,16 @@
 {
-  "name": "com.ai.behavior-tree",
+  "name": "com.michael-guida.behavior-tree",
   "display name": "Behavior Tree",
-  "version": "0.0.1",
-  "description": "Behavior Tree editor for designing more complex AI Systems in Unity",
+  "version": "1.0.0",
+  "description": "Unreal Engine inspired Behavior Tree editor for designing more complex AI in Unity.",
   "displayName": "Behavior Tree",
   "unity": "2021.2",
   "source": "UnityBehaviorTree",
-  
   "author": {
     "name": "Michael Guida",
     "email": "michael.guida@outlook.com"
   },
   "type": "tool",
-  "documentationUrl": "https://mikebrixia.github.io/articles/intro.html"
+  "documentationUrl": "https://mikebrixia.github.io/articles/intro.html",
+  "unityRelease": "16f1"
 }

@@ -6,7 +6,7 @@ namespace BT.Runtime
 {
     ///<summary>
     /// This composite node it's gonna loop a given number of times
-    /// through it's childrens before returning success. If all loops are 
+    /// through it's children before returning success. If all loops are 
     /// successfull this node is going to succed, if even one loop fails
     /// this node it's going to fail.
     ///</summary>
@@ -30,33 +30,33 @@ namespace BT.Runtime
                            " if even one loop fails this node it's going to fail";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
-            BT_Node child = childrens[executedChildrenIndex];
+            BT_Node child = children[executionIndex];
             switch (child.ExecuteNode())
             {
-                case EBehaviorTreeState.Success:
-                    executedChildrenIndex++;
-                    state = EBehaviorTreeState.Running;
-                    // If we executed all the loop childrens 
-                    if (executedChildrenIndex == childrens.Count)
+                case ENodeState.Success:
+                    executionIndex++;
+                    state = ENodeState.Running;
+                    // If we executed all the loop children 
+                    if (executionIndex == children.Count)
                     {
                         currentLoop++;
-                        executedChildrenIndex = 0;
+                        executionIndex = 0;
                         if (currentLoop == loopNumber)
                         {
-                            state = EBehaviorTreeState.Success;
+                            state = ENodeState.Success;
                             currentLoop = 0;
                         }
                     }
                     break;
 
-                case EBehaviorTreeState.Running:
-                    state = EBehaviorTreeState.Running;
+                case ENodeState.Running:
+                    state = ENodeState.Running;
                     break;
 
-                case EBehaviorTreeState.Failed:
-                    state = EBehaviorTreeState.Failed;
+                case ENodeState.Failed:
+                    state = ENodeState.Failed;
                     break;     
             }
             return state;

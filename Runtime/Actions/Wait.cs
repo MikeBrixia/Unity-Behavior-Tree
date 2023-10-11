@@ -21,17 +21,17 @@ namespace BT.Runtime
         // Modify the 'state' has you need, return SUCCESS when you want this node
         // to succed, RUNNING when you want to notify the tree that this node is still running
         // and has not finished yet and FAILED when you want this node to fail
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             float elapsedTime = Time.time - startTime;
             if (elapsedTime >= time)
             {
                 startTime = 0f;
-                state = EBehaviorTreeState.Success;
+                state = ENodeState.Success;
             }
             else
             {
-                state = EBehaviorTreeState.Running;
+                state = ENodeState.Running;
             }
             return state;
         }
@@ -45,7 +45,6 @@ namespace BT.Runtime
         // Called when the behavior tree stops executing this action
         protected override void OnStop()
         {
-
         }
 
 #if UNITY_EDITOR

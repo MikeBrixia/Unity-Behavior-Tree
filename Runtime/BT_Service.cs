@@ -5,19 +5,19 @@ using UnityEngine;
 namespace BT.Runtime
 {
     ///<summary>
-    ///Services are parallel nodes which can be attached to composites and actions and will be executed at their defined frequency 
-    ///as long as their branch is being executed. 
-    ///at the moment Services are NOT multithreaded by default!
+    ///Services are parallel nodes which can be attached to composites
+    /// and actions and will be executed at their defined frequency 
+    /// as long as their branch is being executed.
     ///</summary>
-    public abstract class BT_Service : BT_Node
+    public abstract class BT_Service : BT_ChildNode
     {
-        [Min(0)]
-        [Tooltip("Interval at which this service is going to update")]
         ///<summary>
         /// The update frequency of this service. For example
         /// a service with and update frequency of 1 will execute 
         /// every second.
         ///</summary>
+        [Min(0)]
+        [Tooltip("Interval at which this service is going to update")]
         public float updateInterval = 0.5f;
         
         ///<summary>
@@ -27,6 +27,9 @@ namespace BT.Runtime
         [Tooltip("Call OnUpdate when the service execution starts")]
         public bool updateOnStart = false;
 
+        /// <summary>
+        /// The time from which counting starts.
+        /// </summary>
         private float startTime = 0f;
         
         /// <summary>
@@ -34,18 +37,18 @@ namespace BT.Runtime
         /// Put here all the code you want this service to execute.
         ///</summary>
         ///<returns> The return value of service nodes doesn't matter.</returns>
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             float elapsedTime = Time.time - startTime;
             if(elapsedTime >= updateInterval)
             {
                 startTime = Time.time;
                 OnUpdate();
-                state = EBehaviorTreeState.Success;
+                state = ENodeState.Success;
             }
             else
             {
-                state = EBehaviorTreeState.Running;
+                state = ENodeState.Running;
             }
             // service nodes doesn't need to care about Success or failure,
             // for this reason we are always gonna return success
@@ -82,7 +85,7 @@ namespace BT.Runtime
         /// and then it will update this service.
         ///</summary>
         ///<returns> The result of this service(service results doesn't matter) </returns>
-        public override EBehaviorTreeState ExecuteNode()
+        public override ENodeState ExecuteNode()
         {
             if (!isStarted)
             {
@@ -108,7 +111,12 @@ namespace BT.Runtime
             description = "Service description";
         }
 
-    #endif 
+    #endif
+        
+        public override T GetParentNode<T>()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

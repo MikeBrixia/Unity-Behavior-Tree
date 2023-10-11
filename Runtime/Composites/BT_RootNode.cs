@@ -1,17 +1,17 @@
-using System.Collections;
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using BT;
 
 namespace BT.Runtime
 {
-    public sealed class BT_RootNode : BT_Node
+    public sealed class BT_RootNode : BT_ParentNode
     {
         ///<summary>
         /// The root of the Behavior Tree, execution will start
         /// with this node
         ///</summary>
-        [HideInInspector] public BT_Node childNode;
+        [HideInInspector] public BT_ParentNode childNode;
 
         public BT_RootNode() : base()
         {
@@ -19,7 +19,7 @@ namespace BT.Runtime
             description = "Entry point of behavior tree";
         }
 
-        public override EBehaviorTreeState Execute()
+        protected override ENodeState Execute()
         {
             return childNode.ExecuteNode();
         }
@@ -27,10 +27,10 @@ namespace BT.Runtime
         ///<summary>
         /// Make a copy this root node asset.
         ///</summary>
-        public override NodeBase Clone()
+        public override BT_Node Clone()
         {
-            BT_RootNode node = Instantiate(this);
-            node.childNode = node.childNode.Clone() as BT_Node;
+            BT_RootNode node = (BT_RootNode) base.Clone();
+            node.childNode = node.childNode.Clone() as BT_ParentNode;
             return node;
         }
 
@@ -38,11 +38,14 @@ namespace BT.Runtime
         /// Set the blackboard component which is used by the tree who owns
         /// this root node.
         ///</summary>
-        ///<param name="blackboard">the blackboard used by the owner of this root node</param>
-        internal override void SetBlackboard(Blackboard blackboard)
+        ///<param name="treeBlackboard">the blackboard used by the owner of this root node</param>
+        public override void SetBlackboard(Blackboard treeBlackboard)
         {
-            base.SetBlackboard(blackboard);
-            childNode.SetBlackboard(blackboard);
+            base.SetBlackboard(treeBlackboard);
+            if (childNode != null)
+            {
+                childNode.SetBlackboard(treeBlackboard);
+            }
         }
 
         protected override void OnStart()
@@ -53,6 +56,46 @@ namespace BT.Runtime
         protected override void OnStop()
         {
 
+        }
+
+        public override List<T> GetChildNodes<T>()
+        {
+            return null;
+        }
+
+        public override List<BT_ParentNode> GetConnectedNodes()
+        {
+            return new List<BT_ParentNode> {childNode};
+        }
+
+        public override void AddChildNode<T>(T childNode)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ConnectNode(BT_ParentNode child)
+        {
+            childNode = child;
+        }
+
+        public override void DisconnectNode(BT_ParentNode child)
+        { 
+            childNode = childNode.Equals(child) ? null : childNode;
+        }
+
+        public override Type[] GetNodeChildTypes()
+        {
+            return null;
+        }
+
+        public override void DestroyChildrenNodes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DestroyChild(BT_ChildNode child)
+        {
+            throw new NotImplementedException();
         }
     }
 }
