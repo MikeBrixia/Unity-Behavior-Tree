@@ -183,15 +183,9 @@ namespace BT.Editor
 
         private void MoveAtPasteLocation(BT_ParentNode node, Vector2 position)
         {
-            // Direction from selection rect center to the node view.
-            Vector2 direction = (node.position - selectionRectangle.center).normalized;
-            // Distance from selection rect center to the node view.
-            float distance = Vector2.Distance(node.position, selectionRectangle.center);
-                    
-            // Update the node position. Node will be placed relative to input position(usually mouse position).
-            Vector2 nodePosition = position + direction * distance;
             Undo.RecordObject(node, "Paste node - Update position");
-            node.position = nodePosition;
+            // Update the node position. Node will be placed relative to input position(usually mouse position).
+            node.position = position + (node.position - selectionRectangle.center);
             EditorUtility.SetDirty(node);
         }
         
