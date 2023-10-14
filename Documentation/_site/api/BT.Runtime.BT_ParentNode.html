@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BT_ParentNode
+ </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BT_ParentNode
+ ">
+    <meta name="generator" content="docfx ">
+  
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+  
+  
+  
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="BT.Runtime.BT_ParentNode">
+
+
+
+  <h1 id="BT_Runtime_BT_ParentNode" data-uid="BT.Runtime.BT_ParentNode" class="text-break">Class BT_ParentNode
+</h1>
+  <div class="markdown level0 summary"><p>Parent nodes are nodes who can
+have children nodes attached to them
+and can be connected to other parent nodes
+by using input/output ports.
+This type of node can be placed and dragged inside
+the graph and hold a position in it.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><a class="xref" href="BT.Runtime.BT_Node.html">BT_Node</a></div>
+    <div class="level2"><span class="xref">BT_ParentNode</span></div>
+      <div class="level3"><a class="xref" href="BT.Runtime.BT_ActionNode.html">BT_ActionNode</a></div>
+      <div class="level3"><a class="xref" href="BT.Runtime.BT_CompositeNode.html">BT_CompositeNode</a></div>
+      <div class="level3"><a class="xref" href="BT.Runtime.BT_RootNode.html">BT_RootNode</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_nodeName">BT_Node.nodeName</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_nodeTypeName">BT_Node.nodeTypeName</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_description">BT_Node.description</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_blackboard">BT_Node.blackboard</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_isStarted">BT_Node.isStarted</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_executionIndex">BT_Node.executionIndex</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_state">BT_Node.state</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Clone">BT_Node.Clone()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStart">BT_Node.OnStart()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_OnStop">BT_Node.OnStop()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_Execute">BT_Node.Execute()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_ExecuteNode">BT_Node.ExecuteNode()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_SetBlackboard_BT_Runtime_Blackboard_">BT_Node.SetBlackboard(Blackboard)</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_GetNodeParentType">BT_Node.GetNodeParentType()</a>
+    </div>
+    <div>
+      <a class="xref" href="BT.Runtime.BT_Node.html#BT_Runtime_BT_Node_GetBlackboard">BT_Node.GetBlackboard()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="BT.html">BT</a>.<a class="xref" href="BT.Runtime.html">Runtime</a></h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="BT_Runtime_BT_ParentNode_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BT_ParentNode : BT_Node</code></pre>
+  </div>
+  <h3 id="methods">Methods
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_AddChildNode__1___0_.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.AddChildNode%60%601(%60%600)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L34">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_AddChildNode_" data-uid="BT.Runtime.BT_ParentNode.AddChildNode*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_AddChildNode__1___0_" data-uid="BT.Runtime.BT_ParentNode.AddChildNode``1(``0)">AddChildNode&lt;T&gt;(T)</h4>
+  <div class="markdown level1 summary"><p>Add a child node to this parent node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void AddChildNode&lt;T&gt;(T childNode) where T : BT_ChildNode</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">childNode</span></td>
+        <td><p>Child node you want to add</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>The type of the child node you want to add</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_ConnectNode_BT_Runtime_BT_ParentNode_.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.ConnectNode(BT.Runtime.BT_ParentNode)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L41">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_ConnectNode_" data-uid="BT.Runtime.BT_ParentNode.ConnectNode*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_ConnectNode_BT_Runtime_BT_ParentNode_" data-uid="BT.Runtime.BT_ParentNode.ConnectNode(BT.Runtime.BT_ParentNode)">ConnectNode(BT_ParentNode)</h4>
+  <div class="markdown level1 summary"><p>Connect this node to another node. When connected
+The node will become the parent of the &quot;child&quot; node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void ConnectNode(BT_ParentNode child)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BT.Runtime.BT_ParentNode.html">BT_ParentNode</a></td>
+        <td><span class="parametername">child</span></td>
+        <td><p>The child node to connect to this parent node.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_DestroyChild_BT_Runtime_BT_ChildNode_.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.DestroyChild(BT.Runtime.BT_ChildNode)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L66">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_DestroyChild_" data-uid="BT.Runtime.BT_ParentNode.DestroyChild*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_DestroyChild_BT_Runtime_BT_ChildNode_" data-uid="BT.Runtime.BT_ParentNode.DestroyChild(BT.Runtime.BT_ChildNode)">DestroyChild(BT_ChildNode)</h4>
+  <div class="markdown level1 summary"><p>Destroy the given child node of this parent.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void DestroyChild(BT_ChildNode child)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BT.Runtime.BT_ChildNode.html">BT_ChildNode</a></td>
+        <td><span class="parametername">child</span></td>
+        <td><p>The children to destroy</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_DestroyChildrenNodes.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.DestroyChildrenNodes%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L60">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_DestroyChildrenNodes_" data-uid="BT.Runtime.BT_ParentNode.DestroyChildrenNodes*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_DestroyChildrenNodes" data-uid="BT.Runtime.BT_ParentNode.DestroyChildrenNodes">DestroyChildrenNodes()</h4>
+  <div class="markdown level1 summary"><p>Destroy all child nodes attached to this parent.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void DestroyChildrenNodes()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_DisconnectNode_BT_Runtime_BT_ParentNode_.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.DisconnectNode(BT.Runtime.BT_ParentNode)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L49">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_DisconnectNode_" data-uid="BT.Runtime.BT_ParentNode.DisconnectNode*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_DisconnectNode_BT_Runtime_BT_ParentNode_" data-uid="BT.Runtime.BT_ParentNode.DisconnectNode(BT.Runtime.BT_ParentNode)">DisconnectNode(BT_ParentNode)</h4>
+  <div class="markdown level1 summary"><p>Remove a node connected to this parent node. Child node
+will be disconnected from this parent node and will no
+longer be a child of this node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void DisconnectNode(BT_ParentNode child)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="BT.Runtime.BT_ParentNode.html">BT_ParentNode</a></td>
+        <td><span class="parametername">child</span></td>
+        <td><p>The node you want to disconnect.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_GetChildNodes__1.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.GetChildNodes%60%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L21">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_GetChildNodes_" data-uid="BT.Runtime.BT_ParentNode.GetChildNodes*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_GetChildNodes__1" data-uid="BT.Runtime.BT_ParentNode.GetChildNodes``1">GetChildNodes&lt;T&gt;()</h4>
+  <div class="markdown level1 summary"><p>Get all the child nodes of this parent node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract List&lt;T&gt; GetChildNodes&lt;T&gt;() where T : BT_ChildNode</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;T&gt;</td>
+        <td><p>A list of all child nodes of type T</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>The type of the child node you want to get.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_GetConnectedNodes.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.GetConnectedNodes%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L27">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_GetConnectedNodes_" data-uid="BT.Runtime.BT_ParentNode.GetConnectedNodes*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_GetConnectedNodes" data-uid="BT.Runtime.BT_ParentNode.GetConnectedNodes">GetConnectedNodes()</h4>
+  <div class="markdown level1 summary"><p>Get a list of all the nodes connected to this parent node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract List&lt;BT_ParentNode&gt; GetConnectedNodes()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="BT.Runtime.BT_ParentNode.html">BT_ParentNode</a>&gt;</td>
+        <td><p>All the nodes connected to this node.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode_GetNodeChildTypes.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode.GetNodeChildTypes%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L55">View Source</a>
+  </span>
+  <a id="BT_Runtime_BT_ParentNode_GetNodeChildTypes_" data-uid="BT.Runtime.BT_ParentNode.GetNodeChildTypes*"></a>
+  <h4 id="BT_Runtime_BT_ParentNode_GetNodeChildTypes" data-uid="BT.Runtime.BT_ParentNode.GetNodeChildTypes">GetNodeChildTypes()</h4>
+  <div class="markdown level1 summary"><p>Get all the children types supported by this node.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Type[] GetNodeChildTypes()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a>[]</td>
+        <td><p>An array of all the supported children node types.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/new/main/apiSpec/new?filename=BT_Runtime_BT_ParentNode.md&amp;value=---%0Auid%3A%20BT.Runtime.BT_ParentNode%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Edit this page</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Runtime/BT_ParentNode.cs/#L14" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
