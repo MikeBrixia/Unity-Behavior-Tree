@@ -52,6 +52,9 @@ namespace BT.Editor
             // Remove all copied node in favor of the new ones.
             copyCache.Clear();
             
+            // Remove root node from copied nodes.
+            nodes.RemoveAll(node => node.node is BT_RootNode);
+            
             // Find the selected nodes which are the most left and right nodes in the graph.
             nodes.Sort();
             float xMin = nodes[0].node.position.x;
