@@ -41,7 +41,7 @@ public sealed class NewService : BT_Service
 }
 ```
 
-> ![!NOTE]
+> [!NOTE]
 > By default, service will be created as <b>sealed classes</b>; this is done to prevent developers from creating other nodes which derives from the current one. As a general rule, composites should only derive from: <b> BT_CompositeNode</b> type.
 
 ## Start
@@ -57,7 +57,7 @@ protected override void OnStart()
 }
 ```
 
-> ![!TIP]
+> [!TIP]
 > Usually on start is used to initialize properties and retrieve key info from the blackboard.
 
 ## Stop
