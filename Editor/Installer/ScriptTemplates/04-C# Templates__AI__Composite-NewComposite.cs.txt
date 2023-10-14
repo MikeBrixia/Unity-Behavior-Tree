@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using BT.Runtime;
+
+public sealed class #SCRIPTNAME# : BT_CompositeNode
+{
+    // Called when this composite starts executing.
+    protected override void OnStart()
+    {
+        #NOTRIM#
+    }
+    
+    // Called when this composite execution ends.
+    protected override void OnStop()
+    {
+        #NOTRIM#
+    }
+    
+    // Execute this composite logic.
+    protected override ENodeState Execute()
+    {
+        // Put composite logic here...
+        return ENodeState.Failed;
+    }
+
+// Put here editor only logic
+#if UNITY_EDITOR
+    
+    // for BT nodes the constructor is a editor only method, do not use it at runtime!
+    public #SCRIPTNAME#() : base()
+    {
+        description = "Node description";
+    }
+
+#endif
+
+}

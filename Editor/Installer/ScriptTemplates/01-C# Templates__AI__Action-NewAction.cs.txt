@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using BT.Runtime;
 
-public class #SCRIPTNAME# : BT_ActionNode
+public sealed class #SCRIPTNAME# : BT_ActionNode
 {
-
-    // Called when the behavior tree wants to execute this action.
-    // Modify the 'state' as you need, return SUCCESS when you want this node
-    // to succeed, RUNNING when you want to notify the tree that this node is still running
-    // and has not finished yet and FAILED when you want this node to fail
-    public override EBehaviorTreeState Execute()
-    {
-        return state;
-    }
     
     // Called when the behavior tree starts executing this action
     protected override void OnStart()
@@ -26,15 +17,25 @@ public class #SCRIPTNAME# : BT_ActionNode
     {
         #NOTRIM#
     }
-
-    // Put here editor only logic
-    #if UNITY_EDITOR
     
-    // for BT nodes the constructor is a editor only method, do not use it at runtime!
+    // Called when the behavior tree wants to execute this action.
+    // Modify the 'state' as you need, return SUCCESS when you want this node
+    // to succeed, RUNNING when you want to notify the tree that this node is still running
+    // and has not finished yet and FAILED when you want this node to fail
+    public override ENodeState Execute()
+    {
+        return state;
+    }
+    
+// Put here editor only logic
+#if UNITY_EDITOR
+    
     public #SCRIPTNAME#() : base()
     {
+        // Initialize editor-only properties here...
         description = "Node description";
     }
 
-    #endif
+#endif
+
 }

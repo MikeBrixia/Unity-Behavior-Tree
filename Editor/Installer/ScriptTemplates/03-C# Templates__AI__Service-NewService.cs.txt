@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BT.Runtime;
 
-public class #SCRIPTNAME# : BT_Service
+public sealed class #SCRIPTNAME# : BT_Service
 {
     // Called each UpdateInterval tick
     protected override void OnUpdate()
@@ -23,14 +23,15 @@ public class #SCRIPTNAME# : BT_Service
         #NOTRIM#
     }
 
-    // Put here editor only logic
-    #if UNITY_EDITOR
+// Put here editor only logic
+#if UNITY_EDITOR
     
-    // for BT nodes the constructor is a editor only method, do not use it at runtime!
     public #SCRIPTNAME#() : base()
     {
+        // Initialize editor-only properties here...
+        
         description = "Node description";
     }
 
-    #endif
+#endif
 }
