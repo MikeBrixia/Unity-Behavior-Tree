@@ -44,7 +44,7 @@ public sealed class NewAction : BT_ActionNode
 }
 ```
 
-> ![!NOTE]
+> [!NOTE]
 > By default, actions will be created as <b>sealed classes</b>; this is done to prevent developers from creating other nodes which derives from the current one. As a general rule, actions should only derive from: <b> BT_ActionNode</b> type.
 
 ## Start
@@ -58,7 +58,7 @@ protected override void OnStart()
     // Initialize properties here...
 }
 ```
-> ![!TIP]
+> [!TIP]
 > Usually on start is used to initialize properties and retrieve key info from the blackboard.
 
 ## Stop
