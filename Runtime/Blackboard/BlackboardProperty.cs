@@ -38,11 +38,14 @@ namespace BT.Runtime
         /// </summary>
         String = 5,
         /// <summary>
-        /// Unity Color type.
+        /// Primitive object type.
         /// </summary>
         Object = 6
     }
     
+    /// <summary>
+    /// Base class for all blackboard-defined properties.
+    /// </summary>
     [Serializable]
     public abstract class BlackboardPropertyBase
     {

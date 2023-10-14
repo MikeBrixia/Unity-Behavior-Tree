@@ -14,9 +14,18 @@ namespace BT
     /// </summary>
     public static class NodeFactory
     {
+        /// <summary>
+        /// Create a brand new BT childNode and initialize it inside the
+        /// behavior tree asset.
+        /// </summary>
+        /// <param name="nodeType"> The type of the BT childNode; reflection will
+        ///                         use this type to create the childNode</param>
+        /// <param name="tree"> The behavior tree asset inside which the childNode
+        ///                     will be created.</param>
+        /// <returns>The created childNode. </returns>
         public static BT_Node CreateNode(Type nodeType, BehaviorTree tree)
         {
-            // Create node and generate GUID
+            // Create childNode and generate GUID
             BT_Node node = ScriptableObject.CreateInstance(nodeType) as BT_Node;
             if (node != null)
             {
@@ -24,115 +33,144 @@ namespace BT
                 node.guid = GUID.Generate();
                 node.SetBlackboard(tree.blackboard);
                 
-                // If the new node is a root node, override
-                // the old root node with the new one.
+                // If the new childNode is a root childNode, override
+                // the old root childNode with the new one.
                 if(nodeType == typeof(BT_RootNode))
                 {
                     tree.rootNode = node as BT_RootNode;
                 }
             
-                // Register the node in the behavior tree.
+                // Register the childNode in the behavior tree.
                 RegisterNode(node, tree);
             }
             return node;
         }
         
+        /// <summary>
+        /// Create a new childNode of type T and initialize it inside the behavior
+        /// tree asset.
+        /// </summary>
+        /// <param name="tree"> The behavior tree asset inside which the childNode
+        ///                     will be created.</param>
+        /// <typeparam name="T"> The type of the BT childNode; reflection will
+        ///                      use this type to create the childNode</typeparam>
+        /// <returns> The created childNode type casted to T</returns>
         public static T CreateNode<T>(BehaviorTree tree) where T : BT_Node
         {
-            // The type of the node we want to create.
+            // The type of the childNode we want to create.
             Type nodeType = typeof(T);
             
-            // Create node and generate GUID
+            // Create childNode and generate GUID
             T node = CreateNode(nodeType, tree) as T;
             return node;
         }
-
+        
+        /// <summary>
+        /// Create a child childNode and attach it to it's parent.
+        /// </summary>
+        /// <param name="nodeType"> The type of the BT childNode; reflection will
+        ///                         use this type to create the childNode </param>
+        /// <param name="parent"> The parent childNode to which the child will be attached</param>
+        /// <param name="tree"> The behavior tree asset inside which the childNode
+        ///                     will be created. </param>
+        /// <returns> The created child childNode. </returns>
         public static BT_Node CreateChildNode(Type nodeType, BT_ParentNode parent, BehaviorTree tree)
         {
-            // Create node and generate GUID
+            // Create childNode and generate GUID
             BT_ChildNode node = ScriptableObject.CreateInstance(nodeType) as BT_ChildNode;
             if (node != null)
             {
-                // Initialize node parameters.
+                // Initialize childNode parameters.
                 node.nodeTypeName = nodeType.Name;
                 node.guid = GUID.Generate();
                 node.SetBlackboard(tree.blackboard);
                 
-                // Register the child node inside the tree.
+                // Register the child childNode inside the tree.
                 RegisterNode(node, tree);
                 
-                // Register child node inside parent node
+                // Register child childNode inside parent childNode
                 RegisterChildNode(node, parent);
             }
             return node;
         }
         
         /// <summary>
-        /// Create a child node and attach it to it's parent.
+        /// Create a child childNode and attach it to it's parent.
         /// </summary>
-        /// <param name="parent"> The parent node of the child. </param>
-        /// <param name="tree"> The Behavior Tree on which the node will be created. </param>
-        /// <typeparam name="TChildType"> The type of the child node. </typeparam>
-        /// <typeparam name="TParentType"> The type of the parent node. </typeparam>
+        /// <param name="parent"> The parent childNode to which the child will be attached </param>
+        /// <param name="tree"> The behavior tree asset inside which the childNode
+        ///                     will be created. </param>
+        /// <typeparam name="TChildType"> The type of the BT childNode; reflection will
+        ///                              use this type to create the childNode </typeparam>
+        /// <typeparam name="TParentType"> The type of the parent childNode. </typeparam>
         /// <returns></returns>
         private static TChildType CreateChildNode<TChildType, TParentType>(TParentType parent, BehaviorTree tree) where TChildType : BT_ChildNode
                                                                                                                   where TParentType : BT_ParentNode
         {
-            // Create a node of TChildType.
+            // Create a childNode of TChildType.
             Type nodeType = typeof(TChildType);
             TChildType node = CreateChildNode(nodeType, parent, tree) as TChildType;
             return node;
         }
         
         ///<summary>
-        /// Create a brand new node view
+        /// Create a brand new childNode view
         ///</summary>
-        ///<param name="node"> The node which will be wrapped inside the new node view </param>
-        public static T CreateNodeView<T>(BT_Node node, BehaviorTreeGraphView graph) where T : BT_ParentNodeView
+        ///<param name="childNode"> The childNode which will be wrapped inside the new childNode view </param>
+        /// <returns> The created childNode view type casted to T</returns>
+        public static T CreateNodeView<T>(BT_Node childNode, BehaviorTreeGraphView graph) where T : BT_ParentNodeView
         {
             // When guid is invalid, generate a brand new one
-            if (node.guid.Empty())
+            if (childNode.guid.Empty())
             {
-                node.guid = GUID.Generate();
+                childNode.guid = GUID.Generate();
             }
             
-            // Create node view of type T.
-            T nodeView = (T)Activator.CreateInstance(typeof(T),node, graph);
+            // Create childNode view of type T.
+            T nodeView = (T)Activator.CreateInstance(typeof(T),childNode, graph);
             
-            // Create all attached and supported nodes for this parent node view.
+            // Create all attached and supported nodes for this parent childNode view.
             nodeView.CreateChildViews();
             
-            // Setup node selection callback.
+            // Setup childNode selection callback.
             nodeView.onNodeSelected = graph.onNodeSelected;
             
             return nodeView;
         }
 
         /// <summary>
-        ///  Create a brand new node view
+        ///  Create a brand new childNode view
         /// </summary>
-        /// <param name="node"> The node which will be wrapped inside the new node view </param>
+        /// <param name="childNode"> The childNode which will be wrapped inside the new childNode view </param>
         /// <param name="graph"> The graph in which the tree is currently displayed. </param>
-        public static BT_ParentNodeView CreateNodeView(BT_Node node, BehaviorTreeGraphView graph)
+        /// /// <returns> The created childNode view. </returns>
+        public static BT_ParentNodeView CreateNodeView(BT_Node childNode, BehaviorTreeGraphView graph)
         {
             // When guid is invalid, generate a brand new one
-            if (node.guid.Empty())
+            if (childNode.guid.Empty())
             {
-                node.guid = GUID.Generate();
+                childNode.guid = GUID.Generate();
             }
             
-            // Create a node view of the type associated with the node type.
-            BT_ParentNodeView parentNodeView = CreateNodeView<BT_ParentNodeView>(node, node, graph);
+            // Create a childNode view of the type associated with the childNode type.
+            BT_ParentNodeView parentNodeView = CreateNodeView<BT_ParentNodeView>(childNode, childNode, graph);
             
-            // Create all attached and supported nodes for this parent node view.
+            // Create all attached and supported nodes for this parent childNode view.
             parentNodeView.CreateChildViews();
             
-            // Setup node selection callback.
+            // Setup childNode selection callback.
             parentNodeView.onNodeSelected = graph.onNodeSelected;
             
             return parentNodeView;
         }
         
+        /// <summary>
+        /// Create a child childNode view attached to it's parent view.
+        /// </summary>
+        /// <param name="parent">The parent view in which the child view will be contained </param>
+        /// <param name="childNode"> The child childNode from which we will create the view. </param>
+        /// <param name="graph"> The graph in which the view will be placed. </param>
+        /// <returns> The created child view. </returns>
         public static BT_ChildNodeView CreateChildNodeView(BT_ParentNodeView parent, BT_ChildNode childNode, BehaviorTreeGraphView graph) 
         {
             // When guid is invalid, generate a brand new one
@@ -147,18 +185,24 @@ namespace BT
             return childView;
         }
         
-        private static T CreateNodeView<T>(BT_Node node, params object[] args)
+        /// <summary>
+        /// Create a child childNode view attached to it's parent view.
+        /// </summary>
+        /// <param name="childNode"> The child childNode from which we will create the view. </param>
+        /// <param name="args"> input arguments for creating the child view. </param>
+        /// <returns> The created child view type casted T. </returns>
+        private static T CreateNodeView<T>(BT_Node childNode, params object[] args)
         {
             // The current behavior tree config.
             ConfigData config = BTInstaller.btConfig;
             
-            // Check if this node type has an associated view.
+            // Check if this childNode type has an associated view.
             string viewTypeName;
-            Type nodeType = node.GetType();
+            Type nodeType = childNode.GetType();
             Type nodeBaseType = nodeType.BaseType;
             
             bool hasView = config.nodeViews.TryGetValue(nodeType.ToString(), out viewTypeName);
-            // If we don't find a type-specific view, fallback to base type node view.
+            // If we don't find a type-specific view, fallback to base type childNode view.
             if (!hasView)
             {
                 config.defaultNodeViews.TryGetValue(nodeBaseType.ToString(), out viewTypeName);
@@ -169,17 +213,46 @@ namespace BT
             return childView;
         }
         
+        /// <summary>
+        /// Destroy the given parent node and remove it from behavior tree asset.
+        /// </summary>
+        /// <param name="node"> The node to destroy.</param>
+        /// <param name="tree"> The asset from which the node will be removed. </param>
         public static void DestroyParentNode(BT_ParentNode node, BehaviorTree tree)
         {
-            // Remove node from the tree.
-            Undo.RegisterCompleteObjectUndo(tree, "Behavior tree node removed");
+            // Remove childNode from the tree.
+            Undo.RegisterCompleteObjectUndo(tree, "Behavior tree childNode removed");
             tree.nodes.Remove(node);
             
-            // Save node state by registering an undo/redo action and then destroy it.
+            // Save childNode state by registering an undo/redo action and then destroy it.
             Undo.DestroyObjectImmediate(node);
             
             // Destroy all children nodes.
             node.DestroyChildrenNodes();
+            
+            // Save operations to disk.
+            AssetDatabase.SaveAssets();
+        }
+        
+        /// <summary>
+        /// Destroy the given child node and remove it from it's parent and
+        /// behavior tree asset.
+        /// </summary>
+        /// <param name="parent"> The parent of the child node</param>
+        /// <param name="child"> The node to remove. </param>
+        /// <param name="tree">The asset from which the node will be removed.</param>
+        public static void DestroyChildNode(BT_ParentNode parent, BT_ChildNode child, BehaviorTree tree)
+        {
+            // Remove childNode from the tree.
+            Undo.RegisterCompleteObjectUndo(tree, "Behavior Tree child childNode removed");
+            tree.nodes.Remove(child);
+            
+            // Remove child from parent childNode.
+            Undo.RecordObject(parent, "Behavior Tree child childNode removed");
+            parent.DestroyChild(child);
+            
+            // Destroy childNode.
+            Undo.DestroyObjectImmediate(child);
             
             // Save operations to disk.
             AssetDatabase.SaveAssets();
@@ -203,19 +276,19 @@ namespace BT
             int count = 0;
             while (toClone.Count > 0)
             {
-                // Get the first node of the queue and clone it.
+                // Get the first childNode of the queue and clone it.
                 currentParentChildPair = toClone.Dequeue();
                 BT_ParentNode node = currentParentChildPair.Value;
                 BT_ParentNode parent = currentParentChildPair.Key;
                 
-                // Clone the node.
+                // Clone the childNode.
                 node = CloneParentNode(node, tree);
                 
-                // does the node have parent?
+                // does the childNode have parent?
                 if (parent != null)
                 {
-                    // If true, connect the parent node to the current cloned node.
-                    Undo.RecordObject(parent, "Cloning - Record node connection");
+                    // If true, connect the parent childNode to the current cloned childNode.
+                    Undo.RecordObject(parent, "Cloning - Record childNode connection");
                     parent.ConnectNode(node);
                     EditorUtility.SetDirty(parent);
                 }
@@ -244,28 +317,28 @@ namespace BT
         }
        
         /// <summary>
-        /// Clone a parent node with all the children attached to it.
+        /// Clone a parent childNode with all the children attached to it.
         /// </summary>
-        /// <param name="node"> The parent node to clone. </param>
+        /// <param name="node"> The parent childNode to clone. </param>
         /// <param name="tree"> Reference to the behavior tree asset. </param>
-        /// <returns> The cloned parent node with all it's attached children cloned as well. </returns>
+        /// <returns> The cloned parent childNode with all it's attached children cloned as well. </returns>
         public static BT_ParentNode CloneParentNode(BT_ParentNode node, BehaviorTree tree)
         {
-            // Clone/copy the requested node.
+            // Clone/copy the requested childNode.
             BT_ParentNode copiedNode = (BT_ParentNode) CloneNode(node);
             
-            // Register node inside the behavior tree asset.
+            // Register childNode inside the behavior tree asset.
             RegisterNode(copiedNode, tree);
             
             List<BT_Decorator> decorators = copiedNode.GetChildNodes<BT_Decorator>();
             int decoratorsCount = decorators.Count;
             for (int i = 0; i < decoratorsCount; i++)
             {
-                // Clone decorator node.
+                // Clone decorator childNode.
                 BT_Decorator decorator = decorators[0];
                 CloneChildNode(decorator, copiedNode, tree);
                 
-                // Remove source node.
+                // Remove source childNode.
                 decorators.RemoveAt(0);
             }
 
@@ -273,11 +346,11 @@ namespace BT
             int servicesCount = services.Count;
             for (int i = 0; i < servicesCount; i++)
             {
-                // Clone service node.
+                // Clone service childNode.
                 BT_Service service = services[0];
                 CloneChildNode(service, copiedNode, tree);
                 
-                // Remove source node.
+                // Remove source childNode.
                 services.RemoveAt(0);
             }
             
@@ -285,80 +358,73 @@ namespace BT
         }
         
         /// <summary>
-        /// Clone the child node and register it upon is parent.
+        /// Clone the child childNode and register it upon is parent.
         /// </summary>
-        /// <param name="node"> The child node to clone. </param>
-        /// <param name="parent"> The parent to which the child node should be attached. </param>
+        /// <param name="node"> The child childNode to clone. </param>
+        /// <param name="parent"> The parent to which the child childNode should be attached. </param>
         /// <param name="tree"> Reference to the behavior tree asset. </param>
-        /// <returns> The cloned child node. </returns>
+        /// <returns> The cloned child childNode. </returns>
         public static BT_ChildNode CloneChildNode(BT_ChildNode node, BT_ParentNode parent, BehaviorTree tree)
         {
-            // Clone/copy the requested node.
+            // Clone/copy the requested childNode.
             BT_ChildNode copiedNode = (BT_ChildNode) CloneNode(node);
             
-            // Register node inside the behavior tree asset.
+            // Register childNode inside the behavior tree asset.
             RegisterNode(copiedNode, tree);
             
-            // Register node inside it's parent node.
+            // Register childNode inside it's parent childNode.
             RegisterChildNode(copiedNode, parent);
 
             return copiedNode;
         }
         
         /// <summary>
-        /// Clone a behavior tree node.
+        /// Clone a behavior tree childNode.
         /// </summary>
-        /// <param name="node"> The behavior tree node to clone. </param>
-        /// <returns> The cloned behavior tree node. </returns>
+        /// <param name="node"> The behavior tree childNode to clone. </param>
+        /// <returns> The cloned behavior tree childNode. </returns>
         private static BT_Node CloneNode(BT_Node node)
         {
-            // Clone/copy the requested node.
+            // Clone/copy the requested childNode.
             BT_Node copiedNode = ScriptableObject.Instantiate(node);
             copiedNode.name = "";
             copiedNode.guid = GUID.Generate();
             return copiedNode;
         }
         
-        public static void DestroyChildNode(BT_ParentNode parent, BT_ChildNode child, BehaviorTree tree)
-        {
-            // Remove node from the tree.
-            Undo.RegisterCompleteObjectUndo(tree, "Behavior Tree child node removed");
-            tree.nodes.Remove(child);
-            
-            // Remove child from parent node.
-            Undo.RecordObject(parent, "Behavior Tree child node removed");
-            parent.DestroyChild(child);
-            
-            // Destroy node.
-            Undo.DestroyObjectImmediate(child);
-            
-            // Save operations to disk.
-            AssetDatabase.SaveAssets();
-        }
-        
+        /// <summary>
+        /// Register the bt node inside a behavior tree asset.
+        /// </summary>
+        /// <param name="node">The node to add.</param>
+        /// <param name="tree">The asset to which the node will be added. </param>
         public static void RegisterNode(BT_Node node, BehaviorTree tree)
         {
             Type nodeType = node.GetType();
             
-            // Add the node as an asset to the tree.
+            // Add the childNode as an asset to the tree.
             AssetDatabase.AddObjectToAsset(node, tree);
  
-            // If undoing after creation, this node will be destroyed
+            // If undoing after creation, this childNode will be destroyed
             Undo.RegisterCreatedObjectUndo(node, "Behavior Tree Node creation undo");
             
             if (!nodeType.IsSubclassOf(typeof(BT_Decorator))
                 && !nodeType.IsSubclassOf(typeof(BT_Service)))
             {
-                // Record created node for undoing actions and add it to the behavior tree node list
+                // Record created childNode for undoing actions and add it to the behavior tree childNode list
                 Undo.RegisterCompleteObjectUndo(tree, "Undo add nodes");
                 tree.nodes.Add(node);
                 EditorUtility.SetDirty(tree);
             }
             
-            // Save the node asset on the disk
+            // Save the childNode asset on the disk
             AssetDatabase.SaveAssets();
         }
         
+        /// <summary>
+        /// Register the bt child node inside the parent.
+        /// </summary>
+        /// <param name="child">The node to add.</param>
+        /// <param name="parent">The parent in which the node will be registered. </param>
         public static void RegisterChildNode(BT_ChildNode child, BT_ParentNode parent)
         {
             if (parent != null)
