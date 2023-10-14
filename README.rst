@@ -1,3 +1,2 @@
-Unity-Behavior-Tree-System-01
-Behavior Tree editor for Unity 2021 and above
-Full documentation here: https://mikebrixia.github.io/articles/intro.html
+Behavior Tree editor for Unity 2021 and above.
+Full documentation here: https://unity-behavior-tree-docs.netlify.app/

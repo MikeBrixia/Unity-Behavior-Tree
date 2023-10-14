@@ -11,6 +11,6 @@
     "email": "michael.guida@outlook.com"
   },
   "type": "tool",
-  "documentationUrl": "https://mikebrixia.github.io/articles/intro.html",
+  "documentationUrl": "https://unity-behavior-tree-docs.netlify.app/",
   "unityRelease": "16f1"
 }
