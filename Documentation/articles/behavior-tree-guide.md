@@ -15,7 +15,7 @@ In this article you find a step-by-step guide on how to get started using the Be
 2. Right-click inside the behavior tree graph to pen the contextual menu; Use it to select the type of node you want to create. In this case we're gonna create a selector node ![image](../images/CreateNodeExample.png)
 
 3. Click on nodes input/output ports and drag the spawned line to the destination node port. By doing so you're going to create a link between the two nodes.
-<video src="../videos/CreateConnectionExample.mp4" controls title="Title" style="margin-top:10px; width:auto,height:auto"></video>
+<video src="../videos/CreateConnectionExample.mp4" controls title="Title" style="margin-top:10px; width:50%,height:50%"></video>
 
 4. You can right click on parent nodes to open the contextual menu and choose which child node to create and attach to it. For more informations on parent and child nodes look at the [Behavior Tree introduction page.](../articles/behavior-tree.md)
 ![image](../images/CreateChildExample.png)
@@ -24,4 +24,4 @@ In this article you find a step-by-step guide on how to get started using the Be
 ![mage](../images/EditNodesExample.png)
 
 6. You can copy/paste nodes inside the current or other behavior tree graphs. 
-<video src="../videos/CopyPasteExample.mp4" controls title="Title" style="margin-top:10px; width:auto,height:auto"></video>
+<video src="../videos/CopyPasteExample.mp4" controls title="Title" style="margin-top:10px; width:50%,height:50%"></video>
