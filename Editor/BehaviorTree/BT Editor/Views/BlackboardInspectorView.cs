@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace BT
+namespace BT.Editor
 {
     internal sealed class BlackboardInspectorView : IMGUIContainer
     {

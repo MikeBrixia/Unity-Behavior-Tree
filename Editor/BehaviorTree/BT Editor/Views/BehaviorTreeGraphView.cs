@@ -4,16 +4,12 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
-using System.Collections;
 using System.Linq;
 using BT.Runtime;
-using BT.Editor;
-using Unity.Plastic.Antlr3.Runtime.Misc;
-using Unity.Plastic.Newtonsoft.Json;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
 using Node = UnityEditor.Experimental.GraphView.Node;
 
-namespace BT
+namespace BT.Editor
 {
     ///<summary>
     /// The behavior tree graph view in which the user is going to

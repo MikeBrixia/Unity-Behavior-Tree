@@ -5,7 +5,7 @@ using BT.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace BT
+namespace BT.Editor
 {
     /// <summary>
     /// Factory responsible of creating, destroying and cloning BT nodes and views.

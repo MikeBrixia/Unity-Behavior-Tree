@@ -4,9 +4,9 @@
         <uie:ToolbarButton text="Save Asset" display-tooltip-when-elided="true" name="SaveButton" />
         <uie:ToolbarButton text="Refresh" display-tooltip-when-elided="true" name="RefreshButton" />
     </uie:Toolbar>
-    <SplitView name="SplitView" fixed-pane-initial-dimension="295" orientation="Horizontal" style="width: auto;">
+    <BT.Editor.SplitView name="SplitView" fixed-pane-initial-dimension="295" orientation="Horizontal" style="width: auto;">
         <ui:VisualElement name="inspector-panel" style="flex-grow: 1; width: 239px; flex-shrink: 1; align-items: stretch; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
-            <SplitView orientation="Vertical" fixed-pane-initial-dimension="198" style="width: auto;">
+            <BT.Editor.SplitView orientation="Vertical" fixed-pane-initial-dimension="198" style="width: auto;">
                 <ui:VisualElement name="NodeInspector" style="width: auto; height: auto;">
                     <ui:Label text="Inspector&#10;" display-tooltip-when-elided="true" style="height: 16px; width: auto; background-color: rgb(32, 32, 32); border-left-width: 0; border-right-width: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; translate: 0 0;" />
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
@@ -16,15 +16,15 @@
                 <ui:VisualElement name="BlackboardInspectorPanel">
                     <ui:Label text="Blackboard&#10;" display-tooltip-when-elided="true" enable-rich-text="false" style="height: 16px; width: auto; background-color: rgb(32, 32, 32); border-left-width: 0; border-right-width: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; translate: 0 0; top: auto; justify-content: flex-start;" />
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="height: initial; width: initial; min-height: 90%; min-width: auto;">
-                        <BT.BlackboardInspectorView name="BlackboardInspector" style="padding-bottom: 5px; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px;" />
+                        <BT.Editor.BlackboardInspectorView name="BlackboardInspector" style="padding-bottom: 5px; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px;" />
                     </ui:ScrollView>
                 </ui:VisualElement>
-            </SplitView>
+            </BT.Editor.SplitView>
         </ui:VisualElement>
         <ui:VisualElement name="tree-panel" style="width: auto;">
-            <BT.BehaviorTreeGraphView focusable="true" style="flex-grow: 1; scale: 1 1;">
+            <BT.Editor.BehaviorTreeGraphView focusable="true" style="flex-grow: 1; scale: 1 1;">
                 <ui:Label text="Tree View" display-tooltip-when-elided="true" name="Tree_View_Label" style="background-color: rgb(31, 30, 30); height: 16px;" />
-            </BT.BehaviorTreeGraphView>
+            </BT.Editor.BehaviorTreeGraphView>
         </ui:VisualElement>
-    </SplitView>
+    </BT.Editor.SplitView>
 </ui:UXML>
