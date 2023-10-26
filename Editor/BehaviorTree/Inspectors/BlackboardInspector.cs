@@ -27,6 +27,13 @@ namespace BT.Editor
             
             return root;
         }
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }
 
