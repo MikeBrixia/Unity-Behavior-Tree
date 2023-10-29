@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,15 +29,7 @@ namespace BT.Runtime
         ///</summary>
         [SerializeField]
         private BlackboardDecoratorCondition condition = BlackboardDecoratorCondition.IsSetToTrue;
-
-        public BlackboardDecorator() : base()
-        {
-            description = "Check the blackboard entry and returns success or fail based on the condition";
-            // By default, a blackboard decorator should only show boolean types keys
-            // since it is the only type it accepts.
-            key.typeFilter = BlackboardSupportedTypes.Boolean;
-        }
-
+        
         protected override ENodeState Execute()
         {
             bool conditionResult = blackboard.GetBlackboardValueByKey<bool>(key.blackboardKey);
@@ -50,15 +43,28 @@ namespace BT.Runtime
             }
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
-            
         }
 
         protected override void OnStop()
         {
-            
         }
+        
+#if UNITY_EDITOR
+
+        private void OnEnable()
+        {
+            description = "Check the blackboard entry and returns success or fail based on the condition";
+            // By default, a blackboard decorator should only show boolean types keys
+            // since it is the only type it accepts.
+            key.typeFilter = BlackboardSupportedTypes.Boolean;
+        }
+#endif
     }
 }
 

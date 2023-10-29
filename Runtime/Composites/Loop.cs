@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,14 +23,8 @@ namespace BT.Runtime
         ///<summary>
         /// The loop we're currently executing
         ///</summary>
-        private int currentLoop = 0;
+        private int currentLoop;
         
-        public Loop() : base()
-        {
-            description = "Loop a given number of times before returning Success. If all the loops succeds this node succeds," +
-                           " if even one loop fails this node it's going to fail";
-        }
-
         protected override ENodeState Execute()
         {
             BT_Node child = children[executionIndex];
@@ -62,15 +57,26 @@ namespace BT.Runtime
             return state;
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
-
+            currentLoop = 0;
         }
 
         protected override void OnStop()
         {
-            
         }
+        
+#if UNITY_EDITOR
+        private void OnEnable()
+        {
+            description = "Loop a given number of times before returning Success. If all the loops succeeds this node succeeds," +
+                          " if even one loop fails this node it's going to fail";
+        }
+#endif
     }
 }
 

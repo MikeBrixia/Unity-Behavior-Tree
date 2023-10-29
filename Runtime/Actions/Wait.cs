@@ -15,28 +15,27 @@ namespace BT.Runtime
         ///</summary>
         public float time = 5f;
         
-        private float startTime = 0f;
+        /// <summary>
+        /// The time from which we will start counting.
+        /// </summary>
+        private float startTime;
 
         // Called when the behavior tree wants to execute this action.
         // Modify the 'state' has you need, return SUCCESS when you want this node
-        // to succed, RUNNING when you want to notify the tree that this node is still running
+        // to succeed, RUNNING when you want to notify the tree that this node is still running
         // and has not finished yet and FAILED when you want this node to fail
         protected override ENodeState Execute()
         {
             float elapsedTime = Time.time - startTime;
-            if (elapsedTime >= time)
-            {
-                startTime = 0f;
-                state = ENodeState.Success;
-            }
-            else
-            {
-                state = ENodeState.Running;
-            }
+            state = elapsedTime >= time ? ENodeState.Success : ENodeState.Running;
             return state;
         }
 
         // Called when the behavior tree starts executing this action
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
             startTime = Time.time;
@@ -45,6 +44,7 @@ namespace BT.Runtime
         // Called when the behavior tree stops executing this action
         protected override void OnStop()
         {
+            startTime = 0f;
         }
 
 #if UNITY_EDITOR

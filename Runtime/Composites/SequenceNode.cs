@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BT.Runtime
 {
@@ -11,12 +8,6 @@ namespace BT.Runtime
     ///</summary>
     public sealed class SequenceNode : BT_CompositeNode
     {
-        public SequenceNode() : base()
-        {
-            nodeTypeName = "Sequence";
-            description = "Execute all it's children in order and stops when one of them fails";
-        }
-
         protected override ENodeState Execute()
         {
             BT_Node child = children[executionIndex];
@@ -33,15 +24,27 @@ namespace BT.Runtime
             return executionIndex == children.Count? ENodeState.Success : ENodeState.Running;
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
-            
         }
 
         protected override void OnStop()
         {
-            
         }
+        
+#if UNITY_EDITOR
+        
+        private void OnEnable()
+        {
+            nodeTypeName = "Sequence";
+            description = "Execute all it's children in order and stops when one of them fails";
+        }
+        
+#endif
     }
 }
 

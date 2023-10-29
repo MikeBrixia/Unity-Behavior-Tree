@@ -12,13 +12,7 @@ namespace BT.Runtime
         /// with this node
         ///</summary>
         [HideInInspector] public BT_ParentNode childNode;
-
-        public BT_RootNode() : base()
-        {
-            nodeTypeName = "Root";
-            description = "Entry point of behavior tree";
-        }
-
+        
         protected override ENodeState Execute()
         {
             return childNode.ExecuteNode();
@@ -32,6 +26,14 @@ namespace BT.Runtime
             BT_RootNode node = (BT_RootNode) base.Clone();
             node.childNode = node.childNode.Clone() as BT_ParentNode;
             return node;
+        }
+
+        internal override void OnInit_internal()
+        {
+            base.OnInit_internal();
+            
+            // Initialize child node.
+            childNode.OnInit_internal();
         }
 
         ///<summary>
@@ -48,14 +50,24 @@ namespace BT.Runtime
             }
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
-
         }
 
         protected override void OnStop()
         {
+        }
 
+#if UNITY_EDITOR
+
+        private void OnEnable()
+        {
+            nodeTypeName = "Root";
+            description = "Entry point of the behavior tree";
         }
 
         public override List<T> GetChildNodes<T>()
@@ -70,7 +82,7 @@ namespace BT.Runtime
 
         public override void AddChildNode<T>(T childNode)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning("Root not cannot have children nodes attached to it.");
         }
 
         public override void ConnectNode(BT_ParentNode child)
@@ -90,13 +102,15 @@ namespace BT.Runtime
 
         public override void DestroyChildrenNodes()
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Root not cannot have children nodes attached to it.");
         }
 
         public override void DestroyChild(BT_ChildNode child)
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Root not cannot have children nodes attached to it.");
         }
+        
+#endif
     }
 }
 

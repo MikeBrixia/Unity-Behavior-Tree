@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,7 @@ namespace BT.Runtime
         /// The log message
         ///</summary>
         public string debugMessage;
-
-        public Log() : base()
-        {
-            description = "Print a message in the console";
-        }
-
+        
         ///<summary>
         /// Log a message to the Unity console
         ///</summary>
@@ -28,6 +24,10 @@ namespace BT.Runtime
             return ENodeState.Success;
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
         }
@@ -35,5 +35,12 @@ namespace BT.Runtime
         protected override void OnStop()
         {
         }
+        
+#if UNITY_EDITOR
+        private void OnEnable()
+        {
+            description = "Print a message in the console";
+        }
+#endif
     }
 }

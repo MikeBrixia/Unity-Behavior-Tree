@@ -23,10 +23,20 @@ namespace BT.Runtime
         [HideInInspector] public List<BT_Decorator> decorators = new List<BT_Decorator>();
 
         ///<summary>
-        /// Services attacehd to this composite
+        /// Services attached to this composite
         ///</summary>
         [HideInInspector] public List<BT_Service> services = new List<BT_Service>();
         
+        internal override void OnInit_internal()
+        {
+            base.OnInit_internal();
+            
+            // Initialize children and attached nodes.
+            decorators.ForEach(decorator => decorator.OnInit_internal());
+            services.ForEach(service => service.OnInit_internal());
+            children.ForEach(child => child.OnInit_internal());
+        }
+
         ///<summary>
         /// Internal version of OnStart(), used to perform
         /// initialization.
@@ -117,11 +127,12 @@ namespace BT.Runtime
         public override void SetBlackboard(Blackboard treeBlackboard)
         {
             base.SetBlackboard(treeBlackboard);
+            children.ForEach(child => child?.SetBlackboard(treeBlackboard));
             decorators.ForEach(decorator => decorator?.SetBlackboard(treeBlackboard));
             services.ForEach(service => service?.SetBlackboard(treeBlackboard));
-            children.ForEach(child => child?.SetBlackboard(treeBlackboard));
         }
 
+#if UNITY_EDITOR
         public override List<T> GetChildNodes<T>()
         {
             List<T> resultList = new List<T>();
@@ -191,6 +202,7 @@ namespace BT.Runtime
                 services.Remove((BT_Service) child);
             }
         }
+#endif
     }
 }
 

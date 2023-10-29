@@ -13,6 +13,8 @@ namespace BT.Runtime
     /// </summary>
     public abstract class BT_ParentNode : BT_Node
     {
+        
+#if UNITY_EDITOR
         /// <summary>
         /// Get all the child nodes of this parent node.
         /// </summary>
@@ -64,5 +66,7 @@ namespace BT.Runtime
         /// </summary>
         /// <param name="child"> The children to destroy</param>
         public abstract void DestroyChild(BT_ChildNode child);
+        
+#endif
     }
 }

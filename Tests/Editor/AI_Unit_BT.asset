@@ -1,28 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8058522569221500350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1178b8f5538f46241a4a559e11dc3053, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  position: {x: 0, y: 272}
-  nodeName: 
-  nodeTypeName: BT_Selector
-  description: Execute all it's children in order and stops when one of them succeds
-  isStarted: 0
-  children:
-  - {fileID: -6829365931117958847}
-  - {fileID: 7701065409174033052}
-  decorators: []
-  services: []
---- !u!114 &-6829365931117958847
+--- !u!114 &-5541464090811164789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: -275.99988, y: 603.77405}
+  position: {x: -319, y: 665}
   nodeName: 
-  nodeTypeName: SequenceNode
+  nodeTypeName: Sequence
   description: Execute all it's children in order and stops when one of them fails
   isStarted: 0
   children:
-  - {fileID: 181096171703452072}
+  - {fileID: 77826881202882155}
   decorators:
-  - {fileID: 8111430226610499380}
+  - {fileID: -1032263761918774206}
   services: []
---- !u!114 &-2053180845103307581
+--- !u!114 &-1032263761918774206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,10 +41,74 @@ MonoBehaviour:
     condition
   isStarted: 0
   key:
-    blackboardKey: CanSee
+    blackboardKey: ShowImage
     typeFilter: 1
-  condition: 0
---- !u!114 &-1521954187709664721
+  condition: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
+  m_Name: AI_Unit_BT
+  m_EditorClassIdentifier: 
+  blackboard: {fileID: 11400000, guid: b9398cb02d7ba5d42b294c31f65a3524, type: 2}
+  rootNode: {fileID: 1377773953116368084}
+  treeState: 3
+  nodes:
+  - {fileID: 1377773953116368084}
+  - {fileID: 340395681978717864}
+  - {fileID: -5541464090811164789}
+  - {fileID: 1650855390341564326}
+  - {fileID: 77826881202882155}
+  - {fileID: 5305563824979710610}
+--- !u!114 &77826881202882155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f83d73eac2b2134ab6d925e6db8b8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: -318.6668, y: 1066.6666}
+  nodeName: 
+  nodeTypeName: DisplaySprite
+  description: Change a sprite renderer sprite and display it
+  isStarted: 0
+  decorators: []
+  services: []
+  sprite: {fileID: 21300000, guid: 5955491dc8dcecb4a993d9a008cf65a7, type: 3}
+--- !u!114 &340395681978717864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1178b8f5538f46241a4a559e11dc3053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0.000061035156, y: 288}
+  nodeName: 
+  nodeTypeName: Selector
+  description: Execute all it's children in order and stops when one of them succeeds
+  isStarted: 0
+  children:
+  - {fileID: -5541464090811164789}
+  - {fileID: 1650855390341564326}
+  decorators: []
+  services: []
+--- !u!114 &1377773953116368084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,53 +122,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
   nodeName: 
-  nodeTypeName: BT_RootNode
-  description: Entry point of behavior tree
+  nodeTypeName: Root
+  description: Entry point of the behavior tree
   isStarted: 0
-  childNode: {fileID: -8058522569221500350}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e568d9bbbb15f4fa429feaa2f1b34d, type: 3}
-  m_Name: New Behavior Tree
-  m_EditorClassIdentifier: 
-  blackboard: {fileID: 11400000, guid: c9eda2ff5e55d124fbb365a46fdbce45, type: 2}
-  rootNode: {fileID: -1521954187709664721}
-  treeState: 0
-  nodes:
-  - {fileID: -1521954187709664721}
-  - {fileID: -8058522569221500350}
-  - {fileID: -6829365931117958847}
-  - {fileID: 7701065409174033052}
-  - {fileID: 181096171703452072}
-  - {fileID: 8375824254222674624}
---- !u!114 &181096171703452072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  position: {x: -275.99988, y: 1065.774}
-  nodeName: 
-  nodeTypeName: Log
-  description: Print a message in the console
-  isStarted: 0
-  decorators: []
-  services: []
-  debugMessage: See
---- !u!114 &7701065409174033052
+  childNode: {fileID: 340395681978717864}
+--- !u!114 &1650855390341564326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,17 +138,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f81559ec6fc7745854acc4e199aa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 326, y: 604}
+  position: {x: 369.33325, y: 665.3333}
   nodeName: 
-  nodeTypeName: SequenceNode
+  nodeTypeName: Sequence
   description: Execute all it's children in order and stops when one of them fails
   isStarted: 0
   children:
-  - {fileID: 8375824254222674624}
+  - {fileID: 5305563824979710610}
   decorators:
-  - {fileID: -2053180845103307581}
+  - {fileID: 2195556677955849104}
   services: []
---- !u!114 &8111430226610499380
+--- !u!114 &2195556677955849104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,10 +167,10 @@ MonoBehaviour:
     condition
   isStarted: 0
   key:
-    blackboardKey: CanSee
+    blackboardKey: ShowImage
     typeFilter: 1
-  condition: 1
---- !u!114 &8375824254222674624
+  condition: 0
+--- !u!114 &5305563824979710610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,14 +179,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f825a7d744baf94e910542c59f6a3c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f83d73eac2b2134ab6d925e6db8b8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 325.99997, y: 1066}
+  position: {x: 369.33325, y: 1066.6664}
   nodeName: 
-  nodeTypeName: Log
-  description: Print a message in the console
+  nodeTypeName: DisplaySprite
+  description: Change a sprite renderer sprite and display it
   isStarted: 0
   decorators: []
   services: []
-  debugMessage: Not see
+  sprite: {fileID: 21300000, guid: 0f061b4bd0275bc4eb60f2af31e7375a, type: 3}

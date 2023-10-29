@@ -18,7 +18,7 @@ namespace BT.Runtime
     public abstract class BT_Node : ScriptableObject
     {
         
-#if (UNITY_EDITOR == true)
+#if UNITY_EDITOR
         ///<summary>
         /// Unique identifier for the node
         ///</summary>
@@ -28,7 +28,7 @@ namespace BT.Runtime
         /// The position of this node in the graph
         ///</summary>
         [HideInInspector] public Vector2 position;
-#endif
+
         /// <summary>
         /// Custom node name which can be defined by the user.
         /// </summary>
@@ -43,7 +43,7 @@ namespace BT.Runtime
         /// Editable description of what this node does.
         /// </summary>
         [SerializeField] protected string description;
-
+#endif
         /// <summary>
         /// Reference to behavior tree blackboard.
         /// </summary>
@@ -69,14 +69,29 @@ namespace BT.Runtime
 
         protected BT_Node()
         {
+#if UNITY_EDITOR
             nodeTypeName = "(" + GetType() + ")";
+#endif
         }
 
         public virtual BT_Node Clone()
         {
             BT_Node clonedNode = Instantiate(this);
+#if UNITY_EDITOR
             clonedNode.guid = guid;
+#endif
             return clonedNode;
+        }
+
+        /// <summary>
+        /// Called internally when the owner behavior tree
+        /// gets initialized and ready for execution.
+        /// This phase usually happens before the tree
+        /// first update.
+        /// </summary>
+        internal virtual void OnInit_internal()
+        {
+            OnInit();
         }
 
         ///<summary>
@@ -99,13 +114,21 @@ namespace BT.Runtime
             OnStop();
         }
         
+        /// <summary>
+        /// Called when the owner behavior tree
+        /// gets initialized and ready for execution.
+        /// This phase usually happens before the tree
+        /// first update.
+        /// </summary>
+        protected abstract void OnInit();
+        
         ///<summary>
         /// Called when this node has started it's execution
         ///</summary>
         protected abstract void OnStart();
 
         ///<summary>
-        /// Called when this node has succeded or failed it's execution
+        /// Called when this node has succeeded or failed it's execution
         ///</summary>
         protected abstract void OnStop();
 
@@ -179,15 +202,17 @@ namespace BT.Runtime
             this.blackboard = treeBlackboard;
         }
 
-        public Type GetNodeParentType()
-        {
-            return GetType().BaseType;
-        }
-
         public Blackboard GetBlackboard()
         {
             return blackboard;
         }
+        
+#if UNITY_EDITOR
+        public Type GetNodeParentType()
+        {
+            return GetType().BaseType;
+        }
+#endif
     }
 }
 

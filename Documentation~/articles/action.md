@@ -1,6 +1,6 @@
 # Action
 
-When creationg a custom action node you will find the following inside the created .cs file:
+When creating a custom action node you will find the following inside the created .cs file:
 
 ```csharp
 using System.Collections;
@@ -10,6 +10,10 @@ using BT.Runtime;
 
 public sealed class NewAction : BT_ActionNode
 {
+    // Called when this action gets initialized.
+    protected override void OnInit()
+    {
+    }
     
     // Called when the behavior tree starts executing this action
     protected override void OnStart()
@@ -46,6 +50,25 @@ public sealed class NewAction : BT_ActionNode
 
 > [!NOTE]
 > By default, actions will be created as <b>sealed classes</b>; this is done to prevent developers from creating other nodes which derives from the current one. As a general rule, actions should only derive from: <b> BT_ActionNode</b> type.
+
+## Initialization
+
+The <b>OnInit()</b> method will be called before the first behavior tree execution update and it is used to initialize properties.
+It is called before the start function and only when the behavior tree gets clone/created at runtime.
+the [RunBehaviorTree()](https://unity-behavior-tree-docs.netlify.app/api/bt.runtime.behaviortreecomponent#BT_Runtime_BehaviorTreeComponent_RunBehaviorTree_BT_Runtime_BehaviorTree_) method, 
+for example, will create a copy of the supplied behavior tree asset and run it, therefore triggering the OnInit() method on each of the cloned tree nodes.
+
+```csharp
+// Called when the behavior tree starts executing this action
+protected override void OnInit()
+{
+    // Initialize properties here...
+}
+```
+
+> [!TIP]
+> You should use the OnInit() method only to initialize only one-time properties. 
+> For properties which could change over tree updates, please look at the OnStart() method.
 
 ## Start
 

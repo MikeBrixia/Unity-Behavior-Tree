@@ -5,6 +5,12 @@ using BT.Runtime;
 
 public sealed class #SCRIPTNAME# : BT_Service
 {
+    // Called when this service gets initialized.
+    protected override void OnInit()
+    {
+        #NOTRIM#
+    }
+    
     // Called each UpdateInterval tick
     protected override void OnUpdate()
     {
@@ -26,10 +32,9 @@ public sealed class #SCRIPTNAME# : BT_Service
 // Put here editor only logic
 #if UNITY_EDITOR
     
-    public #SCRIPTNAME#() : base()
+    private void OnEnable()
     {
         // Initialize editor-only properties here...
-        
         description = "Node description";
     }
 

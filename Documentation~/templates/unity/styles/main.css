@@ -53,6 +53,11 @@ article h4 {
     border-bottom: 2px solid #ddd;
 }
 
+video{
+    width: 100%;
+    height: auto
+}
+
 /* NAVBAR */
 
 .navbar-brand>img {

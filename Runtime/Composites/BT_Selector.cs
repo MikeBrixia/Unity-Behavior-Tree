@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,6 @@ namespace BT.Runtime
     ///</summary>
     public sealed class BT_Selector : BT_CompositeNode
     {
-        public BT_Selector() : base()
-        {
-            nodeTypeName = "Selector";
-            description = "Execute all it's children in order and stops when one of them succeds";
-        }
-
         protected override ENodeState Execute()
         {
             BT_Node child = children[executionIndex];
@@ -36,15 +31,26 @@ namespace BT.Runtime
             return executionIndex == children.Count ? ENodeState.Failed : ENodeState.Running;
         }
 
+        protected override void OnInit()
+        {
+        }
+
         protected override void OnStart()
         {
-
         }
 
         protected override void OnStop()
         {
-            
         }
+        
+#if UNITY_EDITOR
+
+        private void OnEnable()
+        {
+            nodeTypeName = "Selector";
+            description = "Execute all it's children in order and stops when one of them succeeds";
+        }
+#endif
     }
 }
 

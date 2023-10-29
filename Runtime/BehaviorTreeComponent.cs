@@ -1,33 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BT.Runtime
 {
     ///<summary>
-    /// The component responsible of running the behavior tree.
+    /// The component responsible for running the behavior treeAsset.
     ///</summary>
     public class BehaviorTreeComponent : MonoBehaviour
     {
         ///<summary>
-        /// The behavior tree asset this component is responsible to run
+        /// The behavior treeAsset asset this component is responsible to run
         ///</summary>
         [SerializeField] private BehaviorTree behaviorTree;
         
         /// <summary>
-        /// Behavior tree managed by the component.
+        /// Behavior treeAsset managed by the component.
         /// </summary>
         public BehaviorTree tree => behaviorTree;
         
         ///<summary>
-        /// if true, the behavior tree is going to update each frame, otherwise
+        /// if true, the behavior treeAsset is going to update each frame, otherwise
         /// it will use a user defined update interval(updateInterval). By default
         /// it is set to true.
         ///</summary>
         public bool canTick = true;
 
         ///<summary>
-        /// The rate at which the behavior tree it's going
+        /// The rate at which the behavior treeAsset it's going
         /// to be updated. If canTick is set to true this value will
         /// be ignored.
         ///</summary>
@@ -37,23 +35,28 @@ namespace BT.Runtime
         /// The blackboard component used by currently assigned Behavior Tree
         ///</summary>
         public Blackboard blackboard => behaviorTree.blackboard;
-        
-        void Awake()
+
+        private void Awake()
         {
-            // Clone behavior tree
-            behaviorTree = behaviorTree.Clone();
-            behaviorTree.treeState = ENodeState.Waiting;
+            // When the game starts, execute the assigned behavior treeAsset if
+            // there is one.
+            if (behaviorTree != null)
+            {
+                RunBehaviorTree(behaviorTree);
+            }
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            RunBehaviorTree(behaviorTree);
+            // Initialize treeAsset nodes starting from root.
+            behaviorTree.rootNode.OnInit_internal();
         }
 
         // Update is called once per frame
         void Update()
         {
+            // Is the tree asset updating at a custom interval?
             if(canTick)
             {
                 ExecuteBehaviorTree();
@@ -61,30 +64,29 @@ namespace BT.Runtime
         }
         
         ///<summary>
-        /// Start running a behavior tree
+        /// Start running a copy of a behavior tree asset
         ///</summary>
-        ///<param name="behaviorTree"> The behavior tree you want to run.</param>
-        public void RunBehaviorTree(BehaviorTree behaviorTree)
+        ///<param name="treeAsset"> The behavior tree asset you want to run.</param>
+        public void RunBehaviorTree(BehaviorTree treeAsset)
         {
-            if(behaviorTree != null)
+            // Are we trying to run a valid behavior treeAsset?
+            Debug.Assert(treeAsset != null, "Trying to run an invalid behavior treeAsset. Behavior Tree should not be 'null'");
+            
+            // Create a copy of the asset.
+            behaviorTree = treeAsset.Clone();
+            
+            // Should we use a custom update interval?
+            if (!canTick)
             {
-                if(behaviorTree != this.behaviorTree)
-                {
-                    this.behaviorTree = behaviorTree.Clone();
-                }
-
-                if(!canTick)
-                {
-                    // When there is a new behavior tree cancel all the updates to the previous tree
-                    // and clone the new tree
-                    CancelInvoke(nameof(ExecuteBehaviorTree));
-                    InvokeRepeating(nameof(ExecuteBehaviorTree), 0f, updateInterval);
-                }
+                // When there is a new behavior treeAsset cancel all the updates to the previous treeAsset
+                // and clone the new treeAsset
+                CancelInvoke(nameof(ExecuteBehaviorTree));
+                InvokeRepeating(nameof(ExecuteBehaviorTree), 0f, updateInterval);
             }
         }
         
         ///<summary>
-        /// Execute behavior tree root node
+        /// Execute behavior tree asset root node
         ///</summary>
         private void ExecuteBehaviorTree()
         {

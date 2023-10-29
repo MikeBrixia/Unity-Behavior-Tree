@@ -80,7 +80,16 @@ namespace BT.Runtime
             }
             return decoratorsResult;
         }
-        
+
+        internal override void OnInit_internal()
+        {
+            base.OnInit_internal();
+            
+            // Initialize attached nodes.
+            decorators.ForEach(decorator => decorator.OnInit_internal());
+            services.ForEach(service => service.OnInit_internal());
+        }
+
         ///<summary>
         /// Internal version of OnStart() used to perform
         /// initialization.
@@ -126,7 +135,6 @@ namespace BT.Runtime
         }
         
 #if UNITY_EDITOR
-        
         public override List<T> GetChildNodes<T>()
         {
             List<T> resultList = new List<T>();
@@ -193,6 +201,7 @@ namespace BT.Runtime
                 services.Remove((BT_Service) child);
             }
         }
+        
 #endif
     }
 }

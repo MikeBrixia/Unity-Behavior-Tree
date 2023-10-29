@@ -1,6 +1,6 @@
 # Decorator
 
-When creationg a custom decorator node you will find the following inside the created .cs file:
+When creating a custom decorator node you will find the following inside the created .cs file:
 
 ```csharp
 
@@ -11,16 +11,19 @@ using BT.Runtime;
 
 public sealed class NewDecorator : BT_Decorator
 {
+    // Called when this action gets initialized.
+    protected override void OnInit()
+    {
+    }
+    
     // Called when the behavior tree starts executing this decorator
     protected override void OnStart()
     {
-        #NOTRIM#
     }
     
     // Called when the behavior tree stops executing this decorator
     protected override void OnStop()
     {
-        #NOTRIM#
     }
     
     // Called when the behavior tree wants to execute this decorator.
@@ -47,6 +50,25 @@ public sealed class NewDecorator : BT_Decorator
 
 > [!NOTE]
 > By default, decorator will be created as <b>sealed classes</b>; this is done to prevent developers from creating other nodes which derives from the current one. As a general rule, composites should only derive from: <b>BT_Decorator</b> type.
+
+## Initialization
+
+The <b>OnInit()</b> method will be called before the first behavior tree execution update and it is used to initialize properties.
+It is called before the start function and only when the behavior tree gets clone/created at runtime.
+the [RunBehaviorTree()](https://unity-behavior-tree-docs.netlify.app/api/bt.runtime.behaviortreecomponent#BT_Runtime_BehaviorTreeComponent_RunBehaviorTree_BT_Runtime_BehaviorTree_) method,
+for example, will create a copy of the supplied behavior tree asset and run it, therefore triggering the OnInit() method on each of the cloned tree nodes.
+
+```csharp
+// Called when the behavior tree starts executing this action
+protected override void OnInit()
+{
+    // Initialize properties here...
+}
+```
+
+> [!TIP]
+> You should use the OnInit() method only to initialize only one-time properties.
+> For properties which could change over tree updates, please look at the OnStart() method.
 
 ## Start
 

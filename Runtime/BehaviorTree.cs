@@ -29,17 +29,17 @@ namespace BT.Runtime
         ///<summary>
         /// The current state of this Behavior Tree.
         ///</summary>
-        [HideInInspector] public ENodeState treeState;
-
-#if UNITY_EDITOR
-        // delegate used to listen for blackboard changes.
-        public delegate void OnBlackboardChange(Blackboard blackboard);
+        [HideInInspector] public ENodeState treeState = ENodeState.Waiting;
         
+#if UNITY_EDITOR
         ///<summary>
         /// All the Behavior Tree nodes. This is an editor only property
         /// used by the graph to draw all nodes. </summary>
         [HideInInspector] public List<BT_Node> nodes = new List<BT_Node>();
         
+        // delegate used to listen for blackboard changes.
+        public delegate void OnBlackboardChange(Blackboard blackboard);
+
         /// <summary>
         /// Called when the user changes or invalidates the tree blackboard.
         /// </summary>
@@ -49,12 +49,12 @@ namespace BT.Runtime
         /// Unique identifier of the behavior tree asset.
         /// </summary>
         [HideInInspector] public GUID guid;
-
+        
         public void OnEnable()
         {
             guid = GUID.Generate();
         }
-
+        
         public void OnValidate()
         {
             onBlackboardChange?.Invoke(blackboard);
@@ -74,33 +74,32 @@ namespace BT.Runtime
             return guid.Equals(tree.guid);
         }
         
-#endif
-
         public void SetBlackboard(Blackboard blackboard)
         {
             this.blackboard = blackboard;
-            foreach (BT_Node node in nodes)
-            {
-                node.SetBlackboard(blackboard);
-            }
+            rootNode.SetBlackboard(blackboard);
         }
-        
+#endif
+
         ///<summary>
         /// Clone this behavior tree asset
         ///</summary>
         ///<returns> A copy of this Behavior Tree asset</returns>
         public BehaviorTree Clone()
         {
+            // Clone the behavior tree asset.
             BehaviorTree tree = Instantiate(this);
+#if UNITY_EDITOR
             tree.guid = guid;
+#endif
+            // Clone all the nodes.
             tree.rootNode = tree.rootNode.Clone() as BT_RootNode;
+            
+            // Clone the blackboard and update it on all
+            // behavior tree nodes.
             tree.blackboard = tree.blackboard.Clone();
-            // Initialize behavior tree and blackboard references on each node of the tree
-            if (tree.rootNode != null)
-            {
-                tree.rootNode.SetBlackboard(tree.blackboard);
-            }
-                
+            tree.rootNode.SetBlackboard(tree.blackboard);
+            
             return tree;
         }
     }
