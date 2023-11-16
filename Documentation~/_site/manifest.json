@@ -1,0 +1,669 @@
+{
+  "source_base_path": "/home/runner/work/Unity-Behavior-Tree/Unity-Behavior-Tree/Documentation~",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/action.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/action.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/behavior-tree-component.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/behavior-tree-component.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/behavior-tree-guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/behavior-tree-guide.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/behavior-tree.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/behavior-tree.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/blackboard-guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/blackboard-guide.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/blackboard.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/blackboard.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/composite.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/composite.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/custom-nodes.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/custom-nodes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/decorator.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/decorator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/guide.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/service.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/service.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/tutorial.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/tutorial.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Behavior Tree Preview.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Behavior Tree Preview.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Behavior Tree Preview.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/Behavior Tree Preview.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/BehaviorTreeComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/BehaviorTreeComponent.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/BehaviorTreeComponent.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/BehaviorTreeComponent.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Create Behavior Tree asset.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Create Behavior Tree asset.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Create Behavior Tree asset.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/Create Behavior Tree asset.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/CreateChildExample.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/CreateChildExample.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/CreateChildExample.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/CreateChildExample.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/CreateNodeExample.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/CreateNodeExample.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/CreateNodeExample.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/CreateNodeExample.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Created.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Created.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Created.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/Created.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/EditNodesExample.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/EditNodesExample.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/EditNodesExample.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/EditNodesExample.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/SelectedAsset.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/SelectedAsset.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/SelectedAsset.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/SelectedAsset.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Window- Behavior Tree Editor option.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Window- Behavior Tree Editor option.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Window- Behavior Tree Editor option.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/Window- Behavior Tree Editor option.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/BlackboardInspector.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/BlackboardInspector.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/BlackboardInspector.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/BlackboardInspector.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboard.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboard.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboard.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboard.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboardEditor.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboardEditor.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboardEditor.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboardEditor.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboardProperty.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboardProperty.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/blackboard/CreateBlackboardProperty.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/blackboard/CreateBlackboardProperty.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/nodes.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/nodes.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/nodes/CreateCustomNodes.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/nodes/CreateCustomNodes.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/nodes/CreateCustomNodes.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/nodes/CreateCustomNodes.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TestSceneSetup.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TestSceneSetup.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TestSceneSetup.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TestSceneSetup.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialAttachComponents.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialAttachComponents.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialAttachComponents.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialAttachComponents.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialBlackboard.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialBlackboard.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialBlackboard.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialBlackboard.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialTree.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialTree.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tutorial/TutorialTree.png.meta",
+      "output": {
+        "resource": {
+          "relative_path": "images/tutorial/TutorialTree.png.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/CopyPasteExample.mp4",
+      "output": {
+        "resource": {
+          "relative_path": "videos/CopyPasteExample.mp4"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/CopyPasteExample.mp4.meta",
+      "output": {
+        "resource": {
+          "relative_path": "videos/CopyPasteExample.mp4.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/CreateConnectionExample.mp4",
+      "output": {
+        "resource": {
+          "relative_path": "videos/CreateConnectionExample.mp4"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/CreateConnectionExample.mp4.meta",
+      "output": {
+        "resource": {
+          "relative_path": "videos/CreateConnectionExample.mp4.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/Tutorial-SwitchSpriteDebug.mp4",
+      "output": {
+        "resource": {
+          "relative_path": "videos/Tutorial-SwitchSpriteDebug.mp4"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/Tutorial-SwitchSpriteDebug.mp4.meta",
+      "output": {
+        "resource": {
+          "relative_path": "videos/Tutorial-SwitchSpriteDebug.mp4.meta"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/Tutorial-SwitchSpriteResult.mp4",
+      "output": {
+        "resource": {
+          "relative_path": "videos/Tutorial-SwitchSpriteResult.mp4"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "videos/Tutorial-SwitchSpriteResult.mp4.meta",
+      "output": {
+        "resource": {
+          "relative_path": "videos/Tutorial-SwitchSpriteResult.mp4.meta"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
