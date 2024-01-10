@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Behavior Tree quick tutorial </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Behavior Tree quick tutorial ">
+    <meta name="generator" content="docfx ">
+  
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+  
+  
+  
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="behavior-tree-quick-tutorial">Behavior Tree quick tutorial</h1>
+
+<p>This tutorial will provide a <b> really basic </b> example on how to use the behavior tree.<br>
+In this case, we're gonna use the behavior tree to change the sprite of an AI unit placed inside the scene.</p>
+<h2 id="1-setup-the-scene">1. Setup the scene</h2>
+<p>Setup your current scene with an AIUnit game object and a camera relative to it.</p>
+<p><img src="../images/tutorial/TestSceneSetup.png" alt="image"></p>
+<h2 id="2-create-assets">2. Create assets</h2>
+<h3 id="create-the-behavior-tree-asset">Create the Behavior Tree Asset</h3>
+<p>Create the following behavior tree:</p>
+<p><img src="../images/tutorial/TutorialTree.png" alt="image"></p>
+<p>Once you've created it, set one decorator to evaluate to true when a given blackboard key is false by changing the
+<b>condition</b> from <b>Is Set To True</b> to <b> Is Set To False</b>. In my case i did this to the decorator attached
+on the rightist sequence node.</p>
+<h3 id="create-a-blackboard-asset">Create a Blackboard Asset</h3>
+<p>The next step is to create a blackboard asset to store data for the behavior tree.<br>
+Create a blackboard asset with the following properties:</p>
+<p><img src="../images/tutorial/TutorialBlackboard.png" alt="image"></p>
+<p>Once created, assign the blackboard asset to the behavior tree.</p>
+<h2 id="3-create-scripts">3. Create scripts</h2>
+<h3 id="create-ai-controller-script">Create AI Controller script</h3>
+<p>Now we need to create the following AI Controller script:</p>
+<pre><code class="lang-csharp">using BT.Runtime;
+using UnityEngine;
+
+/// &lt;summary&gt;
+/// A small script used just for testing out
+/// behavior tree functionalities.
+/// &lt;/summary&gt;
+public class AIUnit : MonoBehaviour
+{
+    /// &lt;summary&gt;
+    /// Depending on if it is true or false, switch the sprite.
+    /// &lt;/summary&gt;
+    public bool switchSprite;
+    
+    // BT object references
+    private BehaviorTreeComponent behaviorTreeComponent;
+    private Blackboard blackboard;
+    
+    private void Awake()
+    {
+        // Use the behavior tree component to access it's blackboard object reference.
+        behaviorTreeComponent = GetComponent&lt;BehaviorTreeComponent&gt;();
+        blackboard = behaviorTreeComponent.tree.blackboard;
+        
+        // Set this component owner(gameObject) as the owner of the
+        // behavior tree. N.B. Owner it's just a property of the blackboard.
+        blackboard.SetBlackboardValue(&quot;Owner&quot;, gameObject);
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        // Check on each update if the switchSprite property has changed,
+        // and keep updated the associated blackboard property.
+        blackboard.SetBlackboardValue(&quot;ShowImage&quot;, switchSprite);
+    }
+}
+</code></pre>
+<p>All this script does is keeping track of a boolean property which decides what sprite should appear on screen.
+For more info look at code comments.</p>
+<h3 id="create-displaysprite-action">Create DisplaySprite action</h3>
+<p>Now we need a custom node which will be responsible for performing our task.
+Create a node called DisplaySprite as the following:</p>
+<pre><code class="lang-csharp">using BT.Runtime;
+using UnityEngine;
+
+public sealed class DisplaySprite : BT_ActionNode
+{
+    /// &lt;summary&gt;
+    /// The sprite to display.
+    /// &lt;/summary&gt;
+    public Sprite sprite;
+    
+    /// &lt;summary&gt;
+    /// The sprite renderer used to render the target sprite.
+    /// &lt;/summary&gt;
+    private SpriteRenderer spriteRenderer;
+    
+    // Called when the behavior tree wants to execute this action.
+    protected override ENodeState Execute()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = sprite;
+            state = ENodeState.Success;
+        }
+        else
+        {
+            state = ENodeState.Failed;
+        }
+        
+        return state;
+    }
+    
+    // Called to initialize this action properties before first update.
+    protected override void OnInit()
+    {
+        GameObject obj = blackboard.GetBlackboardValueByKey&lt;GameObject&gt;(&quot;Owner&quot;);
+        spriteRenderer = obj.GetComponent&lt;SpriteRenderer&gt;();
+    }
+    
+    // Called when the behavior tree starts executing this action
+    protected override void OnStart()
+    {
+    }
+    
+    // Called when the behavior tree stops executing this action
+    protected override void OnStop()
+    {
+    }
+    
+// Put here editor only logic
+#if UNITY_EDITOR
+    
+    // for BT nodes the constructor is a editor only method, do not use it at runtime!
+    private void OnEnable()
+    {
+        description = &quot;Change a sprite renderer sprite and display it&quot;;
+    }
+
+#endif
+}
+</code></pre>
+<p>all this action does is switching the sprite renderer sprite with the one assigned to this action.
+Read code comments for more info.</p>
+<h2 id="4-attach-monobehaviors-to-game-object">4. Attach MonoBehaviors to game object</h2>
+<p>Now attach the following components to our game object: <b> SpriteRenderer, BehaviorTreeComponent and AIUnit</b></p>
+<p><img src="../images/tutorial/TutorialAttachComponents.png" alt="image"></p>
+<p>Once you've done it, assign our behavior tree asset to the component and you're good to go!à</p>
+<h2 id="5-result">5. Result</h2>
+<p>The result should be following:</p>
+<p><video src="../videos/Tutorial-SwitchSpriteResult.mp4" controls="" title="Title"></video></p>
+<p>You can also go inside the behavior tree editor during play mode to check realtime debugging of the tree:</p>
+<p><video src="../videos/Tutorial-SwitchSpriteDebug.mp4" controls="" title="Title"></video></p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MikeBrixia/Unity-Behavior-Tree/blob/main/Documentation~/articles/tutorial.md/#L1" class="contribution-link">Edit this page</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
