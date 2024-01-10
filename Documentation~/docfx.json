@@ -3,9 +3,8 @@
     {
       "src": [
         {
-          "cwd": "../Runtime/",
           "files": [
-            "**.cs"
+            "../Runtime/**.cs"
           ]
         }
       ],
