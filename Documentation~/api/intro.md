@@ -1,0 +1,1 @@
+﻿Welcome to the Behavior Tree Editor API Documentation! Here you can find all info you need about the tool API.
